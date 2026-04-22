@@ -1,0 +1,105 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.2in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{fourier}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{etoolbox}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} 
+\usepackage{lipsum}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\usepackage{nccmath}
+\usepackage[most]{tcolorbox}
+\newtcolorbox[auto counter]{problem}[1][]{%
+    enhanced,
+    breakable,
+    colback=white,
+    colbacktitle=white,
+    coltitle=black,
+    fonttitle=\bfseries,
+    boxrule=.6pt,
+    titlerule=.2pt,
+    toptitle=3pt,
+    bottomtitle=3pt,
+    title=GitHub repository of this project}
+
+\usepackage{tensors}
+
+\RequirePackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true]{microtype}
+\SetTracking{encoding={*}, shape=sc}{40} % Spacing for Small Caps
+
+
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\L}{\mathcal{L}}
+
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{%
+    Accelerated Filtering on Graphs using Lanczos method
+    \\ \large Scientific Computing project report}
+\author{Alberto Defendi}
+
+\date{}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0em}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{definition}
+  Denotiamo l'insieme dei numeri naturali da $ 1 $ a $ n \in \N $ come $ [n] = \left\{ 1,\dots,n
+  \right\} $, e il prodotto cartesiano tra $ [n] $ e $ [m] $ come $ [n] \otimes [m] =
+  \left\{ (i,j) : i \in [n], j \in [m] \right\} $.
+\end{definition}
+
+\begin{definition}
+  Un tensore $ \Tn{X}  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
+  \K $, che denotiamo come $  \Tn{X} \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
+  $ \Tn{X}(\miwc) $, dove $ (\miwc) \in \mdom$.
+\end{definition}
+
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{ref}
+\nocite{*}
+
+
+
+\end{document}

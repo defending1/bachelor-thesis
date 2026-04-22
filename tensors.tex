@@ -1,0 +1,671 @@
+\documentclass{article}
+\usepackage{tensors}
+\usepackage{braket}
+\usepackage{parskip,fullpage}
+\usepackage{relsize}
+
+%% Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+  naturalnames=false,
+  hypertexnames=false,
+  breaklinks,
+  colorlinks = true,
+  citecolor = green!50!black,
+  filecolor = cyan!50!black,
+  urlcolor = magenta!50!black,
+  %allcolors = blue!50!black,
+}
+
+%% For smart cross-references
+\usepackage[capitalize,nameinlink]{cleveref}
+
+% For LaTeX code listings and much more
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+
+% Colors for "keywords"
+\colorlet{kw2}{blue} 
+%\colorlet{kw3}{green!50!black} % 
+%\colorlet{kw4}{orange!75!black} % 
+
+
+%% -----
+%% Hack to create a new "add to literate" option for listings
+%% -----
+
+%https://tex.stackexchange.com/questions/149056/how-can-i-define-additional-literate-replacements-without-deleting-existing-ones
+\makeatletter
+\def\addToLiterate#1{\edef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}%
+\lst@Key{add to literate}{}{\addToLiterate{#1}}
+\makeatother
+
+
+\lstdefinestyle{tensorlatex}{
+  style=tcblatex,
+  commentstyle=\color{red!70!black},
+  basicstyle=\ttfamily,
+  texcsstyle=*,
+  keywordstyle={[2]\color{kw2}},
+  morekeywords={[2] 
+    Vc, Mx, Tr, Tn, Tm, Inv,
+    prn, angb, crly, sqr, ceil, floor, dsqr, nrm, tnrm, fnrm, abs,
+    top, krn, krp, had, ttm, bigtop, bigkrn, bigkrp, bighad,bigttm,
+    miwc, siwc, minc, sinc, msiz, ssiz, Rmsiz, Rssiz, mdom, sdom, msum, ssum, %dsum, dsub,
+    mtop, smtop, sktop, mttm, sttm,
+    mkrn, skrn, mbigkrn, sbigkrn,
+    mkrp, skrp, mbigkrp, sbigkrp,
+    mhad, shad, shadgram, sbighad,
+  },
+  % keywordstyle={[3]\color{kw3}},
+  % morekeywords={[3]},
+  % keywordstyle={[4]\color{kw4}},
+  % morekeywords={[4]},
+  add to literate={*}{\textcolor{kw2}{*}}{1},
+  add to literate={+}{\textcolor{kw2}{+}}{1},
+  add to literate={!}{\textcolor{kw2}{!}}{1},
+}
+
+\lstdefinestyle{tensorlatexplus}{
+  style=tensorlatex,
+  moredelim=**[is][\slshape]{@}{@},
+  moredelim=**[is][\color{gray}]{?}{?},  
+}
+
+\lstset{
+  style=tensorlatexplus,
+}
+
+% --- Code Box ---
+% For reasons that I don't understand, some latexboxes must be
+% followed by explicit {} to keep it from getting confused.
+\DeclareTCBListing{latexbox}{s s G{1.5in} O{}}{%
+  IfBooleanTF={#1}%
+  {IfBooleanTF={#2}{listing side text}{text side listing}, lefthand width=#3}%
+  {},%
+  listing options={style=tensorlatex},%
+  #4
+}
+
+\begingroup
+\makeatletter
+% Let's use ^^A instead of %.
+% Make % other so it can be "fed" to \scantokens to handle \scantokens'
+% insertion of \endlinechar;
+\catcode`\^^A=14\relax
+\catcode`\%=12\relax
+\@firstofone{^^A
+  \endgroup
+  \NewDocumentCommand\ExampleRow{svmO{0pt}}{^^A
+    {{\IfBooleanF{#1}{$\displaystyle}\scantokens{#2%}\IfBooleanF{#1}{$}}}&^^A
+    {{\lstinline{#2}}}&^^A
+    {#3}\\[#4]\hline^^A
+  }^^A
+}%
+
+\title{The \texttt{tensors} package for \LaTeX2e}
+\author{Tamara G. Kolda\footnote{Email: tammy.kolda@mathsci.ai}}
+\date{November 10, 2024}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  This package provides macros for work with tensors.
+  It includes special commands for formatting tensors (bold Euler Script uppercase letters),
+  matrices (boldface uppercase letters), and vectors (using boldface lowercase letters) along with
+  decorations, subscripts, and transpose or inverse indicators (as appropriate).
+  It defines special operators for tensor outer product, Kronecker product, Khatri-Rao product (KRP),
+  Hadamard product, and tensor-times-matrix (TTM) which are all equally sized and scale appropriately.
+  It provides smarter containers (parentheses, angle braces, curly braces, square braces,
+  ceiling braces, floor braces, double square braces, norm, and absolute value) that are
+  easily resized.
+  It has special operators for efficiently writing subscripts multi indices (with or without commas),
+  multi sizes, multi domains, multi sums, multi tensor outer product, multi TTMs, multi Kronecker
+  products, multi KRPs, and multi Hadamard products.
+\end{abstract}
+
+\section{Using this package}
+\label{sec:using-this-package}
+
+Add \lstinline|\usepackage{tensors}| to your \LaTeX\@ document header.
+This package includes \texttt{xparse},
+\texttt{amssymb}, \texttt{amsfonts}, \texttt{amsmath}, \texttt{amxbsy},
+\texttt{eucal} (with option \texttt{mathscr}),
+\texttt{stmaryrd},
+\texttt{bm},
+\texttt{scalerel},
+\texttt{mathtools}.
+It should be loaded before \lstinline{cleveref}.
+
+% \section{General shortcut}
+% \label{sec:general-shortcuts}
+
+% Though this is not specific to tensors, we define a replacement for
+% the \texttt{amsmath} command \lstinline{\text} that adds some space
+% (\lstinline{\quad} by default) on either side.
+
+% \begin{itemize}
+% \item \lstinline|\qtext{@Text@}| --- Equivalent to \lstinline|\quad\text{@Text@}\quad|
+% \item \lstinline|\qtext[@Space@]{@Text@}| - Replaces \lstinline{\quad} with \lstinline{@Space@} on either side of \lstinline{@Text@}
+% \item \lstinline|\qtext[@LSpace@][@RSpace@]{@Text@}| - Use \lstinline{@LSpace@} to left of \lstinline{@Text@} and \lstinline{@RSpace@} to right
+% \end{itemize}
+
+
+\section{Tensor, Matrix, and Vector Macros}
+\label{sec:vc-mx-tn}
+
+\subsection{Tensors}
+\label{sec:tensors}
+
+The tensor command \lstinline{\Tn} makes boldface Euler script letters.
+An optional argument can be used to add decoration.
+A second argument in curly braces adds a subscript,
+but this only works if there is no space between the first and second pair of curly braces.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\Tn{X}}{Tensor}
+  \ExampleRow{\Tn[\bar]{X}}{Decoration}
+  \ExampleRow{\Tn{X}{i}}{With subscript}
+  \ExampleRow{\Tn[\tilde]{X}{i}}{With decoration and subscript}
+\end{tabular}
+
+\subsection{Matrix}
+\label{sec:matrix}
+
+The matrix command \lstinline{\Mx} is identical to the tensor command except that it
+creates boldface uppercase roman letters.
+The matrix command also works with Greek letters, making them bold.
+A tranpose is added by following it with an apostrophe (\texttt{'}),
+and a phantom transpose is produced by a quote (\texttt{"}).
+The phantom transpose is useful when aligning things.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\Mx{A}}{Matrix}
+  \ExampleRow{\Mx{A}'}{Matrix transpose}
+  \ExampleRow{\Mx{\Theta}}{Greek letter}
+  \ExampleRow{\Mx[\tilde]{A}}{Decoration}
+  \ExampleRow{\Mx{A}{1}}{In a sequence}
+  \ExampleRow{\Mx{A}{i}'\Mx{A}{i}}{Subscripts misaligned}
+  \ExampleRow{\Mx{A}{i}'\Mx{A}{i}"}{Aligned using phantom tranpose}
+\end{tabular}
+
+\subsection{Matricized Tensor}
+\label{sec:matricized-tensor}
+
+
+
+The matricized tensor \lstinline|\Tm| command works exactly the same as the matrix command except that the second argument is required and
+has parentheses around it.
+
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{{|l|l|l|}}
+  \hline
+  \ExampleRow{\Tm{X}{k}}{Unfolded tensor in mode $k$}
+  \ExampleRow{\Tm[\tilde]{X}{k}}{With decoration}
+  \ExampleRow{\Tm{X}{\ell}' \text{ or } \Tm{X}{\ell}"}{With transpose or phantom transpose}
+  \ExampleRow{\Tm{A}{X \times Y}}{Arbitrary subscript}
+  % \ExampleRow{\Tm{A}[*]{X \times Y}}{Bigger parentheses, if you really want them}
+\end{tabular}
+
+
+\subsection{Vector}
+\label{sec:vector}
+
+The vector command \lstinline{\Vc} is identical to the matrix command except that it
+creates boldface lowercase roman letters.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\Vc{v}}{Vector}
+  \ExampleRow{\Vc{v}'}{Vector transpose}
+  \ExampleRow{\Vc{\theta}}{Greek letter}
+  \ExampleRow{\Vc[\tilde]{v}}{Decoration}
+  \ExampleRow{\Vc{v}{1}}{In a sequence}
+  \ExampleRow{\Vc{v}{i}'\Vc{v}{i}}{Subscripts misaligned}
+  \ExampleRow{\Vc{v}{i}'\Vc{v}{i}"}{Aligned using phantom tranpose}
+\end{tabular}
+
+
+\subsection{Transpose \& Inverse}
+The macros above for vector and matrix add a tranpose if followed by \texttt{'}.
+If you need to add it manually, however, use \lstinline|^{\Tr}|.
+Add \lstinline|^{\Tr*}| for a phantom transpose (useful in combination with subscripts).
+For matrix inverse, use \lstinline|^{\Inv}|.
+Add \lstinline|^{\Inv*}| for a phantom inverse (useful in combination with subscripts).
+
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\Mx{A}^{\Tr}}{Manual transpose}
+  \ExampleRow{\Mx{A}{i}^{\Tr}\Mx{A}{i}^{\Tr*}}{Aligned using phantom tranpose}
+  \ExampleRow{\Mx{A}^{\Inv}}{Inverse}
+  \ExampleRow{\Mx{A}{i}^{\Inv}\Mx{A}{i}^{\Inv*}}{Aligned using phantom inverse}
+\end{tabular}
+
+
+
+\section{Smarter ``Containers"}
+
+% The \texttt{braket} package provides some smart containers
+% such as \lstinline|\set| and \lstinline|\Set| (expanding version).
+% \begin{latexbox}*{2in}
+% $\Set{i | i \in [n]}$ ($[n] \equiv \set{1,2,\dots,n}$)
+% \end{latexbox}
+
+We define convenient shorthands for containers with the ability to resize them.
+
+\subsection{List of Containers}
+\label{sec:list-containers}
+
+
+
+A list of containers follows below.
+In some cases, we allow ``natural'' containers as well as the usual curly braces.
+For example, \lstinline{\prn} is parentheses, and it can be called as \lstinline|\prn{x}|
+or \lstinline{\prn(x)}.
+Additionally, for the parentheses, following by an apostrophe \lstinline{'} indicates to add
+transpose.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\prn{\cdot}, \prn(\cdot), \prn(\cdot)'}{Parentheses}
+  \ExampleRow{\angb{\cdot}, \angb<\cdot>}{Angle braces} 
+  \ExampleRow{\crly{\cdot}}{Curly braces}
+  \ExampleRow{\sqr{\cdot},\sqr[\cdot]}{Square braces}
+  \ExampleRow{\ceil{\cdot}}{Ceiling braces}
+  \ExampleRow{\floor{\cdot}}{Floor braces}
+  \ExampleRow{\dsqr{\cdot}}{Double square braces}
+  \ExampleRow{\nrm{\cdot}}{Norm}
+  \ExampleRow{\tnrm{\cdot}}{2-Norm}
+  \ExampleRow{\fnrm{\cdot}}{Frobenious Norm}
+  \ExampleRow{\abs{\cdot},\abs|\cdot|}{Absolute value}
+\end{tabular}
+
+
+\subsection{Resizing Containers}
+\label{sec:resizing-containers}
+
+
+
+One advantage of these containers is that they can be easily resized.
+Adding asterisks increases the sizes using left/right versions of
+\texttt{big}, \texttt{Big}, \texttt{bigg}, and \texttt{Bigg}.
+Adding a plus indicates automatic sizing using \lstinline|\left| and \lstinline{\right}.
+% Capitalizing the first letter switches to auto-expansion.
+
+
+
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\prn{\sum_{i=1}^n x_i^2}}{Matched parentheses shorthand}[3mm]
+  \ExampleRow{\prn*{\sum_{i=1}^n x_i^2}}{With left/right \texttt{big}}[3mm]
+  \ExampleRow{\prn**{\sum_{i=1}^n x_i^2}}{With left/right \texttt{Big}}[3mm]
+  \ExampleRow{\prn***{\sum_{i=1}^n x_i^2}}{With left/right \texttt{bigg}}[3mm]
+  \ExampleRow{\prn****{\sum_{i=1}^n x_i^2}}{With left/right \texttt{Bigg}}[3mm]
+  \ExampleRow{\prn+{\sum_{i=1}^n x_i^2}}{Automatic size}[3mm]
+\end{tabular}
+
+
+\section{Special operators}
+\label{sec:matrix-operators}
+
+We define operators for tensor outer product (\lstinline{\top}),
+Kronecker product (\lstinline{\krn}), Khatri-Rao product (\lstinline{\krp}),
+and tensor-times-matrix (\lstinline{\ttm}).
+Here, \lstinline{\top} is \lstinline|\circ| sized to match the others operators.
+The commands \lstinline{\krn} and \lstinline{\krp}
+are synonyms for \lstinline|\otimes| and \lstinline|\odot|
+along with their related \lstinline|big| variations that support limits.
+The tensor-times-matrix \lstinline|\ttm| operation takes an optional curly-brace argument to indicate the mode; the default is $k$.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|}
+  \hline
+  \ExampleRow{\Vc{a} \top \Vc{b}}{Tensor outer product}
+  \ExampleRow{\Vc{a} \krn \Vc{b}}{Kronecker product}
+  \ExampleRow{\Mx{a} \krp \Mx{b}}{Khatri-Rao product}
+  \ExampleRow{\Tn{X} \ttm \Mx{U}}{Tensor-times-matrix (TTM)}
+  \ExampleRow{\Tn{X} \ttm[1] \Mx{U}}{TTM with specified mode}
+\end{tabular}
+
+All of these operators have big versions that accept limits:
+\lstinline{\bigtop},
+\lstinline{\bigkrn},
+\lstinline{\bigkrp},
+\lstinline{\bigttm}.
+
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\bigtop_{k=1}^d \Vc{a}{k}}{Big tensor outer product}[3mm]
+  \ExampleRow{\bigkrn_{k=1}^d \Mx{A}{k}}{Big Kronecker product}[3mm]
+  \ExampleRow{\bigkrp_{k=1}^d \Mx{A}{k}}{Big Khatri-Rao product}[3mm]
+  \ExampleRow{\bigttm_{k=1}^d \Mx{A}{k}}{Big TTM}[3mm]
+\end{tabular}
+
+
+\section{Multidimensional indices, sizes, sums, and operators}
+\label{sec:mult-sizes-sums}
+
+\subsection{Multi indices with commas}
+\label{sec:multi-indices-with-commas}
+
+The \lstinline|\miwc| (multi index with commas) macro is an efficient
+way to write out a $d$-way index.
+The compact mode \lstinline{\miwc!} removes the second index.
+The first optional argument changes the main argument from $i$ to whatever is specified.
+The second optional argument changes the last index.
+It's possible to do just three (one asterisk) or four (two asterisks) modes.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\miwc}{Multi index with comma default}
+  \ExampleRow{\miwc!}{Compact}
+  \ExampleRow{\miwc[j]}{Change variable}
+  \ExampleRow{\miwc[j][h]}{Change last subscript}
+  \ExampleRow{\miwc![j][6]}{Combination of options}
+  \ExampleRow{\miwc*}{3-way}
+  \ExampleRow{\miwc**[j]}{4-way}
+\end{tabular}
+
+We also define a \emph{skip} multi index using \lstinline|\siwc| which
+skips a single interior index.
+The missing element can be replaced using an optional curly-brace last argument.
+There are three optional arguments specifying the skipped index (default $k$),
+the variable (default $i$), and the last index (default $d$), respectively.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\siwc}{Skip index with comma default}
+  \ExampleRow{\siwc[\ell]}{Change skipped index}
+  \ExampleRow{\siwc[k][j]}{Change variable}
+  \ExampleRow{\siwc[k][i][h]}{Change last index}
+  \ExampleRow{\siwc{j_k}}{Replace skipped entry}
+\end{tabular}
+
+The commands \lstinline|\miwc| and \lstinline|\siwc| are not limited
+to indices. For instance, we can use it to list out a sequence of
+matrices.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\miwc[\Mx{A}]}{Using matrices}
+  \ExampleRow{\siwc[k][\Mx{A}]{\Mx{B}_k}}{With skip}
+\end{tabular}
+
+Double subscripting can cause errors, so we create a special macro for
+that \lstinline|\dsub| that works as follows that can be passed as the
+first argument the \lstinline{\miwc} and similar macros.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\miwc[\dsub{i}{\pi}]}{Double index macro}
+\end{tabular}
+
+
+\subsection{Multi indices without commas}
+\label{sec:multi-indic-with}
+
+
+The \lstinline|\minc| (multi index no commas) is analogous to \lstinline|\miwc|
+except there are no commas and the dots are centered vertically.
+
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\minc}{Multi index no comma default}
+  \ExampleRow{\minc!}{Compact}
+  \ExampleRow{\minc[j]}{Change variable}
+  \ExampleRow{\minc[j][h]}{Change last subscript}
+  \ExampleRow{\minc![j][6]}{Put it together}
+  \ExampleRow{\minc*}{3-way}
+  \ExampleRow{\minc**[j]}{4-way}
+\end{tabular}
+
+The \lstinline|\sinc| (skip multi index no commas)
+is likewise analogous to \lstinline|\siwc|.
+
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\sinc}{Skip index no comma default}
+  \ExampleRow{\sinc[\ell]}{Change skipped index}
+  \ExampleRow{\sinc[k][j]}{Change variable}
+  \ExampleRow{\sinc[k][i][h]}{Change last index}
+  \ExampleRow{\sinc{j_k}}{Replace skipped entry}
+\end{tabular}
+
+\subsubsection{Multi  sizes}
+\label{sec:sizes}
+
+The \lstinline|\msiz| macros 
+is analogous to \lstinline|\miwc|
+except that default variable is $n$, the default separator is $\times$,
+and the dots are centered.
+
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\msiz}{Multi size default}
+  \ExampleRow{\msiz!}{Compact}
+  \ExampleRow{\msiz[m]}{Change variable}
+  \ExampleRow{\msiz[n][h]}{Change last subscript}
+  \ExampleRow{\msiz![m][6]}{Put it together}
+  \ExampleRow{\msiz*}{3-way}
+  \ExampleRow{\msiz**[m]}{4-way}
+\end{tabular}
+
+Additionally,
+it's possible to provide your own letters, separated by commas, from two up to four.
+If a second single letter is provided, it's seperated also by dots.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\msiz{m,n}}{Two arguments}
+  \ExampleRow{\msiz{m,n,p}}{Three arguments}
+  \ExampleRow{\msiz{m,n,p,q}}{Four arguments}
+  \ExampleRow{\msiz{m}{z}}{Two groups (second group must be singular)}
+  \ExampleRow{\msiz{m,n,p,q}{z}}{Two groups (first group can have up to four elements)}
+\end{tabular}
+
+The \lstinline|\ssiz| macro is likewise analogous to \lstinline|\siwc|.
+
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\ssiz}{Skip size default}[1mm]
+  \ExampleRow{\ssiz[\ell]}{Change skipped index}[1mm]
+  \ExampleRow{\ssiz[k][m]}{Change variable}[1mm]
+  \ExampleRow{\ssiz[k][n][h]}{Change last index}[1mm]
+  \ExampleRow{\ssiz{m_k}}{Replace skipped entry}[1mm]
+\end{tabular}
+
+
+The commands \lstinline{\Rmsiz} and \lstinline{\Rssiz} add
+$\mathbb{R}$ in front and make the size a subscript but are otherwise
+identical to \lstinline{\msiz} and \lstinline{\ssiz}.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\Rmsiz}{Multi size default}
+  \ExampleRow{\Rmsiz!}{Compact}
+  \ExampleRow{\Rmsiz![m][6]}{With options}
+  \ExampleRow{\Rmsiz*}{3-way}
+  \ExampleRow{\Rmsiz**[m]}{4-way}
+  \ExampleRow{\Rssiz}{Skip size default}
+  \ExampleRow{\Rmsiz{n}}{One argument}
+  \ExampleRow{\Rmsiz{m,n,p,q}}{Four arguments}
+  \ExampleRow{\Rmsiz{n}{n}}{Two groups (second group must be singular)}
+  \ExampleRow{\Rmsiz{m,n,p,q}{z}}{Two groups (first group can have up to four elements)}
+\end{tabular}
+
+\subsection{Multi  domains}
+\label{sec:domains}
+
+The \lstinline|\mdom| and \lstinline|\sdom| macros 
+are essentially identical to \lstinline|\msiz| and \lstinline|\ssiz|
+except that they put square brackets around the letters
+and the separator is $\otimes$.
+
+{
+  \renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\mdom}{Multi domain default}
+  \ExampleRow{\mdom!}{Compact}
+  \ExampleRow{\mdom[m]}{Change variable}
+  \ExampleRow{\mdom[n][h]}{Change last subscript}
+  \ExampleRow{\mdom![m][6]}{Put it together}
+  \ExampleRow{\mdom*}{3-way}
+  \ExampleRow{\mdom**[m]}{4-way}
+  \ExampleRow{\mdom{m,n,p,q}}{Specific letters}
+  \ExampleRow{\mdom{n,n}{n}}{Specific letters with skip}
+  \ExampleRow{\sdom}{Skip domain default}
+  \ExampleRow{\sdom[\ell]}{Change skipped index}
+  \ExampleRow{\sdom[k][m]}{Change variable}
+  \ExampleRow{\sdom[k][n][h]}{Change last index}
+  \ExampleRow{\sdom{m_k}}{Replace skipped entry}
+\end{tabular}
+}
+
+\subsection{Multi sums}
+\label{sec:sums}
+
+The \lstinline|\msum| (multi sum) and \lstinline|\ssum| macros are roughly analogous to the \lstinline|\msiz| and \lstinline|\ssiz| macros.
+These provide flexible ways to write multiple sums or even single sums efficiently.
+There are three optional arguments that can be used to swap: the
+letter for index ($i$), the letter for the final value ($n$), and the
+letter/number for the subscript of the last index ($d$).
+As with \lstinline|\msiz|, we can specify only three (one asterisk) or four (two asterisks) modes.
+
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\msum \mbox{ and } \msum!}{Multi sum default \& compact form}[3mm]
+  %\ExampleRow{\msum!}{Compact}[3mm]
+  \ExampleRow{\msum[j]}{Swap index (default is $i$)}[3mm]
+  \ExampleRow{\msum[i][r]}{Swap max value (default is $n$)}[3mm]
+  \ExampleRow{\msum[i][n][6]}{Swap final subscript (default is $d$)}[3mm]
+  \ExampleRow{\msum* \mbox{ or } \msum**}{Three or four sums}[3mm]
+  \ExampleRow{\msum*[j][r]}{Three sums with options}[3mm]
+\end{tabular}
+
+
+The most powerful option with \lstinline|\msiz| is the ability to
+quickly specify relatively arbitary summations by providing a comma-separated list.
+Each item in the list can be an index and max value pair separated by a forward slash or
+just a single item that will go at the bottom of the summation.
+Additionally, if a second argument is included, that indicates a separation of centered
+dots before a last summation.
+
+
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|l|p{3in}|l|} \hline
+  \ExampleRow{\msum{i/m,j/n,k/p}}{Arbitrary indices and max values}[3mm]
+  \ExampleRow{\msum{i\in\mathcal{I}, j\in\mathcal{J}, k\in\mathcal{K}}}{Just the bottoms}[3mm]
+  \ExampleRow{\msum{i_1/n,i_2/n}{i_d/n}}{Extra dots}[3mm]
+\end{tabular}
+
+\subsection{Multi tensor outer product}
+\label{sec:multi-tensor-outer}
+
+The \lstinline|\mtop| (multi tensor outer product) and \lstinline|\smtop| commands are analogous to the \lstinline|\msiz| and \lstinline|\ssiz| commands.
+(Note that we use \lstinline|\sktop| rather than \lstinline|\stop| because the latter was already defined.)
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{1.95in}|}
+  \hline
+  \ExampleRow{\mtop}{Multiple tensor outer product}
+  \ExampleRow{\mtop!}{Compact}
+  \ExampleRow{\mtop[\Vc{b}]}{Change main letter}
+  \ExampleRow{\mtop[\Vc{a}][d+1]}{Change last subscript}
+  \ExampleRow{\mtop*}{Three-way}
+  \ExampleRow{\mtop**}{Four-way}    
+  \ExampleRow{\mtop{\Vc{a},\Vc{a}}{\Vc{a}}}{Specify first (up to 4 items) and last arguments}
+  \ExampleRow{\mtop{\Vc{a},\Vc{b},\Vc{c}}}{Give specific arguments}
+  \ExampleRow{\sktop}{Skip tensor outer product}
+\end{tabular}
+
+
+
+\subsection{Multi TTMs}
+\label{sec:multi-ttms}
+
+The \lstinline|\mttm| and \lstinline|\sttm| macros 
+are analogous to \lstinline|\minc| and \lstinline|\sinc|
+except that default variable is $\ttm \Mx{U}{k}$ where the $k$ is replaced
+by the appropriate index.
+
+
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\mttm}{Multi TTM default}
+  \ExampleRow{\mttm![\Mx{V}][6]}{Some options}
+  \ExampleRow{\mttm**[\Mx{V}]}{4-way}
+  \ExampleRow{\sttm}{Skip TTM default}
+  \ExampleRow{\sttm[\ell]{\Mx{V}}}{Some options}
+\end{tabular}
+
+\subsection{Multi Kronecker product}
+\label{sec:multi-kron-prod}
+
+We define the \lstinline|\mkrn| and \lstinline|\skrn| commands for Kronecker products.
+By default, the indices go in \emph{reverse} from $d$ to 1.
+They are otherwise mostly analogous to \lstinline|\miwc| and \lstinline|\siwc| in terms of options and arguments.
+
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\mkrn}{Multi Kronecker default}
+  \ExampleRow{\mkrn!}{Compact}
+  \ExampleRow{\mkrn[\Mx{V}]}{Change main letter}
+  \ExampleRow{\mkrn[\Mx{U}][d+1]}{Change last subscript}
+  \ExampleRow{\mkrn*}{Three-way}
+  \ExampleRow{\mkrn**}{Four-way}    
+  \ExampleRow{\skrn}{Skip Kronecker default}
+  \ExampleRow{\skrn{\Mx{V}}}{Replace skipped item}
+  \ExampleRow{\skrn[\ell][\Mx{W}][h]}{Change options}
+\end{tabular}
+
+\subsection{Multi KRP}
+\label{sec:multi-krp}
+
+We define the \lstinline|\mkrp| and \lstinline|\skrp| commands for KRPs
+which are analogous to the \lstinline|\mkrp| and \lstinline|\skrp| commands.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\mkrp}{Multi KRP default}
+  \ExampleRow{\mkrp![\Mx{B}][d+1]}{Various options}
+  \ExampleRow{\mkrp**}{Four-way}    
+  \ExampleRow{\skrp}{Skip KRP default}
+  \ExampleRow{\skrp{\Mx{C}}}{Replace skipped item}
+  \ExampleRow{\skrp[\ell][\Mx{B}][h]}{Various options}
+\end{tabular}
+
+\subsection{Multi Hadamard}
+\label{sec:multi-hadamard}
+
+We define \lstinline{\shad} command for the multi-Hadmard product, usually of gram matrices.
+
+
+{\relscale{0.85}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\mhad}{Multi-Hadamard}
+  \ExampleRow{\mhad[\shadgram]}{Multi-Hadamard of Grams}
+  \ExampleRow{\shad}{Skip multi-Hadamard}
+  \ExampleRow{\shad[\ell]}{Change skip index}
+\end{tabular}
+}
+
+We include the definition of a helper macro \lstinline{\shadgram} that
+is a gram product of subscripted matrices.
+
+{\relscale{0.81}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|l|} \hline
+  \ExampleRow{\shad[k][\shadgram[\Mx{B}]]}{Change letter}[0.5ex]
+  \ExampleRow{\shad[k][\shadgram[\Mx{A}][\Mx{B}]]}{Two different letters!}[0.5ex]
+  \ExampleRow{\shad[k][\shadgram][h]}{Change last index}[0.5ex]
+\end{tabular}
+}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
