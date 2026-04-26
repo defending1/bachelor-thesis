@@ -52,11 +52,12 @@
 \newcommand{\V}{\mathcal{V}}
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\G}{\mathcal{G}}
-\renewcommand{\L}{\mathcal{L}}
+\renewcommand{\L}{\mathbb{L}}
 
 \newcommand{\defeq}{\vcentcolon=}
 \newcommand{\eqdef}{=\vcentcolon}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\renewcommand{\vec}[1]{\text{vec}#1}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -93,6 +94,14 @@
   Un tensore $ \Tn{X}  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
   \K $, che denotiamo come $  \Tn{X} \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
   $ \Tn{X}(\miwc) $, dove $ (\miwc) \in \mdom$.
+\end{definition}
+
+Analogamente alle matrici, i tensori vengono salvati in memoria come vettori, risulta quindi
+naturale definire la seguente oprazione
+\begin{definition}
+  Dato un tensore $ \Tn{X}$, possiamo definire l'operazione che trasforma un tensore in vettore,
+  tramite la mappa di vettorizzazione 
+  $  \vec : \Rmsiz \to \R^{\prod_{j=1}^d n_j}$, dove $ x_l = \Tn{X}(\L^{-1}(l;\miwc)) $.
 \end{definition}
 
 \clearpage
