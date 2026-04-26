@@ -43,3 +43,13 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist

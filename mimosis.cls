@@ -166,6 +166,8 @@
 
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
 \RequirePackage{dsfont}
 
 % Fix the spacing of \left and \right. Use these with the proper bracket
