@@ -156,4 +156,20 @@ naturale definire la seguente oprazione
 \end{proof}
 
 \section{La fattorizzazione CP}
+\todo{Short introduzione che leghi caso matriciale con tensoriale.}
+\begin{definition}[Canonical Polyadic Decomposition (CP)]
+  Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una decomposizione CP di rango $ r\in \N $ se
+  esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^{(h)}, \ldots, u_r^{(h)}\right]\in R^{n_h \times r} $ tali per cui
+  valgono le seguenti tre condizioni equivalenti:
+  \begin{enumerate}[label=(\roman*)]
+    \item $ \Tn{x} = \sum_{j=1}^r u_j^{(1)} \topp \ldots \topp u_j^{(d)} = \sum_{i=1}^r
+      \bigtopp_{h=1}^d u_j^{(h)}$.
+    \item $ \vec(\Tn{x}) = \sum_{j=1}^r u_j^{(d)} \krn \ldots \krn u_j^{(1)} = \sum_{i=1}^r
+      \bigkrn_{h=d}^1 u_j^{(h)}$.
+    \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\ldots U_d(i_d,j) = \sum_{j=1}^r
+      \prod_{h=1}^d U_h(i_h,j)$.
+  \end{enumerate}
+  In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
+\end{definition}
+
 \subsection{Formulare il prodotto di matrici con la CP}

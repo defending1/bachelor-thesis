@@ -202,15 +202,15 @@
 %% Special Operators
 %% ------------------------------------------------------------
 
-% Tensor outer product - Note that must use "\protect\top" inside captions 
-\let\mathtop\top
-\renewcommand{\top}{\mathbin{\mathchoice
+% Tensor outer product - Note that must use "\protect\topp" inside captions 
+\let\mathtop\topp
+\newcommand{\topp}{\mathbin{\mathchoice
     {\vcenter{\hbox{\scaleobj{0.75}{\varbigcirc}}}}
     {\vcenter{\hbox{\scaleobj{0.75}{\varbigcirc}}}}
     {\vcenter{\hbox{\scaleobj{0.6}{\varbigcirc}}}}
     {\vcenter{\hbox{\scaleobj{0.5}{\varbigcirc}}}}
   }}
-\newcommand{\bigtop}{\mathop{\vphantom{\sum}\mathchoice
+\newcommand{\bigtopp}{\mathop{\vphantom{\sum}\mathchoice
     {\vcenter{\hbox{\scaleobj{1.5}{\varbigcirc}}}}
     {\vcenter{\hbox{\scaleobj{1.1}{\varbigcirc}}}}
     {\vcenter{\hbox{\scaleobj{1.1}{\varbigcirc}}}}
@@ -453,18 +453,18 @@
 %% Multi tensor outer product
 %% --------------------
 \NewDocumentCommand{\tttMtope}{>{\SplitArgument{3}{,}}m}{\tttMtopeFour#1} % Helper
-\NewDocumentCommand{\tttMtopeFour}{m m m m}{#1 \IfValueT{#2}{\top #2} \IfValueT{#3}{\top #3} \IfValueT{#4}{\top #4}} % Helper
+\NewDocumentCommand{\tttMtopeFour}{m m m m}{#1 \IfValueT{#2}{\topp #2} \IfValueT{#3}{\topp #3} \IfValueT{#4}{\topp #4}} % Helper
 
 \NewDocumentCommand{\mtop}{s s t! O{\Vc{a}} O{d} !g !g}
 {
   \IfValueTF{#6}
-  {\tttMtope{#6}\IfValueT{#7}{\top \cdots \top #7}}
-  {#4_1 \IfBooleanF{#3}{\top #4_2}
-    \IfBooleanTF{#1}{\top #4_3 \IfBooleanT{#2}{\top #4_4}}{\top \cdots \top #4_{#5}}}
+  {\tttMtope{#6}\IfValueT{#7}{\topp \cdots \topp #7}}
+  {#4_1 \IfBooleanF{#3}{\topp #4_2}
+    \IfBooleanTF{#1}{\topp #4_3 \IfBooleanT{#2}{\topp #4_4}}{\topp \cdots \topp #4_{#5}}}
 }
 
 \NewDocumentCommand{\sktop}{O{k} O{\Vc{a}} O{d} g}{%
-  \tttSlist{#2}{\top}{\BooleanTrue}{#3}{#1}{#4}%
+  \tttSlist{#2}{\topp}{\BooleanTrue}{#3}{#1}{#4}%
 }
 
 %% -------------------

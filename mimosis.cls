@@ -135,10 +135,7 @@
 % Paragraph lists & compact enumerations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage[%
-    olditem,  % Do not modify itemize environments by default
-    oldenum   % Do not modify enumerate environments by default
-  ]{paralist}
+\RequirePackage{enumitem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Spacing
