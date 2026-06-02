@@ -2,6 +2,10 @@
 \chapter{Introduzione}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\todo{Usare emph quando si introduce un termine nuovo, inserire tabella notazione all'inizio}
+
+\section{Tensori}
+
 \begin{definition}
   Denotiamo l'insieme dei numeri naturali da $ 1 $ a $ n \in \N $ come $ [n] = \left\{ 1,\dots,n
   \right\} $, e il prodotto cartesiano tra $ [n] $ e $ [m] $ come $ [n] \otimes [m] =
@@ -101,19 +105,45 @@ naturale definire la seguente oprazione
 \begin{aligned}
   \vec \colon \Rmsiz &\to \R^{\prod_{j=1}^d n_j}\\
   \Tn{x} &\mapsto x\\
-  \tikz[baseline=1ex, scale=0.4]{
-    % Front face
-    \draw (0,0) rectangle (1,1);
-    % Top face
-    \draw (0,1) -- (0.3,1.3) -- (1.3,1.3) -- (1,1);
-    % Right face
-    \draw (1.3,1.3) -- (1.3,0.3) -- (1,0);
-  } 
-  &\mapsto 
-  \tikz[baseline=-1ex, scale=0.4]{
-    % Tall rectangle
-    \draw (0,-1.5) rectangle (0.3, 1.5);
-  }
+\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35, z={(0.4,0.4)}]
+    
+    % --- Back slice (k=2) ---
+    % Top faces (Orange, Brown)
+    \draw[fill=cOrange] (0,2,1) -- (1,2,1) -- (1,2,2) -- (0,2,2) -- cycle;
+    \draw[fill=cBrown]  (1,2,1) -- (2,2,1) -- (2,2,2) -- (1,2,2) -- cycle;
+    
+    % Right faces (Brown, Pink)
+    \draw[fill=cBrown]  (2,1,1) -- (2,2,1) -- (2,2,2) -- (2,1,2) -- cycle;
+    \draw[fill=cPink]   (2,0,1) -- (2,1,1) -- (2,1,2) -- (2,0,2) -- cycle;
+
+    % --- Front slice (k=1) ---
+    % Top faces (Red, Green)
+    \draw[fill=cRed]    (0,2,0) -- (1,2,0) -- (1,2,1) -- (0,2,1) -- cycle;
+    \draw[fill=cGreen]  (1,2,0) -- (2,2,0) -- (2,2,1) -- (1,2,1) -- cycle;
+    
+    % Right faces (Green, Purple)
+    \draw[fill=cGreen]  (2,1,0) -- (2,2,0) -- (2,2,1) -- (2,1,1) -- cycle;
+    \draw[fill=cPurple] (2,0,0) -- (2,1,0) -- (2,1,1) -- (2,0,1) -- cycle;
+
+    % Front faces (Blue, Purple, Red, Green)
+    \draw[fill=cBlue]   (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+    \draw[fill=cPurple] (1,0,0) -- (2,0,0) -- (2,1,0) -- (1,1,0) -- cycle;
+    \draw[fill=cRed]    (0,1,0) -- (1,1,0) -- (1,2,0) -- (0,2,0) -- cycle;
+    \draw[fill=cGreen]  (1,1,0) -- (2,1,0) -- (2,2,0) -- (1,2,0) -- cycle;
+
+\end{tikzpicture}
+&\mapsto 
+\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35]
+    % Draw the vectorized column from bottom (y=0) to top (y=8)
+    \draw[fill=cPink]   (0,0) rectangle (1,1);
+    \draw[fill=cBrown]  (0,1) rectangle (1,2);
+    \draw[fill=cGrey]   (0,2) rectangle (1,3);
+    \draw[fill=cOrange] (0,3) rectangle (1,4);
+    \draw[fill=cPurple] (0,4) rectangle (1,5);
+    \draw[fill=cGreen]  (0,5) rectangle (1,6);
+    \draw[fill=cBlue]   (0,6) rectangle (1,7);
+    \draw[fill=cRed]    (0,7) rectangle (1,8);
+\end{tikzpicture}
 \end{aligned}
 \end{equation*}
  dove $ x_l = \Tn{X}(\L^{-1}(l;\miwc[n])) $.
@@ -171,5 +201,58 @@ naturale definire la seguente oprazione
   \end{enumerate}
   In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
 \end{definition}
+
+\subsection{Il problema del border rank}
+
+\begin{example}
+  Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
+  linearmente indipendenti.  Definiamo il tensore 
+  \begin{equation}
+    \Tn{X} = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
+  \end{equation}
+  e notiamo che $ \rk(\Tn{x}) = 3 $ dato che non può
+  essere scomposto come somma di tensori più semplici.
+  Consideriamo la successioni di tensori 
+  \begin{equation}
+  \label{eq:rank_counterex}
+  \Tn{y}_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
+  \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
+  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
+  \end{equation}
+  che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
+  Vediamo che $ \lim_{\varepsilon \to 0} \Tn{y}_\varepsilon = \Tn{x} $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
+  Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
+  \begin{equation}
+    \begin{aligned}
+      \Tn{y}_\varepsilon &=  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
+      +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
+      b_1 \topp c_1 \\
+                         &= \Tn{x} + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
+    \end{aligned}
+  \end{equation}
+  Quindi $ \Tn{y}_\varepsilon - \Tn{x} \to 0 $.
+  
+\end{example}
+
+\subsection{Operazioni nel formato CP}
+  
+\todo{Se serve, versione per unfoldings generalizzati}
+\begin{lemma}
+  Dato un tensore $ \Tn{x} = \dsqr{U_1,\ldots,U_d} $, vale $ \vec(\Tn{x}) = \left( U_d \krp U_{d-1}
+    \krp \ldots \krp U_1 \right) \mathbf{1}_r$, dove $ \mathbf{1}_r = \left[ 1, \ldots, 1
+    \right]^{\top} $.
+\end{lemma}
+\begin{proof}
+  Segue dall'identità
+  \begin{equation*}
+    \begin{aligned}
+      \vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \ldots \krn u_h^{(1)} = \left[ u_1^{(d)} 
+  \krn \ldots u_1^{(1)} | \ldots | u_r^{(d)} \krn \ldots \krn u_r^{(1)}\right]\mathbf{1}_r \\
+                     &= \left( U_d \krp U_{d-1} \krp \ldots \krp U_1 \right) \mathbf{1}_r.
+    \end{aligned}
+  \end{equation*}
+\end{proof}
 
 \subsection{Formulare il prodotto di matrici con la CP}
