@@ -11,6 +11,8 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +31,4 @@ jobs:
         with:
           name: thesis-pdf
           path: Thesis.pdf
+          if-no-files-found: error
