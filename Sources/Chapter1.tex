@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Introduzione}
+\chapter{La fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \todo{Usare emph quando si introduce un termine nuovo, inserire tabella notazione all'inizio}
@@ -550,3 +550,50 @@ Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
 Quindi valutare $ b $ richiede esattamente $ r $ active multiplications, che evidenziamo con $
 (\cdot) $.
 \todo{Espandere discussione dall'articolo}
+
+\section{L'algoritmo di Strassen}
+
+Introduciamo brevemente un metodo per risolvere relazioni ricorsive definite per ricorrenza, detto
+\emph{master method}. I lettori più interessati possono trovare una trattazione più dettagliata sul
+libro~\cite{cormen2022introduction}. Il master method si usa per risolvere ricorrenze della forma
+\begin{equation}
+  \label{eq:master_rec}
+  T(n) = aT(\frac{n}{b}) + f(n),
+\end{equation}
+dove $ a \ge 1 $ e $ b>1 $ sono costanti e $ f(n) $ è una funzione asintoticamente positiva. La
+ricorrenza \ref{eq:master_rec} descrive il tempo di esecuzione di un algoritmo che divide un
+problema di dimensione $ n $ in $ a $ sottoproblemi, ognuno di dimensione $ \frac{n}{b} $. Gli $ a $
+sottoproblemi vengono risolti ricorsivamente in tempo $ T(\frac{n}{b}) $, e la funzione $ f(n) $
+rappresenta il costo di dividere il problema e ricombinare la ricorsione di ogni sottoproblema.
+
+Indichiamo con $ O $ e $ \Omega $ la stima superiore e inferiore, rispettivamente, e con $
+\Theta $ la stima stretta.
+\begin{theorem}[Master theorem]
+  \label{th:master}
+  Siano $ a\ge 1 $ e $ b>1 $ delle costanti, sia $ f(n) $ una funzione e definiamo $ T(n) $ sugli
+  interi nonnegativi dalla ricorrenza
+  \begin{equation*}
+    T(n) = aT(\frac{n}{b}) + f(n),
+  \end{equation*}
+\end{theorem}
+dove con $ \frac{n}{b} $ indichiamo sia $ \left\lfloor \frac{n}{b} \right\rfloor $ o $ \left\lceil
+\frac{n}{b} \right\rceil  $. Allora $ T(n) $ ha le seguenti soglie asintotiche:
+\begin{enumerate}
+  \item Se $ f(n) = O(n^{\log_b a-\varepsilon}) $ per qualche $ \varepsilon >0 $, allora $ T(n) =
+    \Theta(n^{\log_b a}) $.
+  \item Se $ f(n) = \Theta(n^{\log_b a}) $ allora $ T(n) = \Theta(n^{\log_b a \log n}) $.
+  \item If $ f(n) = \Omega(n^{\log_b a + \varepsilon}) $ per qualche costante $ \varepsilon >0 $, e
+    se $ af(\frac{n}{b}) < cf(n) $ per qualche costante $ c<1$ e ogni $ n $ sufficientemente grande,
+    allora $ T(n) = \Theta(f(n)) $.
+\end{enumerate}
+
+\begin{example}
+  Nel caso dell'algoritmo naive la ricorrenza ha la forma $ a = 8 $, $ b = 2 $ e $ f(n) =
+  \Theta(n^2) $, ovvero
+  \begin{equation*}
+    T(n) = 8T(\frac{n}{2}) + \Theta(n^2).
+  \end{equation*}
+  Siccome $ n^{\log_b a} = n^{\log_2 8} = n^3 $, che è polinomialmente più grande di $ f(n) $, ovvero $
+  f(n) = O(n^{3-\varepsilon}) $ per $ \varepsilon = 1 $, dal caso 1 di \ref{th:master} segue che $
+  T(n) = \Theta(n^3) $.
+\end{example}

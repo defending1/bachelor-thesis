@@ -9,6 +9,7 @@
 \LoadClass[a4paper,
            twoside,
            11pt,
+           leqno,
            cleardoublepage=empty,
            numbers=noenddot,
            titlepage,
