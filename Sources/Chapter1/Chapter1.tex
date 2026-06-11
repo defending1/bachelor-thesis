@@ -107,7 +107,7 @@ naturale definire la seguente oprazione
   tramite la mappa di vettorizzazione 
 \begin{equation*}
 \begin{aligned}
-  \vec \colon \Rmsiz &\to \R^{\prod_{j=1}^d n_j}\\
+  \Vec \colon \Rmsiz &\to \R^{\prod_{j=1}^d n_j}\\
   \Tn{x} &\mapsto x\\
 \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35, z={(0.4,0.4)}]
     
@@ -196,8 +196,8 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
     \item Addizione: $(\Tn{x}_1 + \Tn{x}_2)(\miwc!) = \Tn{x}_1(\miwc!) + \Tn{x}_2(\miwc!)$.
     \item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (\Tn{x}(\miwc!)) = (\alpha
       \Tn{x})(\miwc!)$
-    \item Prodotto scalare: $ \angb{\Tn{x}_1, \Tn{x}_2} = \vec(\Tn{x}_1)^{\top} \vec(\Tn{x}_2)$
-    \item Norma: $\| \vec(\Tn{x})\|$
+    \item Prodotto scalare: $ \angb{\Tn{x}_1, \Tn{x}_2} = \Vec(\Tn{x}_1)^{\top} \Vec(\Tn{x}_2)$
+    \item Norma: $\| \Vec(\Tn{x})\|$
   \end{itemize}
 \end{remark}
 
@@ -215,7 +215,7 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 \begin{lemma}[Legame tra il prodotto esterno e il prodotto di Kroneker]
   Dato un tensore $ \Tn{x} = v^{(1)} \topp \cdots v^{(d)} $, allora
   \begin{enumerate}[label=(\roman*)]
-    \item $\vec(\Tn{x}) = v^{(d)} \krn \cdots \krn v^{(1)}$
+    \item $\Vec(\Tn{x}) = v^{(d)} \krn \cdots \krn v^{(1)}$
   \item $ \Tm{x}{k} = v^{(k)}\left( v^{(d)} \krn \cdots \krn v^{(k-1)} \krn v^{(k+1)} \krn \cdots
     \krn v^{(1)} \right)^{\top}$
   \item $\Tm{x}{\mathcal{R} \times \mathcal{C}} = (v^{(r_\delta)} \krn \cdots \krn
@@ -248,7 +248,7 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
 \begin{lemma}
   Siano $ \Mx{A} \in \K^{m \times n} $, $ \Mx{B} \in \K^{m \times n}$ ed $ \Mx{X} \in \K^{n \times m}$. Allora
   \begin{equation*}
-    \vec({\Mx{A}\Mx{X}\Mx{B}}) = (B^{\top} \krn A)\vec(X)
+  \Vec({\Mx{A}\Mx{X}\Mx{B}}) = (B^{\top} \krn A)\Vec(X)
   \end{equation*}
 \end{lemma}
 \begin{proof}
@@ -258,14 +258,14 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
     \begin{aligned}
       (AXB)_{:,k} &= AXb_k = A \sum_{i=1}^m x_i b_{i,k} = \left[ b_{1,k}A ,\ldots, b_{n,k}A \right]
       \begin{bmatrix} x_1 \\ \vdots \\ x_m \end{bmatrix} = ([b_{1,k}, \ldots, b_{m,k}] \krn A)
-      \vec(X).
+      \Vec(X).
     \end{aligned}
   \end{equation*}
   Impilando insieme le colonne otteniamo che
   \begin{equation*}
-  \vec(AXB) = \begin{bmatrix} (AXB)_{:,1} \\(AXB)_{:,2}\\ \vdots \\ (AXB)_{:,n} \end{bmatrix} =
+  \Vec(AXB) = \begin{bmatrix} (AXB)_{:,1} \\(AXB)_{:,2}\\ \vdots \\ (AXB)_{:,n} \end{bmatrix} =
   \begin{bmatrix} b_1^{\top} \krn A \\ b_2^{\top} \krn A \\ \vdots \\ b_n^{\top} \krn A
-  \end{bmatrix} \vec(X) = (B^{\top} \krn A)\vec(X).
+  \end{bmatrix} \Vec(X) = (B^{\top} \krn A)\Vec(X).
   \end{equation*}
 \end{proof}
 
@@ -274,7 +274,7 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
   \R^{m_1 \times n_2} $ e $ W \in \R^{m_3 \times n_3} $. Sono fatti equivalenti:
   \begin{enumerate}[label=(\roman*)]
     \item $\Tn{y} = \Tn{x} \ttm[1] U \ttm[2] V \ttm[3] W \in \Rmsiz*[m]$.
-    \item $\vec(\Tn{y}) = (W \krn V \krn U) \cdot \vec(\Tn{x})$.
+    \item $\Vec(\Tn{y}) = (W \krn V \krn U) \cdot \Vec(\Tn{x})$.
     \item $\Tm{Y}{1} = U\Tm{X}{1}(W \krn V)^{\top}$.
     \item $ \Tm{Y}{2} = V\Tm{X}{2}(W \krn U)^{\top} $.
     \item $\Tm{Y}{3} = W\Tm{X}{3}(V \krn U)^{\top}$.
@@ -282,8 +282,8 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
 \end{proposition}
 \begin{proof}
 \begin{description}
-        \item[$(1) \iff (2)$] Mostriamo che $\vec(\Tn{x} \ttm[1] U) = (I \krn I \krn U)
-          \vec(\Tn{x})$.
+        \item[$(1) \iff (2)$] Mostriamo che $\Vec(\Tn{x} \ttm[1] U) = (I \krn I \krn U)
+          \Vec(\Tn{x})$.
         \item[$(2) \iff (4)$] Conversely, assume statement 2 holds. Thus...
     \end{description}
 \end{proof}
@@ -310,7 +310,7 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
   \begin{enumerate}[label=(\roman*)]
     \item $ \Tn{x} = \sum_{j=1}^r u_j^{(1)} \topp \ldots \topp u_j^{(d)} = \sum_{i=1}^r
       \bigtopp_{h=1}^d u_j^{(h)}$.
-    \item $ \vec(\Tn{x}) = \sum_{j=1}^r u_j^{(d)} \krn \ldots \krn u_j^{(1)} = \sum_{i=1}^r
+    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^{(d)} \krn \ldots \krn u_j^{(1)} = \sum_{i=1}^r
       \bigkrn_{h=d}^1 u_j^{(h)}$.
     \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\ldots U_d(i_d,j) = \sum_{j=1}^r
       \prod_{h=1}^d U_h(i_h,j)$.
@@ -413,7 +413,7 @@ Questo motiva la seguente definizione:
   
 \todo{Se serve, versione per unfoldings generalizzati}
 \begin{lemma}
-  Dato un tensore $ \Tn{x} = \dsqr{U_1,\ldots,U_d} $, vale $ \vec(\Tn{x}) = \left( U_d \krp U_{d-1}
+  Dato un tensore $ \Tn{x} = \dsqr{U_1,\ldots,U_d} $, vale $ \Vec(\Tn{x}) = \left( U_d \krp U_{d-1}
     \krp \ldots \krp U_1 \right) \mathbf{1}_r$, dove $ \mathbf{1}_r = \left[ 1, \ldots, 1
     \right]^{\top} $.
 \end{lemma}
@@ -421,7 +421,7 @@ Questo motiva la seguente definizione:
   Segue dall'identità
   \begin{equation*}
     \begin{aligned}
-      \vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \ldots \krn u_h^{(1)} = \left[ u_1^{(d)} 
+      \Vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \ldots \krn u_h^{(1)} = \left[ u_1^{(d)} 
   \krn \ldots u_1^{(1)} | \ldots | u_r^{(d)} \krn \ldots \krn u_r^{(1)}\right]\mathbf{1}_r \\
                      &= \left( U_d \krp U_{d-1} \krp \ldots \krp U_1 \right) \mathbf{1}_r.
     \end{aligned}

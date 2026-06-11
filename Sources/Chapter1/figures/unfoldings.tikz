@@ -1,3 +1,20 @@
+% Fallback definitions so this tikz file can be compiled standalone
+% when external tools/processes compile tikz pictures separately.
+% Provide a simple tensor macro and the project's colour palette if they
+% are not already defined by the main document.
+\providecommand{\Tn}[1]{\mathcal{#1}}
+\providecommand{\Mx}[1]{\mathbf{#1}}
+% Define colours used in the main document. \definecolor will overwrite
+% existing definitions harmlessly if they are already present.
+\definecolor{cRed}{HTML}{E75151}
+\definecolor{cBlue}{HTML}{4F8FE0}
+\definecolor{cGreen}{HTML}{65AC59}
+\definecolor{cPurple}{HTML}{8863A8}
+\definecolor{cOrange}{HTML}{F28D34}
+\definecolor{cGrey}{HTML}{A0A0A0}
+\definecolor{cBrown}{HTML}{A9795C}
+\definecolor{cPink}{HTML}{F084B6}
+
 \begin{tikzpicture}[x=0.5cm, y=0.5cm, >=stealth]
 
     % ==========================================
