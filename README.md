@@ -1,5 +1,10 @@
 # Stato progetto
 
+# 11.06
+
+- Aggiunta parte su moltiplicazione di matrici.
+- Motivate ricorrenze con Master method
+
 ## 4.06
 
 Stato:

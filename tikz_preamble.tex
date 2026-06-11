@@ -1,0 +1,66 @@
+% Minimal preamble for compiling standalone TikZ pictures
+% Edit this file if your .tikz files require additional packages or macros.
+
+\usepackage{tikz}
+\usepackage{amsmath,amssymb}
+% if you use tikz-3dplot or other libraries, enable them here:
+\usetikzlibrary{3d,calc,positioning,decorations.pathreplacing}
+
+% Try to use the same font setup as Thesis.tex. The snippet below mirrors the
+% conditional used in Thesis.tex/mimosis.cls: when compiling with XeTeX or LuaTeX
+% it uses fontspec; otherwise it falls back to the PDFLaTeX packages.
+\RequirePackage{iftex}
+\newif\ifxetexorluatex\xetexorluatexfalse
+\ifxetex
+  \xetexorluatextrue
+\fi
+\ifluatex
+  \xetexorluatextrue
+\fi
+
+\ifxetexorluatex
+  % For XeLaTeX/LuaLaTeX: attempt to set the same fonts as the thesis
+  \usepackage{fontspec}
+  \usepackage{unicode-math}
+  % These \IfFontExistsTF checks are not available without expl3; keep simple
+  % and rely on system availability when using Xe/Lua engines.
+  \IfFontExistsTF{EB Garamond}{%
+    \setmainfont{EB Garamond}%
+  }{%
+    \setmainfont{DejaVu Serif}%
+  }
+  \IfFontExistsTF{Garamond Math}{%
+    \setmathfont{Garamond Math}%
+  }{%
+    \setmathfont{DejaVu Math TeX Gyre}%
+  }
+  \IfFontExistsTF{STIX Two Math}{%
+    \setmathfont{STIX Two Math}[range={\sharp,\natural,\flat,\clubsuit,\spadesuit,\checkmark}]%
+  }{}
+  \IfFontExistsTF{Source Code Pro}{%
+    \setmonofont[Scale=MatchLowercase]{Source Code Pro}%
+  }{%
+    \setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}%
+  }
+\else
+  % For pdfLaTeX: use the same packages as the thesis
+  \usepackage{setspace}
+  \usepackage[lf]{ebgaramond}
+  \usepackage[oldstyle,scale=0.7]{sourcecodepro}
+  \singlespacing
+\fi
+
+% Example color definitions used in figures/ repository; modify as needed.
+\definecolor{cRed}{HTML}{E75151}
+\definecolor{cBlue}{HTML}{4F8FE0}
+\definecolor{cGreen}{HTML}{65AC59}
+\definecolor{cPurple}{HTML}{8863A8}
+\definecolor{cOrange}{HTML}{F28D34}
+\definecolor{cGrey}{HTML}{A0A0A0}
+\definecolor{cBrown}{HTML}{A9795C}
+\definecolor{cPink}{HTML}{F084B6}
+
+% Input local style definitions (if present in the same directory as this preamble).
+% The compile script copies local .sty files into the build directory so this \input
+% will find tensors.sty and similar files.
+\IfFileExists{tensors.sty}{\input{tensors.sty}}{}
