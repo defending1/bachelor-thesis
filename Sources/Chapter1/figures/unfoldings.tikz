@@ -1,0 +1,143 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}[x=0.5cm, y=0.5cm, >=stealth]
+
+    % ==========================================
+    % 1. 3-Way Tensor \mathcal{X} (Transparent)
+    % ==========================================
+    \node[left] at (-0.5, 2) {\Large $\boldsymbol{\mathcal{X}} =$};
+    
+    \begin{scope}[z={({0.25cm, 0.25cm})}]
+        % Draw back slice (k=2) then front slice (k=1)
+        \foreach \k in {2, 1} {
+            \foreach \i in {4, 3, 2, 1} {
+                \foreach \j in {1, 2, 3} {
+                    \pgfmathtruncatemacro{\colnum}{\j + (\k-1)*3}
+                    \pgfmathsetmacro{\tint}{100 - (\i - 1)*25}
+                    
+                    % Map color numbers to named colors
+                    \ifnum\colnum=1 \def\cfill{cRed}\fi
+                    \ifnum\colnum=2 \def\cfill{cBlue}\fi
+                    \ifnum\colnum=3 \def\cfill{cGreen}\fi
+                    \ifnum\colnum=4 \def\cfill{cPurple}\fi
+                    \ifnum\colnum=5 \def\cfill{cOrange}\fi
+                    \ifnum\colnum=6 \def\cfill{cBrown}\fi
+                    
+                    \edef\cfill{\cfill!\tint!white}
+                    
+                    \pgfmathsetmacro{\x}{\j - 1}
+                    \pgfmathsetmacro{\y}{4 - \i}
+                    \pgfmathsetmacro{\z}{\k - 1}
+
+                    % Opacity applied here to make the 3D tensor transparent
+                    \tikzset{cube/.style={fill=\cfill, fill opacity=0.85, draw=black, draw opacity=0.8, thin, join=round}}
+                    
+                    % Front Face
+                    \draw[cube] (\x, \y, \z) -- (\x+1, \y, \z) -- (\x+1, \y+1, \z) -- (\x, \y+1, \z) -- cycle;
+                    % Top Face
+                    \draw[cube] (\x, \y+1, \z) -- (\x+1, \y+1, \z) -- (\x+1, \y+1, \z+1) -- (\x, \y+1, \z+1) -- cycle;
+                    % Right Face
+                    \draw[cube] (\x+1, \y, \z) -- (\x+1, \y+1, \z) -- (\x+1, \y+1, \z+1) -- (\x+1, \y, \z+1) -- cycle;
+                }
+            }
+        }
+    \end{scope}
+
+    % ==========================================
+    % 2. Mode-1 Unfolding: X_{(1)}
+    % ==========================================
+    \node[left] at (11.0, 2) {\Large $\mathbf{X}_{(1)} =$};
+    
+    \foreach \c in {1,...,6} {
+        \foreach \r in {1,...,4} {
+            \pgfmathtruncatemacro{\colnum}{\c}
+            \pgfmathsetmacro{\tint}{100 - (\r - 1)*25}
+            
+            % Map color numbers to named colors
+            \ifnum\colnum=1 \def\cfill{cRed}\fi
+            \ifnum\colnum=2 \def\cfill{cBlue}\fi
+            \ifnum\colnum=3 \def\cfill{cGreen}\fi
+            \ifnum\colnum=4 \def\cfill{cPurple}\fi
+            \ifnum\colnum=5 \def\cfill{cOrange}\fi
+            \ifnum\colnum=6 \def\cfill{cBrown}\fi
+            
+            \edef\cfill{\cfill!\tint!white}
+            \draw[fill=\cfill, draw=black, thin] (11.5 + \c - 1, 4 - \r) rectangle +(1, 1);
+        }
+    }
+
+    % ==========================================
+    % 3. Mode-2 Unfolding: X_{(2)}
+    % ==========================================
+    \node[left] at (22.5, 2) {\Large $\mathbf{X}_{(2)} =$};
+    
+    \foreach \r in {1,...,3} {
+        \foreach \c in {1,...,8} {
+            \pgfmathtruncatemacro{\colnum}{\c <= 4 ? \r : \r + 3}
+            \pgfmathtruncatemacro{\idx}{\c <= 4 ? \c : \c - 4}
+            \pgfmathsetmacro{\tint}{100 - (\idx - 1)*25}
+            
+            % Map color numbers to named colors
+            \ifnum\colnum=1 \def\cfill{cRed}\fi
+            \ifnum\colnum=2 \def\cfill{cBlue}\fi
+            \ifnum\colnum=3 \def\cfill{cGreen}\fi
+            \ifnum\colnum=4 \def\cfill{cPurple}\fi
+            \ifnum\colnum=5 \def\cfill{cOrange}\fi
+            \ifnum\colnum=6 \def\cfill{cBrown}\fi
+            
+            \edef\cfill{\cfill!\tint!white}
+            \draw[fill=\cfill, draw=black, thin] (23 + \c - 1, 3.5 - \r) rectangle +(1, 1);
+        }
+    }
+
+    % ==========================================
+    % 4. Mode-3 Unfolding: X_{(3)}
+    % ==========================================
+    \node[left] at (6.5, -2.5) {\Large $\mathbf{X}_{(3)} =$};
+    
+    \foreach \r in {1,2} {
+        \foreach \c in {1,...,12} {
+            \pgfmathtruncatemacro{\colnum}{ceil(\c/4) + (\r-1)*3}
+            \pgfmathtruncatemacro{\idx}{mod(\c-1, 4) + 1}
+            \pgfmathsetmacro{\tint}{100 - (\idx - 1)*25}
+            
+            % Map color numbers to named colors
+            \ifnum\colnum=1 \def\cfill{cRed}\fi
+            \ifnum\colnum=2 \def\cfill{cBlue}\fi
+            \ifnum\colnum=3 \def\cfill{cGreen}\fi
+            \ifnum\colnum=4 \def\cfill{cPurple}\fi
+            \ifnum\colnum=5 \def\cfill{cOrange}\fi
+            \ifnum\colnum=6 \def\cfill{cBrown}\fi
+            
+            \edef\cfill{\cfill!\tint!white}
+            \draw[fill=\cfill, draw=black, thin] (7 + \c - 1, -1.5 - \r) rectangle +(1, 1);
+        }
+    }
+
+    % ==========================================
+    % 5. Vectorization: (vec(X))^T
+    % ==========================================
+    \node[left] at (2.5, -6) {\Large $(\operatorname{vec}(\boldsymbol{\mathcal{X}}))^\mathsf{T} =$};
+    
+    \foreach \c in {1,...,24} {
+        \pgfmathtruncatemacro{\colnum}{ceil(\c/4)}
+        \pgfmathtruncatemacro{\idx}{mod(\c-1, 4) + 1}
+        \pgfmathsetmacro{\tint}{100 - (\idx - 1)*25}
+        
+        % Map color numbers to named colors
+        \ifnum\colnum=1 \def\cfill{cRed}\fi
+        \ifnum\colnum=2 \def\cfill{cBlue}\fi
+        \ifnum\colnum=3 \def\cfill{cGreen}\fi
+        \ifnum\colnum=4 \def\cfill{cPurple}\fi
+        \ifnum\colnum=5 \def\cfill{cOrange}\fi
+        \ifnum\colnum=6 \def\cfill{cBrown}\fi
+        
+        \edef\cfill{\cfill!\tint!white}
+        \draw[fill=\cfill, draw=black, thin] (3 + \c - 1, -6.5) rectangle +(1, 1);
+    }
+
+\end{tikzpicture}
+
+\end{document}
