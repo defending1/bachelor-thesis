@@ -24,11 +24,14 @@ Discutere:
 
 # Todo
 
+- Aggiustamenti font: non mi piace che mxn sia molto piccolo e il x si confonda
+  un po'. O cambio il font o metto le dimensioni in maiuscolo.
+- Font va sistemato: non è quello del template
+- CHiarire differenza tra rappresentazione e decomposizione
 - Dove chiaro dal contesto, sostituire decomposizione CP di rango r con
   decomposizione di rango r
 - Probabilmente cambiare la notazione X(i1, ..., in) per i tensori con un
-  subscript, in quanto è less chunky
-- Aggiungere esempi per i modes
+  subscript, in quanto è less chunky: Chiedere
 - Fatto interessante: il rango e il border rank nel caso 2x2 è 7. In aggiunta, 7
   è il minimo numero possibile di moltiplicazioni tra matrici per il caso 2x2.
 - vedi: M. Landsberg, The border rank of the multiplication of 2 × 2 matrices is
@@ -38,7 +41,14 @@ Discutere:
   definizione un pelo più pulita.
 - Implementazione Strassen/lab 1
 - Proprietà subito dopo prodotto esterno
--
+
+## Kruskal theorem
+
+See:
+
+- Kruskal’s uniqueness inequality is sharp Harm Derksen
+- KRUSKAL’S THEOREM J.M. LANDSBERG
+- On Kruskal’s uniqueness condition for the Candecomp/Parafac decomposition
 
 # Implementazione
 

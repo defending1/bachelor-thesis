@@ -12,11 +12,24 @@
   \left\{ (i,j) : i \in [n], j \in [m] \right\} $.
 \end{definition}
 
+\begin{remark}
+  Un tensore $ \Tn{x} \in \R^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
+  un tensore $ \Tn{x} \in \R^{n_1\times n_{d-1} \times 1} $ è un tensore di dimensione $ n_1\times
+  n_2\times \cdots \times  n_{d-1} $.
+\end{remark}
+
 \begin{definition}
   Un \emph{tensore} $ \Tn{X}  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
   \K $, che denotiamo come $  \Tn{X} \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
   $ \Tn{X}(\miwc) $, dove $ (\miwc) \in \mdom$.
 \end{definition}
+
+\begin{remark}
+  Per array intendiamo un arrangiamento di elementi di $ \K $ secondo gli indici $ (\miwc) \in
+  \mdom $. Trattare la buona definizione dei tensori dal punto di vista algebrico esula dallo scopo
+  del presente lavoro, tuttavia il lettore interessato a una visione algebrica più ampia, può
+  guardare. \todo{Cita landberg o Hackbush)}
+\end{remark}
 
 
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
@@ -24,6 +37,7 @@
 
 
 \begin{definition}[Prodotto di Kroneker]
+  \label{def:krn}
   Date due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{p \times q} $, il loro prodotto
   di Kroneker è la matrice 
   \[
@@ -65,14 +79,14 @@ L'inversa di $ \L $ è data dalla mappa
     l &\mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
     \left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor \right)
   \end{aligned}
-\end{equation*}
-\end{definition}
-\begin{remark}
-  La mappa $ \L $ ha come inversa $ \L^{-1} $, sono anche chiamate linearizzazione e tensorizzazione
-  degli indici, rispettivamente, in quanto permettono di passare da uni indice tensoriale a uno
+\end{equation*}. 
+Le mappe $ \L $ e $ \L^{-1} $ sono l'una l'inversa dell'altra, e sono anche dette linearizzazione e tensorizzazione
+  degli indici, rispettivamente, in quanto permettono di passare da un indice tensoriale a uno
   lineare, e viceversa.
-\end{remark}
-\begin{proof}
+\end{definition}
+
+
+\begin{proof}[Buona definizione]
 Segue direttamente dalla definizione di $ \L $ e dalle proprietà del modulo, infatti,
 \[
 \begin{aligned}
@@ -97,11 +111,46 @@ Viceversa,
                  s_d\left(\left\lfloor \frac{(l-1) \mod(n_ds_d)}{s_d} \right\rfloor\right)
 \end{aligned}
 \] 
-\todo{missing end}
+\todo{FINIRE}
 \end{proof}
 
+\begin{example}
+  È utile visualizzare il caso $ 3- $dimensionale: fissato un tensore $ \Tn{x} \in \R^{m\times
+  n\times p}$ indicizzato con $ (i,j,k) $, abbiamo che $ s_1=1,s_2 = m $ e $ s_3 = mn $, dunque 
+\[
+  \L(i,j,k) = 1 + (i-1) + m(j-1) + mn(k-1) = i + m(j-1) + mn(k-1)
+,\] 
+  mentre l'inversa è 
+\[
+  \L^{-1}(i,j,k) = \left( \left\lfloor (l-1) \mod(m)
+  \right\rfloor, 1 + \left\lfloor \frac{(l-1) \mod(mn)}{m} \right\rfloor, 1 + \left\lfloor
+\frac{(l-1) \mod(mnp)}{mn} \right\rfloor \right)
+.\] 
+\end{example}
+
+\begin{definition}[Reverse ordering]
+  \emph{L'ordinamento inverso} su $ \mdom $ è la mappa biunivoca
+\begin{equation*}
+  \begin{aligned}
+    \L^* \colon \mdom! &\to [\prod_{j=1}^d n_j]\\
+    (\miwc) &\mapsto 1 + \sum_{j=1}^d s_j^*(i_j - 1),
+  \end{aligned}
+\end{equation*} dove $ s_j^* = \prod_{h=n}^{j+1} n_h $. La sua inversa è la mappa
+\begin{equation*}
+  \begin{aligned}
+    (\L^*)^{-1} \colon [\prod_{j=1}^d n_j] &\to \mdom!\\
+    l &\mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1^*)}{s_1^*}\right\rfloor, \ldots, 1 +
+    \left\lfloor \frac{ (l-1)\mod(n_ds_d^*)}{s_d^*} \right\rfloor \right)
+  \end{aligned}
+\end{equation*}. 
+\end{definition}
+
+\begin{remark}
+  La definizione differisce dall'ordinamento naturale solamente dalla definizione dei passi $ s_j $.
+\end{remark}
+
 Analogamente alle matrici, i tensori vengono salvati in memoria come vettori, risulta quindi
-naturale definire la seguente oprazione
+naturale definire la seguente operazione 
 \begin{definition}
   Dato un tensore $ \Tn{X}$, possiamo definire l'operazione che trasforma un tensore in vettore,
   tramite la mappa di vettorizzazione 
@@ -296,15 +345,30 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
   dove $ \Mx{P} $ e $ \Mx{Q} $ sono matrici di permutazione $ (m,n)- $ e $ (p,q)- $ perfect shuffle, rispettivamente.
 \end{proposition}
 \begin{proof}
-\todo{Potremmo riadattare: THE VEC-PERMUTATION MATRIX, THE VEC OPERATOR AND KRONECKER PRODUCTS: A REVIEW}
+\todo{ADD}
 
 \end{proof}
 
 \section{La fattorizzazione CP}
-\todo{Short introduzione che leghi caso matriciale con tensoriale.}
+
+Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
+costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
+matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
+\[
+X = UV^{\top} = \left[ u_1 | \cdots | u_r \right] \left[ v_1 | \cdots | v_r \right]^{\top} =
+u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
+,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
+decomposizione è vantaggioso in termini di memoria: infatti
+\[
+\Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
+,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
+quindi riadattare questa decomposizione per memorizzare $ \Tn{x} $ con costo $ O((n_1+\ldots+n_d)r)
+$ invece che $ O(n_1\cdots n_d) $. Tuttavia, generalizzare questa decomposizione a più dimensioni ha
+numerosi ostacoli \todo{ref to ostacoli}.
+
 \begin{definition}[Canonical Polyadic Decomposition (CP)]
 \label{def:CP}
-  Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una decomposizione CP di rango $ r\in \N $ se
+Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP} di rango $ r\in \N $ se
   esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^{(h)} \mid \ldots \mid u_r^{(h)}\right]\in R^{n_h \times r} $ tali per cui
   valgono le seguenti condizioni equivalenti:
   \begin{enumerate}[label=(\roman*)]
@@ -350,7 +414,7 @@ Il \emph{rango CP} di un tensore $ \Tn{x} $ è il minimo intero $ r \in \Z_{\ge 
 \end{remark}
 
 
-\subsection{Rango CP}
+\section{Rango CP}
 
 \begin{proposition}
   Sia $ \Tn{x} \in \Rmsiz! $ un tensore che ammette fattorizzazione $ \Tn{x} = \dsqr{U_1, \ldots,
@@ -364,7 +428,12 @@ Il \emph{rango CP} di un tensore $ \Tn{x} $ è il minimo intero $ r \in \Z_{\ge 
   
 \end{proof}
 
-\subsection{Il problema del border rank}
+Nel caso matriciale, possiamo calcolare il rango di una matrice $ A $ usando la decomposizione SVD $
+U \Sigma V^* $, ma nel caso multidimensionale calcolare il rango è un problema NP-hard
+\todo{motivare?}.
+
+\section{Il problema del border rank}
+\label{sec:border_rank}
 
 \begin{example}
   Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
@@ -409,7 +478,7 @@ Questo motiva la seguente definizione:
 
 \missingfigure{Immagine del tensore che converge}
 
-\subsection{Operazioni nel formato CP}
+\section{Operazioni nel formato CP}
   
 \todo{Se serve, versione per unfoldings generalizzati}
 \begin{lemma}
@@ -421,16 +490,16 @@ Questo motiva la seguente definizione:
   Segue dall'identità
   \begin{equation*}
     \begin{aligned}
-      \Vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \ldots \krn u_h^{(1)} = \left[ u_1^{(d)} 
-  \krn \ldots u_1^{(1)} | \ldots | u_r^{(d)} \krn \ldots \krn u_r^{(1)}\right]\mathbf{1}_r \\
-                     &= \left( U_d \krp U_{d-1} \krp \ldots \krp U_1 \right) \mathbf{1}_r.
+      \Vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \cdots \krn u_h^{(1)} = \left[ u_1^{(d)} 
+  \krn \cdots \krn u_1^{(1)} | \cdots | u_r^{(d)} \krn \cdots \krn u_r^{(1)}\right]\mathbf{1}_r \\
+                     &= \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
     \end{aligned}
   \end{equation*}
 \end{proof}
 
-\subsection{Costruzione del tensore in formato denso}
+\section{Costruzione del tensore in formato denso}
 
-\subsection{Unicità della fattorizzazione CP}
+\section{Unicità della fattorizzazione CP}
 
 \begin{definition}[Essenziale unicità CP]
   Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} \dsqr{U_1, \ldots, U_d}$ è
@@ -451,12 +520,52 @@ Questo motiva la seguente definizione:
   dipendenti, $ \krk(A) \le 1 $.
 \end{remark}
 
+\todo{Chiedere se questa notazione del krank va bene}
+
+
+Veniamo ora al risultato nella sua forma più generale, dimostrato da Sidiropoulos e Bro
+\cite{sidiropoulos2000uniqueness}.
+
+\todo{Chiarire se $ \K $ può essere $ \R $ o $ \C $}
 \begin{theorem}[Kruskal 3D, Sidiropoulos e Bro]
   Una fattorizzazione CP di un tensore $ \Tn{X} = \dsqr{U_1, \ldots, U_d}$ di rango $ r $ è essenzialmente unica se
   \begin{equation*}
     \sum_{j=1}^d \krk(U_j) \ge 2r + d -1.
   \end{equation*}
 \end{theorem}
+
+Mostriamo prima il caso $ d = 3 $. Per semplicità, consideriamo l'enunciato sopra rinominando $
+\Tn{x} = \dsqr{A, B, C} $, e mostriamo che $ \krk(A) + \krk(B) + \krk(C) \ge 2r + 2 $. 
+\missingfigure{missing Proof}
+
+Per il caso $ d=4 $ introduciamo il seguente lemma:
+
+\begin{lemma}[$K-$rango del prodotto di Khatri-Rao]
+  Consideriamo $ A = \begin{bmatrix} a_1 \mid \cdots \mid a_r \end{bmatrix} \in \C^{m\times p} $ e $ B =
+  \begin{bmatrix} b_1 \mid \cdots \mid b_r \end{bmatrix} \in \C^{n \times p}$. Allora, se $ \krk(A)
+  \ge  1$ e $ \krk(B) \ge 1 $ vale che
+  \begin{equation*}
+    \krk(A \krp B) \ge \min(\krk(A) + \krk(B) - 1, r),
+  \end{equation*}
+  mentre se almeno una tra $ A $ o $ B $ ha $ K- $rango nullo, vale
+  \begin{equation*}
+    \krk(A \krp B) = 0.
+  \end{equation*}
+\end{lemma}
+\begin{proof}                           
+  Assumiamo a meno di scambiare le due matrici che $ \krk(A) $ sia nullo. Ciò equivale a dire che $
+  A $ contiene almeno una colonna nulla, da cui per la Definizione \ref{def:krn} il prodotto $ A
+  \krp B$ avrà almeno una colonna nulla, da cui $ \krk(A \krp B) $.
+  
+  Mostriamo la prima stima procedendo per assurdo. Consideriamo l'insieme
+  \begin{equation*}
+    S = \inf \left\{ s \in \N \bigm| b_{i_1} \krn a_{i_1}, \ldots, b_{i_s} \krn a_{i_s} \text{ sono
+    colonne linearmente indipendenti di } A \krp B \right\}.
+  \end{equation*}
+  Se $ S = -\infty $, ossia non è possibile estrarre alcuna collezione di colonne linearmente
+  indipendenti da $ A \krp B $, poniamo $ S = d+1 $ e $ \krk(B \krp A) = S-1 $.
+  \todo{Finire appena finisci di capire}
+\end{proof}
 
 La condizione di Kruskal è sufficiente ma non necessaria. Il seguente risultato fornisce una
 condizione necessaria ma non sufficiente:
@@ -467,7 +576,7 @@ condizione necessaria ma non sufficiente:
   \dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
 \end{theorem}
 
-\subsection{Calcolo della fattorizzazione CP}
+\section{Calcolo della fattorizzazione CP}
 
 Trattiamo il problema di trovare la migliore approssimazione con rango CP $ r $ di un dato tensore.
 Studiamo il caso $ d = 3 $.
