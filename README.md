@@ -1,5 +1,11 @@
 # Stato progetto
 
+# 17.06
+
+Questions:
+
+- Non ancora chiaro il ruolo del border rank per la complessità dell'algoritmo
+
 # 11.06
 
 - Aggiunta parte su moltiplicazione di matrici.

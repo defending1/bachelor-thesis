@@ -1,15 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Applicazioni della CP}
+\chapter{Applicazioni della CP alla complessità aritmetica}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Rappresentare forme bilineari tramite tensori}
 \label{sec:tensor_bil}
 
 Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
-informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro
-valutazione. Proviamo a formulare il problema: dall'algebra lineare sappiamo che data una forma
-bilineare $ b : \R^m \times \R^n \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
-b(u,v) = u^{\top}Mv$ per ogni $ (u,v) \in \R^m \times \R^n $.
+informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. 
+Proviamo a formulare il problema: dall'algebra lineare sappiamo che data una forma bilineare $ b : \R^m \times \R^n \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
+b(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $.
 Notiamo che un insieme di $ p $ forme bilineari, o equivalentemente una funzione \todo{È chiaro se
 si chiama ancora b?}bilineare $
 b = \begin{bmatrix} b_1 \\ \vdots \\ b_p \end{bmatrix} :  \R^m \times \R^n  \to \R^p$ si può
@@ -17,45 +16,45 @@ rappresentare tramite un tensore $ \Tn{x} \in \R^{m \times n\times p} $ tale che
 frontali rappresentino ognuna delle $ p $ forme bilineari, ossia che
 \begin{equation}
   \label{eq:b_k_bil}
-  b_k(u,v) = u^{\top}\Tn{x}(:,:,k)v = \sum_{i=1}^m\sum_{j=1}^n \Tn{x}(i,j,k)u_iv_j, \text{ per ogni
+  b_k(x,y) = x^{\top}\Tn{x}(:,:,k)y = \sum_{i=1}^m\sum_{j=1}^n \Tn{x}(i,j,k)x_iy_j, \text{ per ogni
   } k = 1, \ldots, p
 .\end{equation}
 Da cui, 
 \begin{equation}
   \label{eq:b_tuv}
- b(u,v) = \begin{bmatrix} b_1(u,v) \\ \vdots \\ b_p(u,v) \end{bmatrix} = \Tn{x} \ttm[1] u^{\top}
- \ttm[2] v^{\top}.
+ b(x,y) = \begin{bmatrix} b_1(x,y) \\ \vdots \\ b_p(x,y) \end{bmatrix} = \Tn{x} \ttm[1] x^{\top}
+ \ttm[2] y^{\top}.
 \end{equation}
 \begin{remark}
-  Questa procedura si estende anche al caso in cui le entrate di $ u $ e $ v $ siano oggetti
+  Questa procedura si estende anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
   algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
 \begin{remark}[Active multiplications]
   Scrivere una forma bilineare come nell'Equazione \ref{eq:b_k_bil} evidenzia il numero di
-  moltiplicazioni necessarie fra gli elementi di $ u $ e $ v $. Queste sono dette \emph{active
+  moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
   multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{x} $. Poiché ci aspettiamo che
-  il costo delle active multiplications sia quello che determini la complessità di valutare $ b(u,v)
+  il costo delle active multiplications sia quello che determini la complessità di valutare $ b(x,y)
   $, cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{x} $.
 \end{remark}
-Se abbiamo $ \Tn{x} = \dsqr{A,B,C} $ con $ \rk(\Tn{x}) = r$, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{x} = \sum_{l=1}^r a_l \topp b_l \topp c_l $, o in componenti, $ \Tn{x}(i,j,k) = \sum_{l=1}^r a_{il}b_{jl}c_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
+Data una decomposizione $ \Tn{x} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{x} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{x}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
 
 \begin{equation}
   \label{eq:b_active}
   \begin{aligned}
-    b_k(u,v) &= \left( \left( \sum_{i=1}^r a_l \topp b_l \topp c_l \right) \ttm[1] u^{\top} \ttm[2]
-  v^{\top}  \right)_k  
-             = \left( \sum_{l=1}^r \left( a_l \topp b_l \topp c_l  \right) \ttm[1] u^{\top} \ttm[2]
-    v^{\top} \right)_k  \\ 
+    b_k(x,y) &= \left( \left( \sum_{l=1}^r u_l \topp v_l \topp w_l \right) \ttm[1] x^{\top} \ttm[2]
+  y^{\top}  \right)_k  
+             = \left( \sum_{l=1}^r \left( u_l \topp v_l \topp w_l  \right) \ttm[1] x^{\top} \ttm[2]
+    y^{\top} \right)_k  \\ 
              &=
-  \sum_{i=1}^m \sum_{j=1}^n \sum_{l=1}^r a_{il}b_{jl}c_{kl} u_i v_j = \sum_{l=1}^r \left(\sum_{i=1}^m 
-   a_{il} u_i \right) \cdot \left( \sum_{j=1}^n b_{jl} v_j  \right)  c_{kl} = \sum_{l=1}^r
-   (a_l^{\top}u) \cdot (b_l^{\top}v)c_{kl},
+  \sum_{i=1}^m \sum_{j=1}^n \sum_{l=1}^r u_{il}v_{jl}w_{kl} x_i y_j = \sum_{l=1}^r \left(\sum_{i=1}^m 
+   u_{il} x_i \right) \cdot \left( \sum_{j=1}^n v_{jl} y_j  \right)  w_{kl} = \sum_{l=1}^r
+   (u_l^{\top}x) \cdot (v_l^{\top}y)w_{kl},
   \end{aligned}
 \end{equation}
 per ogni $ k = 1, \ldots, p $.
 Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
 \begin{equation*}
-  b(u,v) = \sum_{l=1}^r (a_l^{\top}u)\cdot(b_l^{\top}v)c_l.
+  b(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
 \end{equation*}
 
 Quindi valutare $ b $ richiede esattamente $ r $ active multiplications, che evidenziamo con $
@@ -120,9 +119,9 @@ tensore.
 
 \begin{lemma}[Rappresentazione del prodotto matriciale]
 Per ogni coppia di matrici $ A \in \R^{m \times n} $ e $ B \in \R^{n
-\times p} $, esiste un tensore $ \Tn{x} \in ? $ tale che il prodotto $ C = AB \in \R^{m \times n} $
-si scrive come $ \Tn{x} \ttm[1] \Vec(A) \ttm[2] \Vec(B) =
-\Vec(C)$.
+\times p} $, esiste un tensore $ \Tn{x} \in ? $ tale che il prodotto $ C = AB \in \R^{m \times p} $
+si scrive come $ \Tn{x} \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top} =
+\Vec(C^{\top})$.
 \end{lemma}
 \todo{finire}
 \begin{proof}

@@ -197,21 +197,11 @@
 % brk (border rank) is typeset as an underlined rank operator
 \newcommand{\brk}{\underline{\operatorname{rank}}}
 \DeclareMathOperator{\reshape}{RESHAPE}
-% Upright operator for vectorization and make \vec produce it too.
-% We intentionally override the builtin accent \vec to behave as the
-% operator "vec" as requested. This will replace the arrow-accent
-% behaviour for \vec throughout the document.
+% Vec operator
 \makeatletter
-% Remove any previous definition, then declare the operator \Vec.
 \let\Vec\relax
 \DeclareMathOperator{\Vec}{vec}
-% Override the math accent \vec by undefining it first, then
-% redefining it to the operator. The \let\vec\relax step ensures the
-% original math-accent primitive is removed so \renewcommand works.
 \let\vec\relax
-% Define \vec robustly to avoid LaTeX complaining if the accent primitive
-% was removed. \DeclareRobustCommand defines the macro regardless of prior
-% existence and is safe here.
 \DeclareRobustCommand{\vec}{\Vec}
 \makeatother
 
