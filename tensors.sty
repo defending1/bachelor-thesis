@@ -413,9 +413,9 @@
 \NewDocumentCommand{\mdom}{s s t! O{n} O{d} !g !g}
 {
   \IfValueTF{#6}
-  {\tttMdom{#6}\IfValueT{#7}{\otimes \cdots \otimes [#7]}}
-  {[#4_1] \IfBooleanF{#3}{\otimes [#4_2]}
-    \IfBooleanTF{#1}{\otimes [#4_3] \IfBooleanT{#2}{\otimes [#4_4]}}{\otimes \cdots \otimes [#4_{#5}]}}
+  {\tttMdom{#6}\IfValueT{#7}{\times \cdots \times [#7]}}
+  {[#4_1] \IfBooleanF{#3}{\times [#4_2]}
+    \IfBooleanTF{#1}{\times [#4_3] \IfBooleanT{#2}{\times [#4_4]}}{\times \cdots \times [#4_{#5}]}}
 }
 
 \NewDocumentCommand{\sdom}{O{k} O{n} O{d} g}{%

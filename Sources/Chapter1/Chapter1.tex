@@ -64,22 +64,23 @@
 \todo{Definizione fibre}
 
 \begin{definition}[Ordinamento naturale]
-  L'ordinamento naturale (natural ordering) su $ \mdom! $ è la mappa biunivoca
+  \emph{L'ordinamento naturale (o natural ordering)} sull'insieme $ \mdom! $ è la mappa biunivoca
 \begin{equation*}
   \begin{aligned}
     \L \colon \mdom! &\to [\prod_{j=1}^d n_j]\\
     (\miwc) &\mapsto 1 + s_1 (i_1-1) + \ldots + s_d(i_d-1) = 1 + \sum_{j=1}^d s_j(i_j - 1),
   \end{aligned}
 \end{equation*}
-dove $ s_j = n_1 \cdots n_{j-1} = \prod_{h=1}^{j-1}n_h $ è detto passo $ j- $esimo.
+dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j- $esimi} e sono definiti come $ s_1=1 $ e
+$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j \in [d-1] $.
 L'inversa di $ \L $ è data dalla mappa
 \begin{equation*}
   \begin{aligned}
     \L^{-1} \colon [\prod_{j=1}^d n_j] &\to \mdom!\\
     l &\mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
-    \left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor \right)
+    \left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor \right).
   \end{aligned}
-\end{equation*}. 
+\end{equation*} 
 Le mappe $ \L $ e $ \L^{-1} $ sono l'una l'inversa dell'altra, e sono anche dette linearizzazione e tensorizzazione
   degli indici, rispettivamente, in quanto permettono di passare da un indice tensoriale a uno
   lineare, e viceversa.
@@ -129,13 +130,13 @@ Viceversa,
 \end{example}
 
 \begin{definition}[Reverse ordering]
-  \emph{L'ordinamento inverso} su $ \mdom $ è la mappa biunivoca
+  \emph{L'ordinamento inverso} sull'insieme $ \mdom! $ è la mappa biunivoca
 \begin{equation*}
   \begin{aligned}
     \L^* \colon \mdom! &\to [\prod_{j=1}^d n_j]\\
     (\miwc) &\mapsto 1 + \sum_{j=1}^d s_j^*(i_j - 1),
   \end{aligned}
-\end{equation*} dove $ s_j^* = \prod_{h=n}^{j+1} n_h $. La sua inversa è la mappa
+\end{equation*} dove $ s_d^* =1 $ e $ s_{j-1}^* = \prod_{h=j}^{d} n_h = s_j^*n_j $, per $ j = d,\ldots,2 $. La sua inversa è la mappa
 \begin{equation*}
   \begin{aligned}
     (\L^*)^{-1} \colon [\prod_{j=1}^d n_j] &\to \mdom!\\
@@ -145,8 +146,16 @@ Viceversa,
 \end{equation*}. 
 \end{definition}
 
+\begin{example}
+  Nel caso di un tensore $ \Tn{x} \in \R^{m\times n\times p}$, i passi sono $ s_3^* = 1 $, $ s_2^* =
+  p$ e $ s_1^* = np $.
+\end{example}
+
 \begin{remark}
-  La definizione differisce dall'ordinamento naturale solamente dalla definizione dei passi $ s_j $.
+  I passi determinano l'ordine di percorrenza del tensore nelle definizioni di $ \L $ e $ \L^* $.
+
+\missingfigure{Tensore 3x3 che mostri come funzionino le strides, sia nell'ordine inverso e diretto
+(e.g pag 25 book)}
 \end{remark}
 
 Analogamente alle matrici, i tensori vengono salvati in memoria come vettori, risulta quindi
@@ -475,8 +484,6 @@ Questo motiva la seguente definizione:
   \rk(\Tn{y})=r, \, \|\Tn{x} - \Tn{y}\|  < \varepsilon \right\}
   .\] 
 \end{definition}
-
-\missingfigure{Immagine del tensore che converge}
 
 \section{Operazioni nel formato CP}
   
