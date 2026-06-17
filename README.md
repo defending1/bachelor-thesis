@@ -1,3 +1,7 @@
+# Bachelor thesis
+
+[Project code](https://github.com/defending1/fast-matmul/tree/master)
+
 # Stato progetto
 
 # 17.06
