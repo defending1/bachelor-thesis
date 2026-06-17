@@ -1,0 +1,3 @@
+[submodule "fast-matmul"]
+	path = fast-matmul
+	url = https://github.com/defending1/fast-matmul
