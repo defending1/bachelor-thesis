@@ -8,7 +8,17 @@
 
 Questions:
 
-- Non ancora chiaro il ruolo del border rank per la complessità dell'algoritmo
+- Capire la questione delle matrici rettangolari: senso di generare il tensore
+  di rango r^3 facendo le permutazioni
+- Operazione per passare da un tensore d-dimensionale a uno (d-1)-dimensionale.
+  Vedi articolo di S&B.
+- Fare chiarezza su row-major/column-major nel progetto e quando si fa la
+  moltiplicazione ttm per moltiplicare matrici: posso restare column-major?
+- Scrivere o meno discussione su ALS
+- Capire come cambia il rango del tensore passando da R a C
+- check notazione border-rank, K-rank
+- say: elaborato ancora da sistemare, mancano alcuni lemmi e da evidenziare
+  meglio la dipendenza delle proposizioni nel documento
 
 # 11.06
 
@@ -34,6 +44,9 @@ Discutere:
 
 # Todo
 
+- Nel capitolo matmul, fai sezione dove ricolleghi il capitolo sull'unicit`a CP
+  alla moltiplicazione di matrici. In generale l'elaborato deve seguire un filo
+  conduttore.
 - Aggiustamenti font: non mi piace che mxn sia molto piccolo e il x si confonda
   un po'. O cambio il font o metto le dimensioni in maiuscolo.
 - Font va sistemato: non è quello del template
@@ -49,7 +62,6 @@ Discutere:
 - Kroneker perfect shuffle
 - Problema della definizione di rango. Vedi sec 2.4 Hackbush, c'è una
   definizione un pelo più pulita.
-- Implementazione Strassen/lab 1
 - Proprietà subito dopo prodotto esterno
 
 ## Kruskal theorem

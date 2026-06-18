@@ -83,14 +83,14 @@ Indichiamo con $ O $ e $ \Omega $ la stima superiore e inferiore, rispettivament
 \Theta $ la stima stretta.
 \begin{theorem}[Master theorem]
   \label{th:master}
-  Siano $ a\ge 1 $ e $ b>1 $ delle costanti, sia $ f(n) $ una funzione e definiamo $ T(n) $ sugli
-  interi nonnegativi dalla ricorrenza
+  Siano $ a\ge 1 $ e $ b>1 $ delle costanti, sia $ f(n) $ una funzione e definiamo la legge
+  ricorsiva $ T : \N \to \R $ con la ricorrenza
   \begin{equation*}
     T(n) = aT(\frac{n}{b}) + f(n),
   \end{equation*}
 \end{theorem}
 dove con $ \frac{n}{b} $ indichiamo sia $ \left\lfloor \frac{n}{b} \right\rfloor $ o $ \left\lceil
-\frac{n}{b} \right\rceil  $. Allora $ T(n) $ ha le seguenti soglie asintotiche:
+\frac{n}{b} \right\rceil  $. Allora $ T(n) $ assume i seguenti comportamenti asintotici: 
 \begin{enumerate}
   \item Se $ f(n) = O(n^{\log_b a-\varepsilon}) $ per qualche $ \varepsilon >0 $, allora $ T(n) =
     \Theta(n^{\log_b a}) $.

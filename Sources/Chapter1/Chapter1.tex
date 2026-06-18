@@ -31,6 +31,10 @@
   guardare. \todo{Cita landberg o Hackbush)}
 \end{remark}
 
+\begin{example}(Tensori che rappresentano applicazioni multilineari)
+  \todo{Scrivere}
+\end{example}
+
 
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
 
@@ -55,13 +59,21 @@
 \end{definition}
 
 \begin{definition}[Tensor slice]
-  Dato $ \Tn{x} \in \Rmsiz $ chiamiamo slice (o fetta) di $ \Tn{x} $ ogni matrice ottenuta da $
+  Dato $ \Tn{x} \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ \Tn{x} $ ogni matrice ottenuta da $
   \Tn{x} $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
+Nel caso $ d=3 $ si identificano tutte le possibili slices:
+\missingfigure{horizontal lateral, frontal slices}
 \end{definition}
 
-\missingfigure{figura delle slices}
-
+\begin{definition}[Mode$-k$ fiber]
+  Dato un tensore $ \Tn{x} \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
+  tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k- $esimo lo chiamiamo
+  \emph{mode$-k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
+  \missingfigure{column, row, tube fibers}
+\end{definition}
 \todo{Definizione fibre}
+
+\todo{Breve motivazione dell'ordinamento naturale}
 
 \begin{definition}[Ordinamento naturale]
   \emph{L'ordinamento naturale (o natural ordering)} sull'insieme $ \mdom! $ è la mappa biunivoca
@@ -210,6 +222,21 @@ naturale definire la seguente operazione
 \end{equation*}
  dove $ x_l = \Tn{X}(\L^{-1}(l;\miwc[n])) $.
 \end{definition}
+\begin{remark}
+  L'operatore di trasposizione per matrici induce l'ordinamento inverso sulla vettorizzazione.
+  Consideriamo ad esempio il caso $ 2\times 2 $:
+  \begin{equation*}
+    A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}, \quad A^{\top} =
+    \begin{bmatrix} a_{11} & a_{21} \\ a_{12} & a_{22} \end{bmatrix},
+  \end{equation*}
+  \begin{equation*}
+    \Vec(A) = \begin{bmatrix} a_{11}\\a_{21}\\a_{12}\\a_{22} \end{bmatrix},  \quad \Vec(A^{\top}) =
+    \begin{bmatrix} a_{11}\\a_{12}\\a_{21}\\a_{22} \end{bmatrix}.
+  \end{equation*}
+  Nel caso matriciale si usa riferirsi all'ordine naturale come \emph{column-major} e a quello
+  inverso come \emph{row-major}, specialmente nel contesto dei linguaggi di programmazione.
+  \todo{Check}
+\end{remark}
 
 In molte situazioni risulta comodo disporre gli elementi di un tensore in una matrice. Uno dei modi
 per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
@@ -234,8 +261,7 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 
 \todo{refrasare un poco per renderla più leggibile}
 \begin{definition}[Reshape]
-  Definiamo l'operatore di \emph{reshape} come l'operazione che cambia le dimensioni di un array
-  multidimensionale, senza alterarne le dimensioni e mantenendo l'ordine delle entrate. Formalmente,
+  Definiamo l'operatore di \emph{reshape} come l'operazione riarrangia il tensore senza alterarne le dimensioni e mantenendo l'ordine delle entrate. Formalmente,
   fissati $ d, d' \in \N$ e un tensore $ \Tn{x} \in \Rmsiz! $, per ogni $ m_1, \ldots, m_{d'} $ tali
   che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore $ \Tn{y} = \reshape(\Tn{x},
   \msiz![m][d']) \in \Rmsiz![m][d'] $ è definito come
@@ -296,7 +322,7 @@ il problema facendo agire la matrice la matrice lungo il modo $ k- $esimo di un 
 chiama.
 \begin{definition}[Prodotto nel modo $k$]
   Il \emph{prodotto nel modo $ k $} di un tensore $ \Tn{x} \in \Rmsiz! $ con una matrice $ U \in
-  \R^{r \times n_k} $ è un tensore 
+  \R^{r \times n_k} $ descrive l'azione di $ U $ sulla $ k- $esima coordinata di $ \Tn{x} $. Formalmente, è un tensore 
 \[
   \Tn{y} = \Tn{x} \ttm U \in \R^{\ssiz{r}} \text{ con } \Tm{Y}{k} = U \Tm{X}{k}
 .\] 
@@ -364,7 +390,7 @@ Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
-X = UV^{\top} = \left[ u_1 | \cdots | u_r \right] \left[ v_1 | \cdots | v_r \right]^{\top} =
+  X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
 u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
 ,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
 decomposizione è vantaggioso in termini di memoria: infatti
@@ -372,7 +398,7 @@ decomposizione è vantaggioso in termini di memoria: infatti
 \Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
 ,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
 quindi riadattare questa decomposizione per memorizzare $ \Tn{x} $ con costo $ O((n_1+\ldots+n_d)r)
-$ invece che $ O(n_1\cdots n_d) $. Tuttavia, generalizzare questa decomposizione a più dimensioni ha
+$ invece che $ O(n_1\cdots n_d) $. \todo{discorso unicità} Tuttavia, generalizzare questa decomposizione a più dimensioni ha
 numerosi ostacoli \todo{ref to ostacoli}.
 
 \begin{definition}[Canonical Polyadic Decomposition (CP)]
@@ -498,7 +524,7 @@ Questo motiva la seguente definizione:
   \begin{equation*}
     \begin{aligned}
       \Vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \cdots \krn u_h^{(1)} = \left[ u_1^{(d)} 
-  \krn \cdots \krn u_1^{(1)} | \cdots | u_r^{(d)} \krn \cdots \krn u_r^{(1)}\right]\mathbf{1}_r \\
+  \krn \cdots \krn u_1^{(1)} | \cdots | u_r^{(d)} \krn \cdots \krn u_r^{(1)}\right]^{\top}\mathbf{1}_r \\
                      &= \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
     \end{aligned}
   \end{equation*}
