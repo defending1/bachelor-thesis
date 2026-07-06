@@ -2,12 +2,33 @@
 \chapter{Applicazioni della CP alla complessità aritmetica}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Introduciamo una quantità per misurare la complessità di una moltiplicazione tra matrici:
+\begin{definition}
+  L'\emph{esponente} $ \omega $ di una moltiplicazione matriciale è il numero
+\begin{equation*}
+  \omega = \inf\{h \in \R \mid \text{ la moltiplicazione tra due matrici }  n\times n  \text{ ha costo } O(n^h) \text{ operazioni aritmetiche.} \}.
+\end{equation*}
+\end{definition}
+L'algoritmo di Strassen mostra che $ \omega \le \log_2(7) < 2.81 $, e si ha $ \omega \ge 2 $ dal
+costo $ O(n^2) $ per il calcolo di addizioni tra matrici.
+Si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
+asintoticamente pari a quello
+delle moltiplicazioni. Dopo Strassen, nel 1978
+
+\begin{remark}
+  Trovare il minimo esponente è un problema di interesse principalmente della teoria della
+  complessità. Nella maggior parte della applicazioni, l'algoritmo di Strassen è quello ottimale, si
+  veda la discussione in \cite{dalberto2023strassensmatrixmultiplicationalgorithm}.
+\end{remark}
+
 \section{Rappresentare forme bilineari tramite tensori}
 \label{sec:tensor_bil}
 
+\todo{Rename bilinear form with f}
+
 Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
 informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. 
-Proviamo a formulare il problema: dall'algebra lineare sappiamo che data una forma bilineare $ b : \R^m \times \R^n \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
+Proviamo a formulare il problema. Dall'algebra lineare sappiamo che data una forma bilineare $ b : \R^m \times \R^n \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
 b(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $.
 Notiamo che un insieme di $ p $ forme bilineari, o equivalentemente una funzione \todo{È chiaro se
 si chiama ancora b?}bilineare $
@@ -30,7 +51,7 @@ Da cui,
   algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
 \begin{remark}[Active multiplications]
-  Scrivere una forma bilineare come nell'Equazione \ref{eq:b_k_bil} evidenzia il numero di
+  Scrivere una forma bilineare come nell'Equazione~\ref{eq:b_k_bil} evidenzia il numero di
   moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
   multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{x} $. Poiché ci aspettiamo che
   il costo delle active multiplications sia quello che determini la complessità di valutare $ b(x,y)
@@ -62,71 +83,11 @@ Quindi valutare $ b $ richiede esattamente $ r $ active multiplications, che evi
 \todo{Espandere discussione dall'articolo}
 
 
-\section{Il master method}
 
-
-
-Introduciamo brevemente un metodo per risolvere relazioni ricorsive definite per ricorrenza, detto
-\emph{master method}. I lettori più interessati possono trovare una trattazione più dettagliata sul
-libro~\cite{cormen2022introduction}. Il master method si usa per risolvere ricorrenze della forma
-\begin{equation}
-  \label{eq:master_rec}
-  T(n) = aT(\frac{n}{b}) + f(n),
-\end{equation}
-dove $ a \ge 1 $ e $ b>1 $ sono costanti e $ f(n) $ è una funzione asintoticamente positiva. La
-ricorrenza \ref{eq:master_rec} descrive il tempo di esecuzione di un algoritmo che divide un
-problema di dimensione $ n $ in $ a $ sottoproblemi, ognuno di dimensione $ \frac{n}{b} $. Gli $ a $
-sottoproblemi vengono risolti ricorsivamente in tempo $ T(\frac{n}{b}) $, e la funzione $ f(n) $
-rappresenta il costo di dividere il problema e ricombinare la ricorsione di ogni sottoproblema.
-
-Indichiamo con $ O $ e $ \Omega $ la stima superiore e inferiore, rispettivamente, e con $
-\Theta $ la stima stretta.
-\begin{theorem}[Master theorem]
-  \label{th:master}
-  Siano $ a\ge 1 $ e $ b>1 $ delle costanti, sia $ f(n) $ una funzione e definiamo la legge
-  ricorsiva $ T : \N \to \R $ con la ricorrenza
-  \begin{equation*}
-    T(n) = aT(\frac{n}{b}) + f(n),
-  \end{equation*}
-\end{theorem}
-dove con $ \frac{n}{b} $ indichiamo sia $ \left\lfloor \frac{n}{b} \right\rfloor $ o $ \left\lceil
-\frac{n}{b} \right\rceil  $. Allora $ T(n) $ assume i seguenti comportamenti asintotici: 
-\begin{enumerate}
-  \item Se $ f(n) = O(n^{\log_b a-\varepsilon}) $ per qualche $ \varepsilon >0 $, allora $ T(n) =
-    \Theta(n^{\log_b a}) $.
-  \item Se $ f(n) = \Theta(n^{\log_b a}) $ allora $ T(n) = \Theta(n^{\log_b a \log n}) $.
-  \item If $ f(n) = \Omega(n^{\log_b a + \varepsilon}) $ per qualche costante $ \varepsilon >0 $, e
-    se $ af(\frac{n}{b}) < cf(n) $ per qualche costante $ c<1$ e ogni $ n $ sufficientemente grande,
-    allora $ T(n) = \Theta(f(n)) $.
-\end{enumerate}
-
-\begin{example}
-  Nel caso dell'algoritmo naive la ricorrenza ha la forma $ a = 8 $, $ b = 2 $ e $ f(n) =
-  \Theta(n^2) $, ovvero
-  \begin{equation*}
-    T(n) = 8T(\frac{n}{2}) + \Theta(n^2).
-  \end{equation*}
-  Siccome $ n^{\log_b a} = n^{\log_2 8} = n^3 $, che è polinomialmente più grande di $ f(n) $, ovvero $
-  f(n) = O(n^{3-\varepsilon}) $ per $ \varepsilon = 1 $, dal caso 1 di \ref{th:master} segue che $
-  T(n) = \Theta(n^3) $.
-\end{example}
-
-
-\section{Moltiplicazione ricorsiva di matrici}
+\section{L'algoritmo di Strassen}
 
 Possiamo rappresentare la moltiplicazione tra matrici come una funzione bilineare, quindi come un
 tensore. 
-
-\begin{lemma}[Rappresentazione del prodotto matriciale]
-Per ogni coppia di matrici $ A \in \R^{m \times n} $ e $ B \in \R^{n
-\times p} $, esiste un tensore $ \Tn{x} \in ? $ tale che il prodotto $ C = AB \in \R^{m \times p} $
-si scrive come $ \Tn{x} \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top} =
-\Vec(C^{\top})$.
-\end{lemma}
-\todo{finire}
-\begin{proof}
-  Dalla definizione di prodotto di matrice, $ C_{ij} =  $
-\end{proof}
 
 \todo{Brief motivation}
 
@@ -135,9 +96,10 @@ si scrive come $ \Tn{x} \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top} =
   p $.
 \end{notation}
 
+\subsection*{Il caso naive}
 
-Trattiamo prima il caso di matrici quadrate con taglie potenze di due. Discuteremo di seguito come
-trattare il caso generale. In questo caso possiamo
+Trattiamo il caso di matrici quadrate con taglie potenze di due (possiamo farlo a meno di passare a
+una sottomatrice di taglia pari). In questo caso possiamo
 partizionare le matrici in delle sottomatrici a blocchi $ 2\times 2 $:
 \begin{equation*}
   \begin{bmatrix}
@@ -176,3 +138,50 @@ C_{11} &= M_1 + M_2 &\qquad C_{12} &= M_3 + M_4 \\
 C_{21} &= M_5 + M_6 &\qquad C_{22} &= M_7 + M_8
 \end{aligned}
 \]
+
+\section{Il problema del border rank}
+\label{sec:border_rank}
+
+\todo{Introduci e motiva il problema partendo dagli algoritmi APA (vedi Landsbeg)}
+
+\begin{example}
+  Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
+  linearmente indipendenti.  Definiamo il tensore 
+  \begin{equation}
+    \Tn{X} = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
+  \end{equation}
+  e notiamo che $ \rk(\Tn{x}) = 3 $ dato che non può
+  essere scomposto come somma di tensori più semplici.
+  Consideriamo la successioni di tensori 
+  \begin{equation}
+  \label{eq:rank_counterex}
+  \Tn{y}_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
+  \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
+  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
+  \end{equation}
+  che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
+  Vediamo che $ \lim_{\varepsilon \to 0} \Tn{y}_\varepsilon = \Tn{x} $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
+  Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
+  \begin{equation}
+    \begin{aligned}
+      \Tn{y}_\varepsilon &=  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
+      +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
+      b_1 \topp c_1 \\
+                         &= \Tn{x} + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
+    \end{aligned}
+  \end{equation}
+  Quindi $ \Tn{y}_\varepsilon - \Tn{x} \to 0 $.
+\end{example}
+
+Questo motiva la seguente definizione:
+
+\begin{definition}[Border rank]
+  Dato un tensore $ \Tn{x} \in \Rmsiz $, il suo border rank è la quantità
+  \[
+  \brk(\Tn{x}) = \min \left\{ r \in \N \mid \exists \Tn{y} \in \Rmsiz! \text{ t.c }
+  \rk(\Tn{y})=r, \, \|\Tn{x} - \Tn{y}\|  < \varepsilon \right\}
+  .\] 
+\end{definition}
+

@@ -15,7 +15,6 @@ Questions:
 - Fare chiarezza su row-major/column-major nel progetto e quando si fa la
   moltiplicazione ttm per moltiplicare matrici: posso restare column-major?
 - Scrivere o meno discussione su ALS
-- Capire come cambia il rango del tensore passando da R a C
 - check notazione border-rank, K-rank
 - say: elaborato ancora da sistemare, mancano alcuni lemmi e da evidenziare
   meglio la dipendenza delle proposizioni nel documento
@@ -44,6 +43,9 @@ Discutere:
 
 # Todo
 
+- Perché il prodotto nei modo agisce a sinistra ma viene scritto a destra?
+- Capire come cambia il rango del tensore passando da R a C: vedi hackbush
+  numerical tensor calculus, pg 664.
 - Nel capitolo matmul, fai sezione dove ricolleghi il capitolo sull'unicit`a CP
   alla moltiplicazione di matrici. In generale l'elaborato deve seguire un filo
   conduttore.

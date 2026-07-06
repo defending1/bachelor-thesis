@@ -4,6 +4,8 @@
 
 \todo{Usare emph quando si introduce un termine nuovo, inserire tabella notazione all'inizio}
 
+\todo{Vorrei introdurre il prima possible la CP}
+
 \section{Tensori}
 
 \begin{definition}
@@ -287,13 +289,17 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 
 \begin{definition}[Prodotto esterno]
   Dati dei vettori $ v^{(1)} \in \R^{n_1}, \ldots, v^{(d)} \in \R^{n_d} $, loro prodotto esterno, anche detto prodotto tensore, è il tensore
-  \[
+  \begin{equation}
+    \label{eq:rk1}
   \Tn{x} = v^{(1)} \topp v^{(2)} \topp \cdots \topp v^{(d)} \in \Rmsiz
-  ,\] 
+  \end{equation}
    tale che la sua scrittura in componenti è
      \[
       \Tn{x}(\miwc) = v_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)} = \prod_{j=1}^d v_{i_j}^{(j)}
      .\] 
+\end{definition}
+\begin{definition}[Tensore di rango uno]
+  Un tensore $ \Tn{x} \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione \ref{eq:rk1}.
 \end{definition}
 
 \begin{lemma}[Legame tra il prodotto esterno e il prodotto di Kroneker]
@@ -386,6 +392,8 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
 
 \section{La fattorizzazione CP}
 
+
+
 Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
@@ -417,7 +425,13 @@ Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP
   In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
 \end{definition}
 
-
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
+  \caption{Fattorizzazione CP di un tensore $ \Tn{x} = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
+  dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
+  \label{fig:cp_dec}
+\end{figure}
 
 \begin{definition}
 Il \emph{rango CP} di un tensore $ \Tn{x} $ è il minimo intero $ r \in \Z_{\ge 0} $ tale per cui $
@@ -429,6 +443,15 @@ Il \emph{rango CP} di un tensore $ \Tn{x} $ è il minimo intero $ r \in \Z_{\ge 
   costo di memorizzazione del tensore, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
   O(\prod_{i=1}^d n_j)$.
 \end{remark}
+
+Elenchiamo alcuni problemi che rendono il calcolo del rango CP più complesso rispetto al caso matriciale.
+
+\begin{enumerate}
+  \item NP-hard
+  \item Problema del border rank (si veda la Sezione~\ref{sec:border_rank})
+  \item Dipende dal campo.
+\end{enumerate}
+
 
 \todo{Esempio polinomio semisep + altro es}
 
@@ -467,49 +490,6 @@ Nel caso matriciale, possiamo calcolare il rango di una matrice $ A $ usando la 
 U \Sigma V^* $, ma nel caso multidimensionale calcolare il rango è un problema NP-hard
 \todo{motivare?}.
 
-\section{Il problema del border rank}
-\label{sec:border_rank}
-
-\begin{example}
-  Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
-  linearmente indipendenti.  Definiamo il tensore 
-  \begin{equation}
-    \Tn{X} = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
-  \end{equation}
-  e notiamo che $ \rk(\Tn{x}) = 3 $ dato che non può
-  essere scomposto come somma di tensori più semplici.
-  Consideriamo la successioni di tensori 
-  \begin{equation}
-  \label{eq:rank_counterex}
-  \Tn{y}_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
-  \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
-  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
-  \end{equation}
-  che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
-  Vediamo che $ \lim_{\varepsilon \to 0} \Tn{y}_\varepsilon = \Tn{x} $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
-  Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
-  \begin{equation}
-    \begin{aligned}
-      \Tn{y}_\varepsilon &=  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
-      +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
-      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
-      b_1 \topp c_1 \\
-                         &= \Tn{x} + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
-      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
-    \end{aligned}
-  \end{equation}
-  Quindi $ \Tn{y}_\varepsilon - \Tn{x} \to 0 $.
-\end{example}
-
-Questo motiva la seguente definizione:
-
-\begin{definition}[Border rank]
-  Dato un tensore $ \Tn{x} \in \Rmsiz $, il suo border rank è la quantità
-  \[
-  \brk(\Tn{x}) = \min \left\{ r \in \N \mid \exists \Tn{y} \in \Rmsiz! \text{ t.c }
-  \rk(\Tn{y})=r, \, \|\Tn{x} - \Tn{y}\|  < \varepsilon \right\}
-  .\] 
-\end{definition}
 
 \section{Operazioni nel formato CP}
   
@@ -543,8 +523,8 @@ Questo motiva la seguente definizione:
 \end{definition}
 
 \begin{definition}[$ k- $rango]
-  Data $ A \in \R^{m\times n} $, il suo \emph{$ k- $rango} è il massimo $ k \in \N $ tale che ogni
-  scelta di $ k $ colonne in $ A $ comprende colonne linearmente indipendenti. Lo denoteremo con il
+  Data $ A \in \R^{m\times n} $, il suo \emph{$ K- $rango} è il massimo $ K \in \N $ tale che ogni
+  scelta di $ K $ colonne in $ A $ comprende colonne linearmente indipendenti. Lo denoteremo con il
   simbolo $ \krk(A) $.
 \end{definition}
 \begin{remark}
