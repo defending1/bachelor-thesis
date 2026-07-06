@@ -40,7 +40,38 @@
 
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
 
+\begin{remark}
+  L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R- $spazio vettoriale, dotato del prodotto
+  scalare euclideo, con le operazioni
+  \begin{itemize}
+    \item Addizione: $(\Tn{x}_1 + \Tn{x}_2)(\miwc!) = \Tn{x}_1(\miwc!) + \Tn{x}_2(\miwc!)$.
+    \item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (\Tn{x}(\miwc!)) = (\alpha
+      \Tn{x})(\miwc!)$
+    \item Prodotto scalare: $ \angb{\Tn{x}_1, \Tn{x}_2} = \Vec(\Tn{x}_1)^{\top} \Vec(\Tn{x}_2)$
+    \item Norma: $\| \Vec(\Tn{x})\|$
+  \end{itemize}
+\end{remark}
 
+\begin{definition}[Prodotto esterno]
+  Dati dei vettori $ v^{(1)} \in \R^{n_1}, \ldots, v^{(d)} \in \R^{n_d} $, loro prodotto esterno, anche detto prodotto tensore, è il tensore
+  \begin{equation}
+    \label{eq:rk1}
+  \Tn{x} = v^{(1)} \topp v^{(2)} \topp \cdots \topp v^{(d)} \in \Rmsiz
+  \end{equation}
+   tale che la sua scrittura in componenti è
+     \[
+      \Tn{x}(\miwc) = v_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)} = \prod_{j=1}^d v_{i_j}^{(j)}
+     .\] 
+\end{definition}
+\begin{definition}[Tensore di rango uno]
+  Un tensore $ \Tn{x} \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione \ref{eq:rk1}.
+\end{definition} 
+Questo ci permette di definire la seguente quantità fondamentale:
+\begin{definition}[Rango di un tensore]
+  Il rango di un tensore $ \Tn{x} \in \Rmsiz!$ è il minimo intero positivo $ r $ tale che $ \Tn{x} $ si può scrivere
+  come somma di tensori di rango uno, e scriviamo $ \rk{\Tn{x}} = r $.
+\end{definition}
+Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 
 \begin{definition}[Prodotto di Kroneker]
   \label{def:krn}
@@ -59,21 +90,6 @@
   \todo{riscrivere con L*. Vedi definizione nelle note}
   
 \end{definition}
-
-\begin{definition}[Tensor slice]
-  Dato $ \Tn{x} \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ \Tn{x} $ ogni matrice ottenuta da $
-  \Tn{x} $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
-Nel caso $ d=3 $ si identificano tutte le possibili slices:
-\missingfigure{horizontal lateral, frontal slices}
-\end{definition}
-
-\begin{definition}[Mode$-k$ fiber]
-  Dato un tensore $ \Tn{x} \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
-  tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k- $esimo lo chiamiamo
-  \emph{mode$-k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
-  \missingfigure{column, row, tube fibers}
-\end{definition}
-\todo{Definizione fibre}
 
 \todo{Breve motivazione dell'ordinamento naturale}
 
@@ -240,6 +256,82 @@ naturale definire la seguente operazione
   \todo{Check}
 \end{remark}
 
+
+
+
+\section{La fattorizzazione CP}
+
+
+Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
+costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
+matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
+\[
+  X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
+u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
+,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
+decomposizione è vantaggioso in termini di memoria: infatti
+\[
+\Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
+,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
+quindi riadattare questa decomposizione per memorizzare $ \Tn{x} $ con costo $ O((n_1+\ldots+n_d)r)
+$ invece che $ O(n_1\cdots n_d) $. \todo{discorso unicità} Tuttavia, generalizzare questa decomposizione a più dimensioni ha
+numerosi ostacoli \todo{ref to ostacoli}.
+
+\begin{definition}[Canonical Polyadic Decomposition (CP)]
+\label{def:CP}
+Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP} di rango $ r\in \N $ se
+  esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^{(h)} \mid \ldots \mid u_r^{(h)}\right]\in R^{n_h \times r} $ tali per cui
+  valgono le seguenti condizioni equivalenti:
+  \begin{enumerate}[label=(\roman*)]
+    \item $ \Tn{x} = \sum_{j=1}^r u_j^{(1)} \topp \ldots \topp u_j^{(d)} = \sum_{i=1}^r
+      \bigtopp_{h=1}^d u_j^{(h)}$.
+    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^{(d)} \krn \ldots \krn u_j^{(1)} = \sum_{i=1}^r
+      \bigkrn_{h=d}^1 u_j^{(h)}$.
+    \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\ldots U_d(i_d,j) = \sum_{j=1}^r
+      \prod_{h=1}^d U_h(i_h,j)$.
+  \end{enumerate}
+  In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
+\end{definition}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
+  \caption{Fattorizzazione CP di un tensore $ \Tn{x} = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
+  dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
+  \label{fig:cp_dec}
+\end{figure}
+
+\begin{remark}
+Il rango CP di $ \Tn{x} $ coincide per definizione al rango di $ \Tn{x} $.
+\end{remark}
+
+\begin{remark}[Risparmio in memoria della CP]
+  La fattorizzazione CP di un tensore $ \Tn{x} $ di rango $ r $ permette di ridurre notevolmente il
+  costo di memorizzazione del tensore, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
+  O(\prod_{i=1}^d n_j)$.
+\end{remark}
+
+
+\section{Verso l'unicità}
+\todo{Cambiare}
+
+
+
+\begin{definition}[Tensor slice]
+  Dato $ \Tn{x} \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ \Tn{x} $ ogni matrice ottenuta da $
+  \Tn{x} $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
+Nel caso $ d=3 $ si identificano tutte le possibili slices:
+\missingfigure{horizontal lateral, frontal slices}
+\end{definition}
+
+\begin{definition}[Mode$-k$ fiber]
+  Dato un tensore $ \Tn{x} \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
+  tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k- $esimo lo chiamiamo
+  \emph{mode$-k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
+  \missingfigure{column, row, tube fibers}
+\end{definition}
+\todo{Definizione fibre}
+
 In molte situazioni risulta comodo disporre gli elementi di un tensore in una matrice. Uno dei modi
 per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 
@@ -273,33 +365,6 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
  per ogni $(i_1, \ldots, i_{d'}),(j_1, \ldots,
   j_d) $ tali che $ \L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
   j_d; \msiz!)$.
-\end{definition}
-
-\begin{remark}
-  L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R- $spazio vettoriale, dotato del prodotto
-  scalare euclideo, con le operazioni
-  \begin{itemize}
-    \item Addizione: $(\Tn{x}_1 + \Tn{x}_2)(\miwc!) = \Tn{x}_1(\miwc!) + \Tn{x}_2(\miwc!)$.
-    \item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (\Tn{x}(\miwc!)) = (\alpha
-      \Tn{x})(\miwc!)$
-    \item Prodotto scalare: $ \angb{\Tn{x}_1, \Tn{x}_2} = \Vec(\Tn{x}_1)^{\top} \Vec(\Tn{x}_2)$
-    \item Norma: $\| \Vec(\Tn{x})\|$
-  \end{itemize}
-\end{remark}
-
-\begin{definition}[Prodotto esterno]
-  Dati dei vettori $ v^{(1)} \in \R^{n_1}, \ldots, v^{(d)} \in \R^{n_d} $, loro prodotto esterno, anche detto prodotto tensore, è il tensore
-  \begin{equation}
-    \label{eq:rk1}
-  \Tn{x} = v^{(1)} \topp v^{(2)} \topp \cdots \topp v^{(d)} \in \Rmsiz
-  \end{equation}
-   tale che la sua scrittura in componenti è
-     \[
-      \Tn{x}(\miwc) = v_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)} = \prod_{j=1}^d v_{i_j}^{(j)}
-     .\] 
-\end{definition}
-\begin{definition}[Tensore di rango uno]
-  Un tensore $ \Tn{x} \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione \ref{eq:rk1}.
 \end{definition}
 
 \begin{lemma}[Legame tra il prodotto esterno e il prodotto di Kroneker]
@@ -390,68 +455,6 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
 
 \end{proof}
 
-\section{La fattorizzazione CP}
-
-
-
-Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
-costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
-matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
-\[
-  X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
-u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
-,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
-decomposizione è vantaggioso in termini di memoria: infatti
-\[
-\Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
-,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
-quindi riadattare questa decomposizione per memorizzare $ \Tn{x} $ con costo $ O((n_1+\ldots+n_d)r)
-$ invece che $ O(n_1\cdots n_d) $. \todo{discorso unicità} Tuttavia, generalizzare questa decomposizione a più dimensioni ha
-numerosi ostacoli \todo{ref to ostacoli}.
-
-\begin{definition}[Canonical Polyadic Decomposition (CP)]
-\label{def:CP}
-Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP} di rango $ r\in \N $ se
-  esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^{(h)} \mid \ldots \mid u_r^{(h)}\right]\in R^{n_h \times r} $ tali per cui
-  valgono le seguenti condizioni equivalenti:
-  \begin{enumerate}[label=(\roman*)]
-    \item $ \Tn{x} = \sum_{j=1}^r u_j^{(1)} \topp \ldots \topp u_j^{(d)} = \sum_{i=1}^r
-      \bigtopp_{h=1}^d u_j^{(h)}$.
-    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^{(d)} \krn \ldots \krn u_j^{(1)} = \sum_{i=1}^r
-      \bigkrn_{h=d}^1 u_j^{(h)}$.
-    \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\ldots U_d(i_d,j) = \sum_{j=1}^r
-      \prod_{h=1}^d U_h(i_h,j)$.
-  \end{enumerate}
-  In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
-\end{definition}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
-  \caption{Fattorizzazione CP di un tensore $ \Tn{x} = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
-  dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
-  \label{fig:cp_dec}
-\end{figure}
-
-\begin{definition}
-Il \emph{rango CP} di un tensore $ \Tn{x} $ è il minimo intero $ r \in \Z_{\ge 0} $ tale per cui $
-\Tn{x} $ ammette una decomposizione CP di rango $ r $, e lo denotiamo con $ \rk(\Tn{x}) = r$.
-\end{definition}
-
-\begin{remark}[Risparmio in memoria della CP]
-  La fattorizzazione CP di un tensore $ \Tn{x} $ di rango $ r $ permette di ridurre notevolmente il
-  costo di memorizzazione del tensore, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
-  O(\prod_{i=1}^d n_j)$.
-\end{remark}
-
-Elenchiamo alcuni problemi che rendono il calcolo del rango CP più complesso rispetto al caso matriciale.
-
-\begin{enumerate}
-  \item NP-hard
-  \item Problema del border rank (si veda la Sezione~\ref{sec:border_rank})
-  \item Dipende dal campo.
-\end{enumerate}
-
 
 \todo{Esempio polinomio semisep + altro es}
 
@@ -474,6 +477,16 @@ Elenchiamo alcuni problemi che rendono il calcolo del rango CP più complesso ri
 
 \section{Rango CP}
 
+Elenchiamo alcuni problemi che rendono il calcolo del rango CP più complesso rispetto al caso matriciale.
+
+\begin{enumerate}
+  \item NP-hard
+  \item Problema del border rank (si veda la Sezione~\ref{sec:border_rank})
+  \item Dipende dal campo.
+\end{enumerate}
+
+
+
 \begin{proposition}
   Sia $ \Tn{x} \in \Rmsiz! $ un tensore che ammette fattorizzazione $ \Tn{x} = \dsqr{U_1, \ldots,
   U_d} $, e sia $ r_j = \rk(X_{(j)}) $ il rango dell'unfolding $ X_{(j)}, $ con $ j = 1, \ldots, d $. Allora vale che
@@ -489,6 +502,8 @@ Elenchiamo alcuni problemi che rendono il calcolo del rango CP più complesso ri
 Nel caso matriciale, possiamo calcolare il rango di una matrice $ A $ usando la decomposizione SVD $
 U \Sigma V^* $, ma nel caso multidimensionale calcolare il rango è un problema NP-hard
 \todo{motivare?}.
+
+
 
 
 \section{Operazioni nel formato CP}

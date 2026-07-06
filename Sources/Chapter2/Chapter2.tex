@@ -10,10 +10,15 @@ Introduciamo una quantità per misurare la complessità di una moltiplicazione t
 \end{equation*}
 \end{definition}
 L'algoritmo di Strassen mostra che $ \omega \le \log_2(7) < 2.81 $, e si ha $ \omega \ge 2 $ dal
-costo $ O(n^2) $ per il calcolo di addizioni tra matrici.
-Si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
+costo $ O(n^2) $ per il calcolo di addizioni tra matrici. Trovare $ \omega $ è un problema centrale
+nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
 asintoticamente pari a quello
-delle moltiplicazioni. Dopo Strassen, nel 1978
+delle moltiplicazioni. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
+nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
+\cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} in 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
+\omega \le  2.48 $ nel 1887 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
+pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
+più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity}.
 
 \begin{remark}
   Trovare il minimo esponente è un problema di interesse principalmente della teoria della
@@ -33,17 +38,17 @@ b(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $.
 Notiamo che un insieme di $ p $ forme bilineari, o equivalentemente una funzione \todo{È chiaro se
 si chiama ancora b?}bilineare $
 b = \begin{bmatrix} b_1 \\ \vdots \\ b_p \end{bmatrix} :  \R^m \times \R^n  \to \R^p$ si può
-rappresentare tramite un tensore $ \Tn{x} \in \R^{m \times n\times p} $ tale che le sue slice
+rappresentare tramite un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
 frontali rappresentino ognuna delle $ p $ forme bilineari, ossia che
 \begin{equation}
   \label{eq:b_k_bil}
-  b_k(x,y) = x^{\top}\Tn{x}(:,:,k)y = \sum_{i=1}^m\sum_{j=1}^n \Tn{x}(i,j,k)x_iy_j, \text{ per ogni
+  b_k(x,y) = x^{\top}\Tn{t}(:,:,k)y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
   } k = 1, \ldots, p
 .\end{equation}
 Da cui, 
 \begin{equation}
   \label{eq:b_tuv}
- b(x,y) = \begin{bmatrix} b_1(x,y) \\ \vdots \\ b_p(x,y) \end{bmatrix} = \Tn{x} \ttm[1] x^{\top}
+ b(x,y) = \begin{bmatrix} b_1(x,y) \\ \vdots \\ b_p(x,y) \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
  \ttm[2] y^{\top}.
 \end{equation}
 \begin{remark}
@@ -53,11 +58,11 @@ Da cui,
 \begin{remark}[Active multiplications]
   Scrivere una forma bilineare come nell'Equazione~\ref{eq:b_k_bil} evidenzia il numero di
   moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
-  multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{x} $. Poiché ci aspettiamo che
+  multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Poiché ci aspettiamo che
   il costo delle active multiplications sia quello che determini la complessità di valutare $ b(x,y)
-  $, cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{x} $.
+  $, cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
 \end{remark}
-Data una decomposizione $ \Tn{x} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{x} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{x}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
+Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{t} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{t}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
 
 \begin{equation}
   \label{eq:b_active}
