@@ -193,7 +193,7 @@
 \DeclareMathOperator{\rk}{rank}
 % rank_k: use operatorname with subscript since \DeclareMathOperator
 % does not accept math subscripts in the textual name.
-\newcommand{\krk}{\operatorname{rank}_K}
+\newcommand{\krk}[1]{\mathbf{k}_{#1}}
 % brk (border rank) is typeset as an underlined rank operator
 \newcommand{\brk}{\underline{\operatorname{rank}}}
 \DeclareMathOperator{\reshape}{RESHAPE}

@@ -59,41 +59,9 @@
 
 \usepackage{todonotes}
 
-\ifxetexorluatex
-  \usepackage{unicode-math}
-  \IfFontExistsTF{EB Garamond}{%
-    \setmainfont{EB Garamond}
-  }{%
-    \setmainfont{DejaVu Serif}
-  }
-  \IfFontExistsTF{Garamond Math}{%
-    \setmathfont{Garamond Math}
-  }{%
-    \setmathfont{DejaVu Math TeX Gyre}
-  }
-
-  \IfFontExistsTF{STIX Two Math}{%
-    \setmathfont{STIX Two Math}[%
-      range = {
-        \sharp,
-        \natural,
-        \flat,
-        \clubsuit,
-        \spadesuit,
-        \checkmark
-      }
-    ]%
-  }{}
-  \IfFontExistsTF{Source Code Pro}{%
-    \setmonofont[Scale=MatchLowercase]{Source Code Pro}
-  }{%
-    \setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
-  }
-\else
-  \usepackage[lf]{ebgaramond}
-  \usepackage[oldstyle,scale=0.7]{sourcecodepro}
-  \singlespacing
-\fi
+% TODO: HERE ADD BASKERVILLE FONT ONCE INSTALLED
+\setsansfont{IBM Plex Sans}
+\setmonofont{IBM Plex Mono}
 
 \newacronym[description={Principal component analysis}]{PCA}{PCA}{principal component analysis}
 \newacronym                                            {SNF}{SNF}{Smith normal form}
