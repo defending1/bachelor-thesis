@@ -6,147 +6,210 @@ Introduciamo una quantità per misurare la complessità di una moltiplicazione t
 \begin{definition}
   L'\emph{esponente} $ \omega $ di una moltiplicazione matriciale è il numero
 \begin{equation*}
-  \omega = \inf\{h \in \R \mid \text{ la moltiplicazione tra due matrici }  n\times n  \text{ ha costo } O(n^h) \text{ operazioni aritmetiche.} \}.
+  \begin{aligned}
+    \omega = \inf\{h \in \R \mid &\text{ la moltiplicazione tra due matrici }  n\times n  \\ & \text{ ha costo } O(n^h) \text{ operazioni aritmetiche} \}.
+  \end{aligned}
 \end{equation*}
 \end{definition}
-L'algoritmo di Strassen mostra che $ \omega \le \log_2(7) < 2.81 $, e si ha $ \omega \ge 2 $ dal
+L'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $, e si ha $ \omega \ge 2 $ dal
 costo $ O(n^2) $ per il calcolo di addizioni tra matrici. Trovare $ \omega $ è un problema centrale
 nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
 asintoticamente pari a quello
 delle moltiplicazioni. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
 nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
-\cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} in 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
+\cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
 \omega \le  2.48 $ nel 1887 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
 pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
 più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}.
+\todo{Qui plot grafico complexity}
 
 \begin{remark}
   Trovare il minimo esponente è un problema di interesse principalmente della teoria della
   complessità. Nella maggior parte della applicazioni, l'algoritmo di Strassen è quello ottimale, si
   veda la discussione in \cite{dalberto2023strassensmatrixmultiplicationalgorithm}. Di recente,
   il problema di stimare $ \omega $ e trovare il rango di tensori è diventato un problema
-  d'interesse della geometria algebrica. Si veda ad esempio~\cite{landsberg2011tensors}
+  d'interesse della branca della teoria della complessità algebrica e della geometria algebrica. Si veda ad esempio~\cite{landsberg2011tensors}
 \end{remark}
 
-\section{Rappresentare forme bilineari tramite tensori}
+\section{Mappe multilineari e moltiplicazione tra matrici}
 \label{sec:tensor_bil}
 
-\todo{Rename bilinear form with f}
+Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
+P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
+lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
+M_1 \times M_2 \times  M_3 \to P$.
+
+\begin{definition}[Moltiplicazione matriciale]
+ Fissato un campo $ \K $ e degli interi positivi $ M,N,P $, la moltiplicazione tra due matrici $  M\times N $ e $ N \times P $ è una mappa bilineare
+ \begin{equation*}
+   \begin{aligned}
+     \angb{M,N,P} \colon \K^{M\times N} \times \K^{N\times P} &\to \K^{M \times P} \\
+     (A,B) &\mapsto C = AB.
+   \end{aligned}
+ \end{equation*}
+ Spesso ci riferiremo a $ \angb{M,N,P} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
+ moltiplicazione veloce.
+\end{definition}
+
 
 Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
-informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. 
-Proviamo a formulare il problema. Dall'algebra lineare sappiamo che data una forma bilineare $ b : \R^m \times \R^n \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
-b(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $.
-Notiamo che un insieme di $ p $ forme bilineari, o equivalentemente una funzione \todo{È chiaro se
-si chiama ancora b?}bilineare $
-b = \begin{bmatrix} b_1 \\ \vdots \\ b_p \end{bmatrix} :  \R^m \times \R^n  \to \R^p$ si può
-rappresentare tramite un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
-frontali rappresentino ognuna delle $ p $ forme bilineari, ossia che
+informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. Proviamo a formulare il problema. 
+
+Sfruttando l'isomorfismo con lo spazio vettoriale standard, possiamo
+rappresentare una forma bilineare $ f \colon X \times Y \to Z $ come un tensore nel seguente modo: fissato $ k \in \{1, \ldots, p\} $ e
+considerata $ f_k : X \times Y \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
+f_k(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $. Scrivendo ogni componente di $
+f = \begin{bmatrix} f_1 \\ \vdots \\ f_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
+frontali rappresentino ognuna delle $ p $ forme bilineari $ f_k $, ossia che
 \begin{equation}
   \label{eq:b_k_bil}
-  b_k(x,y) = x^{\top}\Tn{t}(:,:,k)y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
+  f_k(x,y) = x^{\top}\Tn{t}_{:,:,k}y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
   } k = 1, \ldots, p
 .\end{equation}
-Da cui, 
+In forma tensoriale,
 \begin{equation}
   \label{eq:b_tuv}
- b(x,y) = \begin{bmatrix} b_1(x,y) \\ \vdots \\ b_p(x,y) \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
+ f(x,y) = \begin{bmatrix} f_1(x,y) \\ \vdots \\ f_p(x,y) \end{bmatrix} = \begin{bmatrix}
+ x^{\top}\Tn{t}_{:,:,1}y \\
+\vdots \\ x^{\top}\Tn{t}_{:,:,p}y \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
  \ttm[2] y^{\top}.
 \end{equation}
 \begin{remark}
-  Questa procedura si estende anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
+  Questa procedura si estende (tramite l'isomorfismo canonico) anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
   algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
-\begin{remark}[Active multiplications]
-  Scrivere una forma bilineare come nell'Equazione~\ref{eq:b_k_bil} evidenzia il numero di
+
+\subsection*{Decomposizione low-rank}
+
+Dal punto di vista numerico, calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
+  O(mnp) $. La scrittura in forma tensoriale evidenzia il numero di
   moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
-  multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Poiché ci aspettiamo che
-  il costo delle active multiplications sia quello che determini la complessità di valutare $ b(x,y)
-  $, cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
-\end{remark}
+  multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Ci aspettiamo che
+  la complessità di valutare $ f(x,y) $ sia correlato al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
+
 Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{t} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{t}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
 
 \begin{equation}
   \label{eq:b_active}
   \begin{aligned}
-    b_k(x,y) &= \left( \left( \sum_{l=1}^r u_l \topp v_l \topp w_l \right) \ttm[1] x^{\top} \ttm[2]
+    f_k(x,y) &= \left( \left( \sum_{l=1}^r u_l \topp v_l \topp w_l \right) \ttm[1] x^{\top} \ttm[2]
   y^{\top}  \right)_k  
              = \left( \sum_{l=1}^r \left( u_l \topp v_l \topp w_l  \right) \ttm[1] x^{\top} \ttm[2]
     y^{\top} \right)_k  \\ 
              &=
   \sum_{i=1}^m \sum_{j=1}^n \sum_{l=1}^r u_{il}v_{jl}w_{kl} x_i y_j = \sum_{l=1}^r \left(\sum_{i=1}^m 
-   u_{il} x_i \right) \cdot \left( \sum_{j=1}^n v_{jl} y_j  \right)  w_{kl} = \sum_{l=1}^r
+    u_{il} x_i \right) \cdot \left( \sum_{j=1}^n v_{jl} y_j  \right)  w_{kl} \\
+             &= \sum_{l=1}^r
    (u_l^{\top}x) \cdot (v_l^{\top}y)w_{kl},
   \end{aligned}
 \end{equation}
 per ogni $ k = 1, \ldots, p $.
 Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
 \begin{equation*}
-  b(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
+  f(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
 \end{equation*}
+Quindi valutare $ f $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
+  O(r) $ addizioni), che sopra evidenziamo con $
+(\cdot) $. Riassumendo, $ \rk(\angb{n,n,n}) $ misura il numero di moltiplicazioni necessarie per
+moltiplicare due matrici $ n\times n $ e dà una misura della complessità dell'algoritmo. Alla luce di ciò, possiamo riscrivere $ \omega $ come
+\begin{equation}
+  \label{eq:omega_as_rank}
+  \omega = \lowlim_{x \to +\infty} \log_n \left( \rk(\angb{n,n,n}) \right).
+\end{equation}
+\todo{FIX errore nella formula}
+Ad esempio, l'algoritmo di Strassen~\cite{strassen69} mostra che $ \rk(\angb{2,2,2}) \le 7$, e come
+come dimostrato da Winograd~\cite{winograd1971}, $ \rk(\angb{2,2,2}) = 7$, ovvero non è possibile moltiplicare due
+matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
+Nei casi diversi da $ \angb{2,2,2} $ attualmente abbiamo alcune stime più lasche: già
+per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\angb{3,3,3}) \le 23 $~\cite{BLASER200343, bams/1183537626}, mentre la migliore stima
+stintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
+\rk(\angb{n,n,n}) $~\cite{blaser2001}. Si veda~\cite{landsberg2011tensors}, Capitolo 11 per ulteriori dettagli.
 
-Quindi valutare $ b $ richiede esattamente $ r $ active multiplications, che evidenziamo con $
-(\cdot) $.
+La condizione trovata nell'Equazione~\ref{eq:omega_as_rank} è anche necessaria \todo{check}. La prossima proposizione mostra che il rango di un tensore è una misura ottimale della complessità:
+\begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
+  \begin{equation*}
+    \omega = \inf \{\tau \in \R \mid \rk(\angb{n,n,n}) = O(n^\tau)\}.
+  \end{equation*}
+  Ovvero, è possibile moltiplicare due matrici $ n\times n $ usando $ O(n^{\omega + \varepsilon}) $
+  operazioni aritmetiche se e solo se il rango tensoriale di $ \angb{n,n,n} $ è $
+  O(n^{\omega+\varepsilon}) $.
+\end{theorem}
 \todo{Espandere discussione dall'articolo}
 
+\begin{remark}
+  Di seguito ci limiteremo a studiare prodotti fra matrici quadrate; per il caso rettangolare, si
+  possono estendere i ragionamenti sopra considerando una rappresentazione di rango $ r $ del
+  tensore $ \angb{m,n,p} $ e scrivendo, attraverso una serie di permutazioni, la fattorizzazione di $ \angb{mnp, mnp,
+  mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
+  O(n^{3\log_{abc}r})$
+\end{remark}
 
-
-\section{L'algoritmo di Strassen}
-
-Possiamo rappresentare la moltiplicazione tra matrici come una funzione bilineare, quindi come un
-tensore. 
-
-\todo{Brief motivation}
-
-\begin{notation}
-  Indichiamo con $ \angb{m,n,p} $ il prodotto tra due matrici di taglia $ m \times n $ e $ n \times
-  p $.
-\end{notation}
+\section{Algoritmi di moltiplicazione veloce}
 
 \subsection*{Il caso naive}
 
 Trattiamo il caso di matrici quadrate con taglie potenze di due (possiamo farlo a meno di passare a
 una sottomatrice di taglia pari). In questo caso possiamo
-partizionare le matrici in delle sottomatrici a blocchi $ 2\times 2 $:
+partizionare le matrici in delle sottomatrici a blocchi $ 2\times 2 $ \footnote{possiamo pensare alle entrate
+sia come scalari, che come matrici.}:
 \begin{equation*}
   \begin{bmatrix}
-    C_{11} & C_{12} \\
-    C_{21} & C_{22}
+    c_{11} & c_{12} \\
+    c_{21} & c_{22}
   \end{bmatrix} =
   \begin{bmatrix}
-    A_{11} & A_{12} \\
-    A_{21} & A_{22}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22}
   \end{bmatrix} \cdot 
   \begin{bmatrix}
-    B_{11} & B_{12} \\
-    B_{21} & B_{22}
+    b_{11} & b_{12} \\
+    b_{21} & b_{22}
   \end{bmatrix} =
   \begin{bmatrix}
-    A_{11}B_{11} + A_{12}B_{21} & A_{11}B_{12} + A_{12}B_{22} \\
-    A_{21}B_{11} + A_{22}B_{21} & A_{21}B_{12} + A_{22}B_{22}
+    a_{11}b_{11} + a_{12}b_{21} & a_{11}b_{12} + a_{12}b_{22} \\
+    a_{21}b_{11} + a_{22}b_{21} & a_{21}b_{12} + a_{22}b_{22}
   \end{bmatrix}.
 \end{equation*}
 L'algoritmo naive procede combinando un insieme di otto moltiplicazioni matriciali con quattro
 addizioni:
-% Intermediate Matrices
-% Intermediate Matrices
+
 \[
 \begin{aligned}
-M_1 &= A_{11} \cdot B_{11} &\quad M_2 &= A_{12} \cdot B_{21} &\quad M_3 &= A_{11} \cdot B_{12} \\
-M_4 &= A_{12} \cdot B_{22} &\quad M_5 &= A_{21} \cdot B_{11} &\quad M_6 &= A_{22} \cdot B_{21} \\
-M_7 &= A_{21} \cdot B_{12} &\quad M_8 &= A_{22} \cdot B_{22} & &
+m_1 &= a_{11} \cdot b_{11} &\quad m_2 &= a_{12} \cdot b_{21} &\quad m_3 &= a_{11} \cdot b_{12} \\
+m_4 &= a_{12} \cdot b_{22} &\quad m_5 &= a_{21} \cdot b_{11} &\quad m_6 &= a_{22} \cdot b_{21} \\
+m_7 &= a_{21} \cdot b_{12} &\quad m_8 &= a_{22} \cdot b_{22} & &
 \end{aligned}
 \]
 
-% Resulting Matrices
 \[
 \begin{aligned}
-C_{11} &= M_1 + M_2 &\qquad C_{12} &= M_3 + M_4 \\
-C_{21} &= M_5 + M_6 &\qquad C_{22} &= M_7 + M_8
+c_{11} &= m_1 + m_2 = a_{11}b_{11} + a_{12}b_{21}, &\qquad c_{12} &= m_3 + m_4 = a_{11}b_{12} +
+a_{12}b_{22}, \\
+c_{21} &= m_5 + m_6 = a_{21}b_{11} + a_{22}b_{21}, &\qquad c_{22} &= m_7 + m_8 = a_{21}b_{12} +
+a_{22}b_{22}.
 \end{aligned}
 \]
+Usando ?? possiamo scrivere l'algoritmo $ \angb{2,2,2} $ in forma tensoriale in formato CP:
+\todo{Si vede come si ricava ma non so spiegare come si ottiene}
+\begin{equation*}
+  \begin{aligned}
+    \angb{2,2,2} &= a_{11} \topp b_{11}\topp c_{11} + a_{12}\topp b_{21} \topp c_{11} \\
+                 &+ a_{21}\topp b_{11} \topp c_{21} + a_{22} \topp b_{21} \topp c_{21} \\ 
+                 &+ a_{11} \topp b_{12} \topp c_{12} + a_{12} \topp b_{22} \topp c_{12} \\
+    &+ a_{21} \topp b_{12} \topp c_{22} + a_{22}\topp b_{22}\topp c_{22}.
+  \end{aligned}
+\end{equation*}
 
-\section{Il problema del border rank}
+Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici. Nel ??
+Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
+provò a mostrare che era l'algoritmo ottimale, fallendo in maniera spettacolare \footnote{in realtà
+la tesi è vera nel campo $ \Z/2\Z $.} e dando vita a una nuova teoria.
+
+\subsection*{L'algoritmo di Strassen}
+
+\section{Algoritmi APA}
+
+\subsection*{Il problema del border rank}
 \label{sec:border_rank}
 
 \todo{Introduci e motiva il problema partendo dagli algoritmi APA (vedi Landsbeg)}
@@ -191,9 +254,3 @@ Questo motiva la seguente definizione:
   \rk(\Tn{y})=r, \, \|\Tn{x} - \Tn{y}\|  < \varepsilon \right\}
   .\] 
 \end{definition}
-
-\begin{theorem}[Strassen \cite{strassen69}, also see \cite{burgisser2013algebraic} §15.1]
- \begin{equation*}
-   \omega = \inf \{\tau \in \R \mid \rk(\angb{n,n,n}) = O(n^\tau)\} 
- \end{equation*} 
-\end{theorem}

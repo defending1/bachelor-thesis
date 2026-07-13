@@ -59,6 +59,9 @@ dove con $ \frac{n}{b} $ indichiamo sia $ \left\lfloor \frac{n}{b} \right\rfloor
   Siccome $ n^{\log_b a} = n^{\log_2 8} = n^3 $, che è polinomialmente più grande di $ f(n) $, ovvero $
   f(n) = O(n^{3-\varepsilon}) $ per $ \varepsilon = 1 $, dal caso 1 di \ref{th:master} segue che $
   T(n) = \Theta(n^3) $.
+  Nel caso di Strassen, si ripetono i calcoli con $ a = 7 $, $ b=2 $ e $ f(n) = \Theta(n^2) $ e si
+  ottiene la relazione $ T(n) = 7T(\frac{n}{2}) + \Theta(n^2)$ e analogamente $ T(n) =
+  \Theta(n^{\log_2 7}) $.
 \end{example}
 
 

@@ -188,13 +188,12 @@
   abstract      = {Let X be a real-valued three-way array. The Candecomp/Parafac (CP) decomposition is written as X=Y(1)+\cdots{}+Y(R)+E, where Y(r) are rank-1 arrays and E is a rest term. Each rank-1 array is defined by the outer product of three vectors a(r), b(r) and c(r), i.e. yijk(r)=ai(r)bj(r)ck(r). These vectors make up the R columns of the component matrices A, B and C. If 2R+2 is less than or equal to the sum of the k-ranks of A, B and C, then the fitted part of the decomposition is unique up to a change in the order of the rank-1 arrays and rescaling/counterscaling of each triplet of vectors (a(r),b(r),c(r)) forming a rank-1 array. This classical result was shown by Kruskal. His proof is, however, rather inaccessible and does not seem intuitive. In order to contribute to a better understanding of CP uniqueness, this paper provides an accessible and intuitive proof of Kruskal's condition. The proof is both self-contained and compact and can easily be adapted for the complex-valued CP decomposition.}
 }
 @book{landsberg2011tensors,
-  title         = {Tensors: geometry and applications: geometry and applications},
+  title         = {Tensors: geometry and applications},
   author        = {Landsberg, Joseph M},
   volume        = {128},
   year          = {2011},
   publisher     = {American Mathematical Soc.}
 }
-
 @article{lieven2006,
   author        = {De Lathauwer, Lieven},
   title         = {A Link between the Canonical Decomposition in Multilinear Algebra and Simultaneous Matrix Diagonalization},
@@ -207,4 +206,53 @@
   url           = {https://doi.org/10.1137/040608830},
   eprint        = {https://doi.org/10.1137/040608830},
   abstract      = {Canonical decomposition is a key concept in multilinear algebra. In this paper we consider the decomposition of higher-order tensors which have the property that the rank is smaller than the greatest dimension. We derive a new and relatively weak deterministic sufficient condition for uniqueness. The proof is constructive. It shows that the canonical components can be obtained from a simultaneous matrix diagonalization by congruence, yielding a new algorithm. From the deterministic condition we derive an easy-to-check dimensionality condition that guarantees generic uniqueness.}
+}
+@article{winograd1971,
+  title         = {On multiplication of 2 \texttimes{} 2 matrices},
+  journal       = {Linear Algebra and its Applications},
+  volume        = {4},
+  number        = {4},
+  pages         = {381--388},
+  year          = {1971},
+  issn          = {0024-3795},
+  doi           = {https://doi.org/10.1016/0024-3795(71)90009-7},
+  url           = {https://www.sciencedirect.com/science/article/pii/0024379571900097},
+  author        = {S. Winograd},
+  abstract      = {The two main results of this note are: (i) The minimum number of multiplications required to multiply two 2 X 2 matrices is seven. (ii) The minimum number of multiplications/divisions required to multiply two complex numbers is three.}
+}
+@article{bams/1183537626,
+  author        = {Julian D. Laderman},
+  title         = {{A noncommutative algorithm for multiplying $3 \times 3$ matrices using 23 multiplications}},
+  volume        = {82},
+  journal       = {Bulletin of the American Mathematical Society},
+  number        = {1},
+  publisher     = {American Mathematical Society},
+  pages         = {126 -- 128},
+  year          = {1976}
+}
+@article{BLASER200343,
+  title         = {On the complexity of the multiplication of matrices of small formats},
+  journal       = {Journal of Complexity},
+  volume        = {19},
+  number        = {1},
+  pages         = {43--60},
+  year          = {2003},
+  issn          = {0885-064X},
+  doi           = {https://doi.org/10.1016/S0885-064X(02)00007-9},
+  url           = {https://www.sciencedirect.com/science/article/pii/S0885064X02000079},
+  author        = {Markus Bl\"{a}ser},
+  abstract      = {We prove a lower bound of 2mn+2n-m-2 for the bilinear complexity of the multiplication of n\texttimes{}m-matrices with m\texttimes{}n-matrices using the substitution method (m\geqslant{}n\geqslant{}3). In particular, we obtain the improved lower bound of 19 for the bilinear complexity of 3\texttimes{}3-matrix multiplication.}
+}
+@inproceedings{blaser2001,
+  author        = {Bl\"{a}ser, Markus},
+  title         = {A (5/2)n2-Lower Bound for the Multiplicative Complexity of n\texttimes{}n-Matrix Multiplication},
+  year          = {2001},
+  isbn          = {3540416951},
+  publisher     = {Springer-Verlag},
+  address       = {Berlin, Heidelberg},
+  abstract      = {We prove a lower bound of 5/2n2 - 3n for the multiplicative complexity of n \texttimes{} n-matrix multiplication over arbitrary fields. More general, we show that for any finite dimensional semisimple algebra A with unity, the multiplicative complexity of the multiplication in A is bounded from below by 5/2 dim A - 3(n1 + ... + nt) if the decomposition of A \cong{} A1 \texttimes{} ... \texttimes{} At into simple algebras A\ensuremath{\Tau} \cong{} D\ensuremath{\Tau}n\ensuremath{\Tau}\texttimes{}n\ensuremath{\Tau} contains only noncommutative factors, that is, the division algebra D\ensuremath{\Tau} is noncommutative or n\ensuremath{\Tau} \geq{} 2.},
+  booktitle     = {Proceedings of the 18th Annual Symposium on Theoretical Aspects of Computer Science},
+  pages         = {99–109},
+  numpages      = {11},
+  series        = {STACS '01}
 }

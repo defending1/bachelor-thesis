@@ -186,6 +186,9 @@
 \DeclarePairedDelimiter{\br}{[}{]}
 \DeclarePairedDelimiter{\set}{\{}{\}}
 
+
+\DeclareMathOperator*\lowlim{\underline{lim}}
+\DeclareMathOperator*\uplim{\overline{lim}}
 \DeclareMathOperator*{\argmin}          {arg\,min}
 \DeclareMathOperator {\dist}            {dist}
 \DeclareMathOperator {\im}              {im}

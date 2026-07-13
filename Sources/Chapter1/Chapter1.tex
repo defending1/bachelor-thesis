@@ -66,15 +66,15 @@ $ tra $ u $ e $ v $ definita come
 \end{equation*}
 Possiamo generalizzare tale costruzione a più dimensioni:
 \begin{definition}[Prodotto esterno]
-  Dati dei vettori $ v^{(1)} \in \R^{n_1}, \ldots, v^{(d)} \in \R^{n_d} $, loro \emph{prodotto
+  Dati dei vettori $ v^1 \in \R^{n_1}, \ldots, v^d \in \R^{n_d} $, loro \emph{prodotto
   esterno}, anche detto \emph{prodotto tensore}, è il tensore
   \begin{equation}
     \label{eq:rk1}
-  \Tn{x} = v^{(1)} \topp v^{(2)} \topp \cdots \topp v^{(d)} \in \Rmsiz
+  \Tn{x} = v^1 \topp v^2 \topp \cdots \topp v^d \in \Rmsiz
   \end{equation}
    tale che la sua scrittura in componenti è
      \[
-       \Tn{x}_{\miwc} = v_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)} = \prod_{j=1}^d v_{i_j}^{(j)}
+       \Tn{x}_{\miwc} = v_{i_1}^1v_{i_2}^2 \cdots v_{i_d}^d = \prod_{j=1}^d v_{i_j}^j
      .\] 
 \end{definition}
 \begin{definition}[Tensore di rango uno]
@@ -310,20 +310,20 @@ numerosi ostacoli \todo{ref to ostacoli}.
 \begin{definition}[Canonical Polyadic Decomposition (CP)]
 \label{def:CP}
 Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP} di rango $ r\in \N $ se
-  esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^{(h)} \mid \ldots \mid u_r^{(h)}\right]\in R^{n_h \times r} $ tali per cui 
+  esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^h \mid \ldots \mid u_r^h\right]\in R^{n_h \times r} $ tali per cui 
 \begin{equation*}
-   \Tn{x} = \sum_{j=1}^r u_j^{(1)} \topp \cdots \topp u_j^{(d)} = \sum_{i=1}^r
-      \bigtopp_{h=1}^d u_j^{(h)}.
+   \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d = \sum_{i=1}^r
+      \bigtopp_{h=1}^d u_j^h.
 \end{equation*}
   In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
 \end{definition}
 \begin{remark}
   Fissando la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
   \begin{enumerate}[label=(\roman*)]
-    \item $ \Tn{x} = \sum_{j=1}^r u_j^{(1)} \topp \cdots \topp u_j^{(d)} = \sum_{i=1}^r
-      \bigtopp_{h=1}^d u_j^{(h)}$.
-    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^{(d)} \krn \cdots \krn u_j^{(1)} = \sum_{i=1}^r
-      \bigkrn_{h=d}^1 u_j^{(h)}$.
+    \item $ \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d = \sum_{i=1}^r
+      \bigtopp_{h=1}^d u_j^h$.
+    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1 = \sum_{i=1}^r
+      \bigkrn_{h=d}^1 u_j^h$.
     \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j) = \sum_{j=1}^r
       \prod_{h=1}^d U_h(i_h,j)$.
   \end{enumerate}
@@ -429,13 +429,13 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 \end{definition}
 
 \begin{lemma}[Legame tra il prodotto esterno e il prodotto di Kroneker]
-  Dato un tensore $ \Tn{x} = v^{(1)} \topp \cdots \topp v^{(d)} $, allora
+  Dato un tensore $ \Tn{x} = v^1 \topp \cdots \topp v^d $, allora
   \begin{enumerate}[label=(\roman*)]
-    \item $\Vec(\Tn{x}) = v^{(d)} \krn \cdots \krn v^{(1)}$
-  \item $ \Tm{x}{k} = v^{(k)}\left( v^{(d)} \krn \cdots \krn v^{(k-1)} \krn v^{(k+1)} \krn \cdots
-    \krn v^{(1)} \right)^{\top}$
-  \item $\Tm{x}{\mathcal{R} \times \mathcal{C}} = (v^{(r_\delta)} \krn \cdots \krn
-    v^{(r_1)})(v^{(c_{d-\delta})} \krn \cdots \krn v^{(c_1)})^{\top}$, dove $\mathcal{R} =\left\{ r_1, \ldots,
+    \item $\Vec(\Tn{x}) = v^d \krn \cdots \krn v^1$
+  \item $ \Tm{x}{k} = v^k\left( v^d \krn \cdots \krn v^{k-1} \krn v^{k+1} \krn \cdots
+    \krn v^1 \right)^{\top}$
+  \item $\Tm{x}{\mathcal{R} \times \mathcal{C}} = (v^{r_\delta} \krn \cdots \krn
+    v^{r_1})(v^{c_{d-\delta}} \krn \cdots \krn v^{c_1})^{\top}$, dove $\mathcal{R} =\left\{ r_1, \ldots,
     r_\delta \right\} $ e $ \mathcal{C} = \left\{ c_1, \ldots, c_{d-\delta}
   \right\} $.
   \end{enumerate}
@@ -535,6 +535,7 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
 
 
 \section{Rango CP}
+\label{sec:cp_rank}
 
 Nel caso matriciale, possiamo calcolare il rango di una matrice $ A $ usando la decomposizione SVD $
 U \Sigma V^* $, ma in più dimensioni incorriamo in alcuni problemi:
@@ -640,8 +641,8 @@ sia un problema complesso.
   Segue dall'identità
   \begin{equation*}
     \begin{aligned}
-      \Vec({\Tn{x}}) &= \sum_{h=1}^r u_h^{(d)} \krn \cdots \krn u_h^{(1)} = \left[ u_1^{(d)} 
-  \krn \cdots \krn u_1^{(1)} | \cdots | u_r^{(d)} \krn \cdots \krn u_r^{(1)}\right]^{\top}\mathbf{1}_r \\
+      \Vec({\Tn{x}}) &= \sum_{h=1}^r u_h^d \krn \cdots \krn u_h^1 = \left[ u_1^d 
+  \krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots \krn u_r^1\right]^{\top}\mathbf{1}_r \\
                      &= \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
     \end{aligned}
   \end{equation*}
