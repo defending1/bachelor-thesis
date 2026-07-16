@@ -193,12 +193,12 @@
 \DeclareMathOperator {\dist}            {dist}
 \DeclareMathOperator {\im}              {im}
 % Common operators used in the thesis
-\DeclareMathOperator{\rk}{rank}
+\newcommand{\rk}{\bm{R}}
 % rank_k: use operatorname with subscript since \DeclareMathOperator
 % does not accept math subscripts in the textual name.
 \newcommand{\krk}[1]{\mathbf{k}_{#1}}
 % brk (border rank) is typeset as an underlined rank operator
-\newcommand{\brk}{\underline{\operatorname{rank}}}
+\newcommand{\brk}{\underline{\bm{R}}}
 \DeclareMathOperator{\reshape}{RESHAPE}
 % Vec operator
 \makeatletter

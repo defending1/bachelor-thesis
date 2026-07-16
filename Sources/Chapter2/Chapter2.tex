@@ -1,256 +1,91 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Applicazioni della CP alla complessità aritmetica}
+\chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Introduciamo una quantità per misurare la complessità di una moltiplicazione tra matrici:
-\begin{definition}
-  L'\emph{esponente} $ \omega $ di una moltiplicazione matriciale è il numero
-\begin{equation*}
-  \begin{aligned}
-    \omega = \inf\{h \in \R \mid &\text{ la moltiplicazione tra due matrici }  n\times n  \\ & \text{ ha costo } O(n^h) \text{ operazioni aritmetiche} \}.
-  \end{aligned}
-\end{equation*}
-\end{definition}
-L'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $, e si ha $ \omega \ge 2 $ dal
-costo $ O(n^2) $ per il calcolo di addizioni tra matrici. Trovare $ \omega $ è un problema centrale
-nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
-asintoticamente pari a quello
-delle moltiplicazioni. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
-nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
-\cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
-\omega \le  2.48 $ nel 1887 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
-pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
-più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}.
-\todo{Qui plot grafico complexity}
+Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3- $dimensionale con un argomento di 40 pagine
+\cite{KRUSKAL197795}, di non semplice lettura. La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
+due dimostrazioni concise seguendo due strade diverse, che entrambe sfruttano il permutation lemma
+formulato da Kruskal. La prima, scritta da Stegeman e
+Sidiropoulos~\cite{STEGEMAN2007540} di 16 pagine, e poi riadattata da
+Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di sole 3 pagine. La seconda di Rhodes (circa 9
+pagine) in \cite{rhodes2009conciseproofkruskalstheorem} in coordinate. Il caso generale, dimostrato
+da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
+riconducendosi al caso $ 3-$dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
 
-\begin{remark}
-  Trovare il minimo esponente è un problema di interesse principalmente della teoria della
-  complessità. Nella maggior parte della applicazioni, l'algoritmo di Strassen è quello ottimale, si
-  veda la discussione in \cite{dalberto2023strassensmatrixmultiplicationalgorithm}. Di recente,
-  il problema di stimare $ \omega $ e trovare il rango di tensori è diventato un problema
-  d'interesse della branca della teoria della complessità algebrica e della geometria algebrica. Si veda ad esempio~\cite{landsberg2011tensors}
-\end{remark}
-
-\section{Mappe multilineari e moltiplicazione tra matrici}
-\label{sec:tensor_bil}
-
-Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
-P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
-lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
-M_1 \times M_2 \times  M_3 \to P$.
-
-\begin{definition}[Moltiplicazione matriciale]
- Fissato un campo $ \K $ e degli interi positivi $ M,N,P $, la moltiplicazione tra due matrici $  M\times N $ e $ N \times P $ è una mappa bilineare
- \begin{equation*}
-   \begin{aligned}
-     \angb{M,N,P} \colon \K^{M\times N} \times \K^{N\times P} &\to \K^{M \times P} \\
-     (A,B) &\mapsto C = AB.
-   \end{aligned}
- \end{equation*}
- Spesso ci riferiremo a $ \angb{M,N,P} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
- moltiplicazione veloce.
+\begin{definition}[Essenziale unicità CP]
+  Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} \dsqr{U_1, \ldots, U_d}$ è
+  \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ \Tn{x} = \dsqr{\tilde{U}_1,
+  \ldots, \tilde{U}_d}$ di rango $ r $, esiste una patrice di permutazione $ P \in \R^{r \times r} $
+  e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
+  I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
 \end{definition}
 
-
-Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
-informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. Proviamo a formulare il problema. 
-
-Sfruttando l'isomorfismo con lo spazio vettoriale standard, possiamo
-rappresentare una forma bilineare $ f \colon X \times Y \to Z $ come un tensore nel seguente modo: fissato $ k \in \{1, \ldots, p\} $ e
-considerata $ f_k : X \times Y \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
-f_k(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $. Scrivendo ogni componente di $
-f = \begin{bmatrix} f_1 \\ \vdots \\ f_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
-frontali rappresentino ognuna delle $ p $ forme bilineari $ f_k $, ossia che
-\begin{equation}
-  \label{eq:b_k_bil}
-  f_k(x,y) = x^{\top}\Tn{t}_{:,:,k}y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
-  } k = 1, \ldots, p
-.\end{equation}
-In forma tensoriale,
-\begin{equation}
-  \label{eq:b_tuv}
- f(x,y) = \begin{bmatrix} f_1(x,y) \\ \vdots \\ f_p(x,y) \end{bmatrix} = \begin{bmatrix}
- x^{\top}\Tn{t}_{:,:,1}y \\
-\vdots \\ x^{\top}\Tn{t}_{:,:,p}y \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
- \ttm[2] y^{\top}.
-\end{equation}
+\begin{definition}[$ k- $rango]
+  Data $ A \in \R^{m\times n} $, il suo \emph{$ K- $rango} è il massimo $ K \in \N $ tale che ogni
+  scelta di $ K $ colonne in $ A $ comprende colonne linearmente indipendenti. Lo denoteremo con il
+  simbolo $ \krk{A} $.
+\end{definition}
 \begin{remark}
-  Questa procedura si estende (tramite l'isomorfismo canonico) anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
-  algebrici più complessi di scalari, ad esempio vettori o matrici.
+  Dalla definizione segue che $ \krk{A} \le \rk(A) $ per ogni matrice $ A \in \R^{m \times n} $. In
+  particolare, se $ A $ è full-rank, $ \krk{A} = \rk(A) $; se invece $ A $ ha due colonne linearmente
+  dipendenti, $ \krk{A} \le 1 $.
 \end{remark}
 
-\subsection*{Decomposizione low-rank}
+\todo{Chiedere se questa notazione del krank va bene}
 
-Dal punto di vista numerico, calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
-  O(mnp) $. La scrittura in forma tensoriale evidenzia il numero di
-  moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
-  multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Ci aspettiamo che
-  la complessità di valutare $ f(x,y) $ sia correlato al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
 
-Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{t} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{t}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
+Veniamo ora al risultato nella sua forma più generale, dimostrato da Sidiropoulos e Bro
+\cite{sidiropoulos2000uniqueness}.
 
-\begin{equation}
-  \label{eq:b_active}
-  \begin{aligned}
-    f_k(x,y) &= \left( \left( \sum_{l=1}^r u_l \topp v_l \topp w_l \right) \ttm[1] x^{\top} \ttm[2]
-  y^{\top}  \right)_k  
-             = \left( \sum_{l=1}^r \left( u_l \topp v_l \topp w_l  \right) \ttm[1] x^{\top} \ttm[2]
-    y^{\top} \right)_k  \\ 
-             &=
-  \sum_{i=1}^m \sum_{j=1}^n \sum_{l=1}^r u_{il}v_{jl}w_{kl} x_i y_j = \sum_{l=1}^r \left(\sum_{i=1}^m 
-    u_{il} x_i \right) \cdot \left( \sum_{j=1}^n v_{jl} y_j  \right)  w_{kl} \\
-             &= \sum_{l=1}^r
-   (u_l^{\top}x) \cdot (v_l^{\top}y)w_{kl},
-  \end{aligned}
-\end{equation}
-per ogni $ k = 1, \ldots, p $.
-Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
-\begin{equation*}
-  f(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
-\end{equation*}
-Quindi valutare $ f $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
-  O(r) $ addizioni), che sopra evidenziamo con $
-(\cdot) $. Riassumendo, $ \rk(\angb{n,n,n}) $ misura il numero di moltiplicazioni necessarie per
-moltiplicare due matrici $ n\times n $ e dà una misura della complessità dell'algoritmo. Alla luce di ciò, possiamo riscrivere $ \omega $ come
-\begin{equation}
-  \label{eq:omega_as_rank}
-  \omega = \lowlim_{x \to +\infty} \log_n \left( \rk(\angb{n,n,n}) \right).
-\end{equation}
-\todo{FIX errore nella formula}
-Ad esempio, l'algoritmo di Strassen~\cite{strassen69} mostra che $ \rk(\angb{2,2,2}) \le 7$, e come
-come dimostrato da Winograd~\cite{winograd1971}, $ \rk(\angb{2,2,2}) = 7$, ovvero non è possibile moltiplicare due
-matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
-Nei casi diversi da $ \angb{2,2,2} $ attualmente abbiamo alcune stime più lasche: già
-per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\angb{3,3,3}) \le 23 $~\cite{BLASER200343, bams/1183537626}, mentre la migliore stima
-stintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
-\rk(\angb{n,n,n}) $~\cite{blaser2001}. Si veda~\cite{landsberg2011tensors}, Capitolo 11 per ulteriori dettagli.
-
-La condizione trovata nell'Equazione~\ref{eq:omega_as_rank} è anche necessaria \todo{check}. La prossima proposizione mostra che il rango di un tensore è una misura ottimale della complessità:
-\begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
+\todo{Chiarire se $ \K $ può essere $ \R $ o $ \C $}
+\begin{theorem}[Kruskal 3D, Sidiropoulos e Bro]
+  Una fattorizzazione CP di un tensore $ \Tn{X} = \dsqr{U_1, \ldots, U_d}$ di rango $ r $ è essenzialmente unica se
   \begin{equation*}
-    \omega = \inf \{\tau \in \R \mid \rk(\angb{n,n,n}) = O(n^\tau)\}.
+    \sum_{j=1}^d \krk{U_j} \ge 2r + d -1.
   \end{equation*}
-  Ovvero, è possibile moltiplicare due matrici $ n\times n $ usando $ O(n^{\omega + \varepsilon}) $
-  operazioni aritmetiche se e solo se il rango tensoriale di $ \angb{n,n,n} $ è $
-  O(n^{\omega+\varepsilon}) $.
 \end{theorem}
-\todo{Espandere discussione dall'articolo}
 
-\begin{remark}
-  Di seguito ci limiteremo a studiare prodotti fra matrici quadrate; per il caso rettangolare, si
-  possono estendere i ragionamenti sopra considerando una rappresentazione di rango $ r $ del
-  tensore $ \angb{m,n,p} $ e scrivendo, attraverso una serie di permutazioni, la fattorizzazione di $ \angb{mnp, mnp,
-  mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
-  O(n^{3\log_{abc}r})$
-\end{remark}
+Mostriamo prima il caso $ d = 3 $. Per semplicità, consideriamo l'enunciato sopra rinominando $
+\Tn{x} = \dsqr{A, B, C} $, e mostriamo che $ \krk{A} + \krk{B} + \krk{C} \ge 2r + 2 $. 
+\missingfigure{missing Proof}
 
-\section{Algoritmi di moltiplicazione veloce}
+Per il caso $ d=4 $ introduciamo il seguente lemma:
 
-\subsection*{Il caso naive}
+\begin{lemma}[$K-$rango del prodotto di Khatri-Rao]
+  Consideriamo $ A = \begin{bmatrix} a_1 \mid \cdots \mid a_r \end{bmatrix} \in \C^{m\times p} $ e $ B =
+  \begin{bmatrix} b_1 \mid \cdots \mid b_r \end{bmatrix} \in \C^{n \times p}$. Allora, se $ \krk{A}
+  \ge  1$ e $ \krk{B} \ge 1 $ vale che
+  \begin{equation*}
+    \krk{A \krp B} \ge \min(\krk{A} + \krk{B} - 1, r),
+  \end{equation*}
+  mentre se almeno una tra $ A $ o $ B $ ha $ K- $rango nullo, vale
+  \begin{equation*}
+    \krk{A \krp B} = 0.
+  \end{equation*}
+\end{lemma}
+\begin{proof}                           
+  Assumiamo a meno di scambiare le due matrici che $ \krk{A} $ sia nullo. Ciò equivale a dire che $
+  A $ contiene almeno una colonna nulla, da cui per la Definizione \ref{def:krn} il prodotto $ A
+  \krp B$ avrà almeno una colonna nulla, da cui $ \krk{A \krp B} $.
+  
+  Mostriamo la prima stima procedendo per assurdo. Consideriamo l'insieme
+  \begin{equation*}
+    S = \inf \left\{ s \in \N \bigm| b_{i_1} \krn a_{i_1}, \ldots, b_{i_s} \krn a_{i_s} \text{ sono
+    colonne linearmente indipendenti di } A \krp B \right\}.
+  \end{equation*}
+  Se $ S = -\infty $, ossia non è possibile estrarre alcuna collezione di colonne linearmente
+  indipendenti da $ A \krp B $, poniamo $ S = d+1 $ e $ \krk{B \krp A} = S-1 $.
+  \todo{Finire appena finisci di capire}
+\end{proof}
 
-Trattiamo il caso di matrici quadrate con taglie potenze di due (possiamo farlo a meno di passare a
-una sottomatrice di taglia pari). In questo caso possiamo
-partizionare le matrici in delle sottomatrici a blocchi $ 2\times 2 $ \footnote{possiamo pensare alle entrate
-sia come scalari, che come matrici.}:
-\begin{equation*}
-  \begin{bmatrix}
-    c_{11} & c_{12} \\
-    c_{21} & c_{22}
-  \end{bmatrix} =
-  \begin{bmatrix}
-    a_{11} & a_{12} \\
-    a_{21} & a_{22}
-  \end{bmatrix} \cdot 
-  \begin{bmatrix}
-    b_{11} & b_{12} \\
-    b_{21} & b_{22}
-  \end{bmatrix} =
-  \begin{bmatrix}
-    a_{11}b_{11} + a_{12}b_{21} & a_{11}b_{12} + a_{12}b_{22} \\
-    a_{21}b_{11} + a_{22}b_{21} & a_{21}b_{12} + a_{22}b_{22}
-  \end{bmatrix}.
-\end{equation*}
-L'algoritmo naive procede combinando un insieme di otto moltiplicazioni matriciali con quattro
-addizioni:
+La condizione di Kruskal è sufficiente ma non necessaria. Il seguente risultato fornisce una
+condizione necessaria ma non sufficiente:
 
-\[
-\begin{aligned}
-m_1 &= a_{11} \cdot b_{11} &\quad m_2 &= a_{12} \cdot b_{21} &\quad m_3 &= a_{11} \cdot b_{12} \\
-m_4 &= a_{12} \cdot b_{22} &\quad m_5 &= a_{21} \cdot b_{11} &\quad m_6 &= a_{22} \cdot b_{21} \\
-m_7 &= a_{21} \cdot b_{12} &\quad m_8 &= a_{22} \cdot b_{22} & &
-\end{aligned}
-\]
+\begin{theorem}
+  Dato un tensore $ \Tn{x} = \dsqr{U_1, \ldots, U_d}$ tale per cui $ \min_j \left\{ \rk(U_d \krp
+  \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1) \right\} < r$, allora la fattorizzazine $ \Tn{x} =
+  \dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
+\end{theorem}
 
-\[
-\begin{aligned}
-c_{11} &= m_1 + m_2 = a_{11}b_{11} + a_{12}b_{21}, &\qquad c_{12} &= m_3 + m_4 = a_{11}b_{12} +
-a_{12}b_{22}, \\
-c_{21} &= m_5 + m_6 = a_{21}b_{11} + a_{22}b_{21}, &\qquad c_{22} &= m_7 + m_8 = a_{21}b_{12} +
-a_{22}b_{22}.
-\end{aligned}
-\]
-Usando ?? possiamo scrivere l'algoritmo $ \angb{2,2,2} $ in forma tensoriale in formato CP:
-\todo{Si vede come si ricava ma non so spiegare come si ottiene}
-\begin{equation*}
-  \begin{aligned}
-    \angb{2,2,2} &= a_{11} \topp b_{11}\topp c_{11} + a_{12}\topp b_{21} \topp c_{11} \\
-                 &+ a_{21}\topp b_{11} \topp c_{21} + a_{22} \topp b_{21} \topp c_{21} \\ 
-                 &+ a_{11} \topp b_{12} \topp c_{12} + a_{12} \topp b_{22} \topp c_{12} \\
-    &+ a_{21} \topp b_{12} \topp c_{22} + a_{22}\topp b_{22}\topp c_{22}.
-  \end{aligned}
-\end{equation*}
 
-Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici. Nel ??
-Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
-provò a mostrare che era l'algoritmo ottimale, fallendo in maniera spettacolare \footnote{in realtà
-la tesi è vera nel campo $ \Z/2\Z $.} e dando vita a una nuova teoria.
 
-\subsection*{L'algoritmo di Strassen}
-
-\section{Algoritmi APA}
-
-\subsection*{Il problema del border rank}
-\label{sec:border_rank}
-
-\todo{Introduci e motiva il problema partendo dagli algoritmi APA (vedi Landsbeg)}
-
-\begin{example}
-  Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
-  linearmente indipendenti.  Definiamo il tensore 
-  \begin{equation}
-    \Tn{X} = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
-  \end{equation}
-  e notiamo che $ \rk(\Tn{x}) = 3 $ dato che non può
-  essere scomposto come somma di tensori più semplici.
-  Consideriamo la successioni di tensori 
-  \begin{equation}
-  \label{eq:rank_counterex}
-  \Tn{y}_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
-  \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
-  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
-  \end{equation}
-  che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
-  Vediamo che $ \lim_{\varepsilon \to 0} \Tn{y}_\varepsilon = \Tn{x} $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
-  Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
-  \begin{equation}
-    \begin{aligned}
-      \Tn{y}_\varepsilon &=  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
-      +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
-      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
-      b_1 \topp c_1 \\
-                         &= \Tn{x} + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
-      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
-    \end{aligned}
-  \end{equation}
-  Quindi $ \Tn{y}_\varepsilon - \Tn{x} \to 0 $.
-\end{example}
-
-Questo motiva la seguente definizione:
-
-\begin{definition}[Border rank]
-  Dato un tensore $ \Tn{x} \in \Rmsiz $, il suo border rank è la quantità
-  \[
-  \brk(\Tn{x}) = \min \left\{ r \in \N \mid \exists \Tn{y} \in \Rmsiz! \text{ t.c }
-  \rk(\Tn{y})=r, \, \|\Tn{x} - \Tn{y}\|  < \varepsilon \right\}
-  .\] 
-\end{definition}
