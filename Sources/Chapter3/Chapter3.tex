@@ -18,10 +18,15 @@ asintoticamente pari a quello
 delle moltiplicazioni. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
 nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
 \cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
-\omega \le  2.48 $ nel 1887 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
+\omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
 pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
 più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}.
-\todo{Qui plot grafico complexity}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
+  \caption{Cronologia dei miglioramenti del limite superiore dell'esponente della moltiplicazione matriciale $\omega$ dal 1969 ad oggi. La linea tratteggiata rappresenta il limite superiore banale $\omega \le 3$ dato dall'algoritmo classico scolastico.}
+  \label{fig:matrix_mult_timeline}
+\end{figure}
 
 \begin{remark}
   Trovare il minimo esponente è un problema di interesse principalmente della teoria della
@@ -92,17 +97,24 @@ In forma tensoriale,
   algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
 
-\subsection*{Decomposizione low-rank}
+\section{Decomposizione low-rank di forme bilineari}
 
-Dal punto di vista numerico, calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
-  O(mnp) $. La scrittura in forma tensoriale evidenzia il numero di
+Nell'analisi numerica, le decomposizioni low-rank possono ridurre notevolmente la complessità di
+calcolo. Se ad esempio $ M \in \R^{m\times n} $ è una matrice di rango uno, possiamo scrivere $ M =
+u \topp v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $, e valutare $ Mx =
+(uv^{\top})x = u(v^{\top}x) $ ha costo $ O(1) $. In generale da \todo{teorema fondamentale algebra
+lineare} se $ M $ ha rango $ R $, possiamo scriverla come somma di $ R $ matrici di rango uno ed
+ottenere un costo di valutazione $ O(R) $. Quest'idea si generalizza in modo simile anche per forme
+bilineari.
+
+Calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
+  O(mnp) $, data dal numero di
   moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
   multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Ci aspettiamo che
-  la complessità di valutare $ f(x,y) $ sia correlato al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
+  la complessità di valutare $ f(x,y) $ sia correlata al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
 
 Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{t} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{t}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
 
-$ R,  $
 \begin{equation}
   \label{eq:b_active}
   \begin{aligned}
