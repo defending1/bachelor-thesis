@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Unicità della fattorizzazione CP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3- $dimensionale con un argomento di 40 pagine
+\cite{KRUSKAL197795}, di non semplice lettura. La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
+due dimostrazioni concise seguendo due strade diverse, che entrambe sfruttano il permutation lemma
+formulato da Kruskal. La prima, scritta da Stegeman e
+Sidiropoulos~\cite{STEGEMAN2007540} di 16 pagine, e poi riadattata da
+Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di sole 3 pagine. La seconda di Rhodes (circa 9
+pagine) in \cite{rhodes2009conciseproofkruskalstheorem} in coordinate. Il caso generale, dimostrato
+da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
+riconducendosi al caso $ 3-$dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
+
+\begin{definition}[Essenziale unicità CP]
+  Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} \dsqr{U_1, \ldots, U_d}$ è
+  \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ \Tn{x} = \dsqr{\tilde{U}_1,
+  \ldots, \tilde{U}_d}$ di rango $ r $, esiste una patrice di permutazione $ P \in \R^{r \times r} $
+  e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
+  I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
+\end{definition}
+
+\begin{definition}[$ k- $rango]
+  Data $ A \in \R^{m\times n} $, il suo \emph{$ K- $rango} è il massimo $ K \in \N $ tale che ogni
+  scelta di $ K $ colonne in $ A $ comprende colonne linearmente indipendenti. Lo denoteremo con il
+  simbolo $ \krk{A} $.
+\end{definition}
+\begin{remark}
+  Dalla definizione segue che $ \krk{A} \le \rk(A) $ per ogni matrice $ A \in \R^{m \times n} $. In
+  particolare, se $ A $ è full-rank, $ \krk{A} = \rk(A) $; se invece $ A $ ha due colonne linearmente
+  dipendenti, $ \krk{A} \le 1 $.
+\end{remark}
+
+\todo{Chiedere se questa notazione del krank va bene}
+
+
+Veniamo ora al risultato nella sua forma più generale, dimostrato da Sidiropoulos e Bro
+\cite{sidiropoulos2000uniqueness}.
+
+\todo{Chiarire se $ \K $ può essere $ \R $ o $ \C $}
+\begin{theorem}[Kruskal 3D, Sidiropoulos e Bro]
+  Una fattorizzazione CP di un tensore $ \Tn{X} = \dsqr{U_1, \ldots, U_d}$ di rango $ r $ è essenzialmente unica se
+  \begin{equation*}
+    \sum_{j=1}^d \krk{U_j} \ge 2r + d -1.
+  \end{equation*}
+\end{theorem}
+
+Mostriamo prima il caso $ d = 3 $. Per semplicità, consideriamo l'enunciato sopra rinominando $
+\Tn{x} = \dsqr{A, B, C} $, e mostriamo che $ \krk{A} + \krk{B} + \krk{C} \ge 2r + 2 $. 
+\missingfigure{missing Proof}
+
+Per il caso $ d=4 $ introduciamo il seguente lemma:
+
+La condizione di Kruskal è sufficiente ma non necessaria. Il seguente risultato fornisce una
+condizione necessaria ma non sufficiente:
+
+\begin{theorem}
+  Dato un tensore $ \Tn{x} = \dsqr{U_1, \ldots, U_d}$ tale per cui $ \min_j \left\{ \rk(U_d \krp
+  \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1) \right\} < r$, allora la fattorizzazine $ \Tn{x} =
+  \dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
+\end{theorem}
+
+
+\section{Unicità 3-dim (Landsberg)}
+
+Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scrittura
+\begin{equation}
+  \label{eq:tens_full}
+T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
+,\end{equation}
+è (essenzialmente) unica.
+
+\begin{remark}[Condizione ovvia per l'unicità]
+  Per le matrici, l'espressione di una matrice come somma di $ r $ matrici di rango uno non è mai
+  unica (a meno che $ r = 1 $) \todo{Why?}. Quindi una condizione banale per l'unicità è che $ T $
+  non possa essere ricodotto a una somma di matrici di rango uno (elementi della forma $ a_i \otimes
+  b_i$). Consideriamo ad esempio
+  \[
+  T = a_1 \otimes b_1\otimes c_1  + a_1 \otimes b_2 \otimes c_2 + a_3 \otimes b_3 \otimes c_3 +
+  \ldots + a_r \otimes b_r \otimes c_r
+  ,\] dove ognuno degli insiemi $ \{a_i\}, \{b_j\}   $ e $ \{c_k\}  $ è formato da elementi
+  linearmente indipendenti. Questa scrittura non è unica a causa dei primi due termini. In altre
+  parole, se consideriamo per l'Equazione~\ref{eq:tens_full} gli insiemi $ \s_A = \{[u_i]\} \subset
+  \PP A$, $
+  \s_B = \{[v_i]\} \subset \PP B  $ e $ \s_C = \{[w_i]\} \in \PP C$, allora l'unicità implica che
+  siano formati da $ r $ punti distinti.
+\end{remark}
+
+\begin{definition}[Posizione generale]
+  Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
+  Diciamo che i punti di $ \s  $ sono in $ 2- $posizione generale se nessuna coppia di punti
+  coincide; sono in $ 3- $posizione generale se nessuna terna di punti giace su una retta, e in
+  generale, diremo che sono in \emph{$ r- $posizione generale} se nessuna $ r- $upla giace su un $
+  \PP^{r-2} $. 
+\end{definition}
+\begin{definition}[Kruskal rank]
+  Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
+  sono in $ r- $posizione generale.
+\end{definition}
+\begin{remark}
+  Fissata una base per $ W $ tale per cui i punti di $ \s $ possono essere scritti come colonne di
+  una matrice $ M $ (è ben definito a meno di riscalamento), allora $ \krk{\s} $ è il massimo intero
+  positivo $ r $ tale per cui ogni sottoinsieme di $ r $ colonne di vettori di $ M $ è linearmente
+  indipendente. Questa era la definizione originale di Kruskal.
+\end{remark}
+
+\begin{theorem}[Kruskal~\cite{KRUSKAL197795}]
+  Sia $ T \in A \otimes B \otimes C $ che ammette fattorizzazione CP $ T = \sum_{i = 1}^r u_i
+  \otimes v_i \otimes w_i$. Siano $ \s_A = \{[u_i]\}, \s_B = \{[v_i]\}  $ e $ \s_C = \{[w_i]\}  $.
+  Se vale
+  \begin{equation}
+  \label{eq:kr3}
+    r \le  \frac{1}{2} (\krk{\s_A} + \krk{\s_B} + \krk{\s_C}) - 1,
+  \end{equation}
+  allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+\end{theorem}
+Più in generale vale il seguente teorema:
+\begin{theorem}[\cite{sidiropoulos2000uniqueness}]
+  Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione CP $ T=
+  \sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se 
+  \begin{equation}
+    \sum_{i=1}^r \krk{\s_{A_k}} \ge 2r + n -1,
+  \end{equation}
+  allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+\end{theorem}
+\begin{remark}
+  Se vale l'Equazione~\ref{eq:kr3}, segue facilmente che $ \krk{\s_A},\krk{\s_B}, \krk{\s_C} \ge 2
+  $.
+\end{remark}
+\begin{remark}
+  Se $ \bm{a} = \bm{b} = \bm{c} $ e $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, quando $
+  r = \bm{a} $ l'espressione è unica. Inoltre, il la condizione di unicità del teorema di Kruskal si
+  può estendere a quando $ \bm{a} \le r \le \frac{3}{2}\bm{a} - 1 $ sotto ipotesi addizionali (non
+  lo vediamo).
+\end{remark}
+
+Il risultato centrale per dimostrare il teorema di Kruskal è il permuation lemma
+\begin{lemma}[Permutation lemma]
+  Siano $ \s = \{p_1, \ldots, p_r\}  $ e $ \tilde{\s} = \{q_1, \ldots, q_r\} $ due insiemi di punti
+  in $ \PP W $ a due a due distinti (i.e. tali che $ \krk{S} \ge 2 $) e supponiamo che $
+  \angb{\tilde{\s}} = W $. Per ogni iperpiano $ H \subset \PP W $ con la proprietà che che, se $ H $
+  contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ ed è tale che $ \#(\s \cap H) \ge
+  \#(\tilde{\s} \cap H) $, then $ \s = \tilde{\s} $.
+\end{lemma}
+\begin{remark}
+  Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{s} $ con due matrici $ M $
+  e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale, ovvero che per ogni $ x
+  \in \R^{\bm{w}}$ tale che il numero di elementi non nulli nel vettore $ \tilde{M}^{\top}x $ è
+  minore di $ r - \rank(\tilde{M}) + 1$
+  \todo{finire}
+\end{remark}
+L'ipotesi $ \angb{\tilde{\s}} = W$ è leggermente diversa dall'originale \todo{Quale?}, e garantisce che $
+\rank{\tilde{M}}
+= \bm{w}$, e permette di escludere alcuni casi banali dalla dimostrazione. Questo è tutto ciò che ci
+serve per applicare la seguente proposizione.
+
+\begin{proposition}
+  Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_n $ di rango $ r $. Diciamo che $ T \in
+  A_1' \otimes \cdots \otimes A_n'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
+  ogni espressione $ T = \sum_{i=1}^\rho u_{1i} \otimes \cdots \otimes u_{ni} $ con qualche $ u_{sj}
+  \notin A_s'$ ha $ \rho > r $.
+\end{proposition}
+\begin{proof}
+  Scegliamo dei complementari $ A_t'' $ tali che $ A_t = A_t' \oplus A_t'' $. Assumiamo per assurdo che $ \rho =
+  r$ e scriviamo $ u_{tj} = u_{tj}' + u_{tj}'' $, dove $ u_{tj}' \in A_t' $ e $ u_{tj}'' \in A_t''
+  $. Allora
+  \begin{equation*}
+     T = \sum_{i=1}^\rho (u_{1i}' + u_{1i}'') \otimes \cdots \otimes (u_{ni}' + u_{ni}'') =
+     \sum_{i=1}^\rho u_{1i}' \otimes \cdots \otimes u_{ni}' + R,
+  \end{equation*}
+  dove $ R $ è il tensore che contiene i termini "misti" dati dai prodotti tra i fattori
+  $u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, cioè
+  \begin{equation}
+  R = \sum_{j=1}^\rho u_{1j}'' \otimes (u_{2j}' \otimes \cdots \otimes u_{nj}') + \ldots
+  + \sum_{j=1}^\rho u_{1j}'' \otimes \cdots \otimes u_{nj}''.
+  \end{equation}
+  Ma siccome $ T \in A_1' \otimes \cdots \otimes A_n'$, si deve avere che $ R = 0 $,
+  ovvero i termini di $ R $ si proiettano nel vettore nullo.
+  Assumiamo senza perdita di generalità che $ A_{1}' \subsetneq A_{1}$ sia propria, dunque $ u_{1j_0}'' \neq
+  0$ per un certo $ j_0 $. Siccome in $ R $ è presente l'espressione $ \sum_{j=1}^r u_{1j}'' \otimes (u_{2j}' \otimes
+  \cdots \otimes u_{nj}') = 0$, ma tutti i temini $ u_{2j}' \otimes \cdots \otimes u_{nj}' $ sono
+  linearmente indipendenti nel sottospazio $ A_2' \otimes \cdots \otimes A_n' $ (altrimenti $ T $ si
+  potrebbe scrivere con meno di $ r $ termini, che contraddirrebbe la minimalità di $ r $), allora gli $ u_{1j} $ sono tutti nulli, che è assurdo.
+\end{proof}
+\begin{proof}[Dimostrazione del Permutation lemma]
+  Oserviamo prima che la tesi segue immediatamente sostituendo "iperpiani" con "punti", la tesi
+  segue immediatamente in quanto i punti di $ \s $ sono distinti. Dimostriamo la tesi per induzione,
+  assumendo come ipotesi induttiva che valga per gli iperpiani e mostrandola per i punti\todo{?}.
+  
+\end{proof}

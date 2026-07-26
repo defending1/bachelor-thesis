@@ -168,6 +168,7 @@
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
 \RequirePackage{dsfont}
+\RequirePackage{faktor}
 \usepackage[normalem]{ulem} % Provides clean underlining
 \usepackage{environ}        % Allows advanced environment control
 
@@ -194,6 +195,8 @@
 \DeclareMathOperator {\im}              {im}
 % Common operators used in the thesis
 \newcommand{\rk}{\bm{R}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Id}{Id}
 % rank_k: use operatorname with subscript since \DeclareMathOperator
 % does not accept math subscripts in the textual name.
 \newcommand{\krk}[1]{\mathbf{k}_{#1}}

@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+% Importa il pacchetto tensors dal livello superiore
+\usepackage{../tensors}
+
+% Ridefinizione di \L come nel documento principale (Thesis.tex)
+\renewcommand{\L}{\mathbb{L}}
+
+\title{Corrispondenza tra Ordinamento dei Tensori e Layout di Memoria delle Matrici}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+Questo documento descrive formalmente la corrispondenza tra le nozioni tensoriali di \emph{ordinamento naturale} e \emph{ordinamento inverso} (definiti nel capitolo 1 della tesi) e i layout di memoria standard per matrici bidimensionali, noti come \emph{column-major} e \emph{row-major order}.
+
+\section{Formalizzazione per Matrici (Tensori 2-dimensionali)}
+
+Sia data una matrice $\Mx{A} \in \mathbb{R}^{n_1 \times n_2}$, indicizzata dalla coppia di indici $(i_1, i_2)$, dove $i_1 \in [n_1]$ indica la riga e $i_2 \in [n_2]$ indica la colonna. 
+
+\subsection{Ordinamento Naturale e Column-Major}
+L'ordinamento naturale $\L \colon \mdom! \to [\prod_{j=1}^d n_j]$ definisce la vettorizzazione scorrendo per prima la prima dimensione. Per $d=2$:
+\begin{itemize}
+    \item I passi (o strides) sono definiti come $s_1 = 1$ e $s_2 = n_1$.
+    \item La mappa di linearizzazione è:
+    \[
+    \L(i_1, i_2) = i_1 + n_1 (i_2 - 1).
+    \]
+\end{itemize}
+Poiché il passo associato all'indice di riga $i_1$ è $s_1 = 1$, tale indice varia più velocemente. In memoria, gli elementi adiacenti appartengono alla stessa colonna:
+\[
+\L(1,1) = 1, \quad \L(2,1) = 2, \quad \dots, \quad \L(n_1,1) = n_1, \quad \L(1,2) = n_1 + 1, \quad \dots
+\]
+Questo corrisponde esattamente al layout \textbf{column-major order} (tipico di Fortran, MATLAB, R, Julia).
+\begin{itemize}
+    \item \textbf{Vettorizzazione:} L'operatore $\Vec(\Mx{A})$ basato su $\L$ effettua un incolonnamento per colonne (ad esempio, \texttt{A(:)} in MATLAB o \texttt{A.flatten('F')} in Python).
+\end{itemize}
+
+\subsection{Ordinamento Inverso e Row-Major}
+L'ordinamento inverso (reverse ordering) $\L^* \colon \mdom! \to [\prod_{j=1}^d n_j]$ inverte l'ordine dei passi. Per $d=2$:
+\begin{itemize}
+    \item I passi sono definiti come $s_2^* = 1$ e $s_1^* = n_2$.
+    \item La mappa di linearizzazione è:
+    \[
+    \L^*(i_1, i_2) = i_2 + n_2 (i_1 - 1).
+    \]
+\end{itemize}
+Poiché il passo associato all'indice di colonna $i_2$ è $s_2^* = 1$, tale indice varia più velocemente. In memoria, gli elementi adiacenti appartengono alla stessa riga:
+\[
+\L^*(1,1) = 1, \quad \L^*(1,2) = 2, \quad \dots, \quad \L^*(1,n_2) = n_2, \quad \L^*(2,1) = n_2 + 1, \dots
+\]
+Questo corrisponde esattamente al layout \textbf{row-major order} (tipico di C, C++, Python/NumPy/PyTorch per impostazione predefinita).
+\begin{itemize}
+    \item \textbf{Vettorizzazione:} L'operazione di vettorizzazione associata a $\L^*$ corrisponde a scorrere la matrice riga per riga (ad esempio, \texttt{A.flatten('C')} in Python).
+\end{itemize}
+
+\section{Estensione a Tensori multidimensionali ($d > 2$)}
+
+Sia $\Tn{X} \in \Rmsiz!$ un tensore d-dimensionale indicizzato da $(\miwc) \in \mdom!$.
+
+\begin{description}
+    \item[Ordinamento Naturale ($\L$):] I passi sono $s_1 = 1$, $s_{j+1} = s_j n_j = n_1 \cdots n_j$. L'indice più a sinistra ($i_1$) varia più velocemente in memoria, mentre l'indice più a destra ($i_d$) varia più lentamente. Corrisponde a un layout multidimensionale di tipo \textbf{column-major} (Fortran).
+    \item[Ordinamento Inverso ($\L^*$):] I passi sono $s_d^* = 1$, $s_{j-1}^* = s_j^* n_j = n_j \cdots n_d$. L'indice più a destra ($i_d$) varia più velocemente in memoria, mentre l'indice più a sinistra ($i_1$) varia più lentamente. Corrisponde a un layout multidimensionale di tipo \textbf{row-major} (C, Python).
+\end{description}
+
+\section{Tabella di Confronto}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Ordinamento & Strides ($d=2$) & Layout Matrice & Indice Veloce & Standard Informatici \\ \midrule
+Naturale ($\L$) & $s_1=1, s_2=n_1$ & Column-major & $i_1$ (riga) & MATLAB, Julia, R, Fortran \\
+Inverso ($\L^*$) & $s_2^*=1, s_1^*=n_2$ & Row-major & $i_2$ (colonna) & C, C++, Python (NumPy) \\ \bottomrule
+\end{tabular}
+\caption{Confronto tra ordinamenti tensoriali e layout di memoria matriciali.}
+\end{table}
+
+\end{document}
