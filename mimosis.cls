@@ -6,6 +6,8 @@
   BCOR = 10mm,  % TODO: Make configurable
 }{typearea}
 
+\PassOptionsToPackage{leqno}{amsmath}
+
 \LoadClass[a4paper,
            twoside,
            11pt,
