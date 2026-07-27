@@ -22,7 +22,6 @@ riconducendosi al caso $ 3-$dimensionale, pertanto riteniamo più interessante t
 \end{definition}
 
 
-\section{Il Teorema di Kruskal}
 
 \section{Convenzioni}  
 
@@ -43,6 +42,8 @@ Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ co
 suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
 sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
 Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi.
+
+\section{Il Teorema di Kruskal}
 
 Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scrittura
 \begin{equation}
@@ -276,17 +277,21 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
   lunghezza $ r $ è verificata, il rango di $ T $ è $ r $. Mostriamo prima che $ \s_A = \tilde{\s}_A
   $, $ \s_B = \tilde{\s}_B$ e $ \s_C = \tilde{\s_C} $. Per simmetria basta mostrare l'ultima
   affermazione, sfruttando il permutation lemma. Se $ H \subset \PP C $ è un iperpiano
-  tale che $ \#(\tilde{\s}_C \cap H) \ge \bm{c}-1 $, allora $ \#(\s_C \cap H) \ge \#(\tilde{\s}_C
-  \cap H) $; le ipotesi sono garantite dall'Osservazione~\ref{rm:stima_krk} e dal fatto che $
+  tale che $ \#(\tilde{\s}_C \cap H) \ge \bm{c}-1 $, allora
+  \begin{equation}
+    \label{eq:stima_perm_lemma}
+     \#(\s_C \cap H) \ge \#(\tilde{\s}_C \cap H) ,
+  \end{equation}
+  le ipotesi sono garantite dall'Osservazione~\ref{rm:stima_krk} e dal fatto che $
   \angb{\tilde{\s}_C} = C $\todo{giutifica o motiva}. 
 Sia $ \s = (\s_C \not\subset H) $ e scriviamo 
   \[
   T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j =
   \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma \otimes w_\sigma + \sum_{\mu = S+1}^r u_\mu \otimes v_\mu \otimes w_\mu
   ,\] dove abbiamo riordinato gli indici $ j $ affinché i primi $ S $ dei $ [w_j] $ non stiano in $
-  H $. Dimostriamo che $ \#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S $, da cui
-  seguirà l'affermazione usando che $ r = \#(\s_C \cap H) + \#(\s_C \not\subset H)  =\#(\tilde{\s}_C
-  \cap H) + \#(\tilde{\s}_C \not\subset H) $\todo{scrivere i passaggi}. Sia $ h \in \hat{H}^\perp $ non nullo. Valutando in $ h $ abbiamo $ T(h) =
+  H $. Possiamo riformulare l'Equazione~\ref{eq:stima_perm_lemma} come $ \#(\tilde{\s}_C \not\subset
+  H) \ge  \#(\s_C \not\subset H) = S $, sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
+  \cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Sia $ h \in \hat{H}^\perp $ non nullo. Valutando in $ h $ abbiamo $ T(h) =
   \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) $, dove nessuno dei $ h(w_\sigma)
   $ è nullo. In particolare,\todo{not clear}
   \begin{equation*}
@@ -300,9 +305,8 @@ Sia $ \s = (\s_C \not\subset H) $ e scriviamo
                   &\ge \dim \angb{u_\sigma} + \dim \angb{v_\sigma} - S.
     \end{aligned}
   \end{equation*}
-  \todo{non chiara}
   Per definizione di $ k $-rango, valgono $ \dim \angb{u_{\sigma}} \ge \min \{S, \krk{\s_A}\}  $ e
-  $ \dim \angb{v_\sigma} \ge \min \{S, \krk{S_B}\}  $. Mettendo insieme queste ultime stime abbiamo
+  $ \dim \angb{v_\sigma} \ge \min \{S, \krk{S_B}\}  $: per la prima, ad esempio. Mettendo insieme queste ultime stime abbiamo
   \begin{equation}
     \label{eq:krk_s_c_down}
     \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  + \min \{S, \krk{\s_B}\} - S.
@@ -323,7 +327,7 @@ Siccome $ \#(\tilde{\s}_C \cap H) \ge \bm{c} - 1 $, dall'equazione sopra ottenia
                                    &\le \krk{\s_A} + \krk{\s_B} - r - 1,
   \end{aligned}
 \end{equation}
-\todo{va aggiustato il label all'ultima?}
+\todo{quale equazione è meglio numerare qui sopra?}
 Mettendo insieme le stime troate nell'Equazione~\ref{eq:krk_s_c_down} e~\ref{eq:krk_s_c_up}, troviamo
 \begin{equation}
   \krk{\s_A} + \krk{\s_B} - r - 1 \ge \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  +
