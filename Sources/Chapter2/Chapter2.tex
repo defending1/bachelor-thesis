@@ -210,14 +210,24 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
   $ \#(X \setminus Y) = \# X - \#(X \cap Y) $.
 \end{proof}
 \begin{proof}[Dimostrazione del permutation lemma]
-  Oserviamo prima che la tesi segue immediatamente sostituendo ‘‘iperpiani’’ con ‘‘punti’’, in quanto i punti di $ \s $ sono distinti. Dimostriamo la tesi per induzione,
-  assumendo come ipotesi induttiva che valga per gli iperpiani e decrementando la dimensione fino al
-  caso base. \todo{non è chiaro perché funzioni}
-  Assumiamo che i $ (k+1)$-piani $ M $ con la proprietà che se contengono almeno $ k+2 $ punti di $
-  \tilde{\s} $, allora soddisfano $ \#(\s \cap M) \ge \#(\tilde{\s} \cap M) $. Vediamo
-  che lo stesso vale per i $ k $-piani. Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
+  Osserviamo prima che sostituendo nell'ipotesi ‘‘iperpiani’’ con ‘‘punti’’, la tesi segue
+  immediatamente: per
+  ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
+  allora $ \s \cap \{P\} = \tilde{\s} \cap \{P\}  $, ovvero $ \s = \tilde{\s} $, poiché i punti di $ \s $ sono distinti. 
+  Consideriamo la seguente proprietà $ (\mathcal{P}_{k+1}) $: assumiamo che i $ (k+1)$-piani $ M $ tali che, se contengono almeno $ k+2 $ punti di $
+  \tilde{\s} $, allora soddisfano $ \#(\s \cap M) \ge \#(\tilde{\s} \cap M) $. Vediamo che lo stesso
+  vale per i $ k $-piani $(\mathcal{P}_{k})$. Una volta dimostrato ciò, sapendo per ipotesi che la proprietà sopra valga per gli
+  iperpiani (ovvero piani di dimensione $ \dim(\PP W) - 1 = \bm{w}-2 $ piani), possiamo costrure una catena di
+  implicazioni fino al caso base: 
+  \begin{equation*}
+    \mathcal{P}_{\bm{w}-2} \implies \mathcal{P}_{\bm{w}-3} \implies \mathcal{P}_{\bm{w}-4} \implies
+    \cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0},
+  \end{equation*}
+  dove la proprità $ \mathcal{P}_{0} $ corrisponde a quella detta inizialmente per i punti.
+
+  Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
   punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
-  $ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $---tale insieme è non vuoto:
+  $ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $. Tale insieme è non vuoto:
   basta prendere il piano generato da almeno $ \mu + 1 $ ed altri punti in posizione generale. Osserviamo subito che ogni
   piano $ M_{\alpha} $ soddisfa l'ipotesi induttiva, in quanto contiene almeno $ \mu + 1 \ge k+2 $
   punti di $ \tilde{\s} $, dunque 
@@ -258,7 +268,6 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
     \end{aligned}
   \end{equation*}
   da cui $ \#(\tilde{\s} \cap L) \le \#(\s \cap L) $.
-  \todo{giustificare come ottengo che $ \tilde{\s} \cap L = \s \cap L$}
 \end{proof}
 
 Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
