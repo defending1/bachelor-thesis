@@ -2,7 +2,7 @@
 \chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3- $dimensionale con un argomento di 40 pagine
+Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un argomento di 40 pagine
 \cite{KRUSKAL197795}, di non semplice lettura. La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
 due dimostrazioni concise seguendo due strade diverse, che entrambe sfruttano il permutation lemma
 formulato da Kruskal. La prima, scritta da Stegeman e
@@ -12,24 +12,37 @@ pagine) in \cite{rhodes2009conciseproofkruskalstheorem} in coordinate. Il caso g
 da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
 riconducendosi al caso $ 3-$dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
 
+\todo{provvisoria (da legare alla nuova definizione)}
 \begin{definition}[Essenziale unicità CP]
-  Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} \dsqr{U_1, \ldots, U_d}$ è
+  Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} = \dsqr{U_1, \ldots, U_d}$ è
   \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ \Tn{x} = \dsqr{\tilde{U}_1,
   \ldots, \tilde{U}_d}$ di rango $ r $, esiste una patrice di permutazione $ P \in \R^{r \times r} $
   e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
   I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
 \end{definition}
 
-\todo{Chiedere se questa notazione del krank va bene}
-
 
 \section{Il Teorema di Kruskal}
 
+\section{Convenzioni}  
+
+Denotiamo gli spazi vettoriali con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
+lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Se $ v_1,\ldots,v_p \in V$,
+$ \angb{v_1,\ldots,v_p} \in V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^*
+$ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
+\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
+dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
+\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\} = \bigcap_{\alpha \in V^*} \alpha^\perp $
+
 Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
-\colon V \to  \PP(V) \colon v \mapsto [v]$. Poniamo $\faktor{V \setminus \{0\}}{\sim} \eqdef
+\colon V \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V $, il punto $ [v] $ denota $
+\pi(v) $. Poniamo $\faktor{V \setminus \{0\}}{\sim} \eqdef
 \PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
 Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
-\PP(\K^{n+1} ) $.
+\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $ \todo{Landsberg aggiunge algebrico}, il
+suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
+sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
+Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi.
 
 Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scrittura
 \begin{equation}
@@ -77,8 +90,8 @@ spazio dei tensori nel proiettivo (varietà di Segre)}
 \end{remark}
 
 \begin{remark}
-  Dalla definizione segue che $ \krk{A} \le \rk(A) $ per ogni matrice $ A \in \R^{m \times n} $. In
-  particolare, se $ A $ è full-rank, $ \krk{A} = \rk(A) $; se invece $ A $ ha due colonne linearmente
+  Dalla definizione segue che $ \krk{A} \le \rank(A) $ per ogni matrice $ A \in \R^{m \times n} $. In
+  particolare, se $ A $ è full-rank, $ \krk{A} = \rank(A) $; se invece $ A $ ha due colonne linearmente
   dipendenti, $ \krk{A} \le 1 $.
 \end{remark}
 
@@ -362,27 +375,45 @@ Qui, $ S^{\mathsf{c}} = \{1, \ldots, r\} \setminus S   $.
 Per dimostrare l'affermazione prendiamo un iperpiano $ \hat{H}_T \subset C $ contenente $ w_{s_0} $
 ma non $ w_{t_0} $ e definito come in (iv). Consideriamo $ T^{\mathsf{c}} =  \{j \mid w_j \in
 \hat{H}_T\} $. Siccome $ \dim(\hat{H}_T) = \bm{c}-1 \ge \krk{\s_C} -1 $, allora anche $ \#T^{\mathsf{c}}
-\ge \krk{\s_C} -1 $. Questo ci garantisce che $ \#T = r - \#T^{\mathsf{c}} \le r - \krk{\s_C} + 1 \le \krk{\s_A} +
-\krk{\s_B} - r - 1 \le \krk{\s_B} -1 $ (l'ultima disuguaglianza segue da $ \krk{\s_A} \le r $).
-Questo mostra che, aggiungere un qualunque vettore\footnote{Intendiamo il vettore $ w $
-  rappresentante  della rispettiva classe $ [w] $ in $ \s_B $.} in $ \s_B $ al sottospazio $ \angb{v_j \mid j \in
+\ge \krk{\s_C} -1 $. Questo mostra che $ \#T = r - \#T^{\mathsf{c}} \le r - \krk{\s_C} + 1 \le \krk{\s_A} +
+\krk{\s_B} - r - 1 \le \krk{\s_B} -1 $ (l'ultima disuguaglianza segue da $ \krk{\s_A} \le r $), ed
+assicura una stima sulla cardinalità di $ T $.
+Da cui, aggiungere un qualunque vettore\footnote{Intendiamo il vettore $ w $
+  rappresentante  della rispettiva classe $ [w] $ in $ \s_B $.} di $ \s_B $ al sottospazio $ \angb{v_j \mid j \in
 T} $ ne aumenta la dimensione, in particolare $ v_{s_0} \not\in \angb{v_t \mid t \in T}$. Allora
 esiste un iperpiano $ \hat{H}_S \subset B $ contenente $ \angb{v_t \mid t \in T} $ ma non $ v_{s_0}
-$ \todo{vero che se completo a base ottengo $ \angb{v_t \mid t \in T} = \hat{H}_S$?}. Detto $ S \defeq \{j \mid v_j \in \hat{H}_S\}  $, allora $ S $ e $ T $ hanno le proprietà desiderate.
+$ \todo{vero che se completo a base ottengo $ \angb{v_t \mid t \in T} = \hat{H}_S$?}. Detto $ S^{\mathsf{c}}
+\defeq \{j \mid v_j \in \hat{H}_S\}  $, similmente a quanto visto per $ T $, valgono $
+\#S^{\mathsf{c}} \ge \krk{\s_B} -1 $, dunque $ \#S \le r - \krk{\s_B} + 1 $. Dalla costruzione segue
+che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le proprietà desiderate.
 
 Notiamo che per costruzione $ T\big|_{\hat{H}_{S}^\perp \times \hat{H}_{T}^\perp} = 0$: preso un
-elemento $ (\beta,\gamma) \in \tilde{H}_S^\perp \times \tilde{H}_T^\perp $ qualsiasi, si ha
+elemento $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $ qualsiasi, si ha
 \begin{align*}
-  T(\beta,\gamma) = \sum_{i=1}^r u_j\beta(v_j)\gamma(w_j) = \sum_{i=1}^r u_j
-  \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}) = 0
+  0 = T(\beta,\gamma) &= \sum_{j=1}^r u_j\beta(v_j)\gamma(w_j) \\
+                      &= \sum_{j=1}^r u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}) =  \sum_{j \in
+                      \mathcal{J}} u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}),
 \end{align*}
-\todo{SISTEMARE}
+dove $ \mathcal{J} = \{j \mid \sigma(j) \in S, \tau(j) \in T\} \supseteq \{j \mid \sigma(j) \neq
+\tau(j)\} \neq \emptyset $, in quanto contiene almeno $ j_0 $.
+Ovvero, nel caso della prima sommatoria tutti i termini sono nulli: se entrambi $
+\beta(v_j) $ e $ \gamma(w_j) $ fossero nulli, si avrebbe $ v_j \in \hat{H}_S $ e $ w_j \in
+\hat{H}_T $, cioè $ j \in S \cap T = \emptyset$. Nella seconda riga, similmente, un addendo è nullo
+se $ v_{\sigma(j)} \not\in
+\tilde{H}_S$ e $ w_{\tau(j)} \in \tilde{H}_T $ cioè $ j \in \mathcal{J} $.
+Allora esiste una combinazione lineare non banale tra gli elementi $ u_j $ per gli indici $ j \in
+\mathcal{J} $, ma $ \#\mathcal{J} \le \min \{\#S, \#T\}  \le \min \{r - \krk{\s_B} + 1, r -
+\krk{\s_C} + 1\}  $, che è minore di $ \krk{\s_A} $, infatti, se fosse
+$\krk{\s_A} \gneq \min \{r - \krk{\s_B} + 1, r - \krk{\s_C} + 1\}$, si avrebbero
 
-
-Allora esiste
-una combinazione lineare non banale tra gli elementi $ u_j $ per gli indici $ j \in S \cap T $, ma $ \#(S \cap
-T) \le \min \{r - \krk{\s_B} + 1, r - \krk{\s_C} + 1\}  $, che è minore di $ \krk{\s_A} $.
-\todo{scrivi il conto (si vede per assurdo)}
+\begin{equation*}
+  \begin{aligned}
+    r - \krk{\s_B} + 1 &\gneq \krk{\s_A}, \\
+    r - \krk{\s_C} + 1 &\gneq \krk{\s_A}.
+  \end{aligned}
+\end{equation*}
+Sommando le disequazioni troveremmo $ 2r + 2 \gneq \krk{\s_A} + \krk{\s_B} + \krk{\s_A} $, che violerebbe
+l'ipotesi.
 
 \end{proof}
 
