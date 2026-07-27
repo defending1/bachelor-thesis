@@ -2,15 +2,16 @@
 \chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un argomento di 40 pagine
-\cite{KRUSKAL197795}, di non semplice lettura. La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
+Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
+argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura. La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
 due dimostrazioni concise seguendo due strade diverse, che entrambe sfruttano il permutation lemma
 formulato da Kruskal. La prima, scritta da Stegeman e
 Sidiropoulos~\cite{STEGEMAN2007540} di 16 pagine, e poi riadattata da
-Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di sole 3 pagine. La seconda di Rhodes (circa 9
-pagine) in \cite{rhodes2009conciseproofkruskalstheorem} in coordinate. Il caso generale, dimostrato
+Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di poche pagine, che presentiamo in
+questo elaborato. La seconda dimostrazione breve, ad opera di Rhodes (circa 9
+pagine) in~\cite{rhodes2009conciseproofkruskalstheorem} utilizza un approccio diverso, che non discuteremo. Il caso generale, dimostrato
 da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
-riconducendosi al caso $ 3-$dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
+riconducendosi al caso $ 3$-dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
 
 \todo{provvisoria (da legare alla nuova definizione)}
 \begin{definition}[Essenziale unicità CP]
@@ -283,7 +284,8 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
      \#(\s_C \cap H) \ge \#(\tilde{\s}_C \cap H) ,
   \end{equation}
   le ipotesi sono garantite dall'Osservazione~\ref{rm:stima_krk} e dal fatto che $
-  \angb{\tilde{\s}_C} = C $\todo{giutifica o motiva}. 
+  \angb{\tilde{\s}_C} = C $\todo{penso che dalla proposizione sopra possiamo restringere $ C $ a
+  questo sottospazio, perché se ci fossero termini inutilizzati avremmo una decomposizione più lunga}. 
 Sia $ \s = (\s_C \not\subset H) $ e scriviamo 
   \[
   T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j =
