@@ -2,20 +2,44 @@
 \chapter{Applicazioni della CP alla complessità aritmetica}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Introduciamo una quantità per misurare la complessità di una moltiplicazione tra matrici:
+\todo{Controlla che non ci sia ambiguità nel riferirti a mappe/forme bilineari: $ \psi : U\times V
+\to W $ è una forma bilineare se $ W = \K $, altrimenti chiamala mappa bilineare}
+
+\section{L'esponente della moltiplicazione tra matrici}
+
+\todo{la definizione di $ L $ è molto semplificata dal libro "Algebraic Complexity theory"~\cite{burgisser2013algebraic}}
+Indichiamo con $ L $ la funzione che calcola la complessità aritmetica per il calcolo di una
+funzione $ \varphi$. Fissato un campo $ \K \in \{\R,\C\}  $, denotiamo con
+\begin{equation*}
+  M(n) \defeq L \left( \left\{ \sum_{j=1}^n X_{ij}Y_{jl} \mid i,l \in \{1, \ldots, n\} \right\}  \right)
+\end{equation*}
+il numero totale di moltiplicazioni aritmetiche sufficienti a calcolare la moltiplicazione di due
+matrici $ n\times n $. Determinare una formula per $ M(n) $ è lontano dagli strumenti attualmente
+disponibili. Invece, il problema di approssimare la crescita asintotica della funzione $ n \mapsto
+M(n) $ è fattibile; definiamo
+
 \begin{definition}
-  L'\emph{esponente} $ \omega $ di una moltiplicazione matriciale è il numero
+  L'\emph{esponente $ \omega $ di una moltiplicazione matriciale} è il numero
 \begin{equation*}
   \begin{aligned}
-    \omega = \inf\{h \in \R \mid &\text{ la moltiplicazione tra due matrici }  n\times n  \\ & \text{ ha costo } O(n^h) \text{ operazioni aritmetiche} \}.
+    \omega \defeq \inf\{\tau \in \R \mid &\text{ la moltiplicazione tra due matrici }
+    n\times n  \\ & \text{ ha costo } O(n^\tau) \text{ operazioni aritmetiche} \}.
   \end{aligned}
 \end{equation*}
+In altre parole, $ \omega = \inf \{\tau \in \R \mid M(n) = O(h^\tau)\}  $.
 \end{definition}
-L'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $, e si ha $ \omega \ge 2 $ dal
-costo $ O(n^2) $ per il calcolo di addizioni tra matrici. Trovare $ \omega $ è un problema centrale
+
+\begin{remark}
+  Sia $ M(h) $ che $ \omega $ dipendono dal campo $ \K $. Siccome ci occuperemo di campi di
+  caratteristica zero, la dipendenza dal campo non sarà rilevante per ai nostri fini.
+\end{remark}
+
+Osserviamo che $ M(n) \le n^2(2n - 1) $, e dal costo per il calcolo delle addizioni segue la stima$ M(n) \ge n^2 $, da
+cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
 nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
 asintoticamente pari a quello
-delle moltiplicazioni. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
+delle moltiplicazioni.
+L'algoritmo naive ha $ \omega = 3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
 nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
 \cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
 \omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
@@ -24,13 +48,12 @@ più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, a
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
-  \caption{Cronologia dei miglioramenti del limite superiore dell'esponente della moltiplicazione matriciale $\omega$ dal 1969 ad oggi. La linea tratteggiata rappresenta il limite superiore banale $\omega \le 3$ dato dall'algoritmo classico scolastico.}
+  \caption{Miglioramenti del limite superiore dell'esponente della moltiplicazione matriciale $\omega$ dal 1969 ad oggi. La linea tratteggiata rappresenta il limite superiore $\omega \le 3$.}
   \label{fig:matrix_mult_timeline}
 \end{figure}
 
 \begin{remark}
-  Trovare il minimo esponente è un problema di interesse principalmente della teoria della
-  complessità. Nella maggior parte della applicazioni, l'algoritmo di Strassen è quello ottimale, si
+  Nella maggior parte della applicazioni, l'algoritmo di Strassen è quello ottimale, si
   veda la discussione in \cite{dalberto2023strassensmatrixmultiplicationalgorithm}. Di recente,
   il problema di stimare $ \omega $ e trovare il rango di tensori è diventato un problema
   d'interesse della branca della teoria della complessità algebrica e della geometria algebrica. Si
@@ -68,6 +91,7 @@ Possiamo vedere la moltiplicazione tra matrici anche come una mappa trilineare
     \end{aligned}
   \end{equation*}
 \end{remark}
+\todo{giustifica se necessario}
 
 
 Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
@@ -93,19 +117,19 @@ In forma tensoriale,
  \ttm[2] y^{\top}.
 \end{equation}
 \begin{remark}
-  Questa procedura si estende (tramite l'isomorfismo canonico) anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
+  Questa procedura si estende (passando alle coordinate) anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
   algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
 
 \section{Decomposizione low-rank di forme bilineari}
 
-Nell'analisi numerica, le decomposizioni low-rank possono ridurre notevolmente la complessità di
-calcolo. Se ad esempio $ M \in \R^{m\times n} $ è una matrice di rango uno, possiamo scrivere $ M =
-u \topp v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $, e valutare $ Mx =
+Nel calcolo della complessità, le decomposizioni low-rank possono ridurre notevolmente la il costo
+di calcolo di valutazioni di funzioni. Se ad esempio $ M \in \R^{m\times n} $ è una matrice di rango uno, possiamo scrivere $ M =
+u \topp v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; valutare $ Mx =
 (uv^{\top})x = u(v^{\top}x) $ ha costo $ O(1) $. In generale da \todo{teorema fondamentale algebra
 lineare} se $ M $ ha rango $ R $, possiamo scriverla come somma di $ R $ matrici di rango uno ed
-ottenere un costo di valutazione $ O(R) $. Quest'idea si generalizza in modo simile anche per forme
-bilineari.
+ottenere un costo $ O(R) $ per $ Mx $. Quest'idea si generalizza in modo simile anche per forme
+bilineari, come vedremo ora.
 
 Calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
   O(mnp) $, data dal numero di
@@ -131,25 +155,55 @@ Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizi
 \end{equation}
 per ogni $ k = 1, \ldots, p $.
 Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
-\begin{equation*}
+\begin{equation}
+  \label{eq:lowrank_bilinear}
   f(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
-\end{equation*}
+\end{equation}
 Quindi valutare $ f $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
   O(r) $ addizioni), che sopra evidenziamo con $
-(\cdot) $. Riassumendo, $ \rk(\angb{n,n,n}) $ misura il numero di moltiplicazioni necessarie per
+(\cdot) $. 
+
+
+\section{Rappresentazione del prodotto tra matrici}
+
+Consideriamo due matrici $ A \in \R^{M \times N} $ e $ B \in \R^{N \times P} $ e il loro prodotto $
+C \in \R^{M \times P} $. Ponendo $ x =
+\Vec(A) $ e $ y=\Vec(B) $, l'Equazione~\ref{eq:b_tuv} diventa 
+\begin{equation}
+  \label{eq:mulvec}
+\Vec(C^\top) =f(x,y) = \Tn{T} \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top}
+,\end{equation}
+
+dove abbiamo fissato l'ordinamento naturale sulle entrate di $ \Vec(A) $ e $ \Vec(B) $, e quello
+inverso su $
+\Vec(C^\top)$. Da ciò troviamo un tensore $ \Tn{T} \in \R^{MN\times NP\times MP} $ che rappresenta
+la moltiplicazione tra $ \angb{M,N,P} $.
+Data una decomposizione CP di rango $ r $ del tensore $ \Tn{T}  = \dsqr{U,V,W}$,
+grazie all'Equazione~\ref{eq:lowrank_bilinear}, l'espressione sopra si traduce in
+\begin{equation}
+  \label{eq:mulvec:CP}
+  \Vec(C^\top) =  \sum_{l=1}^r (\underbrace{u_l^\top \Vec(A)}_{s_l}) \cdot
+  (\underbrace{v_l^\top\Vec(B)}_{t_l})w_l = \sum_{l=1}^r (\underbrace{s_l \cdot
+  t_l}_{m_l})w_l,
+\end{equation}
+Che definisce un algoritmo di moltiplicazione veloce $ \angb{M,N,P} $.
+
+Riassumendo, $ \rk(\angb{n,n,n}) $ misura il numero di moltiplicazioni necessarie per
 moltiplicare due matrici $ n\times n $ e dà una misura della complessità dell'algoritmo. Alla luce di ciò, possiamo riscrivere $ \omega $ come
 \begin{equation}
   \label{eq:omega_as_rank}
   \omega = \lowlim_{n \to +\infty} \log_n \left( \rk(\angb{n,n,n}) \right).
 \end{equation}
 \todo{FIX errore nella formula}
-Ad esempio, l'algoritmo di Strassen~\cite{strassen69} mostra che $ \rk(\angb{2,2,2}) \le 7$, e come
+Ad esempio, l'algoritmo di Strassen~\cite{strassen69} mostra che $ \rk(\angb{2,2,2}) \le 7$, e
 come dimostrato da Winograd~\cite{winograd1971}, $ \rk(\angb{2,2,2}) = 7$, ovvero non è possibile moltiplicare due
 matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
-Nei casi diversi da $ \angb{2,2,2} $ attualmente abbiamo alcune stime più lasche: già
+Nei casi diversi da $ \angb{2,2,2} $ il problema si complica, e attualmente abbiamo alcune stime più lasche: già
 per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\angb{3,3,3}) \le 23 $~\cite{BLASER200343,
 bams/1183537626}, mentre la migliore stima astintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
 \rk(\angb{n,n,n}) $~\cite{blaser2001}. Si veda~\cite{landsberg2011tensors}, Capitolo 11 per ulteriori dettagli.
+
+\section{Rango come misura della complessità}
 
 % La condizione trovata nell'Equazione~\ref{eq:omega_as_rank} è anche necessaria \todo{check}. 
 La prossima proposizione mostra che il rango di un tensore è una misura ottimale della complessità:
@@ -161,6 +215,21 @@ La prossima proposizione mostra che il rango di un tensore è una misura ottimal
   operazioni aritmetiche se e solo se il rango tensoriale di $ \angb{n,n,n} $ è $
   O(n^{\omega+\varepsilon}) $.
 \end{theorem}
+\begin{proof}
+  Chiamiamo $ \theta $ il lato destro dell'equazione sopra. Dall'Equazione~\ref{eq:mulvec:CP} abbiamo
+  \begin{equation*}
+    \frac{1}{2}R(\angb{n,n,n}) \le L(\angb{n,n,n}) \le M(n),
+  \end{equation*}
+  \todo{va giustificata meglio (vedi libro)}
+  calcolando gli $ \inf $, troviamo $ \theta \le \omega $.
+
+  Mostriamo che $ \omega \le \theta $. Per definizione di $ \theta $, per ogni $ \varepsilon >0 $
+  esiste un $ m>1 $ tale che
+  \begin{equation*}
+    r \defeq \rk(\angb{m,m,m}) \le m^{\theta + \varepsilon}.
+  \end{equation*}
+  \missingfigure{Finire}
+\end{proof}
 \todo{Espandere discussione dall'articolo}
 
 \begin{remark}
@@ -218,14 +287,15 @@ a_{22}b_{22}.
 \]
 Usando ?? possiamo scrivere l'algoritmo $ \angb{2,2,2} $ in forma tensoriale in formato CP:
 \todo{Si vede come si ricava ma non so spiegare come si ottiene}
-\begin{equation*}
+\begin{equation}
+  \label{eq:tensor_222}
   \begin{aligned}
     \angb{2,2,2} &= a_{11} \topp b_{11}\topp c_{11} + a_{12}\topp b_{21} \topp c_{11} \\
                  &+ a_{21}\topp b_{11} \topp c_{21} + a_{22} \topp b_{21} \topp c_{21} \\ 
                  &+ a_{11} \topp b_{12} \topp c_{12} + a_{12} \topp b_{22} \topp c_{12} \\
     &+ a_{21} \topp b_{12} \topp c_{22} + a_{22}\topp b_{22}\topp c_{22}.
   \end{aligned}
-\end{equation*}
+\end{equation}
 
 Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici. Nel ??
 Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
@@ -252,8 +322,47 @@ c_{21} &= m_2 + m_4 & c_{22} &= m_1 - m_2 + m_3 + m_6
 \end{align*}
 
 \todo{Aggiungere tensore}
+\todo{aggiungere costo}
 
 \section{Algoritmi APA}
+
+Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
+ottimale, Bini et. Al BLR80 considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
+ponendo a zero l'entrata $ a_{22} $ di $ \angb{2,2,2} $:
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & 0
+  \end{bmatrix} \cdot 
+  \begin{bmatrix}
+    b_{11} & b_{12} \\
+    b_{21} & b_{22}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    a_{11}b_{11} + a_{12}b_{21} & a_{11}b_{12} + a_{12}b_{22} \\
+    a_{21}b_{11}  & a_{21}b_{12} 
+  \end{bmatrix}.
+\end{equation*}
+Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazione~\ref{eq:tensor_222} si riscrive come
+\begin{equation*}
+  \begin{aligned}
+    \angb{2,2,2}^{\text{red}}
+    &\defeq a_{11} \topp (b_{11} \topp c_{11} + b_{12} \topp c_{12})
+                              + a_{12} \topp (b_{21} \topp c_{11} + b_{22} \topp c_{12})\\ 
+                              &+ a_{21} \topp (b_{11} \topp c_{21} + b_{12}
+  \topp c_{22}).
+  \end{aligned}
+\end{equation*}
+
+Che è somma di sei tensori elementari distinti, quindi $ \rk{\angb{2,2,2}^{\text{red}}} \le 6 $.
+Bini et. al. provarono a cercare un'espressione di rango cinque per $ \angb{2,2,2}^{\text{red}} $
+numericamente, minimizzando la norma di $ \angb{2,2,2}^{\text{red}} $ meno un tensore di rango
+cinque che variava (metodo ALS??). Il loro computer continuava a produrre tensori di rango cinque
+con la norma della differenza che diventava sempre più piccola, ma con coefficienti sempre più
+grandi. Questo è andato avanti per un po' di tempo, fino a che realizzarono che il codice era
+giusto, ma che era una manifestazione di un fenomeno chiamato \emph{border rank}.
+L'espressione del tensore che stavano cercando era essenzialmente
+
 
 \subsection*{Il problema del border rank}
 \label{sec:border_rank}
@@ -311,3 +420,7 @@ Questo motiva la seguente definizione:
 \end{remark}
 \todo{Disegno interpretazione geometrica (landsberg pg 38)}
 \todo{Alcune stime su border rank di matrix mult operator}
+
+\section{Errore algoritmico}
+
+\todo{discussione della stabilità dal paper dato dal prof}
