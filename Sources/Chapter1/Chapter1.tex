@@ -78,12 +78,13 @@ Possiamo generalizzare tale costruzione a più dimensioni:
      .\] 
 \end{definition}
 \begin{definition}[Tensore di rango uno]
-  Un tensore $ \Tn{x} \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione \ref{eq:rk1}.
+  Un tensore $ \Tn{x} \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione
+  \ref{eq:rk1}.
 \end{definition} 
 Questo ci permette di definire la seguente quantità fondamentale:
 \begin{definition}[Rango di un tensore]
   Il rango di un tensore $ \Tn{x} \in \Rmsiz!$ è il minimo intero positivo $ r $ tale che $ \Tn{x} $ si può scrivere
-  come somma di tensori di rango uno, e scriviamo $ \rk{\Tn{x}} = r $.
+  come somma di tensori di rango uno, e scriviamo $ \rk(\Tn{x}) = r $.
 \end{definition}
 Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 
@@ -291,6 +292,9 @@ naturale definire la seguente operazione
 
 \section{La fattorizzazione CP}
 
+Dato un intero positivo $ r $, nel caso matriciale è un problema semplice costruire una matrice di
+rango $ r $. Invece, trovare un tensore di un certo rango è come trovare un ago in un pagliaio; ad esempio, nel
+Capitolo~\ref{chp:matmul}\ldots \todo{discutere con R}
 
 Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
@@ -330,7 +334,7 @@ Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP
 
 \end{remark}
 
-\begin{example}[Lieven~\cite{lieven2006}]
+\begin{example}[De Lathauwer~\cite{lieven2006}]
   Consideriamo il tensore $ \Tn{x} $ di taglia $ 2\times 2\times 2 $ definito da
   \begin{equation*}
     a_{111}=-a_{121} = 3, \quad a_{211} = -a_{221} = 6, \quad a_{112} = -a_{122} = 1, \quad a_{212} = - a_{222} = 2.
@@ -411,6 +415,11 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
   \caption{Schema delle matricizzazioni di un tensore.}
   \label{fig:unfoldings}
 \end{figure}
+L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
+\begin{definition}[Multirank]
+  Il \emph{multilinear rank} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
+  (r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}  $.
+\end{definition}
 
 Dal punto di vista computazionale è utile introdurre la seguente operazione
 
@@ -541,10 +550,28 @@ Nel caso matriciale, possiamo calcolare il rango di una matrice $ A $ usando la 
 U \Sigma V^* $, ma in più dimensioni incorriamo in alcuni problemi:
 
 \begin{enumerate}
-  \item NP-hard
+  \item NP-hardness
   \item Problema del border rank (si veda la Sezione~\ref{sec:border_rank})
-  \item Dipende dal campo.
 \end{enumerate}
+
+\subsection*{Dipendenza dal campo base}
+Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
+rango se visto come elemento di $ \R^{m\times n} $ o di $ \C^{m \times n} $, per i tensori questo è
+falso. Consideriamo il seguente esempio:
+\begin{example}[De Silva and Lim~\cite{desilva2008tensorrankillposednessbest}]
+Scriviamo $ z_{k} = x_{k} + \I y_{k} $ e $ \overline{z}_k = x_{k} - \I y_{k} $, allora
+  \begin{equation}
+  \begin{aligned}
+    x_1 \topp x_2 \topp x_3 + x_1 \topp y_2 \topp y_3 - y_1 \topp x_2 \topp &y_3 + y_1 \topp y_2 \topp
+  x_3 \\
+  &= \frac{1}{2}\left( \overline{z}_1 \topp z_2 \topp \overline{z}_3 + z_1 \topp \overline{z}_2 \topp
+  z_3\right)
+  \end{aligned}
+  \end{equation}
+  \todo{espandi conti e aggiungere considerazioni su svd da articolo}
+
+\end{example}
+
 Data l'infattibilità del problema, possiamo dare una stima del rango con la seguente proposizione.
 
 \begin{proposition}[Teorema del rango]
@@ -648,11 +675,9 @@ sia un problema complesso.
   \end{equation*}
 \end{proof}
 
-\section{Costruzione del tensore in formato denso}
-
 \section{Calcolo della fattorizzazione CP}
 
-Trattiamo il problema di trovare la migliore approssimazione con rango CP $ r $ di un dato tensore.
+Trattiamo il problema di trovare la migliore approssimazione con rango $ r $ di un dato tensore.
 Studiamo il caso $ d = 3 $.
 Dato $ \Tn{x} \in \R ^ {m \times n \times p} $ cerchiamo una fattorizzazione $ \dsqr{A, B, C} $ con
 $ A \in \R^{m \times r}, B \in \R^{n\times r} $ e $ C \in \R^{p \times r} $ cercando di risolvere il

@@ -1,5 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Applicazioni della CP alla complessità aritmetica}
+\label{chp:matmul}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \todo{Controlla che non ci sia ambiguità nel riferirti a mappe/forme bilineari: $ \psi : U\times V
@@ -7,34 +8,53 @@
 
 \section{L'esponente della moltiplicazione tra matrici}
 
-\todo{la definizione di $ L $ è molto semplificata dal libro "Algebraic Complexity theory"~\cite{burgisser2013algebraic}}
-Indichiamo con $ L $ la funzione che calcola la complessità aritmetica per il calcolo di una
-funzione $ \varphi$. Fissato un campo $ \K \in \{\R,\C\}  $, denotiamo con
-\begin{equation*}
-  M(n) \defeq L \left( \left\{ \sum_{j=1}^n X_{ij}Y_{jl} \mid i,l \in \{1, \ldots, n\} \right\}  \right)
-\end{equation*}
+In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità.
+\begin{definition}[Circuito algebrico]
+  Un \emph{circuito algebrico} è un modello computazionale sequenziale dove ogni gate logico rappresenta una
+  delle seguenti operazioni algebriche su un campo $ \K $ fissato: addizione, sottrazione,
+  moltiplicazione, divisione di due termini, e moltiplicazione per scalare.
+\end{definition}
+\todo{la definizione di $ L^{\text{tot}} $ è molto semplificata dal libro "Algebraic Complexity theory"~\cite{burgisser2013algebraic}}
+Indichiamo con $ L^{\text{tot}}$ la funzione che calcola la complessità aritmetica totale (addizioni e moltiplicazioni) per il calcolo di una
+funzione $ \varphi$. Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ X, Y \in \R^{n\times
+n}$, denotiamo con
+\begin{equation}
+  \label{eq:def_Mn}
+  M_{\K}(n) \defeq L^{\text{tot}} \left( XY \right) = L^{\text{tot}} \left( \left\{ \sum_{j=1}^n x_{ij}y_{jl} \mid i,l \in \{1, \ldots, n\} \right\}  \right)
+\end{equation}
 il numero totale di moltiplicazioni aritmetiche sufficienti a calcolare la moltiplicazione di due
-matrici $ n\times n $. Determinare una formula per $ M(n) $ è lontano dagli strumenti attualmente
+matrici $ n\times n $. Determinare una formula per $ M_{\K}(n) $ è lontano dagli strumenti attualmente
 disponibili. Invece, il problema di approssimare la crescita asintotica della funzione $ n \mapsto
-M(n) $ è fattibile; definiamo
+M_{\K}(n) $ è fattibile; definiamo
 
 \begin{definition}
-  L'\emph{esponente $ \omega $ di una moltiplicazione matriciale} è il numero
+  L'\emph{esponente $ \omega_{\K} $ di una moltiplicazione matriciale} è il numero
 \begin{equation*}
   \begin{aligned}
-    \omega \defeq \inf\{\tau \in \R \mid &\text{ la moltiplicazione tra due matrici }
+    \omega_{\K} \defeq \inf_n\{\tau \in \R \mid &\text{ la moltiplicazione tra due matrici }
     n\times n  \\ & \text{ ha costo } O(n^\tau) \text{ operazioni aritmetiche} \}.
   \end{aligned}
 \end{equation*}
-In altre parole, $ \omega = \inf \{\tau \in \R \mid M(n) = O(h^\tau)\}  $.
+In altre parole, $ \omega_{\K} = \inf \{\tau \in \R \mid M_{\K}(n) = O(n^\tau)\}  $.
 \end{definition}
 
 \begin{remark}
-  Sia $ M(h) $ che $ \omega $ dipendono dal campo $ \K $. Siccome ci occuperemo di campi di
-  caratteristica zero, la dipendenza dal campo non sarà rilevante per ai nostri fini.
+Dalla notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Di
+seguito scriveremo solo $ \omega $, il quanto il seguente risultato avanzato afferma che l'esponente
+dipende solo dalla caratteristica del campo.
 \end{remark}
 
-Osserviamo che $ M(n) \le n^2(2n - 1) $, e dal costo per il calcolo delle addizioni segue la stima$ M(n) \ge n^2 $, da
+\begin{theorem}[Schönhage~\cite{sch81}]
+  L'esponente della moltiplicazione tra matrici è invariante rispetto alle estensioni scalari: se $
+  \K \subset \mathbb{L} $ è un'estensione di campo, allora
+  \begin{equation*}
+    \omega_{\K} = \omega_{\mathbb{L}}
+  \end{equation*}
+\end{theorem}
+
+
+Osserviamo che $ M_{\K}(n) \le n^2(2n - 1) $. Analizzando la scrittura del prodotto tra matrici
+nell'Equazione~\ref{eq:def_Mn},  $ M_{\K}(n) \ge n^2 $\todo{COME?}, da
 cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
 nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
 asintoticamente pari a quello
@@ -123,13 +143,13 @@ In forma tensoriale,
 
 \section{Decomposizione low-rank di forme bilineari}
 
-Nel calcolo della complessità, le decomposizioni low-rank possono ridurre notevolmente la il costo
-di calcolo di valutazioni di funzioni. Se ad esempio $ M \in \R^{m\times n} $ è una matrice di rango uno, possiamo scrivere $ M =
+Nel calcolo della complessità, le decomposizioni low-rank possono ridurre notevolmente le operazioni
+aritmetiche sulle matrici. Se ad esempio $ M \in \R^{m\times n} $ è una matrice di rango uno, possiamo scrivere $ M =
 u \topp v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; valutare $ Mx =
-(uv^{\top})x = u(v^{\top}x) $ ha costo $ O(1) $. In generale da \todo{teorema fondamentale algebra
-lineare} se $ M $ ha rango $ R $, possiamo scriverla come somma di $ R $ matrici di rango uno ed
-ottenere un costo $ O(R) $ per $ Mx $. Quest'idea si generalizza in modo simile anche per forme
-bilineari, come vedremo ora.
+(uv^{\top})x = u(v^{\top}x) $ ha costo $ O(n) $, contro il costo $ O(mn) $ del prodotto classico
+matrice vettore. In generale, se $ M $ ha rango $ R $, possiamo scriverla come somma di $ R $
+matrici di rango uno\todo{aggiungere thm?} ed
+ottenere un costo $ O(Rn) $ per $ Mx $. È possibile riadattare quest'idea per forme bilineari, come vedremo ora.
 
 Calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
   O(mnp) $, data dal numero di
@@ -188,8 +208,11 @@ grazie all'Equazione~\ref{eq:lowrank_bilinear}, l'espressione sopra si traduce i
 \end{equation}
 Che definisce un algoritmo di moltiplicazione veloce $ \angb{M,N,P} $.
 
-Riassumendo, $ \rk(\angb{n,n,n}) $ misura il numero di moltiplicazioni necessarie per
-moltiplicare due matrici $ n\times n $ e dà una misura della complessità dell'algoritmo. Alla luce di ciò, possiamo riscrivere $ \omega $ come
+\section{Alcune stime sull'esponente}
+
+Dal ragionamento sopra, $ \rk(\angb{n,n,n}) $ è dato dal numero di active multiplication nella molitiplicazione
+di due matrici, e quindi ne misura la complessità algoritmica. 
+Alla luce di ciò, possiamo riscrivere $ \omega $ come
 \begin{equation}
   \label{eq:omega_as_rank}
   \omega = \lowlim_{n \to +\infty} \log_n \left( \rk(\angb{n,n,n}) \right).
@@ -201,7 +224,21 @@ matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
 Nei casi diversi da $ \angb{2,2,2} $ il problema si complica, e attualmente abbiamo alcune stime più lasche: già
 per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\angb{3,3,3}) \le 23 $~\cite{BLASER200343,
 bams/1183537626}, mentre la migliore stima astintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
-\rk(\angb{n,n,n}) $~\cite{blaser2001}. Si veda~\cite{landsberg2011tensors}, Capitolo 11 per ulteriori dettagli.
+\rk(\angb{n,n,n}) $~\cite{blaser2001}. Si veda il capitolo 11 di~\cite{landsberg2011tensors} per
+ulteriori dettagli e stime.
+
+\begin{remark}
+
+Se $ n = h^i $, possiamo vedere la moltiplicazione di due matrici $ h^i \times h^i $
+come la moltiplicazione di matrici $ h\times h $ sull'anello delle matrici $ h^{i-1}\times
+h^{i-1} $ suddividendo in blocchi le matrici di partenza. Questo dice anche che, se $
+\rk(\angb{h,h,h}) \le r $, allora $ \rk(\angb{n^i,n^i,n^i}) \le
+  r^i$.\todo{si può dimostrare con un poco di conti algebrici, lo facciamo?}
+Dato un algoritmo per un caso base fissato $ \angb{n,n,n} $, è possibile ottenerne uno per
+$ \angb{\hat{n}, \hat{n}, \hat{n}} $, con $ \hat{n} >  n $ suddividendo la matrici in
+blocchi, o riempendole di zeri fino a far combaciare le dimensioni con quelle del caso base. In
+particolare, 
+\end{remark}
 
 \section{Rango come misura della complessità}
 
@@ -327,7 +364,7 @@ c_{21} &= m_2 + m_4 & c_{22} &= m_1 - m_2 + m_3 + m_6
 \section{Algoritmi APA}
 
 Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
-ottimale, Bini et. Al BLR80 considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
+ottimale, Bini et. Al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
 ponendo a zero l'entrata $ a_{22} $ di $ \angb{2,2,2} $:
 \begin{equation*}
   \begin{bmatrix}
@@ -356,13 +393,16 @@ Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazio
 
 Che è somma di sei tensori elementari distinti, quindi $ \rk{\angb{2,2,2}^{\text{red}}} \le 6 $.
 Bini et. al. provarono a cercare un'espressione di rango cinque per $ \angb{2,2,2}^{\text{red}} $
-numericamente, minimizzando la norma di $ \angb{2,2,2}^{\text{red}} $ meno un tensore di rango
-cinque che variava (metodo ALS??). Il loro computer continuava a produrre tensori di rango cinque
+numericamente, calcolando
+\begin{equation*}
+  \min_{\substack{T \in \R^{n\times n\times n} \\ \rk(T) = 5}}{\| \angb{2,2,2}^{\text{red}} - T\| }
+\end{equation*}
+ norma di $ \angb{2,2,2}^{\text{red}} $. Il loro computer continuava a produrre tensori $ T $ di rango cinque
 con la norma della differenza che diventava sempre più piccola, ma con coefficienti sempre più
 grandi. Questo è andato avanti per un po' di tempo, fino a che realizzarono che il codice era
 giusto, ma che era una manifestazione di un fenomeno chiamato \emph{border rank}.
 L'espressione del tensore che stavano cercando era essenzialmente
-
+\todo{finire}
 
 \subsection*{Il problema del border rank}
 \label{sec:border_rank}

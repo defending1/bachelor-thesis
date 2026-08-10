@@ -199,6 +199,9 @@
 \newcommand{\rk}{\bm{R}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Id}{Id}
+
+\newcommand{\I}{{i\mkern1mu}}
+
 % rank_k: use operatorname with subscript since \DeclareMathOperator
 % does not accept math subscripts in the textual name.
 \newcommand{\krk}[1]{\mathbf{k}_{#1}}

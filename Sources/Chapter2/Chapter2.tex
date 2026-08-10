@@ -17,10 +17,13 @@ riconducendosi al caso $ 3$-dimensionale, pertanto riteniamo più interessante t
 \begin{definition}[Essenziale unicità CP]
   Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} = \dsqr{U_1, \ldots, U_d}$ è
   \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ \Tn{x} = \dsqr{\tilde{U}_1,
-  \ldots, \tilde{U}_d}$ di rango $ r $, esiste una patrice di permutazione $ P \in \R^{r \times r} $
+  \ldots, \tilde{U}_d}$ di rango $ r $, esiste una matrice di permutazione $ P \in \R^{r \times r} $
   e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
   I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
 \end{definition}
+\begin{remark}[Significato dell'essenziale unicità]
+  \todo{add}
+\end{remark}
 
 
 
@@ -51,7 +54,7 @@ Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scritt
   \label{eq:tens_full}
 T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 ,\end{equation}
-è (essenzialmente) unica.
+è essenzialmente unica, sotto opportune condizioni.
 
 \begin{remark}[Condizione ovvia per l'unicità]
   Per le matrici, l'espressione di una matrice come somma di $ r $ matrici di rango uno non è mai
@@ -69,16 +72,12 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
   siano formati da $ r $ punti distinti.
 \end{remark}
 
-\todo{Chiarire se la definizione di unicità di Landsberg combacia con la nostra: lui dice di sì
-perché per ogni addendo del tensore si può vedere come un unico punto visto nell'immersione dello
-spazio dei tensori nel proiettivo (varietà di Segre)}
-
 \begin{definition}[Posizione generale]
   Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
   Diciamo che i punti di $ \s  $ sono in $ 2- $posizione generale se nessuna coppia di punti
   coincide; sono in $ 3- $posizione generale se nessuna terna di punti giace su una retta, e in
-  generale, diremo che sono in \emph{$ r- $posizione generale} se nessuna $ r- $upla giace su un $
-  \PP^{r-2} $. 
+  generale, diremo che sono in \emph{$ r- $posizione generale} se nessuna $ r- $upla giace su un
+  sottospazio proiettivo di dimensione $ r-2 $ (talvolta detto $ (r-2) $-piano). 
 \end{definition}
 \begin{definition}[Kruskal rank]
   Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
@@ -114,12 +113,13 @@ Più in generale vale il seguente teorema:
   Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione CP $ T=
   \sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se 
   \begin{equation}
-    \sum_{i=1}^r \krk{\s_{A_k}} \ge 2r + n -1,
+     r \le \frac{1}{2} \left(\sum_{i=1}^r \krk{\s_{A_k}} \right) - 1,
   \end{equation}
   allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
 \begin{remark}
   \label{rm:stima_krk}
+  \todo{FIX dall'articolo}
   Se vale l'Equazione~\ref{eq:kr3}, segue che $ \krk{\s_A},\krk{\s_B}, \krk{\s_C} \ge 2
   $. Dimostriamolo per $ \s_{A} $, gli altri casi sono analoghi. L'Equazione~\ref{eq:kr3} si può riscrivere come
   \begin{equation*}
@@ -144,8 +144,7 @@ Il risultato centrale per dimostrare il teorema di Kruskal è il permuation lemm
   \label{lemma:perm}
   Siano $ \s = \{p_1, \ldots, p_r\}  $ e $ \tilde{\s} = \{q_1, \ldots, q_r\} $ due insiemi di punti
   in $ \PP W $ a due a due distinti (i.e. tali che $ \krk{S} \ge 2 $) e supponiamo che $
-  \angb{\tilde{\s}} = W $. Per ogni iperpiano $ H \subset \PP W $ con la proprietà che, se $ H $
-  contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ ed è tale che $ \#(\s \cap H) \ge
+  \angb{\tilde{\s}} = W $. Se ogni iperpiano $ H \subset \PP W $ che contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ è tale che $ \#(\s \cap H) \ge
   \#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
 \begin{remark}
