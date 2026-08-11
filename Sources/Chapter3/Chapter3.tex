@@ -31,17 +31,17 @@ M_{\K}(n) $ è fattibile; definiamo
   L'\emph{esponente $ \omega_{\K} $ di una moltiplicazione matriciale} è il numero
 \begin{equation*}
   \begin{aligned}
-    \omega_{\K} \defeq \inf_n\{\tau \in \R \mid &\text{ la moltiplicazione tra due matrici }
-    n\times n  \\ & \text{ ha costo } O(n^\tau) \text{ operazioni aritmetiche} \}.
+    \omega_{\K} \defeq \inf_n\{\tau \in \R \mid &\text{ la moltiplicazione tra due matrici in }
+    \K^{n\times n}  \\ & \text{ ha costo } O(n^\tau) \text{ operazioni aritmetiche} \}.
   \end{aligned}
 \end{equation*}
 In altre parole, $ \omega_{\K} = \inf \{\tau \in \R \mid M_{\K}(n) = O(n^\tau)\}  $.
 \end{definition}
 
 \begin{remark}
-Dalla notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Di
-seguito scriveremo solo $ \omega $, il quanto il seguente risultato avanzato afferma che l'esponente
-dipende solo dalla caratteristica del campo.
+Dalla notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Poiché il seguente risultato avanzato afferma che l'esponente
+dipende solo dalla caratteristica del campo, e tratteremo solo $ \K \in \{\R, \C\}  $, spesso
+scriveremo $ \omega $ per $ \omega_{\K} $.
 \end{remark}
 
 \begin{theorem}[Schönhage~\cite{sch81}]
@@ -53,8 +53,7 @@ dipende solo dalla caratteristica del campo.
 \end{theorem}
 
 
-Osserviamo che $ M_{\K}(n) \le n^2(2n - 1) $. Analizzando la scrittura del prodotto tra matrici
-nell'Equazione~\ref{eq:def_Mn},  $ M_{\K}(n) \ge n^2 $\todo{COME?}, da
+Osserviamo che $ M_{\K}(n) \le n^2(2n - 1) $. Siccome il costo computazionale dev'essere almeno pari al numero di entrate della matrice, vale  $ M_{\K}(n) \ge n^2 $, da
 cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
 nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
 asintoticamente pari a quello
@@ -64,7 +63,9 @@ nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera
 \cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
 \omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
 pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
-più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}.
+più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}. In futuro,
+potremmo aspettarci ulteriori miglioramenti, anche grazie all'avvento dell'IA nella ricerca di
+algoritmi~\cite{fawzi2022discovering}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
@@ -181,7 +182,7 @@ Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
 \end{equation}
 Quindi valutare $ f $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
   O(r) $ addizioni), che sopra evidenziamo con $
-(\cdot) $. 
+(\cdot) $. In questo contesto, il rango $ r $ assume anche il nome di \emph{complessità bilineare}.
 
 
 \section{Rappresentazione del prodotto tra matrici}
@@ -233,10 +234,9 @@ Se $ n = h^i $, possiamo vedere la moltiplicazione di due matrici $ h^i \times h
 come la moltiplicazione di matrici $ h\times h $ sull'anello delle matrici $ h^{i-1}\times
 h^{i-1} $ suddividendo in blocchi le matrici di partenza. Questo dice anche che, se $
 \rk(\angb{h,h,h}) \le r $, allora $ \rk(\angb{n^i,n^i,n^i}) \le
-  r^i$.\todo{si può dimostrare con un poco di conti algebrici, lo facciamo?}
-Dato un algoritmo per un caso base fissato $ \angb{n,n,n} $, è possibile ottenerne uno per
-$ \angb{\hat{n}, \hat{n}, \hat{n}} $, con $ \hat{n} >  n $ suddividendo la matrici in
-blocchi, o riempendole di zeri fino a far combaciare le dimensioni con quelle del caso base. In
+  r^i$. \todo{si può dimostrare con un poco di conti algebrici, lo facciamo?}
+In genrale, dato un algoritmo per un caso base fissato $ \angb{n,n,n} $, è possibile ottenerne uno per
+$ \angb{\hat{n}, \hat{n}, \hat{n}} $, con $ \hat{n} >  n $, allargando la matrice  fino a far combaciare le dimensioni con quelle del caso base. In
 particolare, 
 \end{remark}
 
