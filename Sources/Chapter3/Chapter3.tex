@@ -8,12 +8,23 @@
 
 \section{L'esponente della moltiplicazione tra matrici}
 
-In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità.
-\begin{definition}[Circuito algebrico]
-  Un \emph{circuito algebrico} è un modello computazionale sequenziale dove ogni gate logico rappresenta una
-  delle seguenti operazioni algebriche su un campo $ \K $ fissato: addizione, sottrazione,
-  moltiplicazione, divisione di due termini, e moltiplicazione per scalare.
+In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità, per
+calcolare costi computazionali su campi infiniti, e semplicficare il calcolo dei costi eliminando
+branching (e.g. \texttt{if-then-else} o \texttt{while}).
+\begin{definition}[Straight line program]
+  Uno \emph{straight line program} (o \emph{circuito algebrico}) su un campo $ \K $ è una procedura algoritmica sequenziale che consiste solamente di istruzioni
+  della forma
+  \begin{equation*}
+    (\text{\textbf{op}}; i,j) \text{ oppure } (\lambda; i)
+  \end{equation*}
+  dove $ \text{\textbf{op}} \in \{+, -, *, / \}  $ è una delle quattro operazioni aritmetiche
+  fondamentali (binarie) e $ \lambda \in \K $. Il primo tipo di istruzioni
+  descrive l'esecuzione dell'operazione aritmetica \textbf{op} fra gli $ i $-esimi e $ j $-esimi
+  risultati intermedi, mentre il secondo tipo descrive la moltiplicazione dell'$ i $-esimo risultato
+  intermedio con lo scalare $ \lambda $.
 \end{definition}
+\todo{Vedi PAG 105 \cite{burgisser2013algebraic} se raffinare}
+
 \todo{la definizione di $ L^{\text{tot}} $ è molto semplificata dal libro "Algebraic Complexity theory"~\cite{burgisser2013algebraic}}
 Indichiamo con $ L^{\text{tot}}$ la funzione che calcola la complessità aritmetica totale (addizioni e moltiplicazioni) per il calcolo di una
 funzione $ \varphi$. Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ X, Y \in \R^{n\times
@@ -158,6 +169,23 @@ Calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{e
   multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Ci aspettiamo che
   la complessità di valutare $ f(x,y) $ sia correlata al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
 
+
+\begin{definition}[Bilinear algorithm]
+  Sia $ \varphi : U \times V \to  W $ una mappa bilineare tra $ \K $-spazi vettoriali. Per ogni $ i
+  \in \{1, \dots, r\} $, siano $ f_{i} \in U^*, g_{i} \in V^*, w_{i} \in W$ tali che
+  \begin{equation*}
+    \varphi(u,v) = \sum_{i=1}^r f_{i}(u)g_{i}(v)w_{i},
+  \end{equation*}
+  per ogni $ u \in U, v \in V$. Allora la $ r $-upla $ (f_1,g_1,w_1; \ldots ; f_r, g_r,w_r) $ viene
+  detta \emph{bilinear computation (algorithm) di lunghezza $ r $ per $ \varphi $}, e la lunghezza
+  di più breve algoritmo di calcolo per $ \varphi $ è chiamata \emph{bilinear complexity} o rango
+  di $ \varphi $, che indichiamo ancora con $ \rk(\varphi) $.
+\end{definition}
+La prossima definizione assicura che il rango di una forma bilineare è dato dal rango CP.
+\begin{proposition}
+  Fissata una forma bilineare $ f $, e detto $ T $ il tensore che la rappresenta. Allora, dalla fattorizzazione CP di un tensore $ T $ si ottieme una bilinear computation.
+\end{proposition}
+\begin{proof}
 Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP} abbiamo che $ \Tn{t} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{t}(i,j,k) = \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nella Equazione~\ref{eq:b_k_bil} troviamo,
 
 \begin{equation}
@@ -180,9 +208,21 @@ Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
   \label{eq:lowrank_bilinear}
   f(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
 \end{equation}
+
+\end{proof}
 Quindi valutare $ f $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
   O(r) $ addizioni), che sopra evidenziamo con $
-(\cdot) $. In questo contesto, il rango $ r $ assume anche il nome di \emph{complessità bilineare}.
+(\cdot) $.
+In particolare, vale il seguente risultato algebrico:
+\begin{proposition}[Si veda~\cite{burgisser2013algebraic}, Cap. 14]
+  Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali. Allora esiste un unico isomorfismo $ U^*
+  \otimes V^* \otimes W \to \{\varphi : U \times V \to  W, \text{ bilineare}\} $ che manda $ f
+  \otimes g \otimes w $ nella mappa bilineare $ (u,v) \mapsto f(u)g(u)w $.
+\end{proposition}
+\begin{definition}[Tensore strutturale]
+  L'unico tensore $ T \in U^* \otimes V^* \otimes W$ associato alla mappa bilineare $ \varphi : U
+  \times V \to W $ è detto \emph{tensore strutturale} di $ \varphi $.
+\end{definition}
 
 
 \section{Rappresentazione del prodotto tra matrici}
@@ -228,17 +268,51 @@ bams/1183537626}, mentre la migliore stima astintotica dal basso per il caso di 
 \rk(\angb{n,n,n}) $~\cite{blaser2001}. Si veda il capitolo 11 di~\cite{landsberg2011tensors} per
 ulteriori dettagli e stime.
 
-\begin{remark}
 
-Se $ n = h^i $, possiamo vedere la moltiplicazione di due matrici $ h^i \times h^i $
-come la moltiplicazione di matrici $ h\times h $ sull'anello delle matrici $ h^{i-1}\times
-h^{i-1} $ suddividendo in blocchi le matrici di partenza. Questo dice anche che, se $
-\rk(\angb{h,h,h}) \le r $, allora $ \rk(\angb{n^i,n^i,n^i}) \le
-  r^i$. \todo{si può dimostrare con un poco di conti algebrici, lo facciamo?}
-In genrale, dato un algoritmo per un caso base fissato $ \angb{n,n,n} $, è possibile ottenerne uno per
-$ \angb{\hat{n}, \hat{n}, \hat{n}} $, con $ \hat{n} >  n $, allargando la matrice  fino a far combaciare le dimensioni con quelle del caso base. In
-particolare, 
-\end{remark}
+\subsection*{Trattare il caso generale}
+
+Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come la moltiplicazione di matrici $ n\times n $ sull'anello delle matrici $ n^{i-1}\times
+n^{i-1} $, suddividendole in blocchi. Questo dice anche che, se $
+\rk(\angb{n,n,n}) \le r $, allora $ \rk(\angb{n^i,n^i,n^i}) \le
+  r^i$; infatti, combinando le prossime Proposizioni~\ref{prop:bil_map_product}
+e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorfismo, troviamo
+\begin{equation*}
+  \rk(\angb{n^i,n^i,n^i}) = \rk(\angb{n,n,n}^{\otimes i}) \le \rk(\angb{n,n,n})^i \le r^i.
+\end{equation*}
+Quindi, possiamo applicare ricorsivamente l'algoritmo di moltiplicazione veloce, che è disegnato per
+matrici $ n\times n $, per ottenere la moltiplicazione di matrici $ n^i \times n^i $ impiegando solo $ r^i $ moltiplicazioni.
+
+Se invece $ n $ è un generico intero positivo, dato un algoritmo con un caso base fissato $
+\angb{n,n,n} $, è possibile ottenerne uno per
+$ \angb{\hat{n}, \hat{n}, \hat{n}} $, con $ \hat{n} >  n $, allargando la matrice aggiungendo zeri
+fino alla dimensione
+$ n^{\left\lceil \log \hat{n} \right\rceil } $. In particolare, si ha che
+\begin{equation*}
+  \begin{aligned}
+    \rk(\angb{n,n,n}) \le \rk(\angb{n^{\left\lceil \log \hat{n} \right\rceil }})
+  \end{aligned}
+\end{equation*}
+
+
+\begin{proposition}
+  \label{prop:bil_map_product}
+  Siano $ e,e', h,h',l,l' $ degli interi positivi. Allora abbiamo
+  \begin{equation*}
+    \angb{e,h,l} \otimes \angb{e', h', l'}\simeq \angb{ee', hh', ll'},
+  \end{equation*}
+  cioè le due forme bilineari sono isomorfe.
+\end{proposition}
+\begin{proposition}
+  \label{prop:rk_bil_map_product}
+  Siamo $ \varphi_1,\varphi_2 $ due mappe bilineari. Allora $ \rk(\varphi_1 \otimes \varphi_{2}) \le
+  \rk(\varphi_1)\rk(\varphi_2)$.
+\end{proposition}
+\begin{proposition}[Monotonia del rango di un algoritmo]
+  \label{prop:rk_monotony}
+Il rango è monotono crescente, ovvero dati due interi positivi $ n \le n' $, allora $
+\rk(n,n,n) \le \rk(n', n', n') $.
+\end{proposition}
+
 
 \section{Rango come misura della complessità}
 
