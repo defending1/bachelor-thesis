@@ -174,11 +174,21 @@
   \IfValueT{#7}{\megaLRexp{#1}{#2}{#3}{#4}{#5}{\lbrack}{\rbrack}{#7}}%
 }
 
+\ExplSyntaxOn
+\cs_new_protected:Npn \tensors_process_angb:n #1
+{
+  \int_compare:nTF { \clist_count:n { #1 } == 1 }
+    { #1, #1, #1 }
+    { #1 }
+}
+
 \NewDocumentCommand{\angb}{ ssss t+ g d<> }
 {%
-  \IfValueT{#6}{\megaLRexp{#1}{#2}{#3}{#4}{#5}{\langle}{\rangle}{#6}}%
-  \IfValueT{#7}{\megaLRexp{#1}{#2}{#3}{#4}{#5}{\langle}{\rangle}{#7}}%
+  \IfValueT{#6}{\megaLRexp{#1}{#2}{#3}{#4}{#5}{\langle}{\rangle}{\tensors_process_angb:n{#6}}}%
+  \IfValueT{#7}{\megaLRexp{#1}{#2}{#3}{#4}{#5}{\langle}{\rangle}{\tensors_process_angb:n{#7}}}%
 }
+\ExplSyntaxOff
+
 
 \NewDocumentCommand{\dsqr}{ ssss t+ g d[] }
 {%
