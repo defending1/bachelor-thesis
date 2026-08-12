@@ -12,8 +12,8 @@ In questo capitolo useremo il seguente modello computazionale per il calcolo del
 calcolare costi computazionali su campi infiniti, e semplicficare il calcolo dei costi eliminando
 branching (e.g. \texttt{if-then-else} o \texttt{while}).
 \begin{definition}[Straight line program]
-  Uno \emph{straight line program} (o \emph{circuito algebrico}) su un campo $ \K $ è una procedura algoritmica sequenziale che consiste solamente di istruzioni
-  della forma
+  Uno \emph{straight line program} (o \emph{circuito algebrico}) su un campo $ \K $ è una sequenza
+  ordinata di istruzioni della forma
   \begin{equation*}
     (\text{\textbf{op}}; i,j) \text{ oppure } (\lambda; i)
   \end{equation*}
@@ -26,6 +26,9 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
 \todo{Vedi PAG 105 \cite{burgisser2013algebraic} se raffinare}
 
 \todo{la definizione di $ L^{\text{tot}} $ è molto semplificata dal libro "Algebraic Complexity theory"~\cite{burgisser2013algebraic}}
+\begin{definition}[Funzione di complessità aritmetica]
+  
+\end{definition}
 Indichiamo con $ L^{\text{tot}}$ la funzione che calcola la complessità aritmetica totale (addizioni e moltiplicazioni) per il calcolo di una
 funzione $ \varphi$. Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ X, Y \in \R^{n\times
 n}$, denotiamo con
@@ -155,6 +158,7 @@ In forma tensoriale,
 
 \section{Decomposizione low-rank di forme bilineari}
 
+\todo{Spostare davanti alla CP per alleggerire (già scritta)}
 Nel calcolo della complessità, le decomposizioni low-rank possono ridurre notevolmente le operazioni
 aritmetiche sulle matrici. Se ad esempio $ M \in \R^{m\times n} $ è una matrice di rango uno, possiamo scrivere $ M =
 u \topp v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; valutare $ Mx =
@@ -282,18 +286,33 @@ e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorf
 Quindi, possiamo applicare ricorsivamente l'algoritmo di moltiplicazione veloce, che è disegnato per
 matrici $ n\times n $, per ottenere la moltiplicazione di matrici $ n^i \times n^i $ impiegando solo $ r^i $ moltiplicazioni.
 
-Se invece $ n $ è un generico intero positivo, dato un algoritmo con un caso base fissato $
-\angb{n} $, è possibile ottenerne uno per
-$ \angb{\hat{n}} $, con $ \hat{n} >  n $, allargando la matrice aggiungendo zeri
+Se invece $ n > n_0 $ sono due interi positivi, dato un algoritmo con un caso base fissato $
+\angb{n_0} $, è possibile ottenerne uno per
+$ \angb{n} $, con $ n >  n_0 $, allargando la matrice aggiungendo zeri
 fino alla dimensione
-$ n^{\left\lceil \log \hat{n} \right\rceil } $. In particolare, si ha che
+$ n_0^{\left\lceil \log_{n_0} n \right\rceil } $. In particolare, si ha che
 \begin{equation*}
   \begin{aligned}
-    \rk(\angb{n}) \le \rk(\angb{n^{\left\lceil \log \hat{n} \right\rceil }})
+    \rk(\angb{n}) &\le \rk(\angb{n_0^{\left\lceil \log_{n_0} n \right\rceil }}) && \text{dalla
+    \ref{prop:rk_monotony},} \\
+                  &\le \rk(\angb{n_0})^{\left\lceil \log_{n_0} n \right\rceil } && \text{dalle
+    \ref{prop:bil_map_product} e \ref{prop:rk_bil_map_product},}\\
+                  &\le r^{\left\lceil \log_{n_0} n \right\rceil } && \text{per ipotesi $
+  \rk(\angb{n}\le r) $,} \\
+                  &\le r \cdot n^{\log_{n_0} r} && \text{usando che $ \left\lceil x \right\rceil \le
+                  x+1$}.
   \end{aligned}
 \end{equation*}
+Riassumendo, $ \rk(\angb{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
+dall'Equazione~\ref{eq:omega_as_rank}, $ \omega \le \log_{n_0} r $. Ad esempio, per
+l'algoritmo di Strassen poniamo $ r = 7,n_0 = 2 $, da cui $ \omega \le \log_{2} 7 < 2.81 $. Abbiamo
+dimostrato la seguente:
+\begin{proposition}
+  Se $ \rk(\angb{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
+\end{proposition}
 
-
+Riportiamo le proposizioni utilizzate per dimostrare la proposizione sopra, dimostrate
+in~\cite{burgisser2013algebraic}, Cap. 14,15.
 \begin{proposition}
   \label{prop:bil_map_product}
   Siano $ e,e', h,h',l,l' $ degli interi positivi. Allora abbiamo
@@ -309,7 +328,7 @@ $ n^{\left\lceil \log \hat{n} \right\rceil } $. In particolare, si ha che
 \end{proposition}
 \begin{proposition}[Monotonia del rango di un algoritmo]
   \label{prop:rk_monotony}
-Il rango è monotono crescente, ovvero dati due interi positivi $ n \le n' $, allora $
+Il rango di un algoritmo è monotono crescente rispetto alla dimensione, ovvero dati due interi positivi $ n \le n' $, allora $
 \rk(\angb{n}) \le \rk(\angb{n'}) $.
 \end{proposition}
 
