@@ -50,7 +50,7 @@
   keywordstyle={[2]\color{kw2}},
   morekeywords={[2] 
     Vc, Mx, Tr, Tn, Tm, Inv,
-    prn, angb, crly, sqr, ceil, floor, dsqr, nrm, tnrm, fnrm, abs,
+    prn, angb, algob, crly, sqr, ceil, floor, dsqr, nrm, tnrm, fnrm, abs,
     top, krn, krp, had, ttm, bigtop, bigkrn, bigkrp, bighad,bigttm,
     miwc, siwc, minc, sinc, msiz, ssiz, Rmsiz, Rssiz, mdom, sdom, msum, ssum, %dsum, dsub,
     mtop, smtop, sktop, mttm, sttm,
@@ -275,7 +275,8 @@ transpose.
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|l|l|l|} \hline
   \ExampleRow{\prn{\cdot}, \prn(\cdot), \prn(\cdot)'}{Parentheses}
-  \ExampleRow{\angb{\cdot}, \angb<\cdot>}{Angle braces ($\angb{n} = \angb{n,n,n}$)} 
+  \ExampleRow{\angb{\cdot}, \angb<\cdot>}{Angle braces} 
+  \ExampleRow{\algob{\cdot}, \algob<\cdot>}{Algorithm/matrix multiplication angle braces ($\algob{n} = \langle n,n,n \rangle$)} 
   \ExampleRow{\crly{\cdot}}{Curly braces}
   \ExampleRow{\sqr{\cdot},\sqr[\cdot]}{Square braces}
   \ExampleRow{\ceil{\cdot}}{Ceiling braces}

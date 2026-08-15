@@ -297,11 +297,14 @@ Data una decomposizione CP di rango $ r $ del tensore $ \Tn{T}  = \dsqr{U,V,W}$,
 grazie all'Equazione~\ref{eq:lowrank_bilinear}, l'espressione sopra si traduce in
 \begin{equation}
   \label{eq:mulvec:CP}
-  \Vec(C^\top) =  \sum_{l=1}^r (\underbrace{u_l^\top \Vec(A)}_{s_l}) \cdot
-  (\underbrace{v_l^\top\Vec(B)}_{t_l})w_l = \sum_{l=1}^r (\underbrace{s_l \cdot
-  t_l}_{m_l})w_l,
+  \Vec(C^\top) =  \sum_{l=1}^r (u_l^\top \Vec(A)) \cdot
+  (v_l^\top\Vec(B))w_l = \sum_{l=1}^r (s_l \cdot
+  t_l)w_l = \sum_{l=1}^r m_lw_l,
 \end{equation}
-Che definisce un algoritmo di moltiplicazione veloce $ \algob{M,N,P} $.
+Dove abbiamo posto $ s_l \defeq  u_l^\top \Vec(A)$, $ t_l \defeq v_l^\top\Vec(B)$ e $ m_l \defeq
+s_lt_l $. Nella pratica, nei passaggi successivi dell'algoritmo calcoliamo in maniera ricorsiva il
+prodotto tra $ s_l $ e $ t_l $.
+Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{M,N,P} $.
 
 \section{Alcune stime sull'esponente}
 
