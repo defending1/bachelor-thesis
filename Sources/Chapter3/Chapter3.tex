@@ -20,11 +20,11 @@ M_1 \times M_2 \times  M_3 \to P$.
  Fissati degli interi positivi $ M,N,P $, la moltiplicazione tra due matrici $  M\times N $ e $ N \times P $ è una mappa bilineare
  \begin{equation*}
    \begin{aligned}
-     \angb{M,N,P} \colon \C^{M\times N} \times \C^{N\times P} &\to \C^{M \times P} \\
+     \algob{M,N,P} \colon \C^{M\times N} \times \C^{N\times P} &\to \C^{M \times P} \\
      (A,B) &\mapsto C = AB.
    \end{aligned}
  \end{equation*}
- Spesso ci riferiremo a $ \angb{M,N,P} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
+ Spesso ci riferiremo a $ \algob{M,N,P} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
  moltiplicazione veloce.
 \end{definition}
 \begin{remark}
@@ -135,13 +135,13 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
 
 
 Considerando l'Equazione~\ref{eq:matmul_component} e vedendo ognuna delle $ (AB)_{ij} $ come forme bilineari,
-dalla notazione della Definizione~\ref{def:LtotL}, poniamo $ \varphi = \angb{n} $ e scriviamo le sue coordinate $
+dalla notazione della Definizione~\ref{def:LtotL}, poniamo $ \varphi = \algob{n} $ e scriviamo le sue coordinate $
 \varphi_1, \ldots, \varphi_{n^2} $ come nell'Equazione~\ref{eq:b_active}.
 Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
 n}$, denotiamo con
 \begin{equation}
   \label{eq:def_Mn}
-  M_{\K}(n) \defeq L^{\text{tot}} \left( \angb{n} \right) =  L^{\text{tot}} \left( \left\{
+  M_{\K}(n) \defeq L^{\text{tot}} \left( \algob{n} \right) =  L^{\text{tot}} \left( \left\{
   \sum_{k=1}^n a_{ik}b_{kj} \; \middle| \; i,j \in \{1, \ldots, n\} \right\} \right)
 \end{equation}
 il numero totale di moltiplicazioni aritmetiche sufficienti a calcolare la moltiplicazione di due
@@ -292,7 +292,7 @@ C \in \R^{M \times P} $. Ponendo $ x =
 dove abbiamo fissato l'ordinamento naturale sulle entrate di $ \Vec(A) $ e $ \Vec(B) $, e quello
 inverso su $
 \Vec(C^\top)$. Da ciò troviamo un tensore $ \Tn{T} \in \R^{MN\times NP\times MP} $ che rappresenta
-la moltiplicazione tra $ \angb{M,N,P} $.
+la moltiplicazione tra $ \algob{M,N,P} $.
 Data una decomposizione CP di rango $ r $ del tensore $ \Tn{T}  = \dsqr{U,V,W}$,
 grazie all'Equazione~\ref{eq:lowrank_bilinear}, l'espressione sopra si traduce in
 \begin{equation}
@@ -301,25 +301,25 @@ grazie all'Equazione~\ref{eq:lowrank_bilinear}, l'espressione sopra si traduce i
   (\underbrace{v_l^\top\Vec(B)}_{t_l})w_l = \sum_{l=1}^r (\underbrace{s_l \cdot
   t_l}_{m_l})w_l,
 \end{equation}
-Che definisce un algoritmo di moltiplicazione veloce $ \angb{M,N,P} $.
+Che definisce un algoritmo di moltiplicazione veloce $ \algob{M,N,P} $.
 
 \section{Alcune stime sull'esponente}
 
-Dal ragionamento sopra, $ \rk(\angb{n}) $ è dato dal numero di active multiplication nella molitiplicazione
+Dal ragionamento sopra, $ \rk(\algob{n}) $ è dato dal numero di active multiplication nella molitiplicazione
 di due matrici, e quindi ne misura la complessità algoritmica. 
 Alla luce di ciò, possiamo riscrivere $ \omega $ come
 \begin{equation}
   \label{eq:omega_as_rank}
-  \omega = \lowlim_{n \to +\infty} \log_n \left( \rk(\angb{n}) \right).
+  \omega = \lowlim_{n \to +\infty} \log_n \left( \rk(\algob{n}) \right).
 \end{equation}
 \todo{FIX errore nella formula}
-Ad esempio, l'algoritmo di Strassen~\cite{strassen69} mostra che $ \rk(\angb{2}) \le 7$, e
-come dimostrato da Winograd~\cite{winograd1971}, $ \rk(\angb{2}) = 7$, ovvero non è possibile moltiplicare due
+Ad esempio, l'algoritmo di Strassen~\cite{strassen69} mostra che $ \rk(\algob{2}) \le 7$, e
+come dimostrato da Winograd~\cite{winograd1971}, $ \rk(\algob{2}) = 7$, ovvero non è possibile moltiplicare due
 matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
-Nei casi diversi da $ \angb{2} $ il problema si complica, e attualmente abbiamo alcune stime più lasche: già
-per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\angb{3}) \le 23 $~\cite{BLASER200343,
+Nei casi diversi da $ \algob{2} $ il problema si complica, e attualmente abbiamo alcune stime più lasche: già
+per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\algob{3}) \le 23 $~\cite{BLASER200343,
 bams/1183537626}, mentre la migliore stima astintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
-\rk(\angb{n}) $~\cite{blaser2001}. Si veda il capitolo 11 di~\cite{landsberg2011tensors} per
+\rk(\algob{n}) $~\cite{blaser2001}. Si veda il capitolo 11 di~\cite{landsberg2011tensors} per
 ulteriori dettagli e stime.
 
 
@@ -327,38 +327,38 @@ ulteriori dettagli e stime.
 
 Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come la moltiplicazione di matrici $ n\times n $ sull'anello delle matrici $ n^{i-1}\times
 n^{i-1} $, suddividendole in blocchi. Questo dice anche che, se $
-\rk(\angb{n}) \le r $, allora $ \rk(\angb{n^i}) \le
+\rk(\algob{n}) \le r $, allora $ \rk(\algob{n^i}) \le
   r^i$; infatti, combinando le prossime Proposizioni~\ref{prop:bil_map_product}
 e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorfismo, troviamo
 \begin{equation*}
-  \rk(\angb{n^i}) = \rk(\angb{n}^{\otimes i}) \le \rk(\angb{n})^i \le r^i.
+  \rk(\algob{n^i}) = \rk(\algob{n}^{\otimes i}) \le \rk(\algob{n})^i \le r^i.
 \end{equation*}
 Quindi, possiamo applicare ricorsivamente l'algoritmo di moltiplicazione veloce, che è disegnato per
 matrici $ n\times n $, per ottenere la moltiplicazione di matrici $ n^i \times n^i $ impiegando solo $ r^i $ moltiplicazioni.
 
 Se invece $ n > n_0 $ sono due interi positivi, dato un algoritmo con un caso base fissato $
-\angb{n_0} $, è possibile ottenerne uno per
-$ \angb{n} $, con $ n >  n_0 $, allargando la matrice aggiungendo zeri
+\algob{n_0} $, è possibile ottenerne uno per
+$ \algob{n} $, con $ n >  n_0 $, allargando la matrice aggiungendo zeri
 fino alla dimensione
 $ n_0^{\left\lceil \log_{n_0} n \right\rceil } $. In particolare, si ha che
 \begin{equation*}
   \begin{aligned}
-    \rk(\angb{n}) &\le \rk(\angb{n_0^{\left\lceil \log_{n_0} n \right\rceil }}) && \text{dalla
+    \rk(\algob{n}) &\le \rk(\algob{n_0^{\left\lceil \log_{n_0} n \right\rceil }}) && \text{dalla
     \ref{prop:rk_monotony},} \\
-                  &\le \rk(\angb{n_0})^{\left\lceil \log_{n_0} n \right\rceil } && \text{dalle
+                  &\le \rk(\algob{n_0})^{\left\lceil \log_{n_0} n \right\rceil } && \text{dalle
     \ref{prop:bil_map_product} e \ref{prop:rk_bil_map_product},}\\
                   &\le r^{\left\lceil \log_{n_0} n \right\rceil } && \text{per ipotesi $
-  \rk(\angb{n}\le r) $,} \\
+  \rk(\algob{n}\le r) $,} \\
                   &\le r \cdot n^{\log_{n_0} r} && \text{usando che $ \left\lceil x \right\rceil \le
                   x+1$}.
   \end{aligned}
 \end{equation*}
-Riassumendo, $ \rk(\angb{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
+Riassumendo, $ \rk(\algob{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
 dall'Equazione~\ref{eq:omega_as_rank}, $ \omega \le \log_{n_0} r $. Ad esempio, per
 l'algoritmo di Strassen poniamo $ r = 7,n_0 = 2 $, da cui $ \omega \le \log_{2} 7 < 2.81 $. Abbiamo
 dimostrato la seguente:
 \begin{proposition}
-  Se $ \rk(\angb{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
+  Se $ \rk(\algob{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
 \end{proposition}
 
 Riportiamo le proposizioni utilizzate per dimostrare la proposizione sopra, dimostrate
@@ -367,7 +367,7 @@ in~\cite{burgisser2013algebraic}, Cap. 14,15.
   \label{prop:bil_map_product}
   Siano $ e,e', h,h',l,l' $ degli interi positivi. Allora abbiamo
   \begin{equation*}
-    \angb{e,h,l} \otimes \angb{e', h', l'}\simeq \angb{ee', hh', ll'},
+    \algob{e,h,l} \otimes \algob{e', h', l'}\simeq \algob{ee', hh', ll'},
   \end{equation*}
   cioè le due forme bilineari sono isomorfe.
 \end{proposition}
@@ -379,7 +379,7 @@ in~\cite{burgisser2013algebraic}, Cap. 14,15.
 \begin{proposition}[Monotonia del rango di un algoritmo]
   \label{prop:rk_monotony}
 Il rango di un algoritmo è monotono crescente rispetto alla dimensione, ovvero dati due interi positivi $ n \le n' $, allora $
-\rk(\angb{n}) \le \rk(\angb{n'}) $.
+\rk(\algob{n}) \le \rk(\algob{n'}) $.
 \end{proposition}
 
 
@@ -388,16 +388,15 @@ Il rango di un algoritmo è monotono crescente rispetto alla dimensione, ovvero 
 % La condizione trovata nell'Equazione~\ref{eq:omega_as_rank} è anche necessaria \todo{check}. 
 La prossima proposizione mostra che il rango di un tensore è una misura ottimale della complessità.
 Inoltre risponde all'esistenza del problema inverso: dato un intero positivo $ r $, è possibile
-trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal seguente risulato.
+trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal seguente risultato.
 \begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
   \begin{equation*}
-    \omega = \inf \{\tau \in \R \mid \rk(\angb{n}) = O(n^\tau)\}.
+    \omega = \inf \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
   \end{equation*}
   Ovvero, è possibile moltiplicare due matrici $ n\times n $ usando $ O(n^{\omega + \varepsilon}) $
-  operazioni aritmetiche se e solo se il rango tensoriale di $ \angb{n} $ è $
+  operazioni aritmetiche se e solo se il rango tensoriale di $ \algob{n} $ è $
   O(n^{\omega+\varepsilon}) $.
 \end{theorem}
-
 
 
 \begin{definition}[Mappa bilineare concise]
@@ -410,8 +409,11 @@ trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal 
     \item $\Im(\varphi) = \{\varphi(u,v) \mid u\in U, v\in V\} = W$.
   \end{enumerate}
 \end{definition}
+\begin{remark}
+  \todo{osservare che combacia con la def data per i tensori}
+\end{remark}
 \begin{example}
-  La mappa bilineare $ \angb{n} $ è concise.
+  La mappa bilineare $ \algob{n} $ è concise.
 \end{example}
 
 \begin{lemma}
@@ -463,7 +465,7 @@ trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal 
   Chiamiamo $ \theta $ il lato destro dell'equazione sopra, e per semplicità scriviamo $ M(n) \defeq
   M_{\K}(n)$ e $ \omega \defeq \omega_{\K}$. Dall'Equazione~\ref{eq:LandRank_estimate} abbiamo
   \begin{equation*}
-    \frac{1}{2}R(\angb{n}) \le L(\angb{n}) \le M(n),
+    \frac{1}{2}R(\algob{n}) \le L(\algob{n}) \le M(n),
   \end{equation*}
   \todo{va giustificata meglio (vedi libro)}
   da cui $ \theta \le \omega $.
@@ -472,7 +474,7 @@ trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal 
   esiste un $ n>1 $ tale che
   \begin{equation}
     \label{eq:r_estimate}
-    r \defeq \rk(\angb{n}) \le n^{\theta + \varepsilon}.
+    r \defeq \rk(\algob{n}) \le n^{\theta + \varepsilon}.
   \end{equation}
   
   Dalla Equazione\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} sappiamo che esistono dei funzionali $ f_{\rho},g_{\rho} \in
@@ -501,7 +503,7 @@ L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
   formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (in altre
   parole, visto come prododotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
   un numero costante di addizioni.
-  Siccome $ \angb{n} $ è concise, abbiamo che $ r \ge n^2 $. Fissando $ n $ (e quindi $ r $),
+  Siccome $ \algob{n} $ è concise, abbiamo che $ r \ge n^2 $. Fissando $ n $ (e quindi $ r $),
   risolviamo la ricorsione dell'Equazione~\ref{eq:Mn_recursionleq} in funzione di $ i $ usando il
   Lemma~\ref{lemma:rec_relation_ab} con $ a = r $ e $ b = n^2 $, analizzando due casi.
 
@@ -541,7 +543,7 @@ L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
 \begin{remark}
   Di seguito ci limiteremo a studiare prodotti fra matrici quadrate; per il caso rettangolare, si
   possono estendere i ragionamenti sopra considerando una rappresentazione di rango $ r $ del
-  tensore $ \angb{m,n,p} $ e scrivendo, attraverso una serie di permutazioni, la fattorizzazione di $ \angb{mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
+  tensore $ \algob{m,n,p} $ e scrivendo, attraverso una serie di permutazioni, la fattorizzazione di $ \algob{mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
   O(n^{3\log_{abc}r})$
 \end{remark}
 
@@ -590,12 +592,12 @@ c_{21} &= m_5 + m_6 = a_{21}b_{11} + a_{22}b_{21}, &\qquad c_{22} &= m_7 + m_8 =
 a_{22}b_{22}.
 \end{aligned}
 \]
-Usando ?? possiamo scrivere l'algoritmo $ \angb{2} $ in forma tensoriale in formato CP:
+Usando ?? possiamo scrivere l'algoritmo $ \algob{2} $ in forma tensoriale in formato CP:
 \todo{Si vede come si ricava ma non so spiegare come si ottiene}
 \begin{equation}
   \label{eq:tensor_222}
   \begin{aligned}
-    \angb{2} &= a_{11} \topp b_{11}\topp c_{11} + a_{12}\topp b_{21} \topp c_{11} \\
+    \algob{2} &= a_{11} \topp b_{11}\topp c_{11} + a_{12}\topp b_{21} \topp c_{11} \\
                  &+ a_{21}\topp b_{11} \topp c_{21} + a_{22} \topp b_{21} \topp c_{21} \\ 
                  &+ a_{11} \topp b_{12} \topp c_{12} + a_{12} \topp b_{22} \topp c_{12} \\
     &+ a_{21} \topp b_{12} \topp c_{22} + a_{22}\topp b_{22}\topp c_{22}.
@@ -610,7 +612,7 @@ la tesi è vera nel campo $ \Z/2\Z $.} e dando vita a una nuova teoria.
 \subsection*{L'algoritmo di Strassen}
 
 L'algoritmo di Strassen è probabilmente l'algoritmo di moltiplicazione veloce più noto e segue la
-stessa struttura a blocchi $ \angb{2} $.
+stessa struttura a blocchi $ \algob{2} $.
 
 \begin{align*}
 s_1 &= a_{11} + a_{22} & s_2 &= a_{21} + a_{22} & s_3 &= a_{11} \\
@@ -633,7 +635,7 @@ c_{21} &= m_2 + m_4 & c_{22} &= m_1 - m_2 + m_3 + m_6
 
 Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
 ottimale, Bini et. Al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
-ponendo a zero l'entrata $ a_{22} $ di $ \angb{2} $:
+ponendo a zero l'entrata $ a_{22} $ di $ \algob{2} $:
 \begin{equation*}
   \begin{bmatrix}
     a_{11} & a_{12} \\
@@ -651,7 +653,7 @@ ponendo a zero l'entrata $ a_{22} $ di $ \angb{2} $:
 Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazione~\ref{eq:tensor_222} si riscrive come
 \begin{equation*}
   \begin{aligned}
-    \angb{2}^{\text{red}}
+    \algob{2}^{\text{red}}
     &\defeq a_{11} \topp (b_{11} \topp c_{11} + b_{12} \topp c_{12})
                               + a_{12} \topp (b_{21} \topp c_{11} + b_{22} \topp c_{12})\\ 
                               &+ a_{21} \topp (b_{11} \topp c_{21} + b_{12}
@@ -659,13 +661,13 @@ Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazio
   \end{aligned}
 \end{equation*}
 
-Che è somma di sei tensori elementari distinti, quindi $ \rk{\angb{2}^{\text{red}}} \le 6 $.
-Bini et. al. provarono a cercare un'espressione di rango cinque per $ \angb{2}^{\text{red}} $
+Che è somma di sei tensori elementari distinti, quindi $ \rk{\algob{2}^{\text{red}}} \le 6 $.
+Bini et. al. provarono a cercare un'espressione di rango cinque per $ \algob{2}^{\text{red}} $
 numericamente, calcolando
 \begin{equation*}
-  \min_{\substack{T \in \R^{n\times n\times n} \\ \rk(T) = 5}}{\| \angb{2}^{\text{red}} - T\| }
+  \min_{\substack{T \in \R^{n\times n\times n} \\ \rk(T) = 5}}{\| \algob{2}^{\text{red}} - T\| }
 \end{equation*}
- norma di $ \angb{2}^{\text{red}} $. Il loro computer continuava a produrre tensori $ T $ di rango cinque
+ norma di $ \algob{2}^{\text{red}} $. Il loro computer continuava a produrre tensori $ T $ di rango cinque
 con la norma della differenza che diventava sempre più piccola, ma con coefficienti sempre più
 grandi. Questo è andato avanti per un po' di tempo, fino a che realizzarono che il codice era
 giusto, ma che era una manifestazione di un fenomeno chiamato \emph{border rank}.
