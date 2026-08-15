@@ -159,7 +159,21 @@ L'ipotesi $ \angb{\tilde{\s}} = W$ è leggermente diversa dall'originale \todo{Q
 = \bm{w}$, e permette di escludere alcuni casi banali dalla dimostrazione. Questo è garantito dalla
 seguente proposizione \todo{perché?}.
 
-\begin{proposition}
+\begin{definition}[Concise tensor]
+  un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
+  sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots A_n $.
+  Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, n\}  $. Un tensore è detto
+  \emph{concise} se è $ i $-concise per ogni $ i $.
+\end{definition}
+\begin{remark}
+  In altre parole $ T $ è concise se non è contenuto in nessun sottospazio proprio $ A_1' \otimes
+  A_2' \otimes \cdots A_n' \subset A_1 \otimes A_2 \otimes \cdots A_n $.
+  Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi locali
+  $ A_i $. Tale proprietà giocherà un ruolo chiave nella dimostrazione del Teorema di Kruskal, dove
+  potremo sostituire 
+\end{remark}
+
+\begin{proposition}[Tensori concise e rango]
   Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_n $ di rango $ r $. Diciamo che $ T \in
   A_1' \otimes \cdots \otimes A_n'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
   ogni espressione $ T = \sum_{i=1}^\rho u_{1i} \otimes \cdots \otimes u_{ni} $ con qualche $ u_{sj}

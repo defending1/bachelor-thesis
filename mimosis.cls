@@ -195,6 +195,22 @@
 \DeclareMathOperator*{\argmin}          {arg\,min}
 \DeclareMathOperator {\dist}            {dist}
 \DeclareMathOperator {\im}              {im}
+% Kernel and Image operators (standard capitalized and left/right variants)
+\DeclareMathOperator{\Ker}{Ker}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+
+% Left and Right Kernel / Image commands
+\newcommand{\lKer}{\Ker_L}
+\newcommand{\rKer}{\Ker_R}
+\newcommand{\lIm}{\Im_L}
+\newcommand{\rIm}{\Im_R}
+
+% Lowercase variants if needed
+\DeclareMathOperator{\kerop}{ker}
+\newcommand{\lker}{\kerop_L}
+\newcommand{\rker}{\kerop_R}
+
 % Common operators used in the thesis
 \newcommand{\rk}{\bm{R}}
 \DeclareMathOperator{\rank}{rank}

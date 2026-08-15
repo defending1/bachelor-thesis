@@ -5,11 +5,81 @@
 
 \todo{Controlla che non ci sia ambiguità nel riferirti a mappe/forme bilineari: $ \psi : U\times V
 \to W $ è una forma bilineare se $ W = \K $, altrimenti chiamala mappa bilineare}
+\todo{rinomina le forme bilineari con $ \varphi $ invece che $ f $}
+\section{Mappe multilineari e moltiplicazione tra matrici}
+\label{sec:tensor_bil}
+
+\todo{Fix conflicting notation!}
+
+Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
+P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
+lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
+M_1 \times M_2 \times  M_3 \to P$.
+
+\begin{definition}[Moltiplicazione matriciale]
+ Fissati degli interi positivi $ M,N,P $, la moltiplicazione tra due matrici $  M\times N $ e $ N \times P $ è una mappa bilineare
+ \begin{equation*}
+   \begin{aligned}
+     \angb{M,N,P} \colon \C^{M\times N} \times \C^{N\times P} &\to \C^{M \times P} \\
+     (A,B) &\mapsto C = AB.
+   \end{aligned}
+ \end{equation*}
+ Spesso ci riferiremo a $ \angb{M,N,P} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
+ moltiplicazione veloce.
+\end{definition}
+\begin{remark}
+  La bilinearità della mappa sopra segue immediatamente dalla definizione
+  \begin{equation}
+    \label{eq:matmul_component}
+    (AB)_{ij} = \sum_{k=1}^N a_{ik}b_{kj},
+  \end{equation} dove $ i = 1, \ldots, M $ e $ j = 1, \ldots,P $.
+\end{remark}
+
+\begin{remark}
+Possiamo vedere la moltiplicazione tra matrici anche come una mappa trilineare
+  \begin{equation*}
+    \begin{aligned}
+      \C^{M\times N} \times \C^{N\times P} \times \C^{M\times P} &\to \C \\
+      (A,B,C) &\mapsto \mathop{trace}(ABC)
+    \end{aligned}
+  \end{equation*}
+\end{remark}
+\todo{giustifica se necessario}
+
+
+Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
+informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. Proviamo a formulare il problema. 
+
+Sfruttando l'isomorfismo con lo spazio vettoriale standard, possiamo
+rappresentare una forma bilineare $ f \colon X \times Y \to Z $ come un tensore nel seguente modo: fissato $ k \in \{1, \ldots, p\} $ e
+considerata $ f_k : X \times Y \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
+f_k(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $. Scrivendo ogni componente di $
+f = \begin{bmatrix} f_1 \\ \vdots \\ f_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
+frontali rappresentino ognuna delle $ p $ forme bilineari $ f_k $, ossia che
+\begin{equation}
+  \label{eq:b_k_bil}
+  f_k(x,y) = x^{\top}\Tn{t}_{:,:,k}y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
+  } k = 1, \ldots, p
+.\end{equation}
+In forma tensoriale,
+\begin{equation}
+  \label{eq:b_tuv}
+ f(x,y) = \begin{bmatrix} f_1(x,y) \\ \vdots \\ f_p(x,y) \end{bmatrix} = \begin{bmatrix}
+ x^{\top}\Tn{t}_{:,:,1}y \\
+\vdots \\ x^{\top}\Tn{t}_{:,:,p}y \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
+ \ttm[2] y^{\top}.
+\end{equation}
+\begin{remark}
+  Questa procedura si estende (passando alle coordinate) anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
+  algebrici più complessi di scalari, ad esempio vettori o matrici.
+\end{remark}
+
+
 
 \section{L'esponente della moltiplicazione tra matrici}
 
 In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità, per
-calcolare costi computazionali su campi infiniti, e semplicficare il calcolo dei costi eliminando
+calcolare costi computazionali anche su campi infiniti, e semplicficare il calcolo dei costi eliminando
 branching (e.g. \texttt{if-then-else} o \texttt{while}).
 \begin{definition}[Straight line program]
   Uno \emph{straight line program} (o \emph{circuito algebrico}) su un campo $ \K $ è una sequenza
@@ -25,16 +95,54 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
 \end{definition}
 \todo{Vedi PAG 105 \cite{burgisser2013algebraic} se raffinare}
 
-\todo{la definizione di $ L^{\text{tot}} $ è molto semplificata dal libro "Algebraic Complexity theory"~\cite{burgisser2013algebraic}}
 \begin{definition}[Funzione di complessità aritmetica]
-  
+  \label{def:LtotL}
+  Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali finiti.
+  Denotiamo con $
+  \varphi_1, \ldots, \varphi_{\bm{w}} $ le componenti di $ \varphi $, allora
+  \begin{equation*}
+    \begin{aligned}
+      L^{\text{tot}}(\varphi) \defeq L^{\text{tot}}(\{\varphi_1, \ldots, \varphi_{\bm{w}}\} ) && \text{\emph{è la
+      \emph{complessità totale di $ \varphi $}}, e} \\
+      L(\varphi) \defeq L(\{\varphi_1, \ldots, \varphi_{\bm{w}}\} ) && \text{\emph{è la
+      \emph{complessità moltiplicativa di $ \varphi $}}.}
+    \end{aligned}
+  \end{equation*}
 \end{definition}
-Indichiamo con $ L^{\text{tot}}$ la funzione che calcola la complessità aritmetica totale (addizioni e moltiplicazioni) per il calcolo di una
-funzione $ \varphi$. Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ X, Y \in \R^{n\times
+\begin{remark}
+  In altre parole, $ L(\varphi) $ è il minimo numero di moltiplicazioni non scalari (o divisioni)
+  sufficienti a calcolare $ \varphi $. In maniera analoga, $ L^{\text{tot}} $ è il minimo numero di
+  moltiplicazioni non scalari (o divisioni) e di addizioni (o sottrazioni) sufficienti a calcolare $
+  \varphi $. In particolare, sia $ L^{\text{tot}}(\varphi) $ che $ L(\varphi) $ restituiscono la
+  somma dei costi necessari a calcolare ogni $ \varphi_{i} $ usando lo straight line program.\todo{CHECK IF DEF IS OK}
+\end{remark}
+\begin{proposition}[Strassen]
+  Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali finiti, e $ \varphi : U\times V \to  W $ una
+  mappa bilineare. Allora
+  \begin{equation*}
+    L(\varphi) = \text{Lunghezza della più breve bilinear computation per } \varphi.
+  \end{equation*}
+\end{proposition}
+\begin{remark}
+  Da questa proposizione segue direttamente che
+  \begin{equation}
+    \label{eq:LandRank_estimate}
+    L(\varphi) \le \rk(\varphi) \le 2L(\varphi).
+  \end{equation}
+\end{remark}
+
+\todo{QUI SPOSTARE MATRIX MULT COME FORMA BIL}
+
+
+Considerando l'Equazione~\ref{eq:matmul_component} e vedendo ognuna delle $ (AB)_{ij} $ come forme bilineari,
+dalla notazione della Definizione~\ref{def:LtotL}, poniamo $ \varphi = \angb{n} $ e scriviamo le sue coordinate $
+\varphi_1, \ldots, \varphi_{n^2} $ come nell'Equazione~\ref{eq:b_active}.
+Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
 n}$, denotiamo con
 \begin{equation}
   \label{eq:def_Mn}
-  M_{\K}(n) \defeq L^{\text{tot}} \left( XY \right) = L^{\text{tot}} \left( \left\{ \sum_{j=1}^n x_{ij}y_{jl} \mid i,l \in \{1, \ldots, n\} \right\}  \right)
+  M_{\K}(n) \defeq L^{\text{tot}} \left( \angb{n} \right) =  L^{\text{tot}} \left( \left\{
+  \sum_{k=1}^n a_{ik}b_{kj} \; \middle| \; i,j \in \{1, \ldots, n\} \right\} \right)
 \end{equation}
 il numero totale di moltiplicazioni aritmetiche sufficienti a calcolare la moltiplicazione di due
 matrici $ n\times n $. Determinare una formula per $ M_{\K}(n) $ è lontano dagli strumenti attualmente
@@ -46,15 +154,15 @@ M_{\K}(n) $ è fattibile; definiamo
 \begin{equation*}
   \begin{aligned}
     \omega_{\K} \defeq \inf_n\{\tau \in \R \mid &\text{ la moltiplicazione tra due matrici in }
-    \K^{n\times n}  \\ & \text{ ha costo } O(n^\tau) \text{ operazioni aritmetiche} \}.
+    \K^{n\times n}  \\ & \text{ ha costo } o(n^\tau) \text{ operazioni aritmetiche} \}.
   \end{aligned}
 \end{equation*}
-In altre parole, $ \omega_{\K} = \inf \{\tau \in \R \mid M_{\K}(n) = O(n^\tau)\}  $.
+In altre parole, $ \omega_{\K} = \inf \{\tau \in \R \mid M_{\K}(n) = o(n^\tau)\}  $.
 \end{definition}
 
 \begin{remark}
-Dalla notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Poiché il seguente risultato avanzato afferma che l'esponente
-dipende solo dalla caratteristica del campo, e tratteremo solo $ \K \in \{\R, \C\}  $, spesso
+Dalla notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Il seguente risultato avanzato afferma che l'esponente
+dipende solo dalla caratteristica del campo. Dato che tratteremo solo $ \K \in \{\R, \C\}  $, spesso
 scriveremo $ \omega $ per $ \omega_{\K} $.
 \end{remark}
 
@@ -95,66 +203,6 @@ algoritmi~\cite{fawzi2022discovering}.
   veda ad esempio~\cite{landsberg2011tensors}.
 \end{remark}
 
-\section{Mappe multilineari e moltiplicazione tra matrici}
-\label{sec:tensor_bil}
-
-\todo{Fix conflicting notation!}
-
-Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
-P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
-lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
-M_1 \times M_2 \times  M_3 \to P$.
-
-\begin{definition}[Moltiplicazione matriciale]
- Fissati degli interi positivi $ M,N,P $, la moltiplicazione tra due matrici $  M\times N $ e $ N \times P $ è una mappa bilineare
- \begin{equation*}
-   \begin{aligned}
-     \angb{M,N,P} \colon \C^{M\times N} \times \C^{N\times P} &\to \C^{M \times P} \\
-     (A,B) &\mapsto C = AB.
-   \end{aligned}
- \end{equation*}
- Spesso ci riferiremo a $ \angb{M,N,P} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
- moltiplicazione veloce.
-\end{definition}
-
-\begin{remark}
-Possiamo vedere la moltiplicazione tra matrici anche come una mappa trilineare
-  \begin{equation*}
-    \begin{aligned}
-      \C^{M\times N} \times \C^{N\times P} \times \C^{M\times P} &\to \C \\
-      (A,B,C) &\mapsto \mathop{trace}(ABC)
-    \end{aligned}
-  \end{equation*}
-\end{remark}
-\todo{giustifica se necessario}
-
-
-Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
-informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro valutazione. Proviamo a formulare il problema. 
-
-Sfruttando l'isomorfismo con lo spazio vettoriale standard, possiamo
-rappresentare una forma bilineare $ f \colon X \times Y \to Z $ come un tensore nel seguente modo: fissato $ k \in \{1, \ldots, p\} $ e
-considerata $ f_k : X \times Y \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
-f_k(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $. Scrivendo ogni componente di $
-f = \begin{bmatrix} f_1 \\ \vdots \\ f_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
-frontali rappresentino ognuna delle $ p $ forme bilineari $ f_k $, ossia che
-\begin{equation}
-  \label{eq:b_k_bil}
-  f_k(x,y) = x^{\top}\Tn{t}_{:,:,k}y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
-  } k = 1, \ldots, p
-.\end{equation}
-In forma tensoriale,
-\begin{equation}
-  \label{eq:b_tuv}
- f(x,y) = \begin{bmatrix} f_1(x,y) \\ \vdots \\ f_p(x,y) \end{bmatrix} = \begin{bmatrix}
- x^{\top}\Tn{t}_{:,:,1}y \\
-\vdots \\ x^{\top}\Tn{t}_{:,:,p}y \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
- \ttm[2] y^{\top}.
-\end{equation}
-\begin{remark}
-  Questa procedura si estende (passando alle coordinate) anche al caso in cui le entrate di $ x $ e $ y $ siano oggetti
-  algebrici più complessi di scalari, ad esempio vettori o matrici.
-\end{remark}
 
 \section{Decomposizione low-rank di forme bilineari}
 
@@ -212,12 +260,14 @@ Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
   \label{eq:lowrank_bilinear}
   f(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
 \end{equation}
+Considerando i funzionali $ f_{l}(x) \defeq u_{l}^{\top}x $ e $ g_{l}(y) \defeq v_{l}^{\top}y $
+indotti dal prodotto scalare standard si ha la tesi.
 
 \end{proof}
 Quindi valutare $ f $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
   O(r) $ addizioni), che sopra evidenziamo con $
 (\cdot) $.
-In particolare, vale il seguente risultato algebrico:
+In particolare, vale il seguente risultato algebrico:\todo{fix ora che è cambiato sopra}
 \begin{proposition}[Si veda~\cite{burgisser2013algebraic}, Cap. 14]
   Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali. Allora esiste un unico isomorfismo $ U^*
   \otimes V^* \otimes W \to \{\varphi : U \times V \to  W, \text{ bilineare}\} $ che manda $ f
@@ -333,10 +383,12 @@ Il rango di un algoritmo è monotono crescente rispetto alla dimensione, ovvero 
 \end{proposition}
 
 
-\section{Rango come misura della complessità}
+\section{Il rango come misura della complessità}
 
 % La condizione trovata nell'Equazione~\ref{eq:omega_as_rank} è anche necessaria \todo{check}. 
-La prossima proposizione mostra che il rango di un tensore è una misura ottimale della complessità:
+La prossima proposizione mostra che il rango di un tensore è una misura ottimale della complessità.
+Inoltre risponde all'esistenza del problema inverso: dato un intero positivo $ r $, è possibile
+trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal seguente risulato.
 \begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
   \begin{equation*}
     \omega = \inf \{\tau \in \R \mid \rk(\angb{n}) = O(n^\tau)\}.
@@ -345,22 +397,146 @@ La prossima proposizione mostra che il rango di un tensore è una misura ottimal
   operazioni aritmetiche se e solo se il rango tensoriale di $ \angb{n} $ è $
   O(n^{\omega+\varepsilon}) $.
 \end{theorem}
+
+
+
+\begin{definition}[Mappa bilineare concise]
+  Sia $ \varphi : U\times V \to  W$ una mappa bilineare. Diremo che $ \varphi $ è \emph{concise} se
+  valgono tutte e tre le condizioni sotto:
+  \todo{change to roman and to $ i $-concise per matchare quella dei tensori}
+  \begin{enumerate}
+    \item $\lKer(\varphi) = \{u \in U \mid \varphi(u,\cdot ) = 0\}  = \{0\} $,
+    \item $\rKer(\varphi) = \{v \in V \mid \varphi(\cdot,v ) = 0\}  = \{0\} $,
+    \item $\Im(\varphi) = \{\varphi(u,v) \mid u\in U, v\in V\} = W$.
+  \end{enumerate}
+\end{definition}
+\begin{example}
+  La mappa bilineare $ \angb{n} $ è concise.
+\end{example}
+
+\begin{lemma}
+  \label{lemma:rec_relation_ab}
+  Sia $ x = \left( x_0, x_1, x_2,\ldots \right) $ una successione di numeri reali che soddisfa la
+  ricorsione $ x_s = ax_{s-1} + cb^s $, per certi numeri reali $ a,b,c $. Allora per ogni $ s \ge 0
+  $, vale
+  \begin{equation*}
+    x_s = \begin{cases}
+      a^s x_0 + (a^s - b^s) \frac{bc}{a-b} & \text{se } a\neq b, \\
+      (cs + x_0)a^s & \text{se } a = b.
+    \end{cases}
+  \end{equation*}
+\end{lemma}
 \begin{proof}
-  Chiamiamo $ \theta $ il lato destro dell'equazione sopra. Dall'Equazione~\ref{eq:mulvec:CP} abbiamo
+  Mostriamo la formula per induzione su $ s $. Per $ s=0 $ la formula è verificata.
+  \begin{equation*}
+    \begin{aligned}
+    x_1 &= ax_0 + bc, \\
+    x_2 &= a(ax_0 + bc) + b^2 c \\
+        &= a^2 x_0 + (a + b)bc \\
+        &= \begin{cases}
+          a^2x_0 + (a^2 - b^2)\frac{bc}{a-b} & \text{se } a\neq b, \\
+          (2c + x_0)a^2 & \text{se } a=b.
+        \end{cases}
+    \end{aligned}
+  \end{equation*}
+  Assumiamo la proprietà vera per $ n-1 $ e mostriamola per $ n $.
+
+  Se $ a \neq b $, 
+  \begin{equation*}
+    \begin{aligned}
+      x_s &= a\left(a^{s-1}x_0 + \left(a^{s-1} - b^{s-1}\right) \frac{bc}{a-b}\right) + b^sc \\
+          &= a^s x_0 + \left( (a^{s-1} - b^{s-1})a + b^{s-1}(a-b) \right)\frac{bc}{a-b} \\
+          &= a^s x_0 + \left(a^{s}-b^{s} \right)\frac{bc}{a-b}
+    \end{aligned}
+  \end{equation*}
+
+  Similmente, se $ a = b $
+  \begin{equation*}
+    \begin{aligned}
+      x_s &= \left( c(s-1) + x_0 + c \right)a^s \\
+          &=  (cs + x_0)a^s.
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{proof}[Dimostrazione del Teorema di Strassen]
+  Chiamiamo $ \theta $ il lato destro dell'equazione sopra, e per semplicità scriviamo $ M(n) \defeq
+  M_{\K}(n)$ e $ \omega \defeq \omega_{\K}$. Dall'Equazione~\ref{eq:LandRank_estimate} abbiamo
   \begin{equation*}
     \frac{1}{2}R(\angb{n}) \le L(\angb{n}) \le M(n),
   \end{equation*}
   \todo{va giustificata meglio (vedi libro)}
-  calcolando gli $ \inf $, troviamo $ \theta \le \omega $.
+  da cui $ \theta \le \omega $.
 
   Mostriamo che $ \omega \le \theta $. Per definizione di $ \theta $, per ogni $ \varepsilon >0 $
-  esiste un $ m>1 $ tale che
+  esiste un $ n>1 $ tale che
+  \begin{equation}
+    \label{eq:r_estimate}
+    r \defeq \rk(\angb{n}) \le n^{\theta + \varepsilon}.
+  \end{equation}
+  
+  Dalla Equazione\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} sappiamo che esistono dei funzionali $ f_{\rho},g_{\rho} \in
+  (\K^{n\times n})^*$  e delle matrici $ w_{\rho} \in \K^{n\times n} $ per $ \rho \in \{1, \ldots,
+  r\}  $ tali che, per ogni $ A,B \in \K^{n\times n} $
   \begin{equation*}
-    r \defeq \rk(\angb{m}) \le m^{\theta + \varepsilon}.
+    AB = \sum_{\rho = 1}^r f_{\rho}(A)g_{\rho}(B) w_{\rho}.
   \end{equation*}
-  \missingfigure{Finire}
+  Vedendo $ \mathcal{A} = \K^{n^i\times n^i} $ come l'algebra delle matrici $ n^i \times n^i $, notiamo che i funzionali $ f_{\rho}, g_{\rho} : \K^{n\times n} \to \K $ si estendono a funzionali
+  $ f_{\rho}, g_{\rho} : \mathcal{A}^{n\times n} \to \mathcal{A} $, sostituendo le entrate scalari
+  con delle matrici. In particolare vale, per ogni $ A,B \in \mathcal{A}^{n\times n} $
+  \begin{equation}
+    \label{eq:blk_matmul_algo}
+    AB = \sum_{\rho = 1}^r f_{\rho}(A)g_{\rho}(B) w_{\rho}.
+  \end{equation}
+L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
+  $ e $ B $: infatti abbiamo $ \mathcal{A}^{n\times n} = (\K^{n^i\times n^i})^{n \times n} \simeq \K^{n^{i+1}
+  \times n^{i+1}} $, dove l'isomorfismo è dato dalla decomposizione in blocchi. Da questo fatto,
+  unito all'Equazione~\ref{eq:blk_matmul_algo}, si
+  ottiene che
+  \begin{equation}
+    \label{eq:Mn_recursionleq}
+    M(n^{i+1}) \le r M(n^i) + cn^{2i},
+  \end{equation}
+  dove $ c \defeq c(n,r) $ è una costante che dipende sia da $ n $ che da $ r $. Questo perché nella
+  formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (in altre
+  parole, visto come prododotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
+  un numero costante di addizioni.
+  Siccome $ \angb{n} $ è concise, abbiamo che $ r \ge n^2 $. Fissando $ n $ (e quindi $ r $),
+  risolviamo la ricorsione dell'Equazione~\ref{eq:Mn_recursionleq} in funzione di $ i $ usando il
+  Lemma~\ref{lemma:rec_relation_ab} con $ a = r $ e $ b = n^2 $, analizzando due casi.
+
+  Se $ r > n^2 $, abbiamo che
+  \begin{equation*}
+    \begin{aligned}
+      M(n^i) &= r^i M(1) + (r^i - n^{2i})\frac{n^2c}{r-n^2} \\
+             &= (M(1) + n^2c)r^i - n^{2i}\frac{n^2c}{r-n^2},
+    \end{aligned}
+  \end{equation*}
+  da cui, 
+  \begin{equation*}
+    M(n^i) \le \alpha r^i + \beta m^{2i},
+  \end{equation*}
+  dove abbiamo posto $ \alpha \defeq M(1) + n^2c $ e $ \beta \defeq - \frac{n^2c}{r-n^2}$. 
+
+  Se $ r = n^2 $, dal Lemma~\ref{eq:Mn_recursionleq} abbiamo
+  \begin{equation*}
+    M(n^i) \le (cs + M(1))r^i,
+  \end{equation*}
+
+  In entrambi i casi troviamo,
+  \begin{equation}
+    \label{eq:Mn_as_O_ri}
+    M(n^i) = O(r^i).
+  \end{equation}
+  Notiamo che $ M $ è una successione monotona, da cui\todo{why?} per ogni $ h = n^i \in \N \setminus \{0\}  $. 
+  \begin{equation*}
+    M(h) = O(r^{\log_{n}h}) = O(h^{\log_{n}r}) = O(h^{\theta + \varepsilon}),
+  \end{equation*}
+  dove la prima uguaglianza segue sostituendo, $ i = \log_n $
+  nell'Equazione~\ref{eq:Mn_recursionleq}, la seconda da una proprietà del logaritmo, e la terza
+  applicando la stima dell'Equazione~\ref{eq:r_estimate}.
+  Quindi $ \omega_{\K} \le \theta $, che completa la dimostrazione.
 \end{proof}
-\todo{Espandere discussione dall'articolo}
 
 \begin{remark}
   Di seguito ci limiteremo a studiare prodotti fra matrici quadrate; per il caso rettangolare, si
