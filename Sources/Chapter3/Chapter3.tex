@@ -307,6 +307,7 @@ prodotto tra $ s_l $ e $ t_l $.
 Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{M,N,P} $.
 
 \section{Alcune stime sull'esponente}
+\label{sec:exp_estimates}
 
 Dal ragionamento sopra, $ \rk(\algob{n}) $ è dato dal numero di active multiplication nella molitiplicazione
 di due matrici, e quindi ne misura la complessità algoritmica. 
@@ -635,6 +636,7 @@ c_{21} &= m_2 + m_4 & c_{22} &= m_1 - m_2 + m_3 + m_6
 \todo{aggiungere costo}
 
 \section{Algoritmi APA}
+\label{sec:APA}
 
 Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
 ottimale, Bini et. Al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
@@ -683,8 +685,9 @@ L'espressione del tensore che stavano cercando era essenzialmente
 \todo{Introduci e motiva il problema partendo dagli algoritmi APA (vedi Landsbeg)}
 
 \begin{example}
+  \label{ex:border_rank}
   Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
-  linearmente indipendenti.  Definiamo il tensore 
+  linearmente indipendenti. Definiamo il tensore 
   \begin{equation}
     \Tn{X} = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
   \end{equation}

@@ -292,11 +292,14 @@ naturale definire la seguente operazione
 
 \section{La fattorizzazione CP}
 
-Dato un intero positivo $ r $, nel caso matriciale è un problema semplice costruire una matrice di
+Introduciamo una scrittura di un tensore in tensori elementari, utile a risolvere i seguenti
+problemi che affronteremo nei prossimi capitoli.
+
+\textbf{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è un problema semplice costruire una matrice di
 rango $ r $. Invece, trovare un tensore di un certo rango è come trovare un ago in un pagliaio; ad esempio, nel
 Capitolo~\ref{chp:matmul}\ldots \todo{discutere con R}
 
-Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
+\textbf{Risparmio computazionale:} Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
@@ -316,20 +319,16 @@ numerosi ostacoli \todo{ref to ostacoli}.
 Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP} di rango $ r\in \N $ se
   esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^h \mid \ldots \mid u_r^h\right]\in R^{n_h \times r} $ tali per cui 
 \begin{equation*}
-   \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d = \sum_{i=1}^r
-      \bigtopp_{h=1}^d u_j^h.
+   \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d.
 \end{equation*}
   In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
 \end{definition}
 \begin{remark}
   Fissando la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
   \begin{enumerate}[label=(\roman*)]
-    \item $ \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d = \sum_{i=1}^r
-      \bigtopp_{h=1}^d u_j^h$.
-    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1 = \sum_{i=1}^r
-      \bigkrn_{h=d}^1 u_j^h$.
-    \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j) = \sum_{j=1}^r
-      \prod_{h=1}^d U_h(i_h,j)$.
+    \item $ \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d$.
+    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
+    \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
   \end{enumerate}
 
 \end{remark}
@@ -543,16 +542,47 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d \Tn{X}(\miwc) U_{\alph
 \end{remark}
 
 
-\section{Rango CP}
+\section{Il problema del rango}
 \label{sec:cp_rank}
 
-Nel caso matriciale, possiamo calcolare il rango di una matrice $ A $ usando la decomposizione SVD $
-U \Sigma V^* $, ma in più dimensioni incorriamo in alcuni problemi:
+In più dimensioni il problema di calcolare il rango, e una fattorizzazione CP di un tensore si
+complicano notevolmente rispetto al caso matriciale.\todo{non mi piace}
 
-\begin{enumerate}
-  \item NP-hardness
-  \item Problema del border rank (si veda la Sezione~\ref{sec:border_rank})
-\end{enumerate}
+\subsection*{Border rank}
+L'insieme dei tensori di un rango fissato $ r $ non è chiuso, ad esempio, un tensore di rango $ 3 $
+può convergere ad uno di rango $ 2 $, come mostra l'Esempio~\ref{ex:border_rank}. Questo limita
+l'utilità del rango dal punto di vista teorico, ma ha risvolti applicativi interessanti, che vedremo nella Sezione~\ref{sec:APA}.
+
+\subsection*{Costo computazionale}
+Calcolare il costo di una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
+solo; il problema di trovare un tensore approssimante di un certo rango è computazionalmente
+difficile. In altre parole, la miglior approssimazione di rango $ r $ è data da dei vettori $ x_{i}
+\in \R^{n_1}, y_{i} \in \R^{n_2}, \ldots, z_{i} \in \R^{n_{d}}   $, per $ i = 1, \ldots, r $ che minimizzano
+\begin{equation*}
+  \| A - x_1 \otimes y_1 \otimes \cdots \otimes z_1 - \cdots x_{r} \otimes y_{r} \otimes \cdots
+  \otimes z_{r}\|
+\end{equation*}
+oppure, in altre parole un tensore $ B $ dato da una fattorizzazione CP, che realizza
+\begin{equation*}
+  \min_{\rank(B) \le r} \| A - B \|.
+\end{equation*}
+Qui $ \| \cdot \| $ denota una norma fissata su $ \R^{n_1 \times  \cdots \times n_{d}}$. Quando $ d =2$, il
+problema è risolto per norme invarianti per trasformazioni unitarie su $ \R^{m \times n} $ dal
+teorema di Eckart-Young-Mirsky~\cite{eckart1936approximation}: se
+\begin{equation*}
+  A = U\Sigma V^* = \sum_{i = 1}^{\rank(A)}\sigma_i u_{i} \otimes v_{i}, \qquad \sigma_{i} \ge
+  \sigma_{i+1},
+\end{equation*}
+è la decomposizione ai valori singolari di $ A $ (anche detta SVD), allora la migliore
+approssimazione di rango $ r $ è data dai primi $ r $ termini della somma.
+Sfortunatamente, generalizzare questo risultato in più dimensioni è
+impossibile~\cite{desilva2008tensorrankillposednessbest}.
+
+\subsection*{Rango tipico}
+
+Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
+formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
+come \emph{rango tipico} e verrà discusso nella Sezione\todo{ref}.
 
 \subsection*{Dipendenza dal campo base}
 Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
@@ -572,7 +602,12 @@ Scriviamo $ z_{k} = x_{k} + \I y_{k} $ e $ \overline{z}_k = x_{k} - \I y_{k} $, 
 
 \end{example}
 
-Data l'infattibilità del problema, possiamo dare una stima del rango con la seguente proposizione.
+\section{Il teorema del rango}
+
+Data l'infattibilità del problema del rango, possiamo dare una stima del rango con la seguente
+proposizione, dalla quale intuiamo che non sarà semplice trovare stime del rango di un
+tensore---queste spesso coinvolgono tecniche algebrico-combinatoriche avanzate. Vedremo alcuni esempi di
+queste stime nella Sezione~\ref{sec:exp_estimates}.
 
 \begin{proposition}[Teorema del rango]
   \label{th:rank}
@@ -644,7 +679,8 @@ Introduciamo un lemma di supporto:
   Ripetendo l'argomento per gli altri unfoldings si ha la tesi.
 \end{proof}
 
-Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una risposta generale (come nel
+Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una risposta generale (a
+differenza del
 caso matriciale) a domande del tipo:
 \begin{enumerate}
   \item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
