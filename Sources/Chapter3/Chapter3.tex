@@ -6,6 +6,9 @@
 \todo{Controlla che non ci sia ambiguità nel riferirti a mappe/forme bilineari: $ \psi : U\times V
 \to W $ è una forma bilineare se $ W = \K $, altrimenti chiamala mappa bilineare}
 \todo{rinomina le forme bilineari con $ \varphi $ invece che $ f $}
+
+\missingfigure{Breve introduzione per questo capitolo}
+
 \section{Mappe multilineari e moltiplicazione tra matrici}
 \label{sec:tensor_bil}
 
@@ -114,7 +117,7 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
   sufficienti a calcolare $ \varphi $. In maniera analoga, $ L^{\text{tot}} $ è il minimo numero di
   moltiplicazioni non scalari (o divisioni) e di addizioni (o sottrazioni) sufficienti a calcolare $
   \varphi $. In particolare, sia $ L^{\text{tot}}(\varphi) $ che $ L(\varphi) $ restituiscono la
-  somma dei costi necessari a calcolare ogni $ \varphi_{i} $ usando lo straight line program.\todo{CHECK IF DEF IS OK}
+  somma dei costi necessari a calcolare ogni $ \varphi_{i} $ da uno straight line program.\todo{CHECK IF DEF IS OK}
 \end{remark}
 \begin{proposition}[Strassen]
   Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali finiti, e $ \varphi : U\times V \to  W $ una
@@ -136,7 +139,7 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
 
 Considerando l'Equazione~\ref{eq:matmul_component} e vedendo ognuna delle $ (AB)_{ij} $ come forme bilineari,
 dalla notazione della Definizione~\ref{def:LtotL}, poniamo $ \varphi = \algob{n} $ e scriviamo le sue coordinate $
-\varphi_1, \ldots, \varphi_{n^2} $ come nell'Equazione~\ref{eq:b_active}.
+\varphi_1, \ldots, \varphi_{n^2} $ come nell'Equazione~\ref{eq:b_active} \todo{Non chiaro, chiedere}.
 Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
 n}$, denotiamo con
 \begin{equation}
@@ -150,6 +153,7 @@ disponibili. Invece, il problema di approssimare la crescita asintotica della fu
 M_{\K}(n) $ è fattibile; definiamo
 
 \begin{definition}
+  \label{def:exponent_matmul}
   L'\emph{esponente $ \omega_{\K} $ di una moltiplicazione matriciale} è il numero
 \begin{equation*}
   \begin{aligned}
@@ -187,7 +191,7 @@ nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera
 pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
 più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}. In futuro,
 potremmo aspettarci ulteriori miglioramenti, anche grazie all'avvento dell'IA nella ricerca di
-algoritmi~\cite{fawzi2022discovering}.
+algoritmi, si veda ad esempio Alphatensor~\cite{fawzi2022discovering}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
@@ -310,8 +314,7 @@ Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{M,N,P} 
 \label{sec:exp_estimates}
 
 Dal ragionamento sopra, $ \rk(\algob{n}) $ è dato dal numero di active multiplication nella molitiplicazione
-di due matrici, e quindi ne misura la complessità algoritmica. 
-Alla luce di ciò, possiamo riscrivere $ \omega $ come
+di due matrici, e quindi ne misura la complessità algoritmica. Possiamo quindi riscrivere $ \omega $ come
 \begin{equation}
   \label{eq:omega_as_rank}
   \omega = \lowlim_{n \to +\infty} \log_n \left( \rk(\algob{n}) \right).
@@ -329,7 +332,8 @@ ulteriori dettagli e stime.
 
 \subsection*{Trattare il caso generale}
 
-Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come la moltiplicazione di matrici $ n\times n $ sull'anello delle matrici $ n^{i-1}\times
+Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come la moltiplicazione
+di matrici $ n\times n $ sull'algebra delle matrici $ n^{i-1}\times
 n^{i-1} $, suddividendole in blocchi. Questo dice anche che, se $
 \rk(\algob{n}) \le r $, allora $ \rk(\algob{n^i}) \le
   r^i$; infatti, combinando le prossime Proposizioni~\ref{prop:bil_map_product}
@@ -344,7 +348,8 @@ Se invece $ n > n_0 $ sono due interi positivi, dato un algoritmo con un caso ba
 \algob{n_0} $, è possibile ottenerne uno per
 $ \algob{n} $, con $ n >  n_0 $, allargando la matrice aggiungendo zeri
 fino alla dimensione
-$ n_0^{\left\lceil \log_{n_0} n \right\rceil } $. In particolare, si ha che
+$ n_0^{\left\lceil \log_{n_0} n \right\rceil } $. La complessità dipenderà comunque da $ n_0 $ e
+da $ r $, in quanto
 \begin{equation*}
   \begin{aligned}
     \rk(\algob{n}) &\le \rk(\algob{n_0^{\left\lceil \log_{n_0} n \right\rceil }}) && \text{dalla
@@ -352,7 +357,7 @@ $ n_0^{\left\lceil \log_{n_0} n \right\rceil } $. In particolare, si ha che
                   &\le \rk(\algob{n_0})^{\left\lceil \log_{n_0} n \right\rceil } && \text{dalle
     \ref{prop:bil_map_product} e \ref{prop:rk_bil_map_product},}\\
                   &\le r^{\left\lceil \log_{n_0} n \right\rceil } && \text{per ipotesi $
-  \rk(\algob{n}\le r) $,} \\
+  \rk(\algob{n}\le r $,} \\
                   &\le r \cdot n^{\log_{n_0} r} && \text{usando che $ \left\lceil x \right\rceil \le
                   x+1$}.
   \end{aligned}
@@ -402,7 +407,7 @@ trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal 
   O(n^{\omega+\varepsilon}) $.
 \end{theorem}
 
-
+Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 \begin{definition}[Mappa bilineare concise]
   Sia $ \varphi : U\times V \to  W$ una mappa bilineare. Diremo che $ \varphi $ è \emph{concise} se
   valgono tutte e tre le condizioni sotto:
@@ -471,8 +476,7 @@ trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal 
   \begin{equation*}
     \frac{1}{2}R(\algob{n}) \le L(\algob{n}) \le M(n),
   \end{equation*}
-  \todo{va giustificata meglio (vedi libro)}
-  da cui $ \theta \le \omega $.
+  e dalla Definizione~\ref{def:exponent_matmul} segue $ \theta \le \omega $.
 
   Mostriamo che $ \omega \le \theta $. Per definizione di $ \theta $, per ogni $ \varepsilon >0 $
   esiste un $ n>1 $ tale che
@@ -481,7 +485,7 @@ trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal 
     r \defeq \rk(\algob{n}) \le n^{\theta + \varepsilon}.
   \end{equation}
   
-  Dalla Equazione\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} sappiamo che esistono dei funzionali $ f_{\rho},g_{\rho} \in
+  Dall'Equazione~\ref{eq:mulvec:CP}\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} esistono dei funzionali $ f_{\rho},g_{\rho} \in
   (\K^{n\times n})^*$  e delle matrici $ w_{\rho} \in \K^{n\times n} $ per $ \rho \in \{1, \ldots,
   r\}  $ tali che, per ogni $ A,B \in \K^{n\times n} $
   \begin{equation*}
@@ -504,8 +508,7 @@ L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
     M(n^{i+1}) \le r M(n^i) + cn^{2i},
   \end{equation}
   dove $ c \defeq c(n,r) $ è una costante che dipende sia da $ n $ che da $ r $. Questo perché nella
-  formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (in altre
-  parole, visto come prododotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
+  formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (formalmente, visto come prododotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
   un numero costante di addizioni.
   Siccome $ \algob{n} $ è concise, abbiamo che $ r \ge n^2 $. Fissando $ n $ (e quindi $ r $),
   risolviamo la ricorsione dell'Equazione~\ref{eq:Mn_recursionleq} in funzione di $ i $ usando il
@@ -544,6 +547,8 @@ L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
   Quindi $ \omega_{\K} \le \theta $, che completa la dimostrazione.
 \end{proof}
 
+\section{Algoritmi di moltiplicazione veloce}
+
 \begin{remark}
   Di seguito ci limiteremo a studiare prodotti fra matrici quadrate; per il caso rettangolare, si
   possono estendere i ragionamenti sopra considerando una rappresentazione di rango $ r $ del
@@ -551,7 +556,6 @@ L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
   O(n^{3\log_{abc}r})$
 \end{remark}
 
-\section{Algoritmi di moltiplicazione veloce}
 
 \subsection*{Il caso naive}
 
