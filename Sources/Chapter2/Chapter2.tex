@@ -13,7 +13,7 @@ pagine) in~\cite{rhodes2009conciseproofkruskalstheorem} utilizza un approccio di
 da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
 riconducendosi al caso $ 3$-dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
 
-\todo{provvisoria (da legare alla nuova definizione)}
+\todo{provvisoria, in coordinate. Fa modificata (lavoriamo coordinate-free)}
 \begin{definition}[Essenziale unicità CP]
   Una fattorizzazione CP di rango $ r $ di un tensore $ \Tn{x} = \dsqr{U_1, \ldots, U_d}$ è
   \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ \Tn{x} = \dsqr{\tilde{U}_1,
@@ -74,9 +74,9 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 
 \begin{definition}[Posizione generale]
   Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
-  Diciamo che i punti di $ \s  $ sono in $ 2- $posizione generale se nessuna coppia di punti
-  coincide; sono in $ 3- $posizione generale se nessuna terna di punti giace su una retta, e in
-  generale, diremo che sono in \emph{$ r- $posizione generale} se nessuna $ r- $upla giace su un
+  Diciamo che i punti di $ \s  $ sono in $ 2 $-posizione generale se nessuna coppia di punti
+  coincide; sono in $ 3 $-posizione generale se nessuna terna di punti giace su una retta, e in
+  generale, diremo che sono in \emph{$ r $-posizione generale} se nessuna $ r $-upla giace su un
   sottospazio proiettivo di dimensione $ r-2 $ (talvolta detto $ (r-2) $-piano). 
 \end{definition}
 \begin{definition}[Kruskal rank]
@@ -99,7 +99,7 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 
 \begin{theorem}[Kruskal~\cite{KRUSKAL197795}]
   \label{thm:kruskal3d}
-  Sia $ T \in A \otimes B \otimes C $ che ammette fattorizzazione CP $ T = \sum_{i = 1}^r u_i
+  Sia $ T \in A \otimes B \otimes C $ che ammette decomposizione $ T = \sum_{i = 1}^r u_i
   \otimes v_i \otimes w_i$. Siano $ \s_A = \{[u_i]\}, \s_B = \{[v_i]\}  $ e $ \s_C = \{[w_i]\}  $.
   Se vale
   \begin{equation}
@@ -110,7 +110,7 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 \end{theorem}
 Più in generale vale il seguente teorema:
 \begin{theorem}[\cite{sidiropoulos2000uniqueness}]
-  Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione CP $ T=
+  Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
   \sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se 
   \begin{equation}
      r \le \frac{1}{2} \left(\sum_{i=1}^r \krk{\s_{A_k}} \right) - 1,
@@ -119,7 +119,6 @@ Più in generale vale il seguente teorema:
 \end{theorem}
 \begin{remark}
   \label{rm:stima_krk}
-  \todo{FIX dall'articolo}
   Se vale l'Equazione~\ref{eq:kr3}, segue che $ \krk{\s_A},\krk{\s_B}, \krk{\s_C} \ge 2
   $. Dimostriamolo per $ \s_{A} $, gli altri casi sono analoghi. L'Equazione~\ref{eq:kr3} si può riscrivere come
   \begin{equation*}
@@ -148,16 +147,16 @@ Il risultato centrale per dimostrare il teorema di Kruskal è il permuation lemm
   \#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
 \begin{remark}
-  Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{s} $ con due matrici $ M $
+  Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
   e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale, ovvero che per ogni $ x
-  \in \R^{\bm{w}}$ tale che il numero di elementi non nulli nel vettore $ \tilde{M}^{\top}x $ è
-  minore di $ r - \rank(\tilde{M}) + 1$
-  \todo{finire}
+  \in \R^{\bm{w}}$ tale $ \nnz(\tilde{M}^{\top}x)<  r - \rank(\tilde{M}) + 1$ hanno la proprietà che
+  $ \nnz(\tilde{M}x)\ge \nnz(M^{\top}x) $. Per vedere questa corrispondenza, bisogna pensare al
+  vettore $ x $ come un punto in $ W^* $ che dà un'equazione di $ H $, e gli elementi nulli del
+  vettore $ \tilde{M}^{\top} $ corrispondono alle colonne che fanno zero quando accopiate con $ x $,
+  cioè che soddisfano a un'equazione di $ H $, ovvero a punti contenuti in $ H $.
+  Inoltre, l'ipotesi $ \angb{S} = W $, che motiveremo meglio a breve, implica che $ \rank(\tilde{M}) = \bm{w}$.
 \end{remark}
-L'ipotesi $ \angb{\tilde{\s}} = W$ è leggermente diversa dall'originale \todo{Quale?}, e garantisce che $
-\rank{\tilde{M}}
-= \bm{w}$, e permette di escludere alcuni casi banali dalla dimostrazione. Questo è garantito dalla
-seguente proposizione \todo{perché?}.
+
 
 \begin{definition}[Concise tensor]
   un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
@@ -167,19 +166,29 @@ seguente proposizione \todo{perché?}.
 \end{definition}
 \begin{remark}
   In altre parole $ T $ è concise se non è contenuto in nessun sottospazio proprio $ A_1' \otimes
-  A_2' \otimes \cdots A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.\todo{teniamo questa
+  A_2' \otimes \cdots \otimes A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.\todo{teniamo questa
   come definizione?}
   Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi locali
-  $ A_i $. Tale proprietà giocherà un ruolo chiave nella dimostrazione del Teorema di Kruskal, dove
-  potremo sostituire 
+  $ A_i $. 
+\end{remark}
+
+\begin{remark}
+Tale proprietà giocherà un ruolo chiave nella dimostrazione del Teorema di Kruskal, dove
+supporremo che $ \angb{\s_{A_{k}}} = A_{k} $; a questo scopo abbiamo indebolito il permutation lemma
+con l'ipotesi $ \angb{S} = W $. La prossima proposizione afferma che tale
+restrizione è ben posta, ed esclude casi banali dalla dimostrazione del teorema di Kruskal.
 \end{remark}
 
 \begin{proposition}[Tensori concise e rango]
+  \label{prop:conc_and_rank}
   Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_n $ di rango $ r $. Diciamo che $ T \in
   A_1' \otimes \cdots \otimes A_n'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
   ogni espressione $ T = \sum_{i=1}^\rho u_{1i} \otimes \cdots \otimes u_{ni} $ con qualche $ u_{sj}
   \notin A_s'$ ha $ \rho > r $.
 \end{proposition}
+\begin{remark}
+  In altre parole, se $ T $ non è concise, allora $ \rho > r $.
+\end{remark}
 \begin{proof}
   Scegliamo dei complementari $ A_t'' $ tali che $ A_t = A_t' \oplus A_t'' $. Assumiamo per assurdo che $ \rho =
   r$ e scriviamo $ u_{tj} = u_{tj}' + u_{tj}'' $, dove $ u_{tj}' \in A_t' $ e $ u_{tj}'' \in A_t''
@@ -189,7 +198,8 @@ seguente proposizione \todo{perché?}.
      \sum_{i=1}^\rho u_{1i}' \otimes \cdots \otimes u_{ni}' + R,
   \end{equation*}
   dove $ R $ è il tensore che contiene i termini "misti" dati dai prodotti tra i fattori
-  $u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, cioè
+  $u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, appartenenti ai rispettivi
+  di sottospazi $ A_{s}' \otimes A_{t}''  $ e $ A_{s}'' \otimes A_{t}''$, cioè
   \begin{equation}
   R = \sum_{j=1}^\rho u_{1j}'' \otimes (u_{2j}' \otimes \cdots \otimes u_{nj}') + \ldots
   + \sum_{j=1}^\rho u_{1j}'' \otimes \cdots \otimes u_{nj}''.
@@ -243,7 +253,7 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
   punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
   $ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $. Tale insieme è non vuoto:
   basta prendere il piano generato da almeno $ \mu + 1 $ ed altri punti in posizione generale. Osserviamo subito che ogni
-  piano $ M_{\alpha} $ soddisfa l'ipotesi induttiva, in quanto contiene almeno $ \mu + 1 \ge k+2 $
+  $ k+1 $-piano $ M_{\alpha} $ soddisfa l'ipotesi induttiva, in quanto contiene almeno $ \mu + 1 \ge k+2 $
   punti di $ \tilde{\s} $, dunque 
   \begin{equation}
     \label{eq:malpha}
@@ -263,7 +273,8 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
       \def\svgwidth{0.7\columnwidth}
       \import{./Sources/Chapter2/figures/}{drawing.pdf_tex}
   \end{figure}
-  Dal Lemma~\ref{lemma:set_diff_card} otteniamo l'identità
+  Dal Lemma~\ref{lemma:set_diff_card} otteniamo l'identità (che vale anche per
+  $\tilde{\s} $),
   \begin{equation*}
    \#(\tilde{\s} \cap (M_{\alpha} \setminus L)) = \#(\tilde{\s} \cap M_{\alpha}) - \#(\tilde{\s} \cap
    M_{\alpha} \cap L) = \#(\tilde{\s} \cap M_{\alpha}) - \#(\tilde{\s} \cap L),
@@ -292,42 +303,47 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 
 \begin{proof}[Dimostrazione del Teorema di Kruskal]
-  Date due decomposizioni
+  Dalla Proposizione~\ref{prop:conc_and_rank} possiamo supporre che $ T $ sia conciso, ovvero che $
+A,B,C $ coincidano con i sottospazi generati da $ \tilde{\s}_{A},\tilde{\s}_{B},\tilde{\s}_{C} $, rispettivamente. Date
+  quindi due decomposizioni
   \begin{equation}
     \label{eq:not_tensor_uniq}
    T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j = \sum_{j=1}^r \tilde{u}_j \otimes \tilde{v}_j
   \otimes \tilde{w}_j   
   \end{equation}
   di lunghezza $ r $, con la prima decomposizione che soddisfa le ipotesi del teorema, vogliamo mostrare
-  che sono uguali. Notiamo che se sopra apparisse una decomposizione di lunghezza $ r-1 $, potremmo
+  che sono uguali. Notiamo che, quando l'unicità della decomposizione di
+  lunghezza $ r $ è verificata, il rango di $ T $ è $ r $; infatti, se sopra apparisse una decomposizione di lunghezza $ r-1 $, potremmo
   ricostruirne una di lunghezza $ r $ rimpiazzando $ \tilde{u}_1 \otimes \tilde{v}_1 \otimes
   \tilde{w}_1 $ con $ \frac{1}{2} \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 + \frac{1}{2}
-  \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 $; dunque quando l'unicità della decomposizione di
-  lunghezza $ r $ è verificata, il rango di $ T $ è $ r $. Mostriamo prima che $ \s_A = \tilde{\s}_A
-  $, $ \s_B = \tilde{\s}_B$ e $ \s_C = \tilde{\s_C} $. Per simmetria basta mostrare l'ultima
-  affermazione, sfruttando il permutation lemma. Se $ H \subset \PP C $ è un iperpiano
+  \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 $. Mostriamo prima che $ \s_A = \tilde{\s}_A
+$, $ \s_B = \tilde{\s}_B$ e $ \s_C = \tilde{\s}_C $. Per simmetria basta mostrare l'ultima
+  affermazione, sfruttando il permutation lemma. Consideriamo un iperpiano $ H \subset \PP C $
   tale che $ \#(\tilde{\s}_C \cap H) \ge \bm{c}-1 $, allora
   \begin{equation}
     \label{eq:stima_perm_lemma}
      \#(\s_C \cap H) \ge \#(\tilde{\s}_C \cap H) ,
   \end{equation}
   le ipotesi sono garantite dall'Osservazione~\ref{rm:stima_krk} e dal fatto che $
-  \angb{\tilde{\s}_C} = C $\todo{penso che dalla proposizione sopra possiamo restringere $ C $ a
-  questo sottospazio, perché se ci fossero termini inutilizzati avremmo una decomposizione più lunga}. 
-Sia $ \s = (\s_C \not\subset H) $ e scriviamo 
+  \angb{\tilde{\s}_C} = C $. 
+Definiamo il numero $ S \defeq \#(\s_C \not\subset H) $ dei punti di $ \s_C $ non contenuti in $ H
+$, e scomponiamo 
   \[
   T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j =
   \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma \otimes w_\sigma + \sum_{\mu = S+1}^r u_\mu \otimes v_\mu \otimes w_\mu
   ,\] dove abbiamo riordinato gli indici $ j $ affinché i primi $ S $ dei $ [w_j] $ non stiano in $
-  H $. Possiamo riformulare l'Equazione~\ref{eq:stima_perm_lemma} come $ \#(\tilde{\s}_C \not\subset
-  H) \ge  \#(\s_C \not\subset H) = S $, sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
+  H $. L'Equazione~\ref{eq:stima_perm_lemma} si può riformulare nel modo seguente
+\begin{equation*}
+  \#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S,
+\end{equation*}
+  sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
   \cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Sia $ h \in \hat{H}^\perp $ non nullo. Valutando in $ h $ abbiamo $ T(h) =
   \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) $, dove nessuno dei $ h(w_\sigma)
   $ è nullo. In particolare,\todo{not clear}
   \begin{equation*}
     \#(\tilde{\s}_C \not\subset H) \ge \rank(T(h)).
   \end{equation*}
-  Dunque, 
+  Da un risultato di algebra lineare\todo{ha un nome?},
   \todo{l'ultima va giustificata?}
   \begin{equation*}
     \begin{aligned}
@@ -352,9 +368,9 @@ Siccome $ \#(\tilde{\s}_C \cap H) \ge \bm{c} - 1 $, dall'equazione sopra ottenia
   \begin{aligned}
     \#(\tilde{\s}_C \not\subset H) &= r - \#(\tilde{\s}_C \cap H)\\
                                    &\le r - (c - 1) \\
-                                   &\le r - (\krk{\s_C} - 1), \quad \text{ dato che } c-1 \ge
+                                   &\le r - (\krk{\s_C} - 1) && \quad \text{ dato che } c-1 \ge
                                    \krk{\s_C} -1, \\ 
-                                   &\le \krk{\s_A} + \krk{\s_B} - r - 1,
+                                   &\le \krk{\s_A} + \krk{\s_B} - r - 1.
   \end{aligned}
 \end{equation}
 \todo{quale equazione è meglio numerare qui sopra?}
@@ -410,16 +426,18 @@ Per dimostrare l'affermazione prendiamo un iperpiano $ \hat{H}_T \subset C $ con
 ma non $ w_{t_0} $ e definito come in (iv). Consideriamo $ T^{\mathsf{c}} =  \{j \mid w_j \in
 \hat{H}_T\} $. Siccome $ \dim(\hat{H}_T) = \bm{c}-1 \ge \krk{\s_C} -1 $, allora anche $ \#T^{\mathsf{c}}
 \ge \krk{\s_C} -1 $. Questo mostra che $ \#T = r - \#T^{\mathsf{c}} \le r - \krk{\s_C} + 1 \le \krk{\s_A} +
-\krk{\s_B} - r - 1 \le \krk{\s_B} -1 $ (l'ultima disuguaglianza segue da $ \krk{\s_A} \le r $), ed
+\krk{\s_B} - r - 1 \le \krk{\s_B} -1 $. L'ultima disuguaglianza segue da $ \krk{\s_A} \le r $, ed
 assicura una stima sulla cardinalità di $ T $.
-Da cui, aggiungere un qualunque vettore\footnote{Intendiamo il vettore $ w $
+Da cui, aggiungere un qualunque vettore\footnote{Intendiamo, con leggero abuso, il vettore $ w $
   rappresentante  della rispettiva classe $ [w] $ in $ \s_B $.} di $ \s_B $ al sottospazio $ \angb{v_j \mid j \in
 T} $ ne aumenta la dimensione, in particolare $ v_{s_0} \not\in \angb{v_t \mid t \in T}$. Allora
 esiste un iperpiano $ \hat{H}_S \subset B $ contenente $ \angb{v_t \mid t \in T} $ ma non $ v_{s_0}
 $ \todo{vero che se completo a base ottengo $ \angb{v_t \mid t \in T} = \hat{H}_S$?}. Detto $ S^{\mathsf{c}}
 \defeq \{j \mid v_j \in \hat{H}_S\}  $, similmente a quanto visto per $ T $, valgono $
 \#S^{\mathsf{c}} \ge \krk{\s_B} -1 $, dunque $ \#S \le r - \krk{\s_B} + 1 $. Dalla costruzione segue
-che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le proprietà desiderate.
+che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le
+proprietà desiderate. Inoltre, dalla proprietà (iii), unita al fatto che $ \krk{\s_B},\krk{\s_C} \ge
+2$, segue che $ S $ e $ T $ contengono al più $ r-1 $ elementi.
 
 Notiamo che per costruzione $ T\big|_{\hat{H}_{S}^\perp \times \hat{H}_{T}^\perp} = 0$: preso un
 elemento $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $ qualsiasi, si ha
@@ -429,12 +447,14 @@ elemento $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $ qualsiasi
                       \mathcal{J}} u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}),
 \end{align*}
 dove $ \mathcal{J} = \{j \mid \sigma(j) \in S, \tau(j) \in T\} \supseteq \{j \mid \sigma(j) \neq
-\tau(j)\} \neq \emptyset $, in quanto contiene almeno $ j_0 $.
-Ovvero, nel caso della prima sommatoria tutti i termini sono nulli: se entrambi $
-\beta(v_j) $ e $ \gamma(w_j) $ fossero nulli, si avrebbe $ v_j \in \hat{H}_S $ e $ w_j \in
-\hat{H}_T $, cioè $ j \in S \cap T = \emptyset$. Nella seconda riga, similmente, un addendo è nullo
+\tau(j)\} $ è non vuoto, in quanto contiene almeno $ j_0 $, e ha cardinalità limitata da $ \#S $ e $ \#T $.
+Analizziamo meglio l'espressione sopra. Nel caso della prima sommatoria tutti i termini $
+\beta(v_{j})\gamma(w_{j}) $ sono nulli. Se così non fosse, esisterebbe un indice $ j $ tale per cui  $
+\beta(v_j) \neq 0 $ e $ \gamma(w_j) \neq 0 $, ma ciò accadrebbe, per definizione di annullatore, se
+e solo se $ v_j \not\in \hat{H}_S $ (cioè $ j \in S $) e $ w_j \not\in
+\hat{H}_T $ (cioè $ j\in T $), ma ciò accade se e solo se $ j \in S \cap T = \emptyset$. Nella seconda riga, similmente, un addendo è non nullo
 se $ v_{\sigma(j)} \not\in
-\tilde{H}_S$ e $ w_{\tau(j)} \in \tilde{H}_T $ cioè $ j \in \mathcal{J} $.
+\hat{H}_S$ e $ w_{\tau(j)} \not\in \hat{H}_T $ cioè $ j \in \mathcal{J} $.
 Allora esiste una combinazione lineare non banale tra gli elementi $ u_j $ per gli indici $ j \in
 \mathcal{J} $, ma $ \#\mathcal{J} \le \min \{\#S, \#T\}  \le \min \{r - \krk{\s_B} + 1, r -
 \krk{\s_C} + 1\}  $, che è minore di $ \krk{\s_A} $, infatti, se fosse

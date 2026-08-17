@@ -215,6 +215,7 @@
 \newcommand{\rk}{\bm{R}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\nnz}{nnz}
 
 \newcommand{\I}{{i\mkern1mu}}
 
