@@ -55,3 +55,5 @@ Thumbs.db
 *.ilg
 *.ind
 *.ist
+.agents/
+skills-lock.json

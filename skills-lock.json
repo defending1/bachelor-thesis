@@ -1,6 +1,24 @@
 {
   "version": 1,
   "skills": {
+    "peer-review": {
+      "source": "k-dense-ai/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/peer-review/SKILL.md",
+      "computedHash": "0022e9a5ace76f9a46f6ba719a843f3b4f588b75a2d694b280a89b49ad657fb9"
+    },
+    "scientific-critical-thinking": {
+      "source": "k-dense-ai/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/scientific-critical-thinking/SKILL.md",
+      "computedHash": "683ea661ed28e7d646cab5e4588dbcef457b280fcf0eba433ad97f9ba994c614"
+    },
+    "scrittura-italiana": {
+      "source": "hypnosdesign/claude-skill-scrittura-italiana",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "7e847c869b1a95066dda4ce1b95bae17bd5f414a9f9037814b6d9c6eae5be55c"
+    },
     "tikz": {
       "source": "igbuend/grimbard",
       "sourceType": "github",

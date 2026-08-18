@@ -302,8 +302,10 @@ Introduciamo una scrittura di un tensore in tensori elementari, utile a risolver
 problemi che affronteremo nei prossimi capitoli.
 
 \textbf{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è un problema semplice costruire una matrice di
-rango $ r $. Invece, trovare un tensore di un certo rango è come trovare un ago in un pagliaio; ad esempio, nel
-Capitolo~\ref{chp:matmul}\ldots \todo{discutere con R}
+rango $ r $. Invece, trovare un tensore di un certo rango è come trovare un ago in un pagliaio;
+questo complica la risoluzione di molti problemi che possono essere modellati tramite tensori, come
+vedremo ad esempio nel
+Capitolo~\ref{chp:matmul}.
 
 \textbf{Risparmio computazionale:} Cerchiamo una decomposizione di rango basso di un tensore $ \Tn{x} \in \Rmsiz! $ per ridurre il
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
@@ -582,7 +584,7 @@ teorema di Eckart-Young-Mirsky~\cite{eckart1936approximation}: se
 è la decomposizione ai valori singolari di $ A $ (anche detta SVD), allora la migliore
 approssimazione di rango $ r $ è data dai primi $ r $ termini della somma.
 Sfortunatamente, generalizzare questo risultato in più dimensioni è
-impossibile~\cite{desilva2008tensorrankillposednessbest}.
+ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposednessbest}.
 
 \subsection*{Rango tipico}
 

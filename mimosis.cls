@@ -189,7 +189,10 @@
 \DeclarePairedDelimiter{\br}{[}{]}
 \DeclarePairedDelimiter{\set}{\{}{\}}
 
+\DeclareMathOperator{\GLop}{GL}
+\newcommand{\GL}[2]{\GLop_{#1}(#2)}
 
+\DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator*\lowlim{\underline{lim}}
 \DeclareMathOperator*\uplim{\overline{lim}}
 \DeclareMathOperator*{\argmin}          {arg\,min}
