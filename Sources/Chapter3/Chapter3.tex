@@ -63,19 +63,19 @@ Sfruttando l'isomorfismo con lo spazio vettoriale standard, possiamo
 rappresentare una forma bilineare $ f \colon X \times Y \to Z $ come un tensore nel seguente modo: fissato $ k \in \{1, \ldots, p\} $ e
 considerata $ f_k : X \times Y \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
 f_k(x,y) = x^{\top}My$ per ogni $ (x,y) \in \R^m \times \R^n $. Scrivendo ogni componente di $
-f = \begin{bmatrix} f_1 \\ \vdots \\ f_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ \Tn{t} \in \R^{m \times n\times p} $ tale che le sue slice
+f = \begin{bmatrix} f_1 \\ \vdots \\ f_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ T \in \R^{m \times n\times p} $ tale che le sue slice
 frontali rappresentino ognuna delle $ p $ forme bilineari $ f_k $, ossia che
 \begin{equation}
   \label{eq:b_k_bil}
-  f_k(x,y) = x^{\top}\Tn{t}_{:,:,k}y = \sum_{i=1}^m\sum_{j=1}^n \Tn{t}_{i,j,k}x_iy_j, \text{ per ogni
+  f_k(x,y) = x^{\top}T_{:,:,k}y = \sum_{i=1}^m\sum_{j=1}^n T_{i,j,k}x_iy_j, \text{ per ogni
   } k = 1, \ldots, p
 .\end{equation}
 In forma tensoriale,
 \begin{equation}
   \label{eq:b_tuv}
  f(x,y) = \begin{bmatrix} f_1(x,y) \\ \vdots \\ f_p(x,y) \end{bmatrix} = \begin{bmatrix}
- x^{\top}\Tn{t}_{:,:,1}y \\
-\vdots \\ x^{\top}\Tn{t}_{:,:,p}y \end{bmatrix} = \Tn{t} \ttm[1] x^{\top}
+ x^{\top}T_{:,:,1}y \\
+\vdots \\ x^{\top}T_{:,:,p}y \end{bmatrix} = T \ttm[1] x^{\top}
  \ttm[2] y^{\top}.
 \end{equation}
 \begin{remark}
@@ -102,10 +102,7 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
   risultati intermedi, mentre il secondo tipo descrive la moltiplicazione dell'$ i $-esimo risultato
   intermedio con lo scalare $ \lambda $.
 \end{definition}
-\begin{remark}
-  Se i risultati intermedi sono dei vettori, l'output delle operazioni sopra appartiene appartiene a
-  uno spazio vettoriale.
-\end{remark}
+\todo{specifichiamo a che spazio appartengono i risultati intermedi?}
 
 \begin{definition}[Funzione costo]
   Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione
@@ -222,8 +219,8 @@ ottenere un costo $ O(Rn) $ per $ Mx $. È possibile riadattare quest'idea per f
 Calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{eq:b_k_bil} ha un costo $
   O(mnp) $, data dal numero di
   moltiplicazioni necessarie fra gli elementi di $ x $ e $ y $. Queste sono dette \emph{active
-  multiplications} e corrispondono al numero di elementi non nulli di $ \Tn{t} $. Ci aspettiamo che
-  la complessità di valutare $ f(x,y) $ sia correlata al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ \Tn{t} $.
+  multiplications} e corrispondono al numero di elementi non nulli di $ T $. Ci aspettiamo che
+  la complessità di valutare $ f(x,y) $ sia correlata al costo delle active multiplications. Cerchiamo di minimizzarne il numero cercando fattorizzazioni CP di $ T $.
 
 
 \begin{definition}[Bilinear algorithm]
@@ -261,8 +258,8 @@ La prossima definizione assicura che il rango di una forma bilineare è dato dal
   \rk(\varphi) = \rk(T) $.
 \end{proposition}
 \begin{proof}
-Data una decomposizione $ \Tn{t} = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP}
-abbiamo che $ \Tn{t} = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ \Tn{t}_{i,j,k} =
+Data una decomposizione $ T = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP}
+abbiamo che $ T = \sum_{l=1}^r u_l \topp v_l \topp w_l $, o in componenti, $ T_{i,j,k} =
 \sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nell'Equazione~\ref{eq:b_k_bil} troviamo,
 
 \begin{equation}
@@ -289,7 +286,7 @@ Considerando i funzionali $ f_{l}(x) \defeq u_{l}^{\top}x $ e $ g_{l}(y) \defeq 
 indotti dal prodotto scalare standard si ha la tesi.
 
 \end{proof}
-Quindi valutare $ \varphi $ richiede esattamente $ r = \rk(\Tn{t}) $ active multiplications (e $
+Quindi valutare $ \varphi $ richiede esattamente $ r = \rk(T) $ active multiplications (e $
   O(r) $ addizioni), che sopra evidenziamo con $
 (\cdot) $.
 In particolare, vale il seguente risultato algebrico:\todo{fix ora che è cambiato sopra}
@@ -311,14 +308,14 @@ C \in \R^{M \times P} $. Ponendo $ x =
 \Vec(A) $ e $ y=\Vec(B) $, l'Equazione~\ref{eq:b_tuv} diventa 
 \begin{equation}
   \label{eq:mulvec}
-\Vec(C^\top) =\varphi(x,y) = \Tn{T} \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top}
+\Vec(C^\top) =\varphi(x,y) = T \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top}
 ,\end{equation}
 
 dove abbiamo fissato l'ordinamento naturale sulle entrate di $ \Vec(A) $ e $ \Vec(B) $, e quello
 inverso su $
-\Vec(C^\top)$. Da ciò troviamo un tensore $ \Tn{T} \in \R^{MN\times NP\times MP} $ che rappresenta
+\Vec(C^\top)$. Da ciò troviamo un tensore $ T \in \R^{MN\times NP\times MP} $ che rappresenta
 la moltiplicazione tra $ \algob{M,N,P} $.
-Data una decomposizione CP di rango $ r $ del tensore $ \Tn{T}  = \dsqr{U,V,W}$,
+Data una decomposizione CP di rango $ r $ del tensore $ T  = \dsqr{U,V,W}$,
 grazie all'Equazione~\ref{eq:lowrank_bilinear}, l'espressione sopra si traduce in
 \begin{equation}
   \label{eq:mulvec:CP}
@@ -718,19 +715,19 @@ L'espressione del tensore che stavano cercando era essenzialmente
   Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
   linearmente indipendenti. Definiamo il tensore 
   \begin{equation}
-    \Tn{X} = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
+    T = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
   \end{equation}
-  e notiamo che $ \rk(\Tn{x}) = 3 $ dato che non può
+  e notiamo che $ \rk(T) = 3 $ dato che non può
   essere scomposto come somma di tensori più semplici.
   Consideriamo la successioni di tensori 
   \begin{equation}
   \label{eq:rank_counterex}
-  \Tn{x}_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
+  T_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
   \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
   \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
   \end{equation}
   che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
-  Vediamo che $ \lim_{\varepsilon \to 0} \Tn{x}_\varepsilon = \Tn{x} $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
+  Vediamo che $ \lim_{\varepsilon \to 0} T_\varepsilon = T $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
   Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
   \begin{equation}
     \begin{aligned}
@@ -738,30 +735,30 @@ L'espressione del tensore che stavano cercando era essenzialmente
       +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
       a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
       b_1 \topp c_1 \\
-                         &= \Tn{x} + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+                         &= T + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
       a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
     \end{aligned}
   \end{equation}
-  Quindi $ \Tn{x}_\varepsilon - \Tn{x} \to 0 $.
+  Quindi $ T_\varepsilon - T \to 0 $.
 \end{example}
 
 Questo motiva la seguente definizione:
 
 \begin{definition}[Border rank]
-  Dato un tensore $ \Tn{x} \in \Rmsiz $, il suo border rank è la quantità
+  Dato un tensore $ T \in \Rmsiz $, il suo border rank è la quantità
   \[
-  \brk(\Tn{x}) = \min \left\{ r \in \N \mid \exists \Tn{y} \in \Rmsiz! \text{ t.c }
-  \rk(\Tn{y})=r, \, \|\Tn{x} - \Tn{y}\|  < \varepsilon \right\}
+  \brk(T) = \min \left\{ r \in \N \mid \exists \Tn{y} \in \Rmsiz! \text{ t.c }
+  \rk(\Tn{y})=r, \, \|T - \Tn{y}\|  < \varepsilon \right\}
   .\] 
 \end{definition}
 \todo{Alternativa:}
 \begin{definition}[Border rank]
-  Un tensore $ \Tn{x} $ ha \emph{border rank} $ r $ se è limite di una successione di tensori di
+  Un tensore $ T $ ha \emph{border rank} $ r $ se è limite di una successione di tensori di
   rango $ r $, ma non è limite di una successione di tesori di rango $ s $, per ogni $ s < r $. Lo
-  denoteremo con il simbolo $ \brk(\Tn{x}) $.
+  denoteremo con il simbolo $ \brk(T) $.
 \end{definition}
 \begin{remark}
-  $ \rk(\Tn{x}) \ge \brk(\Tn{X}) $.
+  $ \rk(T) \ge \brk(T) $.
 \end{remark}
 \todo{Disegno interpretazione geometrica (landsberg pg 38)}
 \todo{Alcune stime su border rank di matrix mult operator}
