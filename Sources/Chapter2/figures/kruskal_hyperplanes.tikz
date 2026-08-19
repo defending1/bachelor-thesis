@@ -1,0 +1,45 @@
+\begin{tikzpicture}[scale=1.15]
+  % ================= SPAZIO C =================
+  \begin{scope}[xshift=0cm]
+    \node at (0, 3.2) {\large \textbf{Spazio $C$}};
+    
+    % Piano H_T
+    \filldraw[fill=blue!10, draw=blue!80, thick, rounded corners=2pt] (-2.2, -1.0) -- (1.8, -1.0) -- (2.6, 1.0) -- (-1.4, 1.0) -- cycle;
+    \node[blue!80!black, font=\large] at (-1.8, -0.6) {$\hat{H}_T$};
+    
+    % Vettore w_{s_0} SUL piano
+    \draw[->, thick, blue!60!black] (0,0) -- (1.6, 0.3) node[right, align=left, font=\small] {$w_{s_0}$ \\ ($s_0 \notin T$)};
+    
+    % Altro vettore sul piano
+    \draw[->, thick, gray] (0,0) -- (-1.0, -0.5) node[below left, font=\small] {$w_j \ (j \notin T)$};
+    
+    % Vettore w_{t_0} FUORI dal piano
+    \draw[->, ultra thick, red] (0,0) -- (0.2, 2.2) node[above, font=\small] {$w_{t_0} \ (t_0 \in T)$};
+    
+    % Altro vettore fuori dal piano (in T)
+    \draw[->, thick, orange] (0,0) -- (-1.5, 1.5) node[left, font=\small] {$w_t \ (t \in T)$};
+  \end{scope}
+
+  % ================= SPAZIO B =================
+  \begin{scope}[xshift=5.8cm]
+    \node at (0, 3.2) {\large \textbf{Spazio $B$}};
+    
+    % Piano H_S
+    \filldraw[fill=green!10, draw=green!80, thick, rounded corners=2pt] (-2.2, -1.0) -- (1.8, -1.0) -- (2.6, 1.0) -- (-1.4, 1.0) -- cycle;
+    \node[green!60!black, font=\large] at (-1.8, -0.6) {$\hat{H}_S$};
+    
+    % Sottospazio span(T) dentro H_S
+    \filldraw[fill=orange!20, draw=orange!80, dashed] (-1.3, -0.3) -- (1.5, 0.3) -- (1.8, 0.4) -- (-1.0, -0.2) -- cycle;
+    \node[orange!80!black, align=left, font=\small] at (1.8, 0.7) {$\angb{v_t}_{t \in T} \subset \hat{H}_S$};
+    
+    % Vettori v_t su questo sottospazio
+    \draw[->, thick, orange] (0,0) -- (1.3, 0.26) node[below right, font=\small] {$v_{t_0}$};
+    \draw[->, thick, orange] (0,0) -- (-0.8, -0.16) node[above left, font=\small] {$v_t$};
+    
+    % Vettore v_{s_0} FUORI dal piano
+    \draw[->, ultra thick, red] (0,0) -- (0.2, 2.2) node[above, font=\small] {$v_{s_0} \ (s_0 \in S)$};
+    
+    % Altro vettore fuori dal piano (in S)
+    \draw[->, thick, gray] (0,0) -- (-1.5, 1.5) node[left, font=\small] {$v_s \ (s \in S)$};
+  \end{scope}
+\end{tikzpicture}
