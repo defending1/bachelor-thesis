@@ -267,20 +267,28 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
   implicazioni dagli iperpiani fino ai punti, e ottenere la tesi: 
   \begin{equation*}
     \mathcal{P}_{\bm{w}-2} \implies \mathcal{P}_{\bm{w}-3} \implies \mathcal{P}_{\bm{w}-4} \implies
-    \cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0},
+    \cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0} \implies \text{tesi},
   \end{equation*}
   dove la proprietà $ \mathcal{P}_{0} $ corrisponde a quella detta inizialmente per i punti.
 
   Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
   punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
-  $ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $. Tale insieme è non vuoto:
-  basta prendere il piano generato da almeno $ \mu + 1 $ e altri punti in posizione generale.
-  Inoltre, $ \# \{M_{\alpha}\} \ge 2 $, cioè ci sono almeno due piani distinti contenenti $ L $\todo{why?}. Osserviamo subito che ogni
-  $(k+1)$-piano $ M_{\alpha} $ soddisfa l'ipotesi induttiva, in quanto contiene almeno $ \mu + 1 \ge k+2 $
-  punti di $ \tilde{\s} $, dunque 
+  $ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $. È possibile costruire un tale
+  piano $ M_{\alpha} $ prendendo il sottospazio generato da $ L $ e un punto di $ \tilde{\s} $ non
+  appartenente a $ L $.
+  Osserviamo che $ \# \{M_{\alpha}\} \ge 2 $, cioè ci sono almeno due piani distinti contenenti $ L
+  $: se fosse $ \#\{M_{\alpha}\} =0 $, non esisterebbero punti di $ \tilde{\s} $ fuori da $ L $,
+  cioè $ S \subset L$, mentre se $ \# \{M_{\alpha}\} = 1  $, $ \tilde{\s} $ sarebbe contenuto
+  interamente in tale
+  piano $ M_{\alpha} $. In ogni caso, $ \tilde{\s} $ sarebbe contenuto in un sottospazio di dimensione al più $
+  \bm{w} - 2 $, ma ciò è impossibile perché $ \angb{\tilde{\s}} = W $, quindi $ \PP W $, che ha
+  dimensione $ \bm{w} -1 $, è generato
+  dai punti di $ \tilde{\s} $. Dalla costruzione segue inoltre che ogni
+  $(k+1)$-piano $ M_{\alpha} $ contiene almeno $ \mu + 1 \ge k+2 $
+  punti di $ \tilde{\s} $, quindi applicando l'ipotesi induttiva,
   \begin{equation}
     \label{eq:malpha}
-    \#(\tilde{\s} \cap M) \le \#(\s \cap M).
+    \#(\tilde{\s} \cap M_{\alpha}) \le \#(\s \cap M_{\alpha}).
   \end{equation}
   Osserviamo che
    \begin{align}
@@ -332,6 +340,26 @@ conteggio troviamo che $ 2 \le \#(\tilde{S} \cap L) \le \#(\s \cap L) $.}
 \end{equation*}
 \end{proof}
 
+Introduciamo un ultimo lemma per alleggerire la dimostrazione:
+\begin{lemma}
+  \label{lhm:two_case_permuted_tensor}
+  Sia $ T \in A \otimes B $ un tensore di rango $ r $ che ammette due espressioni
+  $ T = a_1 \otimes b_1 + \cdots + a_r \otimes b_r $ e $ T = a_1 \otimes b_{\sigma(1)} + \cdots +
+  a_{r} \otimes b_{\sigma(r)}$, dove $ \sigma \in \mathfrak{S}_{r} $ è una permutazione. Allora $ \sigma = \Id $.
+\end{lemma}
+\begin{proof}
+  Riscriviamo $ T $ come 
+\begin{equation*}
+  T = u_1 \otimes b_1 + \ldots + u_r \otimes b_r = u_1 \otimes b_{\sigma(1)} + \ldots + u_r \otimes
+  b_{\sigma(r)},
+\end{equation*}
+se e solo se 
+\begin{equation*}
+u_1 \otimes (b_{\sigma(1)} - b_1) + \ldots + u_r \otimes (b_{\sigma(r)}- b_r) = 0.
+\end{equation*}
+Da cui, $ b_{\sigma(j)} = b_j  $ per ogni $ j \in \{1, \ldots, r\}  $, allora $
+\sigma = \Id $.
+\end{proof}
 Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 
 \begin{proof}[Dimostrazione del Teorema di Kruskal]
@@ -427,7 +455,7 @@ Se fosse $ S \gneq  \min \{\krk{\s_A}, \krk{\s_B}\}  $, avremmo
 \end{equation*}
 ovvero $  -r - 1 \gneq -S $ cioé $  r + 1 \lneq S $, assurdo. Quindi $ S \le \min \{\krk{\s_A},
 \krk{\s_B}\}  $, e dal
-permutation lemma segue l'uguaglianza $ \s_c = \tilde{\s}_C $.
+permutation lemma segue l'uguaglianza $ \s_C = \tilde{\s}_C $.
 
 Supponiamo ora di avere due scritture di $ T $ che differiscono da due permutazioni degli indici
 tramite $ \sigma,\tau
@@ -440,18 +468,8 @@ tramite $ \sigma,\tau
   \end{aligned}
 \end{equation*}
 
-Se $ \sigma= \tau $, possiamo porre $ b_{j} = v_{j} \otimes w_{j} $ e riscrivere $ T $
-come 
-\begin{equation*}
-  T = u_1 \otimes b_1 + \ldots + u_r \otimes b_r = u_1 \otimes b_{\sigma(1)} + \ldots + u_r \otimes
-  b_{\sigma(r)},
-\end{equation*}
-se e solo se 
-\begin{equation*}
-u_1 \otimes (b_{\sigma(1)} - b_1) + \ldots + u_r \otimes (b_{\sigma(r)}- b_r) = 0.
-\end{equation*}
-Da cui, $ b_{\sigma(j)} = b_j  $ per ogni $ j \in \{1, \ldots, r\}  $, allora $
-\sigma = \Id $.
+Se $ \sigma= \tau $, possiamo porre $a_{j} = u_j$, $b_{j} = v_{j} \otimes w_{j} $ e applicare il
+Lemma~\ref{lhm:two_case_permuted_tensor}.
 
 Se $ \sigma \neq \tau $, allora esiste il più piccolo indice $ j_0 \in \{1, \ldots, r\} $ tale che $
 \sigma(j_0) \eqdef s_0 \neq  t_0 \defeq \tau(j_0) $. Affermiamo che esistano due sottoinsiemi $ S,T
