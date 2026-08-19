@@ -488,9 +488,8 @@ Se $ \sigma \neq \tau $, allora esiste il più piccolo indice $ j_0 \in \{1, \ld
 \end{enumerate}
 Qui, $ S^{\mathsf{c}} = \{1, \ldots, r\} \setminus S   $.
 Costruiamo un iperpiano $ \hat{H}_{T} $ che soddisfi la (iv). Fissiamo una base $ \mathcal{C} $ di $
-C $ tale che $ \{w_{t_{0}}, w_{s_{0}} \} \subset \mathcal{C} $. Siccome $ \dim C = \bm{c} $,
-possiamo prendere l'iperpiano $ \hat{H}_{T}
-\defeq \angb{\mathcal{C} \setminus \{w_{t_0}\} } $.
+C $ tale che $ \{w_{t_{0}}, w_{s_{0}} \} \subset \mathcal{C} $, e definiamo il sottospazio $ \hat{H}_{T}
+\defeq \angb{\mathcal{C} \setminus \{w_{t_0}\} } $ di dimensione $ \bm{c}-1 $.
 Possiamo riscrivere $ \hat{H}_{T} = \angb{w_{j} \mid j \in T^{\mathsf{c}}} $, dove $ T^{\mathsf{c}}
 $ è l'insieme dei $ \bm{c} -1 $ indici di supporto tali che $ t_0 \not\in T $. Dalla definizione di k-rango,
 vale $ \bm{c} \ge \krk{\s_C} $, dunque $ \#T^{\mathsf{c}} \ge \krk{\s_C} -1 $. Questo assicura che $
@@ -504,7 +503,7 @@ La penultima disuguaglianza segue dall'Equazione~\ref{eq:krk_rewritten}, mentre 
 V_T \defeq \angb{v_{j} \mid j \in T} $, che dalla stima su $ \#T $ ha dimensione al più $ \krk{\s_B} -1  $.
 Osserviamo che $ v_{s_0} \not\in V_{T} $; se così non fosse, l'insieme $ \{s_0\}  \cup T $
 conterrebbe al più $ \krk{\s_B} $ vettori, ma il vettore $ v_{s_0} $ sarebbe linearmente dipendente
-con i vettori $ \{v_{j} \mid j \in T\}  $, che contraddirrebbe la definizione di $ k $-rango.
+rispetto ai vettori $ \{v_{j} \mid j \in T\}  $, che contraddirrebbe la definizione di $ k $-rango.
 Da cui, completando il sottospazio $ \angb{v_j \mid j \in
 T} $ ad altri vettori in $ \pi^{-1}(\s_B) $, possiamo trovare un iperpiano $ \hat{H}_S \subset B $ contenente $
 \angb{v_t \mid t \in T} $ ma non $ v_{s_0}$. Sia ora $ S^{\mathsf{c}}
