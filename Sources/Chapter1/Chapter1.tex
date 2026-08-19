@@ -301,9 +301,12 @@ naturale definire la seguente operazione
 Introduciamo una scrittura di un tensore in tensori elementari, utile a risolvere i seguenti
 problemi che affronteremo nei prossimi capitoli.
 
-\textbf{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è un problema semplice costruire una matrice di
-rango $ r $. Invece, trovare un tensore di un certo rango è come trovare un ago in un pagliaio;
-questo complica la risoluzione di molti problemi che possono essere modellati tramite tensori, come
+\textbf{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è, in
+linea teorica, un problema semplice costruire una matrice di
+rango $ r $; mentre dal punto di vista computazionale, esistono algoritmi polinomiali per
+approssimare il rango. Nel caso dei tensori, il problema è difficile su entrambi i fronti. Nella
+teoria, trovare un tensore di un certo rango è come trovare un ago in un pagliaio; nella pratica,
+approssimare il tensore, o il rango, è numericamente difficile. Questo complica la risoluzione di molti problemi che possono essere modellati tramite tensori, come
 vedremo ad esempio nel
 Capitolo~\ref{chp:matmul}.
 
@@ -324,21 +327,49 @@ numerosi ostacoli \todo{ref to ostacoli}.
 
 \begin{definition}[Canonical Polyadic Decomposition (CP)]
 \label{def:CP}
-Diciamo che un tensore $ \Tn{x} \in \Rmsiz $ ammette una \emph{decomposizione CP} di rango $ r\in \N $ se
-  esistono delle matrici $ U_1, \ldots, U_d $ tali che $ U_h = \left[ u_1^h \mid \ldots \mid u_r^h\right]\in R^{n_h \times r} $ tali per cui 
+Dati degli spazi vettoriali $ A_1 \otimes \cdots \otimes A_d $ e dei vettori $ \{u_1^t, \ldots,
+u_{n_{t}}^t\} \subset A_{t}  $, diciamo che un tensore $ T \in A_1 \otimes \cdots \otimes A_d $
+ammette una \emph{decomposizione CP} di rango $ r \in \N $ se si può scrivere come
 \begin{equation*}
-   \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d.
+  T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
+  \otimes u_r^d.
 \end{equation*}
-  In tal caso, scriviamo $ \Tn{x} = \dsqr{U_1, \ldots, U_d} $.
+\todo{serve ipotesi sui vettori?}
 \end{definition}
+\begin{remark}
+La definizione è invariante per cambiamento di base. 
+\end{remark}
+\begin{remark}[Scrittura in coordinate]
+Fissata una base $ \mathcal{B}_{t} $ di $ A_{t} $ e considerando il
+  passaggio a coordinate $ [\cdot]_{\mathcal{B}_{t}} : A_{t} \to \R^{n_{t}} : v \mapsto
+  [v]_{\mathcal{B}_{t}}$, possiamo riscrivere $ T $ nello spazio standard $ \Rmsiz $ sostituendo $
+  u_{j}^t $ con $ [u_{j}^t]_{\mathcal{B}_{t}} $. Per semplicità notazionale, indicheremo di nuovo
+  con $ u_{j}^t \in \R^{n_{t}}$ il vettore visto in cordinate, e scriveremo
+\begin{equation*}
+  T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
+  \otimes u_r^d \in \Rmsiz.
+\end{equation*}
+
+\begin{remark}[Versione originale]
+ In letteratura spesso la CP viene
+ definita nello spazio standard $ \Rmsiz $ tramite delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
+ \ldots \mid u_r^t\right]\in \R^{n_t \times r} $ tali per cui 
+\begin{equation*}
+  T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
+  \otimes u_r^d \in \Rmsiz.
+\end{equation*}
+  In tal caso, scriveremo $ T = \dsqr{U_1, \ldots, U_d} $.
+\end{remark}
+
+\end{remark}
 \begin{remark}
   Fissando la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
   \begin{enumerate}[label=(\roman*)]
-    \item $ \Tn{x} = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d$.
-    \item $ \Vec(\Tn{x}) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
-    \item $\Tn{x}(\miwc) = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
+    \item $ T = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d$.
+    \item $ \Vec(T) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
+    \item $T_{\miwc} = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
   \end{enumerate}
-
+  \todo{la 3 non torna}
 \end{remark}
 
 \begin{example}[De Lathauwer~\cite{lieven2006}]
