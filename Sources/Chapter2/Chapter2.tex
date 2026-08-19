@@ -126,7 +126,8 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
   \begin{equation*}
     AB^{\top} = APP^{-1}B^{\top} = (AP)(BP^{-T})^{\top},
   \end{equation*}
-  dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali.
+  dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
+  \GL{n}{\C} $ contiene infiniti elementi, esistono infinite fattorizzazioni CP per $ T $.
     \end{remark}
     Più in generale vale il seguente teorema:
     \begin{theorem}[\cite{sidiropoulos2000uniqueness}]
@@ -279,13 +280,12 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
   Osserviamo che $ \# \{M_{\alpha}\} \ge 2 $, cioè ci sono almeno due piani distinti contenenti $ L
   $: se fosse $ \#\{M_{\alpha}\} =0 $, non esisterebbero punti di $ \tilde{\s} $ fuori da $ L $,
   cioè $ S \subset L$, mentre se $ \# \{M_{\alpha}\} = 1  $, $ \tilde{\s} $ sarebbe contenuto
-  interamente in tale
-  piano $ M_{\alpha} $. In ogni caso, $ \tilde{\s} $ sarebbe contenuto in un sottospazio di dimensione al più $
+  interamente nell'unico $ k $-piano $ M_{\alpha} $. In ogni caso, $ \tilde{\s} $ sarebbe contenuto in un sottospazio di dimensione al più $
   \bm{w} - 2 $, ma ciò è impossibile perché $ \angb{\tilde{\s}} = W $, quindi $ \PP W $, che ha
   dimensione $ \bm{w} -1 $, è generato
   dai punti di $ \tilde{\s} $. Dalla costruzione segue inoltre che ogni
   $(k+1)$-piano $ M_{\alpha} $ contiene almeno $ \mu + 1 \ge k+2 $
-  punti di $ \tilde{\s} $, quindi applicando l'ipotesi induttiva,
+  punti di $ \tilde{\s} $, quindi applicando l'ipotesi induttiva troviamo
   \begin{equation}
     \label{eq:malpha}
     \#(\tilde{\s} \cap M_{\alpha}) \le \#(\s \cap M_{\alpha}).
@@ -340,7 +340,7 @@ conteggio troviamo che $ 2 \le \#(\tilde{S} \cap L) \le \#(\s \cap L) $.}
 \end{equation*}
 \end{proof}
 
-Introduciamo un ultimo lemma per alleggerire la dimostrazione:
+Introduciamo un ultimo lemma valido in generale:
 \begin{lemma}
   \label{lhm:two_case_permuted_tensor}
   Sia $ T \in A \otimes B $ un tensore di rango $ r $ che ammette due espressioni
@@ -430,6 +430,7 @@ $, e scomponiamo
 Questo concluderebbe se sapessimo che $ S \le \min \{\krk{\s_A}, \krk{\s_B}\}  $.
 Riscrivendo l'Equazione~\ref{eq:kr3} dell'ipotesi, troviamo
 \begin{equation}
+  \label{eq:krk_rewritten}
   r - \krk{\s_C} + 1 \le \krk{\s_A} + \krk{\s_B} - r - 1.
 \end{equation}
 Siccome $ \#(\tilde{\s}_C \cap H) \ge \bm{c} - 1 $, dall'equazione sopra otteniamo
@@ -478,32 +479,48 @@ Se $ \sigma \neq \tau $, allora esiste il più piccolo indice $ j_0 \in \{1, \ld
   \item $ s_0 \in S, t_0 \in T $,
   \item $ S \cap T = \emptyset $,
   \item $ \#S \le r - \krk{\s_B} + 1 $, $ \#T \le r - \krk{\s_C} + 1 $, e
-  \item $ \angb{v_j \mid j \in S^{\mathsf{c}}} \eqdef \hat{H}_S \subset B, \angb{w_j \mid j \in
-    T^{\mathsf{c}}} \defeq \hat{H}_T \subset C$ sono iperpiani.
+  \item Esistono due iperpiani $ \hat{H}_{S} \subset B $ e $ \hat{H}_{T} \subset C $ tali che 
+    \begin{itemize}
+      \item $ s_0 \not\in \hat{H}_{S}  $ e $ t_0 \not\in \hat{H}_{T} $.
+      \item I sottospazi $ \angb{v_j \mid j \in S^{\mathsf{c}}} $ e $ \angb{w_j \mid j \in
+    T^{\mathsf{c}}} $ sono contenuti negli iperpiani $ \hat{H}_{S} $ e $ \hat{H}_T $ rispettivamente.
+    \end{itemize}
 \end{enumerate}
 Qui, $ S^{\mathsf{c}} = \{1, \ldots, r\} \setminus S   $.
-Per dimostrare l'affermazione prendiamo un iperpiano $ \hat{H}_T \subset C $ contenente $ w_{s_0} $
-ma non $ w_{t_0} $ e definito come in (iv). Consideriamo $ T^{\mathsf{c}} =  \{j \mid w_j \in
-\hat{H}_T\} $. Siccome $ \dim(\hat{H}_T) = \bm{c}-1 \ge \krk{\s_C} -1 $, allora anche $ \#T^{\mathsf{c}}
-\ge \krk{\s_C} -1 $. Questo mostra che 
+Costruiamo un iperpiano $ \hat{H}_{T} $ che soddisfi la (iv). Fissiamo una base $ \mathcal{C} $ di $
+C $ tale che $ \{w_{t_{0}}, w_{s_{0}} \} \subset \mathcal{C} $. Siccome $ \dim C = \bm{c} $,
+possiamo prendere l'iperpiano $ \hat{H}_{T}
+\defeq \angb{\mathcal{C} \setminus \{w_{t_0}\} } $.
+Possiamo riscrivere $ \hat{H}_{T} = \angb{w_{j} \mid j \in T^{\mathsf{c}}} $, dove $ T^{\mathsf{c}}
+$ è l'insieme dei $ \bm{c} -1 $ indici di supporto tali che $ t_0 \not\in T $. Dalla definizione di k-rango,
+vale $ \bm{c} \ge \krk{\s_C} $, dunque $ \#T^{\mathsf{c}} \ge \krk{\s_C} -1 $. Questo assicura che $
+\#T $ sia strettamente limitata da $ \krk{\s_B} $, in quanto
 \begin{equation*}
 \#T = r - \#T^{\mathsf{c}} \le r - \krk{\s_C} + 1 \le \krk{\s_A} +
 \krk{\s_B} - r - 1 \le \krk{\s_B} -1.
 \end{equation*}
-L'ultima disuguaglianza segue da $ \krk{\s_A} \le r $, ed
-assicura una stima sulla cardinalità di $ T $.
-Da cui, aggiungere un qualunque vettore\footnote{Intendiamo, con leggero abuso, il vettore $ w $
-  rappresentante  della rispettiva classe $ [w] $ in $ \s_B $.} di $ \s_B $ al sottospazio $ \angb{v_j \mid j \in
-T} $ ne aumenta la dimensione, in particolare $ v_{s_0} \not\in \angb{v_t \mid t \in T}$. Allora
-esiste un iperpiano $ \hat{H}_S \subset B $ contenente $ \angb{v_t \mid t \in T} $ ma non $ v_{s_0}
-$ \todo{vero che se completo a base ottengo $ \angb{v_t \mid t \in T} = \hat{H}_S$?}. Detto $ S^{\mathsf{c}}
-\defeq \{j \mid v_j \in \hat{H}_S\}  $, similmente a quanto visto per $ T $, valgono $
+La penultima disuguaglianza segue dall'Equazione~\ref{eq:krk_rewritten}, mentre l'ultima segue da $
+\krk{\s_A} \le r $. Procediamo ora a costruire $ \hat{H}_{S} $. Consideriamo il sottospazio $
+V_T \defeq \angb{v_{j} \mid j \in T} $, che dalla stima su $ \#T $ ha dimensione al più $ \krk{\s_B} -1  $.
+Osserviamo che $ v_{s_0} \not\in V_{T} $; se così non fosse, l'insieme $ \{s_0\}  \cup T $
+conterrebbe al più $ \krk{\s_B} $ vettori, ma il vettore $ v_{s_0} $ sarebbe linearmente dipendente
+con i vettori $ \{v_{j} \mid j \in T\}  $, che contraddirrebbe la definizione di $ k $-rango.
+Da cui, completando il sottospazio $ \angb{v_j \mid j \in
+T} $ ad altri vettori in $ \pi^{-1}(\s_B) $, possiamo trovare un iperpiano $ \hat{H}_S \subset B $ contenente $
+\angb{v_t \mid t \in T} $ ma non $ v_{s_0}$. Sia ora $ S^{\mathsf{c}}
+\defeq \{j \mid v_j \in \hat{H}_S\}  $. Similmente a quanto visto per $ T $, valgono $
 \#S^{\mathsf{c}} \ge \krk{\s_B} -1 $, dunque $ \#S \le r - \krk{\s_B} + 1 $. Dalla costruzione segue
 che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le
 proprietà desiderate.
 
-Notiamo che per costruzione $ T\big|_{\hat{H}_{S}^\perp \times \hat{H}_{T}^\perp} = 0$: preso un
-elemento $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $ qualsiasi, si ha
+La formula delle dimensioni dell'ortogonale assicura che esista un elemento non banale in $
+\hat{H}_{S}^\perp \times \hat{H}_{S}^\perp $, infatti
+\begin{equation*}
+  \dim(\hat{H}_{S}^\perp \times \hat{H}_{S}^\perp) =   \dim(\hat{H}_{S}^\perp)
+  \dim(\hat{H}_{S}^\perp) = (\bm{b} - (\bm{b} - 1))(\bm{c} - (\bm{c} - 1)) = 1.
+\end{equation*}
+Notiamo che per costruzione $ T\big|_{\hat{H}_{S}^\perp \times \hat{H}_{T}^\perp} = 0$: preso
+l'unico elemento non zero $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $, si ha
 \begin{align*}
   0 = T(\beta,\gamma) &= \sum_{j=1}^r u_j\beta(v_j)\gamma(w_j) \\
                       &= \sum_{j=1}^r u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}) =  \sum_{j \in
