@@ -4,16 +4,20 @@
 %
 \noindent
 %
-La fattorizzazione CP (Canonical Polyadic Decomposition) di rango $ r $ di un tensore è la scrittura di un tensore
-in $ r $ tensori semplici. Oltre all'importanza teorica nel calcolo tensoriale, è uno strumento utile in
-molte aree scientifiche---per citarne alcune, spettroscopia, signal processing e data science (list
-more). Per tali scopi, dimostremo che sotto opportune ipotesi la fattorizzazione CP è unica,
-risultato dovuto a Kruskal. Di seguito, formuleremo il problema di moltiplicare le matrici usando il
-linguaggio dei tensori: la mappa di moltiplicazione di due matrici è una forma bilineare, e quindi
-può essere rappresentata tramite un tensore. Introdurremo una misura di complessità della
-moltiplicazione tra matrici per definire l'esponente $ \omega $. Vedremo che il rango di tale tensore è una misura
-ottimale della complessità del prodotto matriciale, cioè che il rango del tensore permette di
-stimare accuratamente $ \omega $. Ciò assicura che un tensore di rango $ r $ induce un algoritmo di
-$ r $ moltiplicazioni. Discuteremo alcune limitazioni della CP in questo contesto: border rank,
-costo computazionale ed errore algoritmico rendono complesso trovare algoritmi più efficienti per
-ridurre il valore di $ \omega $.
+La decomposizione CP (Canonical Polyadic Decomposition) di rango $ r $ di un tensore è la
+scomposizione di un tensore
+nella somma di $ r $ tensori semplici. Oltre all'importanza teorica nel calcolo tensoriale, è uno strumento utile in
+molte aree scientifiche---per citarne alcune, spettroscopia, signal processing e data science. Per
+tali scopi, dimostremo che, sotto opportune ipotesi, la fattorizzazione CP è unica,
+un risultato dovuto a Kruskal. 
+
+Successivamente, formuleremo il problema della moltiplicazione tra matrici nel
+linguaggio dei tensori: essendo una forma bilineare, la mappa di moltiplicazione può essere
+rappresentata tramite un tensore. Introdurremo una misura di complessità del prodotto matriciale per
+definire l'esponente $ \omega $, e vedremo che il rango di un tensore ne costituisce una misura
+ottimale, permettendo di stimare $ \omega $ con accuratezza. Ciò assicura che un tensore di rango $ r $ induca un algoritmo di
+$ r $ moltiplicazioni. 
+
+Infine, discuteremo alcune limitazioni della CP in questo contesto: il border rank, costo
+computazionale ed errore algoritmico rendono complesso trovare algoritmi più efficienti per
+abbassare il valore di $ \omega $.
