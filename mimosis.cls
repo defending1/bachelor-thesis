@@ -171,6 +171,8 @@
 \RequirePackage{amssymb}
 \RequirePackage{dsfont}
 \RequirePackage{faktor}
+\RequirePackage{mathtools}
+
 \usepackage[normalem]{ulem} % Provides clean underlining
 \usepackage{environ}        % Allows advanced environment control
 

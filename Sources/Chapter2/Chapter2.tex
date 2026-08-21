@@ -2,18 +2,42 @@
 \chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
-argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura. La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
-due dimostrazioni concise seguendo due strade diverse, che entrambe sfruttano il risultato chiave
-dimostrato da Kruskal, chiamato permutation lemma. La prima riscrittura, ad opera di Stegeman e
-Sidiropoulos~\cite{STEGEMAN2007540} era 16 pagine, ed è stata di seguito riadattata da
-Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di poche pagine, che presentiamo in
-questo elaborato. La seconda rielaborazione, ad opera di Rhodes (circa 9
-pagine) in~\cite{rhodes2009conciseproofkruskalstheorem} utilizza un approccio diverso, che non discuteremo. Il caso generale, dimostrato
-da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
-riconducendosi al caso $ 3$-dimensionale, pertanto riteniamo più interessante trattare solamente il caso base.
 
-\todo{provvisoria, in coordinate. Fa modificata (lavoriamo coordinate-free)}
+Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
+argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura. Dobbiamo intanto chiarire cosa
+intendiamo per unicità; preso un tensore
+\begin{equation*}
+  T = a_1 \otimes b_1 \otimes c_1 + \cdots + a_{r} \otimes b_{r} \otimes c_{r} \in A \otimes B
+  \otimes C,
+\end{equation*}
+sotto opportune ipotesi $ T $ differisce da un'altra fattorizzazione CP a meno di permutazione dei tensori
+elementari e
+riscalamento dei fattori, più precisamente:
+esistono degli scalari scalari $ \alpha_1, \ldots, \alpha_{r}$, $\beta_1, \ldots, \beta_{r}$, $\gamma_1, \ldots,
+\gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $, ed
+esiste una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
+\begin{equation*}
+  T = \alpha_1 a_{\sigma(1)} \otimes \beta_1 b_{\sigma(1)} \otimes \gamma_{1} c_{\sigma(1)} +
+  \cdots + \alpha_r a_{\sigma(r)} \otimes \beta_r b_{\sigma(r)} \otimes \gamma_{r} c_{\sigma(r)}.
+\end{equation*}
+Diamo una definizione più generale.
+
+\begin{definition}[Essenziale unicità]
+  Una fattorizzazione CP di rango $ r $ di un tensore $ T \in A_1 \otimes \cdots \otimes A_{d} $ dove 
+  \begin{equation*}
+    T = u_1^1 \otimes \cdots \otimes u_1^d + \cdots + u_{r}^1 \otimes \cdots \otimes u_{r}^d
+  \end{equation*}
+  è \emph{essenzialmente unica} se differisce a meno di permutazioni dei tensori di rango uno e di scalari il cui prodotto fa uno.
+  Formalmente, se esistono degli scalari $ \lambda_{1}^{(t)}, \ldots, \lambda_{r}^{(t)} $ con $ t
+  \in \{1, \ldots, d\} $ tali che $ \lambda_{j}^{(1)}\lambda_{j}^{(2)} \cdots \lambda_{j}^{(d)} = 1 $ per ogni $
+  j \in \{1, \ldots, r\}  $, ed esiste una permutaione $ \sigma \in \mathfrak{S}_{r} $ tale che
+  \begin{equation*}
+    T = \lambda_{1}^{(1)}u_{\sigma(1)}^{1} \otimes \cdots \lambda_{1}^{(d)}u_{\sigma(1)}^{d} +
+    \cdots + \lambda_{r}^{(1)}u_{\sigma(r)}^{1} \otimes \cdots \otimes
+    \lambda_{r}^{(d)}u_{\sigma(r)}^{d}.
+  \end{equation*}
+\end{definition}
+Notiamo che il tensore permutato appartiene ancora allo spazio di partenza. In realtà, la formulazione originale in coordinate è la seguente.
 \begin{definition}[Essenziale unicità CP]
   Una fattorizzazione CP di rango $ r $ di un tensore $ T = \dsqr{U_1, \ldots, U_d}$ è
   \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ T = \dsqr{\tilde{U}_1,
@@ -21,21 +45,38 @@ riconducendosi al caso $ 3$-dimensionale, pertanto riteniamo più interessante t
   e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
   I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
 \end{definition}
-\begin{remark}[Significato dell'essenziale unicità]
-  \todo{add}
+\begin{remark}
+È facile vedere che questa definizione è una specializzazione di quella generale. Nel caso $ 3
+$-dimensionale, ad esempio scriviamo in coordinate
+\begin{equation*}
+   A = \left[\begin{array}{c|c|c}
+      a_1 & \dots & a_r
+    \end{array}\right],\qquad
+   B = \left[\begin{array}{c|c|c}
+      b_1 & \dots & b_r
+    \end{array}\right],\qquad
+   C = \left[\begin{array}{c|c|c}
+      c_1 & \dots & c_r
+    \end{array}\right].
+\end{equation*}
+Rappresentiamo $ \sigma \in \mathfrak{S}_{r} $ tramite una matrice $ P^{-1} $ di permutazione, e dette
+\begin{equation*}
+  D_{A}^{-1} \defeq \diag(\alpha_1, \ldots, \alpha_{r}), \qquad D_{B}^{-1} \defeq \diag(\beta_1, \ldots,
+  \beta_{r}), \qquad D_{C}^{-1} \defeq \diag(\gamma_1, \ldots, \gamma_{r}),
+\end{equation*}
+possiamo prendere
+\begin{equation*}
+  \tilde{A} \defeq A P^{-1}D_{A}^{-1} = \left[\begin{array}{c|c|c}
+      \alpha_1 a_{\sigma(1)} & \dots & \alpha_{r} a_{\sigma(r)}
+    \end{array}\right],
+\end{equation*}
+e definire in maniera analoga $ \tilde{B} \defeq BP^{-1}D_{B}^{-1}$ e $ \tilde{C} \defeq
+CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la definizione.
 \end{remark}
 
 
 
 \section{Convenzioni}  
-
-Denotiamo gli spazi vettoriali con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
-lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Se $ v_1,\ldots,v_p \in V$,
-$ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^*
-$ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
-\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
-dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
-\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
 
 Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
 \colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
@@ -572,3 +613,15 @@ condizione necessaria ma non sufficiente:
   \dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
 \end{theorem}
 
+\begin{remark}
+L'idea di Kruskal è stata riadattata da diversi matematici, e attualmente abbiamo
+due dimostrazioni brevi che sfruttano il risultato chiave
+dimostrato da Kruskal, chiamato permutation lemma, ma che seguono idee diverse. La prima riscrittura, ad opera di Stegeman e
+Sidiropoulos~\cite{STEGEMAN2007540} era 16 pagine, ed è stata di seguito riadattata da
+Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di poche pagine, che abbiamo
+presentato in questo elaborato. La seconda rielaborazione, ad opera di Rhodes (circa 9
+pagine) in~\cite{rhodes2009conciseproofkruskalstheorem} utilizza un approccio diverso, che non discuteremo. Il caso generale, dimostrato
+da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
+riconducendosi al caso $ 3$-dimensionale, abbiamo ritenuto più interessante trattare solamente il
+caso in dimensione bassa.
+\end{remark}

@@ -181,14 +181,16 @@ cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
 nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
 asintoticamente pari a quello
 delle moltiplicazioni.
-L'algoritmo naive ha $ \omega = 3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371339 $~\cite{alman2024}. Dopo Strassen,
+L'algoritmo naive ha $ \omega = 3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371177 $~\cite{alman2026}. Dopo Strassen,
 nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
 \cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
 \omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
-pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione non è
-più scesa sotto $ \omega < 2.373 $ \cite{wil11,gall14,stothers2010complexity, alman2024}. In futuro,
-potremmo aspettarci ulteriori miglioramenti, anche grazie all'avvento dell'IA nella ricerca di
-algoritmi, si veda ad esempio Alphatensor~\cite{fawzi2022discovering}.
+pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione è scesa 
+molto lentamente, fino a scendere sotto $ \omega < 2.372 $ solo recentemente \cite{wil11,gall14,stothers2010complexity, alman2024}. 
+Tuttavia, l'avvento dell'Intelligenza Artificiale sta dando un nuovo impulso a questa ricerca,
+scoprendo nuovi algoritmi esatti per matrici di piccole dimensioni (si veda ad esempio
+AlphaTensor~\cite{fawzi2022discovering}); di recente (agosto 2026) l'utilizzo di strumenti di IA
+come AlphaEvolve ha stabilito il nuovo record di $ \omega \le 2.371177 $~\cite{alman2026}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
@@ -388,7 +390,7 @@ dimostrato la seguente:
 \end{proposition}
 
 Nei passaggi sopra abbiamo anche osservato che se $ n \le n' $ e dato un algoritmo per $ n' $, possiamo ottenerne uno per $ n $
-allargando la matrice. Possiamo racchiudere questa proprietà nell seguente:
+allargando la matrice. Possiamo racchiudere questa proprietà nel seguente risultato:
 \begin{proposition}[Monotonia del rango di un algoritmo]
   \label{prop:rk_monotony}
 Il rango di un algoritmo è monotono crescente rispetto alla dimensione, ovvero dati due interi positivi $ n \le n' $, allora $
@@ -420,6 +422,7 @@ La prossima proposizione mostra che il rango di un tensore è una misura ottimal
 Inoltre risponde all'esistenza del problema inverso: dato un intero positivo $ r $, è possibile
 trovare un algoritmo con $ r $ moltiplicazioni? La risposta precisa è data dal seguente risultato.
 \begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
+  \label{thm:strassen}
   \begin{equation*}
     \omega = \inf \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
   \end{equation*}
@@ -492,7 +495,11 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 \end{proof}
 
 \begin{proof}[Dimostrazione del Teorema di Strassen]
-  Chiamiamo $ \theta $ il lato destro dell'equazione sopra, e per semplicità scriviamo $ M(n) \defeq
+  Dimostriamo che 
+  \begin{equation*}
+    \omega = \inf \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
+  \end{equation*}
+  Sia $ \theta $ il lato destro dell'equazione sopra, e per semplicità scriviamo $ M(n) \defeq
   M_{\K}(n)$ e $ \omega \defeq \omega_{\K}$. Dall'Equazione~\ref{eq:LandRank_estimate} abbiamo
   \begin{equation*}
     \frac{1}{2}R(\algob{n}) \le L(\algob{n}) \le M(n),
@@ -701,9 +708,58 @@ numericamente, calcolando
  norma di $ \algob{2}^{\text{red}} $. Il loro computer continuava a produrre tensori $ T $ di rango cinque
 con la norma della differenza che diventava sempre più piccola, ma con coefficienti sempre più
 grandi. Questo è andato avanti per un po' di tempo, fino a che realizzarono che il codice era
-giusto, ma che era una manifestazione di un fenomeno chiamato \emph{border rank}.
-L'espressione del tensore che stavano cercando era essenzialmente
-\todo{finire}
+giusto, ma quello che sembrava un problema era in realtà una manifestazione di un fenomeno chiamato \emph{border rank}.
+L'espressione del tensore che stavano cercando era il seguente tensore di rango $ 5 $:
+\begin{equation*}
+  \begin{aligned}
+    \algob{n}_t^{\text{red}} = \frac{1}{t} \left[ (I) + (II) -(III) - (IV) + (V)
+    \right],
+  \end{aligned}
+\end{equation*}
+dove 
+\begin{equation*}
+  \begin{aligned}
+    (I) &= (x_2^1 + tx_1^1) \otimes (y_2^1 + ty_2^2 \otimes z_2^1) \\
+        &= x_{2}^1 \otimes y_2^1 \otimes z_2^1 + t[x_2^1 \otimes y_2^2 \otimes z_2^1 + x_1^1 \otimes
+        y_2^1 \otimes z_2^1] + O(t^2) \\
+    (II) &= (x_1^2 + tx_1^1) \otimes y_1^1 \otimes (z_1^1 + tz_1^2) \\
+         &= x_1^2 \otimes y_1^1 \otimes z_1^1 +t[x_1^2 \otimes y_1^1 \otimes z_1^2 + x_1^1 \otimes
+         y_1^1 \otimes z_1^1] + O(t^2) \\
+    (III) &= x_1^2 \otimes y_1^1 \otimes z_1^1 + t[x_1^2 \otimes y_1^1 \otimes z_1^2 + x_1^1 \otimes
+    y_1^1 \otimes z_1^1] + O(t^2) \\
+    (IV) &= x_1^2 \otimes ((y_1^1 + y_2^1) + ty_1^2) \otimes z_1^1 \\
+         &= x_1^2 \otimes y_1^1 \otimes z_1^1 + x_1^2 \otimes y_2^1 \otimes z_1^1 + t[x_1^2 \otimes
+         y_1^2 \otimes z_1^1] \\
+    (V) &= (x_2^1 + x_1^2) \otimes (y_2^1 + ty_1^2) \otimes (z_1^1 + tz_2^2) \\
+        &=x_2^1\otimes y_2^1 \otimes z_1^1 + x_1^2 \otimes y_2^1 \otimes z_1^1 \\
+        &+ t[x_2^1 \otimes
+        (y_2^1 + z_2^2 + y_1^2 \otimes z_1^1) + x_1^2 \otimes (y_2^1 \otimes z_2^2 + y_1^2 \otimes
+        z_1^1)] + O(t^2)
+  \end{aligned}
+\end{equation*}
+In ogni passaggio abbiamo applicato più volte la proprietà distributiva del prodotto tensoriale.
+Osserviamo che i termini di grado costante in $ t $ si cancellano:
+\begin{equation*}
+  \begin{aligned}
+    x_2^1 &\otimes (y_2^1 \otimes z_2^1 - y_2^1 \otimes z_1^1 - y_2^1 \otimes z_2^1 + y_2^1 \otimes
+    z_1^1) \\
+    + x_1^2 &\otimes (y_1^1 \otimes z_1^1 - y_1^1 \otimes z_1^1 + y_2^1 \otimes z_1^1 - y_2^1 \otimes z_1^1)
+    = 0
+  \end{aligned}
+\end{equation*}
+Sommando e raggruppando i termini di grado uno in $ t $ troviamo
+\begin{equation*}
+  \begin{aligned}
+   \algob{n}^\text{red} = x_1^1 &\otimes (y_1^1 \otimes z_1^1 + y_2^1 \otimes z_2^1) +\\
+    x_2^1 &\otimes (y_1^2 \otimes z_1^1 + y_2^2 \otimes z_2^1) + \\
+    x_1^2 &\otimes (y_1^1 \otimes z_1^2 + y_2^1 \otimes z_2^2),
+  \end{aligned}
+\end{equation*}
+ovvero il tensore di partenza. Da cui,
+\begin{equation*}
+  \algob{n}_t^{\text{red}} - \algob{n}^{\text{red}} = O(t^2) \to 0
+\end{equation*}
+Abbiamo dimostrato che un tensore di rango $ 5 $ converge a uno di rango $ 6 $.
 
 \subsection*{Il problema del border rank}
 \label{sec:border_rank}
@@ -744,14 +800,7 @@ L'espressione del tensore che stavano cercando era essenzialmente
 
 Questo motiva la seguente definizione:
 
-\begin{definition}[Border rank]
-  Dato un tensore $ T \in \Rmsiz $, il suo border rank è la quantità
-  \[
-  \brk(T) = \min \left\{ r \in \N \mid \exists \Tn{y} \in \Rmsiz! \text{ t.c }
-  \rk(\Tn{y})=r, \, \|T - \Tn{y}\|  < \varepsilon \right\}
-  .\] 
-\end{definition}
-\todo{Alternativa:}
+
 \begin{definition}[Border rank]
   Un tensore $ T $ ha \emph{border rank} $ r $ se è limite di una successione di tensori di
   rango $ r $, ma non è limite di una successione di tesori di rango $ s $, per ogni $ s < r $. Lo
@@ -760,8 +809,31 @@ Questo motiva la seguente definizione:
 \begin{remark}
   $ \rk(T) \ge \brk(T) $.
 \end{remark}
+\begin{remark}
+  In coordinate, se $ T \in \Rmsiz $, il suo border rank è la quantità
+  \[
+  \brk(T) = \min \left\{ r \in \N \mid \exists T' \in \Rmsiz! \text{ tale che }
+  \rk(T')=r, \, \|T - T'\|  < \varepsilon \right\}
+  .\] 
+\end{remark}
 \todo{Disegno interpretazione geometrica (landsberg pg 38)}
-\todo{Alcune stime su border rank di matrix mult operator}
+
+Il border rank si rivela utilissimo nello studio dell'esponente $ \omega $, cioè possiamo sostituire
+il rango con il border rank nel Teorema~\ref{thm:strassen}:
+\begin{theorem}[Bini~\cite{bini1980relations}, vedi \S3.2]
+  \begin{equation*}
+    \omega = \inf \{\tau \in \R \mid \brk(\algob{n}) = O(n^\tau)\} .
+  \end{equation*}
+\end{theorem}
+Anche se potremmo avere $ \brk(\algob{n}) < \rk(\algob{n}) $, non sono abbastanza diversi da
+avere un impatto sull'esponente\todo{why?}.
+
+Riportiamo alcune stime sul border rank riportate in~\cite{landsberg2015geometry}, \S1. Per $ n = 2 $,
+Winograd dimostra\todo{ref} che $ \brk(\algob{2}) = \rk(\algob{2}) = 7 $. Ci aspetteremmo che per $
+n > 2 $, $ \brk(\algob{n}) < \rk(\algob{n}) $. Per $ n=3 $, sappiamo solo che $ 15 \le
+\brk(\algob{3}) \le 20 $ e $ 19 \le \rk(\algob{3}) \le 23 $. In generale, sappiamo che $
+\rk(\algob{n}) \ge  3n^2 - o(n) $ e $ \brk(\algob{n}) \ge 2n^2 - \left\lceil \log_{2}(n)
+\right\rceil -1 $.
 
 \section{Errore algoritmico}
 
