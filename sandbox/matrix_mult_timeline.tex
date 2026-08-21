@@ -71,7 +71,7 @@ bound from the schoolbook algorithm.
   -- (60,0.3728639) -- (60,0.3728596)
   -- (62,0.3728596) -- (62,0.371866)
   -- (64,0.371866) -- (64,0.371552)
-  -- (64,0.371339);
+  -- (64,0.371339) -- (66,0.371339) -- (66,0.371177);
 
 % --- Data points ---
 \foreach \point in {
@@ -80,7 +80,7 @@ bound from the schoolbook algorithm.
   (26,0.479), (30,0.3755),
   (50,0.3737), (52,0.3729), (54,0.3728639),
   (60,0.3728596), (62,0.371866),
-  (64,0.371552), (64,0.371339)}
+  (64,0.371552), (64,0.371339), (66,0.371177)}
   \filldraw[fill={rgb:red,0;green,0.4;blue,0.7},
             draw={rgb:red,0;green,0.4;blue,0.7}] \point circle (2.5pt);
 
@@ -129,6 +129,8 @@ bound from the schoolbook algorithm.
 \node[right, font=\footnotesize] at (63.3,0.368) {Williams, Xu, Xu, Zhou};
 \draw[thin, black!40] (64.016,0.3713) -- (64.3,0.368);
 \node[right, font=\footnotesize] at (64.3,0.368) {Alman, Duan, Williams, Xu, Xu, Zhou};
+\draw[thin, black!40] (66.016,0.3711) -- (66.3,0.368);
+\node[right, font=\footnotesize] at (66.3,0.368) {Alman, Vassilevska Williams et al.};
 
 \end{tikzpicture}%
 }
@@ -162,6 +164,7 @@ Year & $\omega$ upper bound & Authors & Ref. \\
 2022 & 2.371866  & Duan, Wu, Zhou                        & \cite{duan2022}                \\
 2024 & 2.371552  & Williams, Xu, Xu, Zhou                & \cite{vxxz2024}                \\
 2024 & 2.371339  & Alman, Duan, Williams, Xu, Xu, Zhou   & \cite{alman2024}               \\
+2026 & 2.371177  & Alman, Vassilevska Williams et al.    & \cite{alman2026}               \\
 \bottomrule
 \end{tabular}
 \end{table}

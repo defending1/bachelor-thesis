@@ -19,7 +19,10 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
-import plot_utils
+try:
+    import plot_utils
+except ImportError:
+    plot_utils = None
 
 
 def latex_escape(s: str) -> str:
@@ -43,6 +46,7 @@ def main() -> None:
         (2010, 2.3755), (2010, 2.3737), (2012, 2.3737), (2012, 2.3729), (2014, 2.3729),
         (2014, 2.3728639), (2020, 2.3728639), (2020, 2.3728596), (2022, 2.3728596),
         (2022, 2.371866), (2024, 2.371866), (2024, 2.371552), (2024, 2.371339),
+        (2026, 2.371339), (2026, 2.371177),
     ]
 
     # Milestones for scatter points: (Year, Exponent)
@@ -62,6 +66,7 @@ def main() -> None:
         (2022, 2.371866),
         (2024, 2.371552),
         (2024, 2.371339),
+        (2026, 2.371177),
     ]
 
     # SVG-matched Label coordinates: (svg_x, svg_y, text, color, dy)
@@ -82,10 +87,11 @@ def main() -> None:
         (1410.8, 900.6, '   Duan, Wu, Zhou', '#666666', 0.0),
         (1434.8, 900.6, '   Williams, Xu, Xu, Zhou', '#666666', 0.0),
         (1459.8, 900.6, '   Alman, Duan, Williams, Xu, Xu, Zhou', '#666666', 0.0),
+        (1508.8, 900.6, '   Alman, Vassilevska Williams et al. (AlphaEvolve)', '#666666', 0.0),
     ]
 
     # Setup matplotlib formatting
-    latex_active = plot_utils.setup_matplotlib_style()
+    latex_active = plot_utils.setup_matplotlib_style() if plot_utils else False
 
     # Create canvas (7.0 x 4.0 inches matching example.svg)
     fig, ax = plt.subplots(figsize=(7.0, 4.0), dpi=300)
@@ -162,10 +168,15 @@ def main() -> None:
     project_root = os.path.dirname(script_dir)
     output_path = os.path.join(project_root, "generated", "plots", "matrix_multiplication_timeline.pdf")
 
-    plot_utils.save_plot(fig, output_path)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    if plot_utils:
+        plot_utils.save_plot(fig, output_path)
+    else:
+        fig.savefig(output_path, bbox_inches="tight", dpi=300)
 
     # Also save as PNG in report/figures/ for quick previews if needed
     report_figures_dir = os.path.join(project_root, "report", "figures")
+    os.makedirs(report_figures_dir, exist_ok=True)
     png_output_path = os.path.join(report_figures_dir, "matrix_multiplication_timeline.png")
     fig.savefig(png_output_path, bbox_inches="tight", dpi=300)
     print(f"Also saved PNG preview to: {png_output_path}")
