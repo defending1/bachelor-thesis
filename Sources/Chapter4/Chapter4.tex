@@ -1,10 +1,80 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Applicazioni della CP alla ??}
+\chapter{Applicazioni della CP}
+\todo{cambia titolo}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Presentiamo alcune applicazioni della CP in altre discipline.
+Le decomposizioni di tensori occorrono in numerose aree scientifiche. Alcune di queste sono:
 
-\section{Fluorescenza spectorsopica}
+\begin{enumerate}
+  \item Nella psicometria, dove è stata impiegata per valutare l'intelligenza e alcune
+    caratteristiche personali. Alcuni dei primi lavori in quest'area includono [311, 71, 158].
+  \item Nella geofisica; ad esempio l'interpretazione di data magnetotellurica per strutture
+    regionali a una e due dimensioni, ad esempio in \ldots e le reference all'interno.
+  \item Nell'interpretare la immagini di risonanze magnetiche (MRI); vedi ad esempio e relative
+    reference. Un utilizzo pratico è trovare l'area del cervello in cui è in atto una crisi
+    epilettica in un paziente. Un altro impeiego è la diagnosi e 
+  \item Nella data mininig 
+  \item Nell'analisi numerica. Grazie alla convergenza delle serie di Fourier in $ L^2(\R^n) $, si
+    ha $ L^2(\R^n) =
+    L^2(\R) \otimes \cdots \otimes L^2(\R) $, e spesso vengono approssimate funzioni di $ n $
+    variabili da una somma finita di prodotti di funzioni in una variabile, generalizzando la
+    separazione di variabili. Si veda \ldots
+\end{enumerate}
+
+• In geophysics; for example the interpretation of magnetotelluric
+data for one-dimensional and two-dimensional regional structures;
+see, e.g., [335] and the references therein.
+• In interpreting magnetic resonance imaging (MRI); see, e.g., [284,
+125], and the references therein. One such use is in determining the
+location in the brain that is causing epileptic seizures in a patient.
+Another is the diagnosis and management of strokes.
+
+\section{Fluorescenza spectroscopica}
+
+La fluorescenza spectroscopica è una tecnica della chimica che \ldots
+
+\todo{Principali references: \cite{smilde2004multi}\S 10.2, for descriptions:
+\cite{landsberg2011tensors, BK25}}
+Vengono dati $ I $ campioni di soluzioni chimiche, ognuno dei quali contiene diverse sostanze
+diluite in diverse concentrazioni. Il primo obiettivo è determinare il numero $ r $ delle diverse
+sostanze presenti. In \todo{ref} ci sono quattro di queste, \emph{dihydroxybenzene},
+\emph{tryptophan}, \emph{phenylalanine} e DOPA\todo{qui aggiustare con i dataset di Ballard}. Ogni campione, diciamo il numero $ i $-esimo è
+successivamente eccitato da una luce in $ J $ diverse lunghezze d'onda. Per ogni lunghezza d'onda di
+eccitazione, viene misurato lo spettro emesso. Diciamo che l'intensità della luce fluorescente
+emessa è misurata da $ K $ diverse lunghezze d'onda. Allora per ogni $ i $, otteniamo una tabella $
+J\times K $ di matrici di eccitazione-emissione.
+
+Quindi i dati possono essere rappresentati come un array $ I \times J \times K $. In basi, se $
+\{e_{i}\}  $ è la base di $ \C^I $, $ h_{j} $ è una base di $ C^J $, e $ g_{k} $ è una base di $
+\C^K $, allora $ T = \sum_{ijk} T_{ijk} e_{i} \otimes h_{j} \otimes g_{k} $. Il primo obiettivo è
+trovare un $ r $ tale che
+\begin{equation*}
+  T \simeq \sum_{f=1}^r a_{f} \otimes b_{f} \otimes c_{f},
+\end{equation*}
+dove ogni $ f $ rappresenta una sostanza. Scrivendo $ a_{f} = \sum a_{i,f} e_{i} $, allora $ a_{i,f}
+$ è la concentrazione della $ f $-esima sostanza nell'$ i $-esimo campione, e in maniera simile
+usando le basi di $ \R^J $ e $ \R^K $, $ c_{k,f} $ è la frazione di protoni che la $ f $-esima
+sostanza emette nella lunghezza d'onda $ k $, e $ b_{j,f} $ è l'intensità della luce incidente alla
+lunghezza d'onda $ j $ moltiplicata per l'assorbimento alla lunghezza d'onda $ j $.
+
+Siccome i dati conterranno rumore, possiamo assumere $ T $ di rango generico, ma esisterà un tensore
+di rango molto basso $ \tilde{T} $ che lo approssima fedelmente (\todo{ref to generic rank}). Gli
+autori di~\cite{smilde2004multi} non associano alcuna metrica ai dati, quindi il significato di ``approssimazione'' non è
+chiaro\todo{why?}. In~\cite{smilde2004multi} si procede come segue per trovare $ r $. Prima di tutto, si assume
+che $ r $ sia molto basso (al più $ 7 $ nella loro esposizione). Poi per ogni $ r_0 $ tale che $ 1
+\le r_0 \le 7 $, si assume $ r_0 = r $ e si applica un algoritmo numerico che tenta di trovare le $
+r_0 $ componenti (i.e, tensori di rango uno) che formano $ \tilde{T} $. I valori di $ r_{0} $ per
+cui l'algoritmo non converge velocemente sono scartati (gli autori sottolineano che questa procedura
+non è giustificata matematicamente, ma sembra funzionare bene in pratica; nell'esempio, questi valori di $ r_{0} $ sono troppo grandi). Poi, per i restanti valori di $ r_0
+$, vengono analizzati i tensori risultati per vedere se sono ragionevoli dal punto di vista fisico.
+Questo rende loro possibile di rimuovere valori di $ r_0 $ troppo piccoli. Nell'esempio, a loro
+restano $ r_0 = 4,5 $.
+
+Assumiamo ora che $ r $ sia stato determinato. Siccome i valori di $ r $ sono relativamente piccoli,
+a meno di banalità, l'espressione di $ \tilde{T} $ come somma di elementi di rango uno sarà unica
+\todo{funziona kruskal?}. Quindi, decomponendo $ \tilde{T} $, possiamo recuperare la concentazione
+di ognuna delle $ r $ sostanze in ogni soluzione, determinando i vettori $ a_{f} $ così come lo
+spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
 
 \section{Cocktail party problem}
 

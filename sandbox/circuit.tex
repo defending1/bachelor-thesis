@@ -1,0 +1,142 @@
+\documentclass[tikz, border=12pt]{standalone}
+\usetikzlibrary{arrows.meta, positioning, fit, backgrounds}
+
+\definecolor{inputcolor}{HTML}{E8F0FE}
+\definecolor{inputborder}{HTML}{1A73E8}
+\definecolor{multcolor}{HTML}{FEF7E0}
+\definecolor{multborder}{HTML}{F9AB00}
+\definecolor{addcolor}{HTML}{E6F4EA}
+\definecolor{addborder}{HTML}{137333}
+\definecolor{outcolor}{HTML}{FCE8E6}
+\definecolor{outborder}{HTML}{C5221F}
+
+\begin{document}
+\begin{tikzpicture}[
+  >=Stealth,
+  thick,
+  % Node styles
+  input/.style={
+    circle,
+    draw=inputborder,
+    fill=inputcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\small\bfseries,
+    text=inputborder!80!black
+  },
+  gateMult/.style={
+    circle,
+    draw=multborder,
+    fill=multcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\large\bfseries,
+    text=multborder!80!black
+  },
+  gateAdd/.style={
+    circle,
+    draw=addborder,
+    fill=addcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\large\bfseries,
+    text=addborder!80!black
+  },
+  output/.style={
+    circle,
+    draw=outborder,
+    fill=outcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\small\bfseries,
+    text=outborder!80!black
+  },
+  wire/.style={->, draw=gray!70, line width=0.8pt},
+  wireA/.style={->, draw=blue!65!gray, line width=0.9pt},
+  wireB/.style={->, draw=orange!80!gray, line width=0.9pt}
+]
+
+  % --- INPUT LAYER: 2x2 GRID FOR MATRIX A ---
+  \node[input] (a11) at (0.0, 1.4) {$a_{11}$};
+  \node[input] (a12) at (1.4, 1.4) {$a_{12}$};
+  \node[input] (a21) at (0.0, 0.0) {$a_{21}$};
+  \node[input] (a22) at (1.4, 0.0) {$a_{22}$};
+
+  % --- INPUT LAYER: 2x2 GRID FOR MATRIX B ---
+  \node[input] (b11) at (6.8, 1.4) {$b_{11}$};
+  \node[input] (b12) at (8.2, 1.4) {$b_{12}$};
+  \node[input] (b21) at (6.8, 0.0) {$b_{21}$};
+  \node[input] (b22) at (8.2, 0.0) {$b_{22}$};
+
+  % --- MULTIPLICATION LAYER (8 Gates in Layer 1) ---
+  % Gates for c_11: m1 = a11*b11, m2 = a12*b21
+  \node[gateMult] (m1) at (0.3, 3.2) {$\times$};
+  \node[gateMult] (m2) at (1.5, 3.2) {$\times$};
+
+  % Gates for c_21: m5 = a21*b11, m6 = a22*b21
+  \node[gateMult] (m5) at (2.7, 3.2) {$\times$};
+  \node[gateMult] (m6) at (3.9, 3.2) {$\times$};
+
+  % Gates for c_12: m3 = a11*b12, m4 = a12*b22
+  \node[gateMult] (m3) at (5.1, 3.2) {$\times$};
+  \node[gateMult] (m4) at (6.3, 3.2) {$\times$};
+
+  % Gates for c_22: m7 = a21*b12, m8 = a22*b22
+  \node[gateMult] (m7) at (7.5, 3.2) {$\times$};
+  \node[gateMult] (m8) at (8.7, 3.2) {$\times$};
+
+  % --- ADDITION LAYER (4 Gates in Layer 2) ---
+  \node[gateAdd] (add1) at (0.9, 4.8) {$+$};
+  \node[gateAdd] (add3) at (3.3, 4.8) {$+$};
+  \node[gateAdd] (add2) at (5.7, 4.8) {$+$};
+  \node[gateAdd] (add4) at (8.1, 4.8) {$+$};
+
+  % --- OUTPUT LAYER: 2x2 GRID FOR RESULT MATRIX C ---
+  % Row 1: c_11, c_12
+  % Row 2: c_21, c_22
+  \node[output] (c11) at (3.3, 7.8) {$c_{11}$};
+  \node[output] (c12) at (5.7, 7.8) {$c_{12}$};
+  \node[output] (c21) at (3.3, 6.4) {$c_{21}$};
+  \node[output] (c22) at (5.7, 6.4) {$c_{22}$};
+
+  % --- CONNECTIONS: Inputs -> Mult Gates ---
+  % c_11 terms: a_11 * b_11  and  a_12 * b_21
+  \draw[wireA] (a11) -- (m1); \draw[wireB] (b11) -- (m1);
+  \draw[wireA] (a12) -- (m2); \draw[wireB] (b21) -- (m2);
+
+  % c_21 terms: a_21 * b_11  and  a_22 * b_21
+  \draw[wireA] (a21) -- (m5); \draw[wireB] (b11) -- (m5);
+  \draw[wireA] (a22) -- (m6); \draw[wireB] (b21) -- (m6);
+
+  % c_12 terms: a_11 * b_12  and  a_12 * b_22
+  \draw[wireA] (a11) -- (m3); \draw[wireB] (b12) -- (m3);
+  \draw[wireA] (a12) -- (m4); \draw[wireB] (b22) -- (m4);
+
+  % c_22 terms: a_21 * b_12  and  a_22 * b_22
+  \draw[wireA] (a21) -- (m7); \draw[wireB] (b12) -- (m7);
+  \draw[wireA] (a22) -- (m8); \draw[wireB] (b22) -- (m8);
+
+  % --- CONNECTIONS: Mult Gates -> Add Gates ---
+  \draw[wire] (m1) -- (add1); \draw[wire] (m2) -- (add1);
+  \draw[wire] (m5) -- (add3); \draw[wire] (m6) -- (add3);
+  \draw[wire] (m3) -- (add2); \draw[wire] (m4) -- (add2);
+  \draw[wire] (m7) -- (add4); \draw[wire] (m8) -- (add4);
+
+  % --- CONNECTIONS: Add Gates -> Output Grid ---
+  \draw[wire] (add1) -- (c11);
+  \draw[wire] (add3) -- (c21);
+  \draw[wire] (add2) -- (c12);
+  \draw[wire] (add4) -- (c22);
+
+  % --- BACKGROUND DASHED BOXES FOR MATRICES ---
+  \begin{pgfonlayer}{background}
+    \node[draw=inputborder!40, dashed, fill=inputcolor!30, rounded corners=6pt,
+          fit=(a11) (a22), inner sep=7pt, label={below:\small Matrix $A$}] {};
+    \node[draw=inputborder!40, dashed, fill=inputcolor!30, rounded corners=6pt,
+          fit=(b11) (b22), inner sep=7pt, label={below:\small Matrix $B$}] {};
+    \node[draw=outborder!40, dashed, fill=outcolor!30, rounded corners=6pt,
+          fit=(c11) (c22), inner sep=7pt, label={above:\small Result Matrix $C = A \cdot B$}] {};
+  \end{pgfonlayer}
+
+\end{tikzpicture}
+\end{document}

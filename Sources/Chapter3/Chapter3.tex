@@ -130,9 +130,9 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
  \end{equation*}
 \end{definition}
 \begin{remark}
-  In altre parole, $ L(\varphi) $ è il minimo numero di moltiplicazioni non scalari (o divisioni)
-  sufficienti a calcolare $ \varphi $. In maniera analoga, $ L^{\text{tot}} $ è il minimo numero di
-  moltiplicazioni non scalari (o divisioni) e di addizioni (o sottrazioni) sufficienti a calcolare $
+  In altre parole, $ L(\varphi) $ è il minimo numero di moltiplicazioni non scalari
+  sufficienti a calcolare $ \varphi $, anche dette \emph{active multiplication}. In maniera analoga, $ L^{\text{tot}} $ è il minimo numero di
+  moltiplicazioni non scalari e di addizioni sufficienti a calcolare $
   \varphi $.
 \end{remark}
 
@@ -629,8 +629,22 @@ c_{21} &= m_5 + m_6 = a_{21}b_{11} + a_{22}b_{21}, &\qquad c_{22} &= m_7 + m_8 =
 a_{22}b_{22}.
 \end{aligned}
 \]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Sources/Chapter3/figures/matrix_multiplication_linear.pdf}
+  \caption{Rappresentazione della moltiplicazione di due matrici $2 \times 2$.}
+  \label{fig:matrix_multiplication_linear}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Sources/Chapter3/figures/circuit.pdf}
+  \caption{Circuito aritmetico per la moltiplicazione di matrici $2 \times 2$.}
+  \label{fig:arithmetic_circuit_222}
+\end{figure}
+
 Usando ?? possiamo scrivere l'algoritmo $ \algob{2} $ in forma tensoriale in formato CP:
-\todo{Si vede come si ricava ma non so spiegare come si ottiene}
 \begin{equation}
   \label{eq:tensor_222}
   \begin{aligned}
@@ -640,6 +654,15 @@ Usando ?? possiamo scrivere l'algoritmo $ \algob{2} $ in forma tensoriale in for
     &+ a_{21} \topp b_{12} \topp c_{22} + a_{22}\topp b_{22}\topp c_{22}.
   \end{aligned}
 \end{equation}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{Sources/Chapter3/figures/tensor_222_cp.pdf}
+  \caption{Decomposizione CP del tensore di moltiplicazione di matrici $\mathcal{T}_{\langle 2,2,2 \rangle}$ come somma di 8 tensori di rango uno.}
+  \label{fig:tensor_222_cp}
+\end{figure}
+
+
 
 Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici. Nel ??
 Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}

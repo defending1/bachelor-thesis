@@ -2,10 +2,7 @@
 \chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
-argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura. Dobbiamo intanto chiarire cosa
-intendiamo per unicità; preso un tensore
+Prendiamo un tensore
 \begin{equation*}
   T = a_1 \otimes b_1 \otimes c_1 + \cdots + a_{r} \otimes b_{r} \otimes c_{r} \in A \otimes B
   \otimes C,
@@ -13,7 +10,7 @@ intendiamo per unicità; preso un tensore
 sotto opportune ipotesi $ T $ differisce da un'altra fattorizzazione CP a meno di permutazione dei tensori
 elementari e
 riscalamento dei fattori, più precisamente:
-esistono degli scalari scalari $ \alpha_1, \ldots, \alpha_{r}$, $\beta_1, \ldots, \beta_{r}$, $\gamma_1, \ldots,
+esistono degli scalari $ \alpha_1, \ldots, \alpha_{r}$, $\beta_1, \ldots, \beta_{r}$, $\gamma_1, \ldots,
 \gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $, ed
 esiste una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
 \begin{equation*}
@@ -38,9 +35,9 @@ Diamo una definizione più generale.
   \end{equation*}
 \end{definition}
 Notiamo che il tensore permutato appartiene ancora allo spazio di partenza. In realtà, la formulazione originale in coordinate è la seguente.
-\begin{definition}[Essenziale unicità CP]
+\begin{definition}[Essenziale unicità]
   Una fattorizzazione CP di rango $ r $ di un tensore $ T = \dsqr{U_1, \ldots, U_d}$ è
-  \emph{essenzialmente unica} se, per ogni altra fattorizzazione $ T = \dsqr{\tilde{U}_1,
+  essenzialmente unica se, per ogni altra fattorizzazione $ T = \dsqr{\tilde{U}_1,
   \ldots, \tilde{U}_d}$ di rango $ r $, esiste una matrice di permutazione $ P \in \R^{r \times r} $
   e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
   I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
@@ -195,9 +192,37 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 \end{remark}
 \begin{remark}
   Se $ \bm{a} = \bm{b} = \bm{c} $ e $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, quando $
-  r = \bm{a} $ l'espressione è unica\todo{why?}. Inoltre, la condizione di unicità del teorema di Kruskal si
+  r = \bm{a} $ l'espressione è unica.
+\end{remark}
+\begin{proof}
+  Se $ r = \bm{a} $, consideriamo la decomposizione
+  \begin{equation*}
+    T = a_1 \otimes b_1 \otimes c_1 + \cdots a_{a} \otimes b_{a} \otimes c_{a}
+  \end{equation*}
+
+  Contraiamo $ T $ lungo la terza componente, cioè per ogni funzionale $ \gamma \in C^* $
+  \begin{equation*}
+    \begin{aligned}
+      T(\gamma) = \sum_{i = 1}^{\bm{a}} \gamma(c_{i})a_{i} \otimes b_{i}
+                = UDV^*,
+    \end{aligned}
+  \end{equation*}
+  dove 
+  \begin{equation*}
+    U =  \left[\begin{array}{c|c|c}
+      a_1 & \dots & a_{\bm{a}}
+    \end{array}\right], \qquad
+    D = \diag(\gamma(c_1), \ldots, \gamma(c_{\bm{a}})), \qquad
+    V = \left[\begin{array}{c|c|c}
+      b_1 & \dots & b_{\bm{a}}
+    \end{array}\right].
+  \end{equation*}
+  \todo{TROVARE L'UNICITÀ DA QUI}
+\end{proof}
+\begin{remark}
+  Sotto queste ipotesi, la condizione di unicità del teorema di Kruskal si
   può estendere a quando $ \bm{a} \le r \le \frac{3}{2}\bm{a} - 1 $ sotto ipotesi addizionali (non
-  lo vediamo).
+  lo vediamo)\todo{ref?}.
 \end{remark}
 
 Il risultato centrale per dimostrare il teorema di Kruskal è il permutation lemma
@@ -222,7 +247,7 @@ Il risultato centrale per dimostrare il teorema di Kruskal è il permutation lem
 
 
 \begin{definition}[Concise tensor]
-  un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
+  Un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
   sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots \otimes A_n $.
   Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, n\}  $. Un tensore è detto
   \emph{concise} se è $ i $-concise per ogni $ i $.
@@ -614,9 +639,10 @@ condizione necessaria ma non sufficiente:
 \end{theorem}
 
 \begin{remark}
-L'idea di Kruskal è stata riadattata da diversi matematici, e attualmente abbiamo
-due dimostrazioni brevi che sfruttano il risultato chiave
-dimostrato da Kruskal, chiamato permutation lemma, ma che seguono idee diverse. La prima riscrittura, ad opera di Stegeman e
+Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
+argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura. 
+La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
+due dimostrazioni brevi che sfruttano il permutation lemma, ma che seguono idee diverse. La prima riscrittura, ad opera di Stegeman e
 Sidiropoulos~\cite{STEGEMAN2007540} era 16 pagine, ed è stata di seguito riadattata da
 Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di poche pagine, che abbiamo
 presentato in questo elaborato. La seconda rielaborazione, ad opera di Rhodes (circa 9

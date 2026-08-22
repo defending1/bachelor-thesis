@@ -4,34 +4,37 @@
 %
 \noindent
 %
-La decomposizione CP (Canonical Polyadic Decomposition) di rango $ r $ di un tensore è la
-scomposizione di un tensore
-nella somma di $ r $ tensori di rango uno, che generalizza la decomposizione di matrici in somma di matrici di
-rango uno. Oltre all'importanza teorica nel calcolo tensoriale, è uno strumento utile in
-molte aree scientifiche---per citarne alcune, spettroscopia, signal processing, neurologia, e
+La decomposizione CP (Canonical Polyadic Decomposition) di rango $ r $ di un tensore è la sua
+scomposizione nella somma di $ r $ tensori di rango uno, una generalizzazione naturale della decomposizione di matrici. Oltre all'importanza teorica nel calcolo tensoriale, è uno strumento utile in
+molte aree scientifiche: per citarne alcune, spettroscopia, signal processing, neurologia, e
 analisi dei dati. In
-molti di queste applicazioni l'unicità è una proprietà fondamentale per rappresentare
-fedelmente le componenti di sistemi complessi---si pensi ad esempio, il problema di modellare i 
-neuroni di un sistema nervoso tramite un tensore per studiarne gli impulsi. Per
-tali scopi, dimostreremo che, sotto opportune ipotesi, la fattorizzazione CP è unica.
-Questo risultato è stato dimostrato da Kruskal nel 1970, ed è stato riscritto di recente in una
-dimostrazione geometrica, che presenteremo. Inoltre, osserveremo alcune difficoltà teoriche nel calcolo della CP
-e del rango, come il border rank e la complessità di calcolo. Spesso però, tali ostacoli possono
-essere superati nella pratica, e riescono a diventare punti di forza del calcolo tensoriale.
+molte di queste applicazioni l'unicità è una proprietà fondamentale per rappresentare
+fedelmente le componenti di sistemi complessi---si pensi al problema di modellare i 
+neuroni di un sistema nervoso tramite un tensore per studiarne gli impulsi, anche detto \emph{blind
+source separation}. 
 
-Successivamente, formuleremo il problema della moltiplicazione tra matrici nel
-linguaggio dei tensori: essendo una forma bilineare, la mappa di moltiplicazione può essere
-rappresentata tramite un tensore a tre indici nel formato CP. del  Introduciamo una misura di complessità del prodotto matriciale per
-definire l'esponente $ \omega $, che ne misura la complessità ottimale. Lo studio dell'esponente, e
-del formalismo tensoriale della matrix multiplication ebbe origine nell'ultimo trentennio del XX
-secolo, ad opera di molti autori tra cui Strassen, Winograd e Bini\todo{aggiungere/togliere?}. Il
-problema resta ancora rilevante oggi, anche grazie attraverso la ricerca di algoritmi tramite l'IA. Il linguaggio tensoriale
-permette di costruire algoritmi di moltiplicazione con $ r $ moltiplicazioni a partire da una
-fattorizzazione CP di rango $ r $. Dimostreremo questa corrispondenza attraverso un teorema di Strassen. Inoltre, ridurre i tensori, invece le equazioni che definiscono gli algoritmi,
-semplifica la ricerca di algoritmi più efficienti. Riassumendo, trovare
-una fattorizzazione di rango più basso riduce il numero di moltiplicazioni, e quindi la complessità.
+Il primo obiettivo di questo elaborato è dimostrare che, sotto opportune ipotesi, la fattorizzazione CP è unica.
+Questo risultato, originariamente dimostrato da Kruskal nel 1970 attraverso il concetto di Kruskal
+rank, è stato riscritto di recente in una
+dimostrazione geometrica. Inoltre, osserveremo alcune peculiarità teoriche che
+distinguono i tensori dalle matrici, ponendo le basi per l'utilizzo del calcolo tensoriale nella
+teoria della complessità.
 
-Infine, passeremo dallo studio di algoritmi di moltiplicazione esatti ad algoritmi approssimati
-(APA), dove osserveremo il border rank può sostituire il rango del tensore della moltiplicazione tra
-matrici nel calcolo di $ \omega $, il che semplifica la ricerca di stime su $ \omega $, e
-accenneremo l'errore algoritmico degli algoritmi approssimati.
+Successivamente, applicheremo questi strumenti al problema della complessità della moltiplicazione
+tra matrici. Essendo una mappa bilineare, l'algoritmo di moltiplicazione può essere codificato nel
+suo tensore strutturale a tre indici, e poi messo in corrispondenza con un algoritmo per valutarlo. Introdurremo la nozione di complessità aritmetica del prodotto
+tra matrici per definire
+l'esponente asintotico $ \omega $ che ne misura la complessità ottimale, e sfrutteremo il Teorema di
+Strassen per mostrare la corrispondenza tra la ricerca di algoritmi veloci e il calcolo del rango CP
+del tensore. Come conseguenza, ridurre lo studio della complessità ai tensori, anziché all'analisi
+diretta delle equazioni algebriche, semplifica notevolmente la ricerca di algoritmi più efficienti;
+una sfida aperta da decenni, dall'algoritmo di Strassen (del 1970), fino alle recenti scoperte
+guidate dall'intelligenza artificiale. 
+
+Infine, estenderemo l'analisi dagli algoritmi di moltiplicazione esatti agli algoritmi approssimati
+(APA), introdotti da Bini et al. In questo contesto emerge il fenomeno topologico del border rank,
+per il quale una successione di tensori di rango inferiore può convergere a un tensore di rango
+superiore. Ciò permette, in termini di algoritmi, approssimare un algoritmo con una successione di algoritmi con
+un numero di moltiplicazione più basso. Da cui potremo sostituire il
+rango tensoriale con il border rank nel calcolo di $ \omega $, permettendo di ottenere stime asintotiche più
+stringenti, al prezzo di un errore algoritmico arbitrariamente piccolo.

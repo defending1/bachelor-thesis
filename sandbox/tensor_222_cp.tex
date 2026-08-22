@@ -1,0 +1,195 @@
+\documentclass[tikz, border=12pt]{standalone}
+\usetikzlibrary{calc, positioning, arrows.meta, backgrounds}
+
+\definecolor{tensorMain}{HTML}{6B46C1}
+\definecolor{tensorMainLight}{HTML}{9F7AEA}
+\definecolor{vecA}{HTML}{1A73E8} % Blue for a
+\definecolor{vecB}{HTML}{E65100} % Orange for b
+\definecolor{vecC}{HTML}{0F9D58} % Green for c
+\definecolor{bgBox}{HTML}{F8F9FA}
+
+\begin{document}
+\begin{tikzpicture}[
+  >=Stealth,
+  scale=0.95,
+  tensorLabel/.style={font=\Large\bfseries},
+  plusStyle/.style={font=\Huge\bfseries, text=gray!70},
+  termLabel/.style={font=\small\bfseries}
+]
+
+  % --- BACKGROUND PANEL ---
+  \begin{pgfonlayer}{background}
+    \fill[bgBox, draw=gray!35, rounded corners=10pt, line width=0.9pt] (-0.8, -0.6) rectangle (18.2, 6.8);
+  \end{pgfonlayer}
+
+  % ==========================================
+  % LEFT: Main Tensor <2,2,2> (3D Cube)
+  % ==========================================
+  \begin{scope}[shift={(0, 3.1)}]
+    % Front face
+    \draw[fill=tensorMainLight!25, draw=tensorMain, thick] (0,0) rectangle (1.8, 1.8);
+    % Top face
+    \draw[fill=tensorMainLight!40, draw=tensorMain, thick] (0,1.8) -- (0.7, 2.5) -- (2.5, 2.5) -- (1.8, 1.8) -- cycle;
+    % Right side face
+    \draw[fill=tensorMainLight!15, draw=tensorMain, thick] (1.8,0) -- (2.5, 0.7) -- (2.5, 2.5) -- (1.8, 1.8) -- cycle;
+    
+    % Grid lines
+    \foreach \x in {0.45, 0.9, 1.35} {
+      \draw[tensorMain!40, thin] (\x, 0) -- (\x, 1.8) -- (\x+0.7, 2.5);
+    }
+    \foreach \y in {0.45, 0.9, 1.35} {
+      \draw[tensorMain!40, thin] (0, \y) -- (1.8, \y) -- (2.5, \y+0.7);
+    }
+    \foreach \z in {0.18, 0.36, 0.54} {
+      \draw[tensorMain!40, thin] (1.8+\z, \z) -- (1.8+\z, 1.8+\z);
+    }
+    
+    \node at (0.9, 0.9) {\Large $\mathbf{\langle 2,2,2 \rangle}$};
+    \node[below=0.2cm] at (1.25, 0) {\footnotesize $\in \mathbb{R}^{4 \times 4 \times 4}$};
+  \end{scope}
+
+  % Equals sign
+  \node[plusStyle] at (3.4, 4.3) {$=$};
+
+  % ==========================================
+  % COMPACT RANK-1 TENSOR TERMS (ROW 1: Terms 1 to 4)
+  % ==========================================
+
+  % Term 1: a11, b11, c11
+  \begin{scope}[shift={(4.5, 3.2)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{11}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{11}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{11}$};
+  \end{scope}
+
+  \node[plusStyle] at (7.4, 4.3) {$+$};
+
+  % Term 2: a12, b21, c11
+  \begin{scope}[shift={(8.3, 3.2)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{12}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{21}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{11}$};
+  \end{scope}
+
+  \node[plusStyle] at (11.2, 4.3) {$+$};
+
+  % Term 3: a21, b11, c21
+  \begin{scope}[shift={(12.1, 3.2)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{21}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{11}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{21}$};
+  \end{scope}
+
+  \node[plusStyle] at (15.0, 4.3) {$+$};
+
+  % Term 4: a22, b21, c21
+  \begin{scope}[shift={(15.9, 3.2)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{22}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{21}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{21}$};
+  \end{scope}
+
+  % Plus sign connecting row 1 to row 2
+  \node[plusStyle] at (3.4, 1.1) {$+$};
+
+  % --- ROW 2 (Terms 5 to 8) ---
+  % Term 5: a11, b12, c12
+  \begin{scope}[shift={(4.5, 0.0)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{11}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{12}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{12}$};
+  \end{scope}
+
+  \node[plusStyle] at (7.4, 1.1) {$+$};
+
+  % Term 6: a12, b22, c12
+  \begin{scope}[shift={(8.3, 0.0)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{12}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{22}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{12}$};
+  \end{scope}
+
+  \node[plusStyle] at (11.2, 1.1) {$+$};
+
+  % Term 7: a21, b12, c22
+  \begin{scope}[shift={(12.1, 0.0)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{21}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{12}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{22}$};
+  \end{scope}
+
+  \node[plusStyle] at (15.0, 1.1) {$+$};
+
+  % Term 8: a22, b22, c22
+  \begin{scope}[shift={(15.9, 0.0)}]
+    \draw[line width=4.5pt, vecA, opacity=0.3, line cap=round] (0, 0.15) -- (0, 1.5);
+    \draw[line width=2.8pt, vecA, line cap=round] (0, 0.15) -- (0, 1.5);
+    \node[right=1pt, font=\small\bfseries, text=vecA!90!black] at (0, 0.35) {$a_{22}$};
+
+    \draw[line width=4.5pt, vecB, opacity=0.3, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \draw[line width=2.8pt, vecB, line cap=round] (0.15, 1.58) -- (1.25, 1.58);
+    \node[right=1pt, font=\small\bfseries, text=vecB!90!black] at (1.25, 1.58) {$b_{22}$};
+
+    \draw[line width=4.5pt, vecC, opacity=0.3, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \draw[line width=2.8pt, vecC, line cap=round] (0.2, 1.8) -- (0.85, 2.45);
+    \node[right=1pt, font=\small\bfseries, text=vecC!90!black] at (0.85, 2.45) {$c_{22}$};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}
