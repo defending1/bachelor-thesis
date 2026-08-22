@@ -114,7 +114,7 @@
     \node[draw=inputborder!40, dashed, fill=inputcolor!30, rounded corners=6pt,
           fit=(b11) (b22), inner sep=7pt, label={below:\small Matrix $B$}] {};
     \node[draw=outborder!40, dashed, fill=outcolor!30, rounded corners=6pt,
-          fit=(c11) (c22), inner sep=7pt, label={above:\small Result Matrix $C = A \cdot B$}] {};
+          fit=(c11) (c22), inner sep=7pt, label={above:\small $C = A \cdot B$}] {};
   \end{pgfonlayer}
 
 \end{tikzpicture}

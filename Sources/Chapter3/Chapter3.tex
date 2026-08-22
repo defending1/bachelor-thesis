@@ -32,7 +32,7 @@ M_1 \times M_2 \times  M_3 \to P$.
      (A,B) &\mapsto C = AB.
    \end{aligned}
  \end{equation*}
- Spesso ci riferiremo a $ \algob{m,n,p} $ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di
+ Spesso ci riferiremo a $ \algob{m,n,p} $ chiamandolo ``algoritmo'', ad esempio nel contesto degli algoritmi di
  moltiplicazione veloce.
 \end{definition}
 
@@ -45,6 +45,7 @@ M_1 \times M_2 \times  M_3 \to P$.
 \end{remark}
 
 \begin{remark}
+  \label{rmk:triliear_matmul}
 Possiamo vedere la moltiplicazione tra matrici anche come una mappa trilineare
   \begin{equation*}
     \begin{aligned}
@@ -90,23 +91,19 @@ In forma tensoriale,
 In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità, per
 calcolare costi computazionali anche su campi infiniti, e semplicficare il calcolo dei costi eliminando
 branching (e.g. \texttt{if-then-else} o \texttt{while}).
-\begin{definition}[Straight line program]
-  Uno \emph{straight line program} (o \emph{circuito algebrico}) $ \Gamma $ su $ \K $ è una sequenza
-  ordinata di istruzioni della forma
-  \begin{equation*}
-    (\text{\textbf{op}}; i,j) \text{ oppure } (\lambda; i)
-  \end{equation*}
-  dove $ \text{\textbf{op}} \in \{+, -, *, / \}  $ è una delle quattro operazioni aritmetiche
-  fondamentali (binarie) e $ \lambda \in \K $. Il primo tipo di istruzioni
-  descrive l'esecuzione dell'operazione aritmetica \textbf{op} fra gli $ i $-esimi e $ j $-esimi
-  risultati intermedi, mentre il secondo tipo descrive la moltiplicazione dell'$ i $-esimo risultato
-  intermedio con lo scalare $ \lambda $.
+\begin{definition}[Circuito aritmetico]
+  Uno \emph{circuito aritmetico} $ \Gamma $ su $ \K $ è un grafo diretto, aciclico, finito con
+  vertici di grado entrante $ 0 $ o $ 2 $ ed esattamente un vertice di grado uscente $ 0 $. I vertici di grado
+  entrante $ 0 $ sono etichettati con gli elementi di $ \K \cup \{x_1, \ldots, x_{n}\}  $ e sono detti 
+  \emph{inputs}. Quelli di grado entrante $ 2 $ sono etichettati con $ + $ o $ * $ e sono chiamati
+  \emph{gates}. Se il grado uscente di un vertice $ v $ è $ 0 $, allora $ v $ è chiamato un
+  \emph{output gate}. La dimensione di $ \Gamma $ è il numero di archi.
 \end{definition}
 \todo{specifichiamo a che spazio appartengono i risultati intermedi?}
 
 \begin{definition}[Funzione costo]
   Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione
-  finita. Definiamo la \emph{funzione costo} associata a uno straight line program $ \Gamma $ come
+  finita. Definiamo la \emph{funzione costo} associata a uno circuito aritmetico $ \Gamma $ come
   \begin{equation*}
     \begin{aligned}
     C_{\Gamma}(\varphi) \defeq \text{ numero di operazioni } \{*,/\} \text{ per calcolare } \varphi
@@ -122,9 +119,9 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
   Definiamo
  \begin{equation*}
    \begin{aligned}
-   L^{\text{tot}}(\varphi) \defeq \inf_{\Gamma \text{ straight line program}} \{ C_\Gamma^{\text{tot}}(\varphi)\} && \text{ la
+   L^{\text{tot}}(\varphi) \defeq \inf_{\Gamma \text{ circuito aritmetico}} \{ C_\Gamma^{\text{tot}}(\varphi)\} && \text{ la
    \emph{complessità totale di }\varphi, e} \\
-   L(\varphi) \defeq \inf_{\Gamma \text{ straight line program}} \{ C_\Gamma(\varphi)\} && \text{ la
+   L(\varphi) \defeq \inf_{\Gamma \text{ circuito aritmetico}} \{ C_\Gamma(\varphi)\} && \text{ la
    \emph{complessità moltiplicativa di }\varphi.}
    \end{aligned}
  \end{equation*}
@@ -236,6 +233,8 @@ Calcolare la valutazione di una forma bilineare $ f $ come nell'Equazione~\ref{e
   di più breve algoritmo di calcolo per $ \varphi $ è chiamata \emph{bilinear complexity} o rango
   di $ \varphi $, che indichiamo ancora con $ \rk(\varphi) $.
 \end{definition}
+
+
 \begin{proposition}[Strassen]
   Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali finiti, e $ \varphi : U\times V \to  W $ una
   mappa bilineare. Allora
@@ -291,8 +290,11 @@ indotti dal prodotto scalare standard si ha la tesi.
 Quindi valutare $ \varphi $ richiede esattamente $ r = \rk(T) $ active multiplications (e $
   O(r) $ addizioni), che sopra evidenziamo con $
 (\cdot) $.
-In particolare, vale il seguente risultato algebrico:\todo{fix ora che è cambiato sopra}
+In particolare, il seguente risultato algebrico ci dice che la rappresentazione di una forma
+bilineare come tensore o come bilinear computation sono identiche, ed è utile per riscrivere un
+algoritmo tramite un tensore. 
 \begin{proposition}[Si veda~\cite{burgisser2013algebraic}, Cap. 14]
+  \label{prop:iso_bil_tensor}
   Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali. Allora esiste un unico isomorfismo $ U^*
   \otimes V^* \otimes W \to \{\varphi : U \times V \to  W, \text{ bilineare}\} $ che manda $ f
   \otimes g \otimes w $ nella mappa bilineare $ (u,v) \mapsto f(u)g(u)w $.
@@ -329,6 +331,14 @@ Dove abbiamo posto $ s_l \defeq  s_{l}(A) \defeq  u_l^\top \Vec(A)$, $ t_l \defe
 s_lt_l $. Nella pratica, nei passaggi successivi dell'algoritmo calcoliamo in maniera ricorsiva il
 prodotto tra $ s_l $ e $ t_l $.
 Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{M,N,P} $.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Sources/Chapter3/figures/circuit.pdf}
+  \caption{Circuito aritmetico per la moltiplicazione di matrici $2 \times 2$.}
+  \label{fig:arithmetic_circuit_222}
+\end{figure}
+
 
 \section{Alcune stime sull'esponente}
 \label{sec:exp_estimates}
@@ -581,12 +591,18 @@ L'Equazione sopra rappresenta l'algoritmo di moltiplicazione a blocchi tra $ A
   \label{rem:rectangular}
   Di seguito ci limiteremo a studiare prodotti fra matrici quadrate; per il caso rettangolare, si
   possono estendere i ragionamenti sopra considerando una rappresentazione di rango $ r $ del
-  tensore $ \algob{m,n,p} $ e scrivendo, attraverso una serie di permutazioni (che non specifichiamo), la fattorizzazione di $ \algob{mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
-  O(n^{3\log_{abc}r})$
+  tensore $ \algob{m,n,p} $ e scrivendo, attraverso una serie di permutazioni cicliche, la fattorizzazione di $ \algob{mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
+  O(n^{3\log_{abc}r})$. Questo si può vedere tramite la scrittura della moltiplicazione tra matrici
+  come forma trilineare dell'Osservazione~\ref{rmk:triliear_matmul} ci assicura che il tensore è
+  invariante per trasformazioni cicliche, in quanto
+  \begin{equation}
+    \mathop{trace}(ABC) = \mathop{trace}(CAB) = \mathop{trace}(BAC).
+  \end{equation}
 \end{remark}
 
 
 \subsection*{Il caso naive}
+\todo{Dire se la derivazione del tensore è chiara, ho provato a giustificarla meglio che potessi}
 
 Trattiamo il caso di matrici quadrate con taglie potenze di due (possiamo farlo a meno di passare a
 una sottomatrice di taglia pari). In questo caso possiamo
@@ -613,19 +629,22 @@ sia come scalari, che come matrici.}:
 L'algoritmo naive procede combinando un insieme di otto moltiplicazioni matriciali con quattro
 addizioni:
 
-\[
+\begin{equation}
+\label{eq:mult_222_m_i}  
 \begin{aligned}
-m_1 &= a_{11} \cdot b_{11} &\quad m_2 &= a_{12} \cdot b_{21} &\quad m_3 &= a_{11} \cdot b_{12} \\
-m_4 &= a_{12} \cdot b_{22} &\quad m_5 &= a_{21} \cdot b_{11} &\quad m_6 &= a_{22} \cdot b_{21} \\
-m_7 &= a_{21} \cdot b_{12} &\quad m_8 &= a_{22} \cdot b_{22} & &
+m_1 &= a_{11} \cdot b_{11} = s_1 t_1&\quad m_2 &= a_{12} \cdot b_{21} = s_2t_2 &\quad m_3 &= a_{11}
+\cdot b_{12} = s_3t_3 \\
+m_4 &= a_{12} \cdot b_{22} = s_4t_4 &\quad m_5 &= a_{21} \cdot b_{11} = s_5t_5 &\quad m_6 &= a_{22}
+\cdot b_{21} = s_6t_6 \\
+m_7 &= a_{21} \cdot b_{12} = s_7t_7 &\quad m_8 &= a_{22} \cdot b_{22} = s_8t_8 & &
 \end{aligned}
-\]
+\end{equation}
 
 \[
 \begin{aligned}
-c_{11} &= m_1 + m_2 = a_{11}b_{11} + a_{12}b_{21}, &\qquad c_{12} &= m_3 + m_4 = a_{11}b_{12} +
+ c_{11} &= m_1 + m_2 = a_{11}b_{11} + a_{12}b_{21}, &\qquad  c_{12} &= m_3 + m_4 = a_{11}b_{12} +
 a_{12}b_{22}, \\
-c_{21} &= m_5 + m_6 = a_{21}b_{11} + a_{22}b_{21}, &\qquad c_{22} &= m_7 + m_8 = a_{21}b_{12} +
+ c_{21} &= m_5 + m_6 = a_{21}b_{11} + a_{22}b_{21}, &\qquad  c_{22} &= m_7 + m_8 = a_{21}b_{12} +
 a_{22}b_{22}.
 \end{aligned}
 \]
@@ -637,14 +656,30 @@ a_{22}b_{22}.
   \label{fig:matrix_multiplication_linear}
 \end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics{Sources/Chapter3/figures/circuit.pdf}
-  \caption{Circuito aritmetico per la moltiplicazione di matrici $2 \times 2$.}
-  \label{fig:arithmetic_circuit_222}
-\end{figure}
-
-Usando ?? possiamo scrivere l'algoritmo $ \algob{2} $ in forma tensoriale in formato CP:
+Proviamo a scriverlo in forma tensoriale. La sua bilinear computation è
+\begin{equation*}
+  C = \sum_{i=1}^8 m_{i}w_{i}
+\end{equation*}
+Usando l'Osservazione~\ref{rmk:triliear_matmul} possiamo scrivere $ \algob{2} $ come mappa
+trilineare come
+\begin{equation*}
+  \begin{aligned}
+    \mathop{trace}(ABC) &= 
+    \mathop{trace}\left(
+    \begin{bmatrix} 
+    s_1t_1 + s_2t_2 & s_3t_3 + s_4t_4 \\
+    s_5t_5 + s_6t_6 & s_7t_7 + s_8t_8
+    \end{bmatrix} 
+    \begin{bmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{bmatrix} 
+    \right) \\
+                           &= (s_1t_1 + s_2t_2)c_{11} + (s_3t_3 + s_4t_4)c_{21}+ (s_5t_5 +
+                           s_6t_6)c_{12} + (s_7t_7 + s_8t_8)c_{22}.
+  \end{aligned}
+\end{equation*}
+Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
+s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$ e scrivere il tensore struttrale di $
+\algob{2} $ in formato CP:
+e visualizzarlo nella Figura~\ref{fig:tensor_222_cp}:
 \begin{equation}
   \label{eq:tensor_222}
   \begin{aligned}
@@ -655,10 +690,11 @@ Usando ?? possiamo scrivere l'algoritmo $ \algob{2} $ in forma tensoriale in for
   \end{aligned}
 \end{equation}
 
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{Sources/Chapter3/figures/tensor_222_cp.pdf}
-  \caption{Decomposizione CP del tensore di moltiplicazione di matrici $\mathcal{T}_{\langle 2,2,2 \rangle}$ come somma di 8 tensori di rango uno.}
+  \caption{Decomposizione CP del tensore di moltiplicazione di matrici $ \algob{2} $ come somma di 8 tensori di rango uno.}
   \label{fig:tensor_222_cp}
 \end{figure}
 
