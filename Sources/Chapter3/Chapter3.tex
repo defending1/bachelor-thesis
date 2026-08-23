@@ -661,7 +661,7 @@ Proviamo a scriverlo in forma tensoriale. La sua bilinear computation è
   C = \sum_{i=1}^8 m_{i}w_{i}
 \end{equation*}
 Usando l'Osservazione~\ref{rmk:triliear_matmul} possiamo scrivere $ \algob{2} $ come mappa
-trilineare come
+trilineare:
 \begin{equation*}
   \begin{aligned}
     \mathop{trace}(ABC) &= 
@@ -816,7 +816,10 @@ Sommando e raggruppando i termini di grado uno in $ t $ troviamo
 \end{equation*}
 ovvero il tensore di partenza. Da cui,
 \begin{equation*}
-  \algob{n}_t^{\text{red}} - \algob{n}^{\text{red}} = O(t^2) \to 0
+  \begin{aligned}
+    \algob{n}_t^{\text{red}} - \algob{n}^{\text{red}} &= \frac{1}{2}\left( t\algob{n}^{\text{red}} +
+    O(t^2)\right) = O(t) \xrightarrow[t \to 0]{} 0
+  \end{aligned}
 \end{equation*}
 Abbiamo dimostrato che un tensore di rango $ 5 $ converge a uno di rango $ 6 $.
 
