@@ -5,37 +5,39 @@
 \noindent
 %
 La decomposizione CP (Canonical Polyadic Decomposition) di rango $ r $ di un tensore è la sua
-scomposizione nella somma di $ r $ tensori di rango uno, una generalizzazione naturale della decomposizione di matrici. Oltre all'importanza teorica nel calcolo tensoriale, è uno strumento utile in
-molte aree scientifiche: per citarne alcune, spettroscopia, signal processing, neurologia e
+scomposizione nella somma di $ r $ tensori di rango uno, una generalizzazione naturale della
+decomposizione di matrici. Oltre ad avere un'importanza teorica nel calcolo tensoriale, è uno strumento utile in
+molte aree scientifiche: per citarne alcune, spettroscopia, \emph{signal processing}, neurologia e
 analisi dei dati. In
-molte di queste applicazioni l'unicità è una proprietà fondamentale per rappresentare
+molte di queste applicazioni l'unicità della fattorizzazione è una proprietà fondamentale per rappresentare
 fedelmente le componenti di sistemi complessi---si pensi al problema di modellare i 
-neuroni di un sistema nervoso tramite un tensore per studiarne gli impulsi, anche detto \emph{blind
+neuroni di un sistema nervoso tramite un tensore per studiarne gli impulsi, noto come \emph{blind
 source separation}. 
 
-Il primo obiettivo di questo elaborato è dimostrare l'unicità della fattorizzazione CP sotto ipotesi
-opportune.
+Il primo obiettivo è dimostrare l'unicità della fattorizzazione CP sotto
+opportune ipotesi.
 Questo risultato, originariamente dimostrato da Kruskal nel 1977 attraverso il concetto di Kruskal
-rank, è stato snellito di recente ricalcando la dimostrazione originale da un punto di vista
-geometrico. Inoltre, osserveremo alcune peculiarità teoriche che
+rank, è stato di recente semplificato seguendo la dimostrazione originale, usando strumenti
+geometrici. Inoltre, osserveremo alcune peculiarità teoriche che
 distinguono i tensori dalle matrici, ponendo le basi per l'utilizzo del calcolo tensoriale nella
 teoria della complessità.
 
 Successivamente, applicheremo questi strumenti al problema della complessità della moltiplicazione
-tra matrici. Essendo una mappa bilineare, l'algoritmo di moltiplicazione può essere codificato nel
-suo tensore strutturale a tre indici, e poi messo in corrispondenza con un algoritmo per valutarlo. Introdurremo la nozione di complessità aritmetica del prodotto
+tra matrici: in quanto mappa bilineare, il prodotto matriciale può essere rappresentato tramite un
+tensore tre indici, e poi messo in corrispondenza con un algoritmo per valutare il prodotto in
+funzione delle entrate del tensore. Introdurremo la nozione di complessità aritmetica del prodotto
 tra matrici per definire
-l'esponente asintotico $ \omega $, che ne misura la complessità ottimale. Sfrutteremo il Teorema di
-Strassen per mostrare la corrispondenza tra la ricerca di algoritmi veloci e il calcolo del rango CP
-del tensore. Come corollario, ridurre lo studio della complessità ai tensori, anziché all'analisi
+l'esponente asintotico $ \omega $, che ne misura la complessità ottimale. Tale quantità sarà messa in corrispondenza con il rango CP
+di un tensore tramite il Teorema di Strassen. Come corollario, ridurre lo studio della complessità ai tensori, anziché all'analisi
 diretta delle equazioni algebriche, semplifica notevolmente la ricerca di algoritmi più efficienti;
 una sfida aperta da decenni, dall'algoritmo di Strassen (del 1970), fino alle recenti scoperte
 guidate dall'intelligenza artificiale. 
 
-Infine, estenderemo l'analisi dagli algoritmi di moltiplicazione esatti agli algoritmi approssimati
+Infine, l'analisi verrà estesa dagli algoritmi di moltiplicazione esatti agli algoritmi approssimati
 (APA), introdotti da Bini et al. In questo contesto emerge il fenomeno topologico del border rank,
 per il quale una successione di tensori di rango inferiore può convergere a un tensore di rango
-superiore. Ciò permette, in termini di algoritmi, approssimare un algoritmo di $ r $ moltiplicazioni con una successione di algoritmi con
-un numero di moltiplicazione minore di $ r $. Da cui sarà possibile sostituire il
-rango tensoriale con il border rank nel calcolo di $ \omega $, permettendo di ottenere stime asintotiche più
-stringenti, al prezzo di un errore algoritmico arbitrariamente piccolo.
+superiore. Dal punto di vista algoritmico, ciò si traduce nella possibilità di approssimare la
+moltiplicazione esatta tramite una successione di algoritmi con
+costo computazionale inferiore. Di conseguenza,  il
+rango tensoriale può essere sostituito con il border rank nel calcolo di $ \omega $, permettendo di ottenere stime asintotiche più
+accurate, al prezzo di un errore algoritmico arbitrariamente piccolo.
