@@ -12,8 +12,8 @@ Le decomposizioni di tensori occorrono in numerose aree scientifiche. Alcune di 
     regionali a una e due dimensioni, ad esempio in \ldots e le reference all'interno.
   \item Nell'interpretare la immagini di risonanze magnetiche (MRI); vedi ad esempio e relative
     reference. Un utilizzo pratico è trovare l'area del cervello in cui è in atto una crisi
-    epilettica in un paziente. Un altro impeiego è la diagnosi e 
-  \item Nella data mininig 
+    epilettica in un paziente. Un altro impeiego è la diagnosi e gestione di ictus.
+  \item Nel data mininig 
   \item Nell'analisi numerica. Grazie alla convergenza delle serie di Fourier in $ L^2(\R^n) $, si
     ha $ L^2(\R^n) =
     L^2(\R) \otimes \cdots \otimes L^2(\R) $, e spesso vengono approssimate funzioni di $ n $
@@ -76,10 +76,87 @@ a meno di banalità, l'espressione di $ \tilde{T} $ come somma di elementi di ra
 di ognuna delle $ r $ sostanze in ogni soluzione, determinando i vettori $ a_{f} $ così come lo
 spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
 
-\section{Cocktail party problem}
+\section{Blind source separation}
+
+\subsection*{Cocktail party problem}
 
 Un problema centrale nel signal processing è il \emph{problema del cocktail party}, dove un inseme
 di persone si trova in una stanza a parlare. Ci sono diversi ricevitori impostati che registrano le
 conversazioni: non singolarmente ma tutte insieme, sovrapposte. L'obiettivo è recuperare cosa ogni
 persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione CP.
-\todo{Explain}
+
+\subsection*{Cumulants}
+
+Consideriamo lo spazio $ \R^{\bm{v}} $ dotato di una misura di probabilità $ dP $. Data una
+variabile aleatoria $ f : \R^{\bm{v}} \to  \R$, indichiamo con $ E(f) = \intR{f} $ il suo valore
+atteso. 
+Ricordiamo che due eventi $ A,B $ sono indipendenti se $ P(A \cup B) = P(A)(B)$. Se $ x $ e $ y $
+sono due variabili aleatorie, diciamo che sono \emph{statisticamente indipendenti} se $ P(\{x\le a\}
+\cap \{y\le b\} ) = P(\{x\le a\} )P(\{y\le b\} ) $, per ogni $ a,b \in \R_{+} $. Similmente si
+definisce l'indipendenza statistica per un insieme di variabili aleatorie $ x^1, \ldots, x^m $.
+Date delle variabili aleatorie $ x^1, \ldots, x^p $, i loro \emph{momenti} sono le quantità
+\begin{equation*}
+  m_{x}^{i_1, \ldots, i_{p}} \defeq E(x^{i_1} \cdots x^{i_{p}}) = \intR{x^{i_1} \cdots x^{i_{p}}}.
+\end{equation*} Nella pratica questi integrali sono approssimati da dati statistici discreti presi
+da campioni.
+Definiamo i \emph{cumulanti di second'ordine} (anche detta \emph{matrice di covarianza}) come
+\begin{equation*}
+  \kappa^{ij} \defeq \kappa^{ij}(x) \defeq m^{ij} - m^{i}m^j = \intR{x^ix^j} - \left( \intR{x^i} \right)\left(
+  \intR{x^j} \right).
+\end{equation*}
+Diremo che le funzioni $ x^j $ sono \emph{statisticalmente indipendenti all'ordine due} se $
+\kappa_{x}^{ij} =0$ per ogni $ i \neq  j $. Per studiare l'indipendenza statistica è utile formare una
+matrice simmetrica $ \kappa_{2,x} = \kappa_{2}(x) \in \R^{\bm{v} \times \bm{v}}$ detta \emph{matrice
+di covarianza}. Se le misurazioni dipendono da $ r < \bm{v} $ eventi indipendenti, il rango della
+matrice sarà $ r $ (nella pratica la matrice sarà ``vicina'' ad una matrice di rango $ r $). È
+possibile definire cumulanti di ordine superiore per misurare ulteriormente l'indipendenza
+statistica. Ad esempio, consideriamo
+\begin{equation*}
+  \kappa^{ijk} = m^{i j k} - \left( m^im^{jk} + m^jm^{ik} + m^km^{ij} + 2m^im^jm^k \right).
+\end{equation*}
+Con queste quantità possiamo formare un tensore simmetrico a tre indici, e similarmente per ordini
+più alti.
+
+\subsection*{Applicazione}
+\todo{rifinire se piace, o togliere}
+Un'applicazione tipica della blind source separation è come segue. Supponiamo che Big Brother voglia
+determinare la posizione delle stazioni radio pirata in Happyville. Per fare ciò, diverse antenne
+sono disposte in varie posizioni per ricevere segnali radio. Come è possibile determinare la
+posizione delle sorgenti, dati i segnali ricevuti dalle antenne?
+
+Denotiamo con $ y^j(t) $ i campionamenti di un'antenna al tempo $ t $. Assumiamo che esista una
+relazione della forma
+\begin{equation}
+  \begin{bmatrix} y^1(t) \\ \vdots \\ y^{m}(t) \end{bmatrix} = \begin{bmatrix} a_{11} \\
+  \vdots \\ a_{m1} \end{bmatrix} x^1(t)  \cdots + \begin{bmatrix} a_{1r} \\ \vdots \\ a_{mr}
+\end{bmatrix} x^r(t)  + \begin{bmatrix} v^1(t) \\ \vdots \\ v^m(t), \end{bmatrix}
+\end{equation}
+in notazione vettoriale,
+\begin{equation}
+  y = Ax + v.
+\end{equation}
+Qui $ A  $ è una matrice $ m \times r $ fissata, $ v = v(t) \in \R^m $ è una funzione a valori
+vettoriali che rappresenta il rumore, e $ x(t) = (x^1(t),\ldots, x^r(t))^{\top} $ rappresenta le
+funzioni statisticamente indipendenti nella variabile $ t $ che corrispondono alle posizioni delle
+sorgenti. Assumiamo che le variabili aleatorie $ v^i(t) $ siano: (i) indipendenti e indipendenti
+dalle variabili aleatorie $ x^j(t) $, per ogni $ i,j $, (ii) $ E(v^i) = 0 $, (iii) che i momenti $
+E(v^{i_1} \cdots v^{i_{p}}) $ siano limitati da una costante piccola.
+
+Vorremmo recuperare $ x(t) $ e la matrice $ A $, conoscendo solo $ y(t) $, a meno di riscalamento e
+permutazione degli $ x^j $.
+
+Possiamo riscrivere \todo{giustificare} i cumulanti come
+\begin{equation*}
+  \kappa_{y}^{ij} = A_{s}^i A_{t}^j \kappa_{x}^{st} + \kappa_{v}^{ij},
+\end{equation*}
+e siccome $ \kappa_{v}^{ij} $ è piccolo possiamo ignorarlo, per ottenere un sistema di $
+\binom{m}{2} $ equazioni per $ mr + r $ incognite.\todo{aggiungere discorso su unicità}
+
+Più in generale, abbiamo
+\begin{equation*}
+  k_{y}^{ijk} = A_{s}^i A_{t}^j A_{u}^k \kappa_{x}^{stu} = A_{s}^i A_{s}^j A_{s}^k \kappa_{x}^{sss}
+\end{equation*}
+Quindi, quando passiamo al tensore simmetrico di ordine tre (polinomio cubico) $ \kappa_3(y) $,
+possiamo decomporlo in una somma di $ r $ cubi per recuperare la matrice $ A $.\todo{qui chiarire se
+si può usare kruskal per l'unicità, va indebolita la presentazione dell'autore}. Una volta che $ A $
+è stata determinata, è possibile recuperare gli $ x^j $ agli intervalli campionati.

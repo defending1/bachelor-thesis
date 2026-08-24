@@ -678,8 +678,7 @@ trilineare:
 \end{equation*}
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
 s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$ e scrivere il tensore struttrale di $
-\algob{2} $ in formato CP:
-e visualizzarlo nella Figura~\ref{fig:tensor_222_cp}:
+\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}):
 \begin{equation}
   \label{eq:tensor_222}
   \begin{aligned}
@@ -699,7 +698,7 @@ e visualizzarlo nella Figura~\ref{fig:tensor_222_cp}:
 \end{figure}
 
 
-
+Il suo costo può essere calcolato con il Teorema~\ref{th:master}, ed è $ O(n^3) $.
 Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici. Nel ??
 Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
 tentò di mostrare che non esistesse un algoritmo più veloce, fallendo in maniera spettacolare \footnote{in realtà
@@ -879,6 +878,8 @@ Questo motiva la seguente definizione:
   .\] 
 \end{remark}
 \todo{Disegno interpretazione geometrica (landsberg pg 38)}
+
+Il border rank ammette anche la seguente interpretazione geometrica:
 
 Il border rank si rivela utilissimo nello studio dell'esponente $ \omega $, cioè possiamo sostituire
 il rango con il border rank nel Teorema~\ref{thm:strassen}:
