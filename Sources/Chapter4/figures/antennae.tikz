@@ -1,0 +1,70 @@
+\definecolor{sourceColor}{HTML}{1E88E5}
+\definecolor{sourceBg}{HTML}{E3F2FD}
+\definecolor{antennaColor}{HTML}{E65100}
+\definecolor{antennaBg}{HTML}{FFF3E0}
+\definecolor{edgeBlue}{HTML}{1565C0}
+\definecolor{edgeGreen}{HTML}{2E7D32}
+\definecolor{edgePurple}{HTML}{6A1B9A}
+
+\begin{tikzpicture}[
+  >=Stealth,
+  thick,
+  source/.style={
+    circle,
+    draw=sourceColor,
+    fill=sourceBg,
+    line width=1.2pt,
+    minimum size=10mm,
+    font=\bfseries\small,
+    text=sourceColor!90!black
+  },
+  antenna/.style={
+    rectangle,
+    rounded corners=4pt,
+    draw=antennaColor,
+    fill=antennaBg,
+    line width=1.2pt,
+    minimum size=10mm,
+    inner sep=4pt,
+    font=\bfseries\small,
+    text=antennaColor!90!black,
+    align=center
+  },
+  signalLine1/.style={->, draw=edgeBlue!80, line width=1.1pt},
+  signalLine2/.style={->, draw=edgeGreen!80, line width=1.1pt},
+  signalLine3/.style={->, draw=edgePurple!80, line width=1.1pt},
+  annot/.style={font=\small, color=gray!80!black}
+]
+
+  % --- LEFT COLUMN: SOURCES (R = 3) ---
+  \node[source] (s1) at (0, 2.2) {$s_1$};
+  \node[source] (s2) at (0, 0.0) {$s_2$};
+  \node[source] (s3) at (0, -2.2) {$s_3$};
+
+  % Labels for sources
+  \node[left=6pt of s1, font=\small\bfseries, color=sourceColor!90!black] {Source 1};
+  \node[left=6pt of s2, font=\small\bfseries, color=sourceColor!90!black] {Source 2};
+  \node[left=6pt of s3, font=\small\bfseries, color=sourceColor!90!black] {Source 3};
+
+  % --- RIGHT COLUMN: ANTENNAE (I = 2) ---
+  \node[antenna] (a1) at (5.5, 1.2) {Antenna 1\\$\boldsymbol{x}_1$};
+  \node[antenna] (a2) at (5.5, -1.2) {Antenna 2\\$\boldsymbol{x}_2$};
+
+  % Labels for antennae
+  \node[right=6pt of a1, font=\small\bfseries, color=antennaColor!90!black] {Receiver 1};
+  \node[right=6pt of a2, font=\small\bfseries, color=antennaColor!90!black] {Receiver 2};
+
+  % --- SIGNAL TRANSMISSION EDGES (COMPLETE BIPARTITE K_{3,2}) ---
+  % From s1
+  \draw[signalLine1] (s1) -- (a1);
+  \draw[signalLine1] (s1) -- (a2);
+
+  % From s2
+  \draw[signalLine2] (s2) -- (a1);
+  \draw[signalLine2] (s2) -- (a2);
+
+  % From s3
+  \draw[signalLine3] (s3) -- (a1);
+  \draw[signalLine3] (s3) -- (a2);
+
+\end{tikzpicture}

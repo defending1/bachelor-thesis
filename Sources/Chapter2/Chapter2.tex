@@ -2,14 +2,43 @@
 \chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Prendiamo un tensore
+\section{Convenzioni}  
+
+Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
+\colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
+\pi(v) $. Poniamo $ \pi(\faktor{V \setminus \{0\}}{\sim}) \eqdef
+\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
+Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
+\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $ \todo{Landsberg aggiunge algebrico}, il
+suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
+sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
+Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
+gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $.
+
+\section{Essenziale unicità}
+
+Data una matrice $ M \in \C^{n\times n} $ di rango $ r $, possiamo scriverla come somma di matrici di rango uno come
+  \begin{equation*}
+    M = a_1 \otimes b_1 + \ldots + a_{r} \otimes b_{r} = \begin{bmatrix} a_1 & \cdots & a_{r}
+      \end{bmatrix} \begin{bmatrix} b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top}.
+  \end{equation*}
+Questa decomposizione non è mai unica a meno che $ r =1 $, in quanto
+  \begin{equation*}
+    M = AB^{\top} = APP^{-1}B^{\top} = (AP)(BP^{-T})^{\top},
+  \end{equation*}
+  dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
+  \GL{n}{\C} $ contiene infiniti elementi, esistono infinite decomposizioni per $ M $.
+Sorprendentemente, per i tensori è possibile ottenere l'unicità, sotto opportune ipotesi
+d'indipendenza delle componenti. Ma cosa intendiamo per unicità e indipendenza?
+
+Possiamo definire l'unicità nel caso $ 3 $-dimensionale così: dato un tensore
 \begin{equation*}
   T = a_1 \otimes b_1 \otimes c_1 + \cdots + a_{r} \otimes b_{r} \otimes c_{r} \in A \otimes B
   \otimes C,
 \end{equation*}
 sotto opportune ipotesi $ T $ differisce da un'altra fattorizzazione CP a meno di permutazione dei tensori
 elementari e
-riscalamento dei fattori, più precisamente:
+riscalamento dei fattori. Più precisamente:
 esistono degli scalari $ \alpha_1, \ldots, \alpha_{r}$, $\beta_1, \ldots, \beta_{r}$, $\gamma_1, \ldots,
 \gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $, ed
 esiste una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
@@ -20,7 +49,7 @@ esiste una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
 Diamo una definizione più generale.
 
 \begin{definition}[Essenziale unicità]
-  Una fattorizzazione CP di rango $ r $ di un tensore $ T \in A_1 \otimes \cdots \otimes A_{d} $ dove 
+  Una fattorizzazione CP di rango $ r $ di un tensore $ T \in A_1 \otimes \cdots \otimes A_{d} $,
   \begin{equation*}
     T = u_1^1 \otimes \cdots \otimes u_1^d + \cdots + u_{r}^1 \otimes \cdots \otimes u_{r}^d
   \end{equation*}
@@ -73,19 +102,6 @@ CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la d
 
 
 
-\section{Convenzioni}  
-
-Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
-\colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
-\pi(v) $. Poniamo $ \pi(\faktor{V \setminus \{0\}}{\sim}) \eqdef
-\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
-Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
-\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $ \todo{Landsberg aggiunge algebrico}, il
-suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
-sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
-Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
-gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $.
-
 \section{Il Teorema di Kruskal}
 
 Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scrittura
@@ -95,21 +111,28 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 ,\end{equation}
 è essenzialmente unica, sotto opportune condizioni.
 
-\begin{remark}[Condizione ovvia per l'unicità]
-  Per le matrici, l'espressione di una matrice come somma di $ r $ matrici di rango uno non è mai
-  unica (a meno che $ r = 1 $) \todo{Why?}. Quindi una condizione banale per l'unicità è che $ T $
-  non possa essere ricondotto a una somma di matrici di rango uno (elementi della forma $ a_i \otimes
-  b_i$). Consideriamo ad esempio
-  \[
-  T = a_1 \otimes b_1\otimes c_1  + a_1 \otimes b_2 \otimes c_2 + a_3 \otimes b_3 \otimes c_3 +
-  \ldots + a_r \otimes b_r \otimes c_r
-  ,\] dove ognuno degli insiemi $ \{a_i\}, \{b_j\}   $ e $ \{c_k\}  $ è formato da elementi
-  linearmente indipendenti. Questa scrittura non è unica a causa dei primi due termini. In altre
-  parole, se consideriamo per l'Equazione~\ref{eq:tens_full} gli insiemi $ \s_A = \{[u_i]\} \subset
-  \PP A$, $
-  \s_B = \{[v_i]\} \subset \PP B  $ e $ \s_C = \{[w_i]\} \subset \PP C$, allora l'unicità implica che
-  siano formati da $ r $ punti distinti.
+\begin{remark}[Una fattorizzazione non unica]
+Quindi una condizione semplice per l'unicità è che $ T $
+  non possa essere ricondotto a una somma di matrici di rango uno. Consideriamo ad esempio
+\begin{equation*}
+  \begin{aligned}
+    T &= a_1 \otimes b_1\otimes c_1  + a_1 \otimes b_2 \otimes c_2 + a_3 \otimes b_3 \otimes c_3 +
+    \ldots + a_r \otimes b_r \otimes c_r\\
+      &= a_1 \otimes (b_1\otimes c_1 + b_2 \otimes c_2) + a_3 \otimes b_3 \otimes c_3 + \cdots +
+      a_{r} \otimes b_{r} \otimes c_{r},
+  \end{aligned}
+\end{equation*}
+dove ognuno degli insiemi $ \{a_i\}, \{b_j\}   $ e $ \{c_k\}  $ è formato da elementi
+  linearmente indipendenti. Questa scrittura non è unica a causa del termine
+\begin{equation*}
+a_1 \otimes (b_1\otimes c_1 + b_2 \otimes c_2)
+\end{equation*}
 \end{remark}
+
+Inoltre, se consideriamo per l'Equazione~\ref{eq:tens_full} gli insiemi $ \s_A = \{[a_i]\} \subset
+  \PP A$, $
+  \s_B = \{[b_i]\} \subset \PP B  $ e $ \s_C = \{[c_i]\} \subset \PP C$, allora l'unicità implica che
+  siano formati da $ r $ punti distinti.
 
 \begin{definition}[Posizione generale]
   Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
@@ -120,7 +143,7 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 \end{definition}
 \begin{definition}[Kruskal rank]
   Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
-  sono in $ r- $posizione generale.
+  sono in $ r $-posizione generale.
 \end{definition}
 \begin{remark}
   Fissata una base per $ W $ tale per cui i punti di $ \s $ possono essere scritti come colonne di
@@ -135,7 +158,7 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
   dipendenti, $ \krk{A} \le 1 $.
 \end{remark}
 
-
+Possiamo enunciare il Teorema di Kruskal.
 \begin{theorem}[Kruskal~\cite{KRUSKAL197795}]
   \label{thm:kruskal3d}
   Sia $ T \in A \otimes B \otimes C $ che ammette decomposizione $ T = \sum_{i = 1}^r u_i
@@ -147,26 +170,16 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
   \end{equation}
   allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
+
 \begin{remark}
-  Osserviamo che nel caso delle matrici, per $ r = 1 $ vale l'unicità, in quanto $ T = u
-  \otimes v \in A \otimes B $, ma le ipotesi del teorema non sono rispettate perché $ \s_{A} =
+Osserviamo che nel caso delle matrici l'unicità è verificata solo per $ r = 1 $ (in quanto $ T = u
+  \otimes v \in A \otimes B $) ma le ipotesi del teorema non sono rispettate perché $ \s_{A} =
   \{[u]\}, \s_{B} = \{[v]\}  $ e i due insiemi hanno $ k $-rango uno, e varrebbe
   \begin{equation*}
-    \krk{\s_{A}} + \krk{\s_{B}} = 1 + 1 \ge 2r + 2 - 1 = 2 + 2 - 1 = 3.
+    \krk{\s_{A}} + \krk{\s_{B}} = 1 + 1 = 2 \ge 2r + 2 - 1 = 2 + 2 - 1 = 3.
   \end{equation*}
+\end{remark}
 
-  Per $ r > 1 $, invece, il risultato è falso, in quanto dato
-  \begin{equation*}
-    T = a_1 \otimes b_1 + \ldots + a_{r} \otimes b_{r} = \begin{bmatrix} a_1 & \cdots & a_{r}
-      \end{bmatrix} \begin{bmatrix} b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top},
-  \end{equation*}
-  si ha
-  \begin{equation*}
-    AB^{\top} = APP^{-1}B^{\top} = (AP)(BP^{-T})^{\top},
-  \end{equation*}
-  dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
-  \GL{n}{\C} $ contiene infiniti elementi, esistono infinite fattorizzazioni CP per $ T $.
-    \end{remark}
     Più in generale vale il seguente teorema:
     \begin{theorem}[\cite{sidiropoulos2000uniqueness}]
       Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
@@ -191,6 +204,7 @@ T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
   cioè $ \krk{\s_A} \ge 2 $.
 \end{remark}
 \begin{remark}
+  \todo{lasciamo osservazione o lo scrivo come proposizione?}
   Se $ \bm{a} = \bm{b} = \bm{c} $ e $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, quando $
   r = \bm{a} $ l'espressione è unica.
 In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la condizione di unicità del teorema di Kruskal si
@@ -198,16 +212,17 @@ In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la con
 
 \end{remark}
 \begin{proof}
+  \todo{migliorare la scrittura}
   Se $ r = \bm{a} $, consideriamo la decomposizione
   \begin{equation*}
     T = a_1 \otimes b_1 \otimes c_1 + \cdots a_{a} \otimes b_{a} \otimes c_{a}
   \end{equation*}
 
-  Contraiamo $ T $ lungo la terza componente, cioè per ogni funzionale $ \gamma \in C^* $
+Contraiamo $ T $ lungo la terza componente, cioè per ogni funzionale $ \gamma_{j} \in C^* $
   \begin{equation*}
     \begin{aligned}
-      T(\gamma) = \sum_{i = 1}^{\bm{a}} \gamma(c_{i})a_{i} \otimes b_{i}
-                = UDV^*,
+      T(\gamma_{j}) = \sum_{i = 1}^{\bm{a}} \gamma_{j}(c_{i})a_{i} \otimes b_{i}
+                = UD_{j}V^T,
     \end{aligned}
   \end{equation*}
   dove 
@@ -215,15 +230,60 @@ In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la con
     U =  \left[\begin{array}{c|c|c}
       a_1 & \dots & a_{\bm{a}}
     \end{array}\right], \qquad
-    D = \diag(\gamma(c_1), \ldots, \gamma(c_{\bm{a}})), \qquad
+    D_{j} = \diag(\gamma_{j}(c_1), \ldots, \gamma_{j}(c_{\bm{a}})), \qquad
     V = \left[\begin{array}{c|c|c}
       b_1 & \dots & b_{\bm{a}}
     \end{array}\right].
   \end{equation*}
-  \todo{TROVARE L'UNICITÀ DA QUI}
+Consideriamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
+\begin{enumerate}[label=(\roman*)]
+  \item Per ogni $ j \in \{1,2\} $, $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i \in \{1, \ldots, \bm{a}\}   $, da
+    cui $ T(\gamma_{j}) $ è invertibile.
+  \item I rapporti $ \lambda_{i} = \frac{\gamma_1(c_{i})}{\gamma_2(c_{i})}$ sono a due a due
+    distinti.
+\end{enumerate}
+La (i) segue perché, fissato $ \gamma = \gamma_{j} $, siccome $ \{c_1, \ldots, c_{\bm{a}}\}  $ è una base per $ C $, nessuno dei vettori $
+c_{i} $ è nullo. Per ogni $ c_{i} $, consideriamo l'insieme dei funzionali che si annullano con $
+c_{i} $:
+\begin{equation*}
+  H_{i} = \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
+\end{equation*}
+che forma un iperpiano in $ C^* $. Siccome su un campo infinito, lo spazio $ C^* $ non è unione finita di
+sottospazi propri, possiamo trovare un $ \gamma \in C^* \setminus \bigcup_{i=1}^{\bm{a}} H_{i}$. Per
+questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
+Siccome $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, allora le matrici $ U,D_{j},V $
+sono invertibili, in particolare, anche $ T(\gamma_{j}) $ è invertibile, per ogni $ j \in \{1,2\} $.
+Da cui,
+\begin{equation*}
+  \begin{aligned}
+    T(\gamma_1)T(\gamma_2)^{-1} &= \left( UD_1V^T \right)\left( UD_2V^T \right)^{-1} =
+    UD_1V^TV^{-T}D_2^{-1}U^{-1} \\
+                                &= UD_1D_2^{-1}U^{-1},
+  \end{aligned}
+\end{equation*}
+in altre parole, $ T(\gamma_1)T(\gamma_2)^{-1} $ è diagonalizzabile, con autovettori, dati dalla
+matrice $ U $, univocamente determinati a meno di permutazione e riscalamento. Inoltre, i
+rapporti $ \frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} $ sono distinti: se fosse $
+\frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} = \frac{\gamma_1(c_{k})}{\gamma_{2}(c_{k})} $ per certi $
+i,k \in \{1, \ldots, \bm{a}\}  $, si avrebbe che
+\begin{equation*}
+  \gamma_1(c_i) \gamma_2(c_{k}) = \gamma_1(c_{k}) \gamma_2(c_{i}).
+\end{equation*}
+Sfruttando la linearità di $ \gamma_1 $, troviamo
+\begin{equation*}
+  \gamma_1 \left( c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \right) = 0.
+\end{equation*}
+Siccome $ \gamma_1 $ e $ \gamma_2 $ non si annullano sui vettori $ c_{i} $ e $ c_{k} $, allora $
+c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \not\in \gamma_{1}^\perp $, quindi necessariamente $
+c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, ma essendo $ c_{i} $ e $ c_{k} $ linearmente
+indipendenti, da cui le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, assurdo.
+
+Ripetendo questo
+ragionamento contraendo su $ A $ e poi su $ B $ otteniamo l'unicità.
 \end{proof}
 
-Il risultato centrale per dimostrare il teorema di Kruskal è il permutation lemma
+
+Enunciamo il permutation lemma, dimostrato da Kruskal nell'articolo originale, e di centrale importanza nella dimostrazione del teorema.
 \begin{lemma}[Permutation lemma]
   \label{lemma:perm}
   Siano $ \s = \{p_1, \ldots, p_r\}  $ e $ \tilde{\s} = \{q_1, \ldots, q_r\} $ due insiemi di punti
@@ -232,6 +292,7 @@ Il risultato centrale per dimostrare il teorema di Kruskal è il permutation lem
   \#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
 \begin{remark}
+  \todo{ha senso rifrasare la versione originale in forma di enunciato?}
   Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
   e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale, ovvero che per ogni $ x
   \in \R^{\bm{w}}$ tale $ \nnz(\tilde{M}^{\top}x)<  r - \rank(\tilde{M}) + 1$ hanno la proprietà che
@@ -330,6 +391,7 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
   vale per i $ k $-piani $(\mathcal{P}_{k})$. Una volta dimostrato ciò, sapendo per ipotesi che la proprietà sopra valga per gli
   iperpiani (ovvero piani di dimensione $ \dim(\PP W) - 1 = \bm{w}-2 $), possiamo costrure una catena di
   implicazioni dagli iperpiani fino ai punti, e ottenere la tesi: 
+  \todo{sto pensando a un modo di riscrivere questo}
   \begin{equation*}
     \mathcal{P}_{\bm{w}-2} \implies \mathcal{P}_{\bm{w}-3} \implies \mathcal{P}_{\bm{w}-4} \implies
     \cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0} \implies \s = \tilde{\s},
@@ -466,7 +528,7 @@ $, e scomponiamo
   T(h) = \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) \in A \otimes B \simeq \R^{\bm{a} \times \bm{b}},
   \end{equation*}
   dove nessuno dei $ h(w_\sigma)
-  $ è nullo. In particolare,\todo{not clear}
+  $ è nullo. In particolare,\todo{va giustificata?}
   \begin{equation*}
     \#(\tilde{\s}_C \not\subset H) \ge \rank(T(h)).
   \end{equation*}
@@ -478,7 +540,7 @@ $, e scomponiamo
   dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \R^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
   | \cdots | v_{S}  \right] \in \R^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
   di taglia $ S\times S $ ed
-  invertibile. Per la disuguaglianza di Sylvester,
+  invertibile. Per la disuguaglianza di Sylvester\todo{serve ref? è risultato di algebra lineare},
   \begin{equation*}
     \begin{aligned}
       \rank(T(h)) = \rank(U_{S}DV_{S}^*) &= \rank(U_{S}D) + \rank(V_{S}^*) - S \\
@@ -580,6 +642,7 @@ T} $ ad altri vettori in $ \pi^{-1}(\s_B) $, possiamo trovare un iperpiano $ \ha
 che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le
 proprietà desiderate.
 
+\todo{la figura va sistemata, lo farò alla fine}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter2/figures/kruskal_hyperplanes.pdf}

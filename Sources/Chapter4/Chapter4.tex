@@ -3,6 +3,8 @@
 \todo{cambia titolo}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\todo{why eccitation-emission matrices hanno rango 1?}
+
 Le decomposizioni di tensori occorrono in numerose aree scientifiche. Alcune di queste sono:
 
 \begin{enumerate}
@@ -57,6 +59,9 @@ usando le basi di $ \R^J $ e $ \R^K $, $ c_{k,f} $ è la frazione di protoni che
 sostanza emette nella lunghezza d'onda $ k $, e $ b_{j,f} $ è l'intensità della luce incidente alla
 lunghezza d'onda $ j $ moltiplicata per l'assorbimento alla lunghezza d'onda $ j $.
 
+Studiamo il dataset fornito da~\cite{kolda2021eem,acar2014structure} che contiene bla bla bla.
+
+\todo{probabilmente va tolto}
 Siccome i dati conterranno rumore, possiamo assumere $ T $ di rango generico, ma esisterà un tensore
 di rango molto basso $ \tilde{T} $ che lo approssima fedelmente (\todo{ref to generic rank}). Gli
 autori di~\cite{smilde2004multi} non associano alcuna metrica ai dati, quindi il significato di ``approssimazione'' non è
@@ -76,87 +81,80 @@ a meno di banalità, l'espressione di $ \tilde{T} $ come somma di elementi di ra
 di ognuna delle $ r $ sostanze in ogni soluzione, determinando i vettori $ a_{f} $ così come lo
 spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
 
-\section{Blind source separation}
 
-\subsection*{Cocktail party problem}
+\section{Cocktail party problem}
 
 Un problema centrale nel signal processing è il \emph{problema del cocktail party}, dove un inseme
 di persone si trova in una stanza a parlare. Ci sono diversi ricevitori impostati che registrano le
 conversazioni: non singolarmente ma tutte insieme, sovrapposte. L'obiettivo è recuperare cosa ogni
-persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione CP.
+persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione CP. Un problema
+simile, forse più semplice da analizzare è il seguente.
 
-\subsection*{Cumulants}
+\section{Blind deconvolution di segnali DS-CMDA}
+In questa sezione riassumiamo la discussione
+in~\cite{sidiropoulos2000blind,de2008blind,landsberg2011tensors}.
+Nella comunicazione wireless il modello di segnali \emph{direct-sequence code-division multiple
+access} (DS-CDMA). Senza entrare nel dettaglio del funzionamento, dei segnali (e.g. provenienti da
+telefoni cellulari) sono mandati da $ R $ sorgenti e ricevuti da $ I $ antenne. I segnali arrivano
+mischiati, e l'obiettivo è recuperare i segnali individuali, come nel cocktail party problem.
 
-Consideriamo lo spazio $ \R^{\bm{v}} $ dotato di una misura di probabilità $ dP $. Data una
-variabile aleatoria $ f : \R^{\bm{v}} \to  \R$, indichiamo con $ E(f) = \intR{f} $ il suo valore
-atteso. 
-Ricordiamo che due eventi $ A,B $ sono indipendenti se $ P(A \cup B) = P(A)(B)$. Se $ x $ e $ y $
-sono due variabili aleatorie, diciamo che sono \emph{statisticamente indipendenti} se $ P(\{x\le a\}
-\cap \{y\le b\} ) = P(\{x\le a\} )P(\{y\le b\} ) $, per ogni $ a,b \in \R_{+} $. Similmente si
-definisce l'indipendenza statistica per un insieme di variabili aleatorie $ x^1, \ldots, x^m $.
-Date delle variabili aleatorie $ x^1, \ldots, x^p $, i loro \emph{momenti} sono le quantità
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Sources/Chapter4/figures/antennae.pdf}
+  \caption{$R = 3$ sorgenti inviano segnali a $I = 2$ antenne.}
+  \label{fig:antennae}
+\end{figure}
+
+Facciamo un primo tentativo con le matrici. Consideriamo uno scenario dove ci sono $ R $ sorgenti
+dei segnali (anche detti \emph{utenti}), e ognuno trasmette $ K $ simboli in un messaggio; diciamo
+che l'utente $ r $-esimo vuole inviare un vettore $ \bm{s}_{r} = \left( s_{1r}, \ldots, s_{Kr}
+\right) $ dove le entrate possono essere pensati come numeri complessi in qualche intervallo di
+valori fissato. Ci sono $ I $ antenne che ricevono i segnali.
+Quando i segnali arrivano all'$ i $-esima antenna, il segnale è stato soggetto a distorsione
+nell'intensità e fase (anche detta \emph{fading/gain}), quindi ciò che viene ricevuto dall'antenna $
+i $-esima sono le $ IK $ quantità $ a_{ir}s_{kr} $, dove $ a_{ir} $ è il fading/gain tra l'utente $
+r $ e l'antenna $ i $.
+
+In questo scenario si riceve un tensore $ T \in \C^{I \times K} $ di rango $ R $ di entrate
 \begin{equation*}
-  m_{x}^{i_1, \ldots, i_{p}} \defeq E(x^{i_1} \cdots x^{i_{p}}) = \intR{x^{i_1} \cdots x^{i_{p}}}.
-\end{equation*} Nella pratica questi integrali sono approssimati da dati statistici discreti presi
-da campioni.
-Definiamo i \emph{cumulanti di second'ordine} (anche detta \emph{matrice di covarianza}) come
-\begin{equation*}
-  \kappa^{ij} \defeq \kappa^{ij}(x) \defeq m^{ij} - m^{i}m^j = \intR{x^ix^j} - \left( \intR{x^i} \right)\left(
-  \intR{x^j} \right).
+  T_{ik} = \sum_{r=1}^R a_{ir}s_{kr}.
 \end{equation*}
-Diremo che le funzioni $ x^j $ sono \emph{statisticalmente indipendenti all'ordine due} se $
-\kappa_{x}^{ij} =0$ per ogni $ i \neq  j $. Per studiare l'indipendenza statistica è utile formare una
-matrice simmetrica $ \kappa_{2,x} = \kappa_{2}(x) \in \R^{\bm{v} \times \bm{v}}$ detta \emph{matrice
-di covarianza}. Se le misurazioni dipendono da $ r < \bm{v} $ eventi indipendenti, il rango della
-matrice sarà $ r $ (nella pratica la matrice sarà ``vicina'' ad una matrice di rango $ r $). È
-possibile definire cumulanti di ordine superiore per misurare ulteriormente l'indipendenza
-statistica. Ad esempio, consideriamo
+L'obiettivo sarebbe recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r \le R $ da quesot tensore
+(matrice) decomponendole come matrici di rango uno. Sfortunatamente, questa decomposizione non è mai
+unica quando $ R > 1 $. La soluzione è introdurre dei ``codici'' per ``diffondere'' il segnale che
+ogni utente invia per ottenere un tensore a tre indici che avrà generalmente una decomposizione
+unica. Tale spreading è comune nelle telecomunicazioni, e.g. della ridondanza è introdotta per
+compensare gli errori causati dalla corruzione dei segnali durante la trasmissione.
+\subsection*{Decomposizione CP in assenza di ICI e ISI}
+
+Assumiamo che la trasmissione avvenga in linea d'aria---ovvero i segnali viaggiano direttamente da
+sorgente all'antenna.
+
+Presentiamo il modello dati senza rumore e memoria per DS-CDMA multiutente come segue: $ \bm{s}_{r}
+$ e $ a_{ir} $ sono come sopra, ma l'$ r $-esimo utente invece di trasmettere $ \bm{s}_{r} $,
+introduce una ridondanza in termini di codice, chiamata \emph{spreading sequence} che è fissata per
+ogni utente, diciamo $ \bm{c}_{r} = \left( c_{1r}, \ldots, c_{Jr} \right) $. Il simbolo $ s_{kr} $ è
+trasmesso su molteplici frequenze; come risultato, vengono trasmesse simultaneamente $ J $ quantità
+$ \left( s_{kr}c_{1r}, \ldots, s_{kr}c_{Jr} \right) $, chiamate \emph{chips} al tempo $ k $. La
+trasmissione totale sopra $ JK $ unità di tempo dell'utente $ r $-esimo sono le $ JK $ chips $
+c_{jr}s_{kr} $, $ 1 \le j \le J $, $ 1\le k \le K $ (qui $ J $ è anche detto \emph{spreading gain}).
+L'antenna $ i $-esima riceve le $ KJ $ quantità $ \sum_{r} a_{ir}c_{jr}s_{kr} $, per $ 1 \le j \le J
+$, $ 1 \le k \le K $, dove, come sopra, $ a_{ir} $ sono i fading/gain tra l'utente $ r $ e l'antenna
+$ i $. In totale, viene ricevuto un tensore $ T \in \C^{I \times J\times K} $ di rango $ R $ con
 \begin{equation*}
-  \kappa^{ijk} = m^{i j k} - \left( m^im^{jk} + m^jm^{ik} + m^km^{ij} + 2m^im^jm^k \right).
+  T_{ijk} = \sum_{r=1}^R a_{ir}c_{jr}s_{kr},
 \end{equation*}
-Con queste quantità possiamo formare un tensore simmetrico a tre indici, e similarmente per ordini
-più alti.
+e l'obiettivo è recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r\le R $ da questo tensore. Per il
+Teorema di Kruskal\todo{cite krk} questa decomposizione è unica se le componenti $ \bm{a}_{r} $, $
+\bm{c}_{r} $ e $ \bm{s}_{r} $ sono ``abbastanza'' indipendenti\todo{landsberg dice se il tensore è
+abbastanza generale, che vuol dire?} e $ r $ è sufficiente piccolo.
 
-\subsection*{Applicazione}
-\todo{rifinire se piace, o togliere}
-Un'applicazione tipica della blind source separation è come segue. Supponiamo che Big Brother voglia
-determinare la posizione delle stazioni radio pirata in Happyville. Per fare ciò, diverse antenne
-sono disposte in varie posizioni per ricevere segnali radio. Come è possibile determinare la
-posizione delle sorgenti, dati i segnali ricevuti dalle antenne?
+\begin{remark}[Acronimi ICI e ISI]
+  
+\emph{Interchip interference} (ICI) occorre quando il segnale segue diverse strade per raggiungere
+l'antenna (e.g. rimbalzando contro edifici o colline). 
+\emph{Intersignal interference} (ISI) occorre quando il ritardo di tempo dato dalle diverse strade
+prese dal segnale, fa arrivare, ad esempio $ s_{kr} $ allo stesso tempo di $ s_{k+1,r} $
 
-Denotiamo con $ y^j(t) $ i campionamenti di un'antenna al tempo $ t $. Assumiamo che esista una
-relazione della forma
-\begin{equation}
-  \begin{bmatrix} y^1(t) \\ \vdots \\ y^{m}(t) \end{bmatrix} = \begin{bmatrix} a_{11} \\
-  \vdots \\ a_{m1} \end{bmatrix} x^1(t)  \cdots + \begin{bmatrix} a_{1r} \\ \vdots \\ a_{mr}
-\end{bmatrix} x^r(t)  + \begin{bmatrix} v^1(t) \\ \vdots \\ v^m(t), \end{bmatrix}
-\end{equation}
-in notazione vettoriale,
-\begin{equation}
-  y = Ax + v.
-\end{equation}
-Qui $ A  $ è una matrice $ m \times r $ fissata, $ v = v(t) \in \R^m $ è una funzione a valori
-vettoriali che rappresenta il rumore, e $ x(t) = (x^1(t),\ldots, x^r(t))^{\top} $ rappresenta le
-funzioni statisticamente indipendenti nella variabile $ t $ che corrispondono alle posizioni delle
-sorgenti. Assumiamo che le variabili aleatorie $ v^i(t) $ siano: (i) indipendenti e indipendenti
-dalle variabili aleatorie $ x^j(t) $, per ogni $ i,j $, (ii) $ E(v^i) = 0 $, (iii) che i momenti $
-E(v^{i_1} \cdots v^{i_{p}}) $ siano limitati da una costante piccola.
-
-Vorremmo recuperare $ x(t) $ e la matrice $ A $, conoscendo solo $ y(t) $, a meno di riscalamento e
-permutazione degli $ x^j $.
-
-Possiamo riscrivere \todo{giustificare} i cumulanti come
-\begin{equation*}
-  \kappa_{y}^{ij} = A_{s}^i A_{t}^j \kappa_{x}^{st} + \kappa_{v}^{ij},
-\end{equation*}
-e siccome $ \kappa_{v}^{ij} $ è piccolo possiamo ignorarlo, per ottenere un sistema di $
-\binom{m}{2} $ equazioni per $ mr + r $ incognite.\todo{aggiungere discorso su unicità}
-
-Più in generale, abbiamo
-\begin{equation*}
-  k_{y}^{ijk} = A_{s}^i A_{t}^j A_{u}^k \kappa_{x}^{stu} = A_{s}^i A_{s}^j A_{s}^k \kappa_{x}^{sss}
-\end{equation*}
-Quindi, quando passiamo al tensore simmetrico di ordine tre (polinomio cubico) $ \kappa_3(y) $,
-possiamo decomporlo in una somma di $ r $ cubi per recuperare la matrice $ A $.\todo{qui chiarire se
-si può usare kruskal per l'unicità, va indebolita la presentazione dell'autore}. Una volta che $ A $
-è stata determinata, è possibile recuperare gli $ x^j $ agli intervalli campionati.
+\end{remark}

@@ -40,7 +40,7 @@ M_1 \times M_2 \times  M_3 \to P$.
   La bilinearità della mappa sopra segue immediatamente dalla definizione
   \begin{equation}
     \label{eq:matmul_component}
-    (AB)_{ij} = \sum_{k=1}^N a_{ik}b_{kj},
+    (AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj},
   \end{equation} dove $ i = 1, \ldots, M $ e $ j = 1, \ldots,P $.
 \end{remark}
 
@@ -95,10 +95,18 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
   Uno \emph{circuito aritmetico} $ \Gamma $ su $ \K $ è un grafo diretto, aciclico, finito con
   vertici di grado entrante $ 0 $ o $ 2 $ ed esattamente un vertice di grado uscente $ 0 $. I vertici di grado
   entrante $ 0 $ sono etichettati con gli elementi di $ \K \cup \{x_1, \ldots, x_{n}\}  $ e sono detti 
-  \emph{inputs}. Quelli di grado entrante $ 2 $ sono etichettati con $ + $ o $ * $ e sono chiamati
+  \emph{inputs}. Quelli di grado entrante $ 2 $ sono etichettati con $ + $ oppure $ * $ e sono chiamati
   \emph{gates}. Se il grado uscente di un vertice $ v $ è $ 0 $, allora $ v $ è chiamato un
   \emph{output gate}. La dimensione di $ \Gamma $ è il numero di archi.
 \end{definition}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
+  \caption{Esempio di circuito aritmetico per il polinomio $\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$.}
+  \label{fig:algebraic_circuit_example}
+\end{figure}
+
 \todo{specifichiamo a che spazio appartengono i risultati intermedi?}
 
 \begin{definition}[Funzione costo]
@@ -106,22 +114,23 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
   finita. Definiamo la \emph{funzione costo} associata a uno circuito aritmetico $ \Gamma $ come
   \begin{equation*}
     \begin{aligned}
-    C_{\Gamma}(\varphi) \defeq \text{ numero di operazioni } \{*,/\} \text{ per calcolare } \varphi
+      C_{\Gamma}(\varphi) &\defeq \text{ numero di moltiplicazioni per calcolare } \varphi
     \text{ sul circuito }\Gamma \text{, e} \\
-    C_{\Gamma}^{\text{tot}}(\varphi) \defeq \text{ numero di operazioni } \{+,-,*,/\} \text{ per calcolare } \varphi
+      C_{\Gamma}^{\text{tot}}(\varphi) &\defeq \text{ numero di addizioni e moltiplicazioni per calcolare } \varphi
     \text{ sul circuito }\Gamma.
     \end{aligned}
   \end{equation*}
 \end{definition}
+Denotiamo con $ \mathcal{C}_{\varphi}$ come l'insieme dei circuiti aritmetici $ \Gamma $ che calcolano $ \varphi $.
 \begin{definition}[Funzione di complessità aritmetica]
   \label{def:LtotL}
   Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione finita.
   Definiamo
  \begin{equation*}
    \begin{aligned}
-   L^{\text{tot}}(\varphi) \defeq \inf_{\Gamma \text{ circuito aritmetico}} \{ C_\Gamma^{\text{tot}}(\varphi)\} && \text{ la
+     L^{\text{tot}}(\varphi) &\defeq \inf_{\Gamma \in \mathcal{C}_{\varphi}} \{ C_\Gamma^{\text{tot}}(\varphi)\} && \text{ la
    \emph{complessità totale di }\varphi, e} \\
-   L(\varphi) \defeq \inf_{\Gamma \text{ circuito aritmetico}} \{ C_\Gamma(\varphi)\} && \text{ la
+       L(\varphi) &\defeq \inf_{\Gamma \in \mathcal{C}_{\varphi}} \{ C_\Gamma(\varphi)\} && \text{ la
    \emph{complessità moltiplicativa di }\varphi.}
    \end{aligned}
  \end{equation*}
@@ -676,6 +685,13 @@ trilineare:
                            s_6t_6)c_{12} + (s_7t_7 + s_8t_8)c_{22}.
   \end{aligned}
 \end{equation*}
+Poniamo
+\begin{equation*}
+  \begin{aligned}
+    w_1 &= w_2 = c_{11}, \qquad w_5 = w_6 = c_{12}, \\
+    w_3 &= w_4 = c_{21}, \qquad w_7 = w_8 = c_{22}.
+  \end{aligned}
+\end{equation*}
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
 s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$ e scrivere il tensore struttrale di $
 \algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}):
@@ -717,13 +733,67 @@ t_1 &= b_{11} + b_{22} & t_2 &= b_{11} & t_3 &= b_{12} - b_{22} \\
 t_4 &= b_{21} - b_{11} & t_5 &= b_{22} &t_6 &= b_{11} + b_{12} \\
 t_7 &= b_{21} + b_{22}
 \end{align*}
-\begin{align*}
+
+\begin{equation}
+\begin{aligned}
 m_r &= s_rt_r, \quad 1 \le r \le 7 \\
 c_{11} &= m_1 + m_4 - m_5 + m_7 & c_{12} &= m_3 + m_5 \\
 c_{21} &= m_2 + m_4 & c_{22} &= m_1 - m_2 + m_3 + m_6
-\end{align*}
+\end{aligned}
+\end{equation}
+Dall'equazione sopra possiamo scrivere i termini $ w_{r} $ come combinazione lineare dei $ c_{ij} $
+dati raccogliendo i termini $ m_{r} $. In altre parole, 
+\begin{equation*}
+  \begin{aligned}
+    w_1 &= c_{11} + c_{22}\\
+    w_2 &= c_{21} - c_{22}\\
+    w_3 &= c_{12} + c_{22} \\
+    w_4 &= c_{11} + c_{21} \\
+    w_5 &= -c_{11} + c_{12} \\
+    w_6 &= c_{22} \\
+    w_7 &= c_{11}.
+  \end{aligned}
+\end{equation*}
+Possiamo anche calcolare gli $ m_{r} $:
+\begin{equation*}
+  \begin{aligned}
+    m_1 &= (a_{11} + a_{22})(b_{11} + b_{22}) \\
+    m_2 &= (a_{21} + a_{22})b_{11} \\
+    m_3 &= a_{11} (b_{12} - b_{22}) \\
+    m_4 &= a_{22} (b_{21} - b_{11}) \\
+    m_5 &= (a_{11} + a_{12})b_{22} \\
+    m_6 &= (a_{21} -a_{11})(b_{11} + b_{12}) \\
+    m_7 &= (a_{12} - a_{22})(b_{21} + b_{22})
+  \end{aligned}
+\end{equation*}
+Mettendo insieme troviamo,
+\begin{equation*}
+  \begin{aligned}
+    \sum_{i=1}^7 m_{i}w_{i} &= (a_{11} + a_{22})(b_{11} + b_{22})(c_{11} + c_{22}) \\
+                            &+ (a_{21} + a_{22})b_{11} (c_{21} - c_{22}) \\
+                            &+ a_{11}(b_{12} - b_{22})(c_{12} + c_{22}) \\
+                            &+ a_{22}( - b_{11} + b_{21})(c_{11} + c_{21}) \\
+                            &+ (a_{11} + a_{12})b_{22}(-c_{11} + c_{12}) \\
+                            &+ (a_{21} - a_{11})(b_{11} + b_{12})c_{22} \\
+                            &+ (a_{12} - a_{22})(b_{21} + b_{22})c_{11}.
+  \end{aligned}
+\end{equation*}
 
-\todo{Aggiungere tensore}
+Che in forma tensoriale diventa
+\todo{non chiaro passaggio con forma trilineare, cioè ottengo la bilinear computation con $ tr(ABC^{\top}) $}
+
+\begin{equation*}
+  \begin{aligned}
+    \algob{2} &= (a_{11} + a_{22}) \otimes (b_{11} + b_{22}) \otimes (c_{11} + c_{22}) \\
+              &+ (a_{21} + a_{22}) \otimes b_{11} \otimes (c_{21} - c_{22}) \\
+              &+ a_{11} \otimes (b_{12} - b_{22}) \otimes (c_{12} + c_{22}) \\
+              &+ a_{22} \otimes (-b_{11} + b_{21}) \otimes (c_{21} + c_{11}) \\
+              &+ (a_{11} + a_{12}) \otimes b_{22} \otimes (-c_{11} + c_{12})\\
+              &+ (-a_{11} + a_{21}) \otimes (b_{11} + b_{12}) \otimes c_{22} \\ &+ (a_{12} - a_{22}) \otimes (b_{21} + b_{22}) \otimes c_{11}.
+  \end{aligned}
+\end{equation*}
+Espandendo i prodotto tensoriali e facendo opportune semplificazioni, possiamo ritrovare il tensore
+dell'Equazione~\ref{eq:tensor_222}.
 \todo{aggiungere costo}
 
 \section{Algoritmi APA}
@@ -900,4 +970,7 @@ n > 2 $, $ \brk(\algob{n}) < \rk(\algob{n}) $. Per $ n=3 $, sappiamo solo che $ 
 
 \section{Errore algoritmico}
 
+\todo{esperimento (se $ \exists $ tempo: generalizzare CP matmul in rust per supportare l'esercizio
+del laboratorio. A questo punto, provare a disegnare quel plot dell'errore (magari confrontalo con
+l'errore di Strassen e mettilo qui))}
 \todo{discussione della stabilità dal paper dato dal prof}

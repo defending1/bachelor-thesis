@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "numpy-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "numpy-best-practices/SKILL.md",
+      "computedHash": "3ffc9b27585527c22a845c38bb91fd9f9d2d86da72a735180e6e3ae5d0c3e06f"
+    },
     "peer-review": {
       "source": "k-dense-ai/scientific-agent-skills",
       "sourceType": "github",

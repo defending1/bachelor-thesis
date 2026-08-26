@@ -615,7 +615,7 @@ ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposedness
 
 Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
 formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
-come \emph{rango tipico} e verrà discusso nella Sezione\todo{ref}.
+come \emph{rango tipico} e verrà discusso nella Sezione~\ref{sec:rango_tipico}.
 
 \subsection*{Dipendenza dal campo base}
 Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
@@ -721,9 +721,58 @@ caso matriciale) a domande del tipo:
 \end{enumerate}
 
 \section{Rango tipico}
-Riflettendo sulla Proposizione~\ref{th:rank} possiamo immaginare che stimare il rango di un tensore
-sia un problema complesso.
-\todo{Explain better}
+\label{sec:rango_tipico}
+
+\todo{rewrite and verify}
+Mentre per le matrici il rango generico è unico e coincide con il massimo rango possibile, per i tensori di ordine superiore a due — in particolare sul campo reale $\mathbb{R}$ — possono coesistere più ranghi tipici. Un rango si dice tipico se l'insieme dei tensori che lo possiedono ha misura di Lebesgue strettamente positiva (ovvero se si presenta con probabilità non nulla quando si generano le entrate del tensore secondo una distribuzione di probabilità continua).
+
+Sul campo complesso $\mathbb{C}$, il rango tipico (o generico) è sempre unico. Ad esempio, per tensori di formato $2 \times 2 \times 2$, il rango generico complesso è $2$. Tuttavia, sul campo reale $\mathbb{R}$, un tensore di formato $2 \times 2 \times 2$ può avere rango reale tipico pari a $2$ o $3$.
+
+Per studiare empiricamente questo comportamento, abbiamo implementato un esperimento numerico in Python. Per ciascuno dei quattro formati analizzati ($2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$), abbiamo generato campioni di tensori casuali con entrate estratte indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato determinando il minimo valore di $r$ per cui l'algoritmo Alternating Least Squares (ALS) converge a un errore relativo inferiore a $10^{-5}$. Per evitare minimi locali, ogni esecuzione dell'algoritmo è stata ripetuta con 15 inizializzazioni casuali indipendenti.
+
+La distribuzione empirica dei ranghi (riportata in Figura~\ref{fig:typical_ranks_dist}) mostra i seguenti risultati:
+\begin{itemize}
+  \item Per il formato $2 \times 2 \times 2$, circa il $70.5\%$--$74.0\%$ dei tensori presenta rango $2$, e il restante $26.0\%$--$29.5\%$ ha rango $3$.
+  \item Per il formato $3 \times 3 \times 2$, circa il $29.5\%$--$39.5\%$ dei tensori presenta rango $3$, e il $60.5\%$--$70.5\%$ ha rango $4$.
+  \item Per il formato $3 \times 3 \times 3$, il $100\%$ dei tensori ha rango $5$ per entrambe le distribuzioni, a conferma del fatto che $5$ è l'unico rango tipico reale per questa classe.
+  \item Per il formato $3 \times 3 \times 5$, circa il $91.0\%$--$94.0\%$ dei tensori presenta rango $6$, un'ulteriore quota del $4.0\%$--$7.0\%$ ha rango $7$, e una frazione minore ($2.0\%$) converge a rango $5$.
+\end{itemize}
+Si nota come la distribuzione delle entrate (normale o uniforme) non alteri l'insieme dei ranghi tipici e produca frequenze empiriche del tutto analoghe, in perfetto accordo con il fatto che la proprietà di tipicità è di natura topologico-misurabile (ovvero legata agli insiemi di misura di Lebesgue positiva).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/typical_rank_distribution.pdf}
+  \caption{Distribuzione empirica dei ranghi per tensori casuali reali di formato $2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$ con entrate estratte da distribuzioni Normali $\mathcal{N}(0, 1)$ ed Uniformi $\mathcal{U}(-1, 1)$ (istogrammi affiancati).}
+  \label{fig:typical_ranks_dist}
+\end{figure}
+
+In ambito teorico, i ranghi tipici sul campo reale $\mathbb{R}$ sono stati caratterizzati per diverse famiglie di formati $m \times n \times p$ (assumendo senza perdita di generalità $2 \le m \le n \le p$). La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Ranghi tipici noti sul campo reale $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (adattata da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
+  \label{tab:typical_ranks}
+  \begin{tabular}{lll}
+    \toprule
+    Formato ($m \times n \times p$) & Rango tipico & Fonte \\
+    \midrule
+    $2 \times n \times n$ & $\{n, n+1\}$ & ten Berge e Kiers (1999)~\cite{tenberge1999} \\
+    $3 \times 3 \times 3$ & $5$ & ten Berge e Stegeman (2006)~\cite{tenberge2006} \\
+    $3 \times 3 \times 5$ & $\{5, 6\}$ & ten Berge, Sidiropoulos e Rocci (2004)~\cite{tenberge2004} \\
+    $3 \times 4 \times 8$ & $\{8, 9\}$ & Sumi et al. (2013)~\cite{sumi2013} \\
+    $3 \times 5 \times 9$ & $\{9, 10\}$ & Choulakian (2010)~\cite{choulakian2010}; ten Berge (2011)~\cite{tenberge2011} \\
+    $4 \times 4 \times 12$ & $\{12, 13\}$ & Friedland (2012)~\cite{friedland2012} \\
+    $m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$ & ten Berge (2000)~\cite{tenberge2000b} \\
+    $m \times n \times p$ ($n(m-1) < p < mn$) & $p$ & ten Berge e Kiers (1999)~\cite{tenberge1999}; ten Berge (2000)~\cite{tenberge2000b} \\
+    $m \times n \times p$ ($p \ge mn$) & $mn$ & ten Berge e Kiers (1999)~\cite{tenberge1999}; ten Berge (2000)~\cite{tenberge2000b} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\todo{change}
+Come si evince dalla Tabella~\ref{tab:typical_ranks}, per i tensori di formato $2 \times n \times n$ i ranghi tipici reali sono sempre la coppia $\{n, n+1\}$~\cite{tenberge1999}, coerentemente con i nostri risultati empirici sul caso $2 \times 2 \times 2$. Analogamente, per il formato $3 \times 3 \times 3$ l'unico rango tipico reale è $5$~\cite{tenberge2006}, in perfetto accordo con il $100\%$ di convergenza ottenuto nella nostra simulazione. Per formati del tipo $m \times n \times n(m-1)$ con $m > 2$, quando $n$ è dispari il rango tipico è unico e pari a $n(m-1)$~\cite{tenberge2000b}; se $n$ è pari, il valore esatto del rango tipico non è ancora del tutto noto, ed è congetturato essere la coppia $\{p, p+1\}$~\cite{BK25}.
+
 
 \section{Operazioni nel formato CP}
   

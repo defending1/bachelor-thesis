@@ -1,0 +1,87 @@
+\definecolor{inputborder}{HTML}{1976D2}
+\definecolor{inputcolor}{HTML}{E3F2FD}
+\definecolor{multborder}{HTML}{388E3C}
+\definecolor{multcolor}{HTML}{E8F5E9}
+\definecolor{addborder}{HTML}{E65100}
+\definecolor{addcolor}{HTML}{FFF3E0}
+\definecolor{outborder}{HTML}{7B1FA2}
+\definecolor{outcolor}{HTML}{F3E5F5}
+
+\begin{tikzpicture}[
+  >=Stealth,
+  thick,
+  input/.style={
+    circle,
+    draw=inputborder,
+    fill=inputcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\small\bfseries,
+    text=inputborder!80!black
+  },
+  gateMult/.style={
+    circle,
+    draw=multborder,
+    fill=multcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\large\bfseries,
+    text=multborder!80!black
+  },
+  gateAdd/.style={
+    circle,
+    draw=addborder,
+    fill=addcolor,
+    inner sep=0pt,
+    minimum size=9mm,
+    font=\large\bfseries,
+    text=addborder!80!black
+  },
+  outputGate/.style={
+    circle,
+    draw=outborder,
+    fill=outcolor,
+    inner sep=0pt,
+    minimum size=10mm,
+    font=\large\bfseries,
+    text=outborder!80!black
+  },
+  wire/.style={->, draw=gray!70, line width=0.9pt},
+  wireAlt/.style={->, draw=blue!65!gray, line width=0.9pt},
+  labelstyle/.style={font=\small\color{gray!90!black}}
+]
+
+  % --- INPUT LAYER (IN-DEGREE 0) ---
+  \node[input] (x1) at (0.0, 0.0) {$x_1$};
+  \node[input] (x2) at (2.5, 0.0) {$x_2$};
+  \node[input] (c1) at (5.0, 0.0) {$1$};
+
+  % --- LAYER 1: ADDITION GATES (IN-DEGREE 2) ---
+  \node[gateAdd] (add1) at (1.25, 1.8) {$+$};
+  \node[gateAdd] (add2) at (3.75, 1.8) {$+$};
+
+  % --- LAYER 2: INTERMEDIATE MULTIPLICATION GATE (IN-DEGREE 2) ---
+  \node[gateMult] (mul1) at (1.875, 3.6) {$\times$};
+
+  % --- LAYER 3: OUTPUT MULTIPLICATION GATE (IN-DEGREE 2) ---
+  \node[outputGate] (out) at (2.8125, 5.4) {$\times$};
+
+  % --- WIRES (STRAIGHT, ALL GATES HAVE IN-DEGREE 2) ---
+  \draw[wire] (x1) -- (add1);
+  \draw[wire] (x2) -- (add1);
+  \draw[wireAlt] (x2) -- (add2);
+  \draw[wire] (c1) -- (add2);
+
+  \draw[wire] (add1) -- (mul1);
+  \draw[wireAlt] (x2) -- (mul1);
+
+  \draw[wire] (mul1) -- (out);
+  \draw[wire] (add2) -- (out);
+
+  % --- VALUE ANNOTATIONS ---
+  \node[labelstyle, left=3pt of add1] {$x_1 + x_2$};
+  \node[labelstyle, right=3pt of add2] {$x_2 + 1$};
+  \node[labelstyle, left=3pt of mul1] {$(x_1 + x_2)x_2$};
+  \node[font=\small\bfseries\color{outborder!90!black}, above=4pt of out] {$\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$};
+
+\end{tikzpicture}
