@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io as sio
 import tensorly as tl
-from tensorly.decomposition import non_negative_parafac, parafac
+from tensorly.decomposition import non_negative_parafac
 
 
 def load_eem_data(mat_path: Path):
@@ -48,10 +48,10 @@ def load_eem_data(mat_path: Path):
     }
 
 
-def fit_cp_with_restarts(X: np.ndarray, rank: int, nonnegative: bool = True,
+def fit_cp_with_restarts(X: np.ndarray, rank: int,
                          n_iter_max: int = 1000, n_restarts: int = 5, tol: float = 1e-7):
     """
-    Fit CP decomposition of specified rank with multiple random initializations
+    Fit non-negative CP decomposition of specified rank with multiple random initializations
     to avoid local minima. Returns the best tensor factor representation and error.
     """
     best_error = float('inf')
@@ -64,16 +64,10 @@ def fit_cp_with_restarts(X: np.ndarray, rank: int, nonnegative: bool = True,
         start_t = time.time()
         random_state = 42 + trial * 100
 
-        if nonnegative:
-            cp_tensor = non_negative_parafac(
-                X, rank=rank, n_iter_max=n_iter_max, tol=tol,
-                init='random', random_state=random_state
-            )
-        else:
-            cp_tensor = parafac(
-                X, rank=rank, n_iter_max=n_iter_max, tol=tol,
-                init='random', random_state=random_state
-            )
+        cp_tensor = non_negative_parafac(
+            X, rank=rank, n_iter_max=n_iter_max, tol=tol,
+            init='random', random_state=random_state
+        )
 
         elapsed = time.time() - start_t
 
@@ -89,9 +83,9 @@ def fit_cp_with_restarts(X: np.ndarray, rank: int, nonnegative: bool = True,
 
 
 def run_experiment(mat_path: Path, target_error: float, max_rank: int,
-                   nonnegative: bool, n_restarts: int, n_iter_max: int):
+                   n_restarts: int, n_iter_max: int):
     """
-    Run experiment: test CP decomposition of increasing rank R = 1..max_rank
+    Run experiment: test non-negative CP decomposition of increasing rank R = 1..max_rank
     until relative error <= target_error.
     """
     data = load_eem_data(mat_path)
@@ -101,7 +95,7 @@ def run_experiment(mat_path: Path, target_error: float, max_rank: int,
     print(f"EEM Tensor Spectroscopy Experiment")
     print(f"Tensor Shape: {X.shape} (Samples x Emission x Excitation)")
     print(f"Target Error Epsilon: {target_error:.4f} ({target_error * 100:.2f}%)")
-    print(f"Decomposition Type: {'Non-negative CP (NCP)' if nonnegative else 'Standard CP-ALS'}")
+    print(f"Decomposition Type: Non-negative CP (NCP)")
     print(f"Max Rank: {max_rank}")
     print("=" * 65)
 
@@ -112,7 +106,7 @@ def run_experiment(mat_path: Path, target_error: float, max_rank: int,
 
     for rank in range(1, max_rank + 1):
         cp_model, rel_error, elapsed = fit_cp_with_restarts(
-            X, rank=rank, nonnegative=nonnegative,
+            X, rank=rank,
             n_iter_max=n_iter_max, n_restarts=n_restarts
         )
 
@@ -144,7 +138,7 @@ def run_experiment(mat_path: Path, target_error: float, max_rank: int,
         'final_rank': final_rank,
         'final_error': final_error,
         'target_error': target_error,
-        'nonnegative': nonnegative,
+        'nonnegative': True,
         'rank_history': rank_history,
         'cp_models': best_cp_models,
         'data': data
@@ -249,8 +243,7 @@ def main():
                         help="Target relative error threshold epsilon (default: 0.05)")
     parser.add_argument("--max-rank", "-r", type=int, default=10,
                         help="Maximum rank R to test (default: 10)")
-    parser.add_argument("--standard-cp", action="store_true",
-                        help="Use standard unconstrained CP-ALS instead of Non-negative CP")
+
     parser.add_argument("--n-restarts", type=int, default=5,
                         help="Number of random restarts per rank (default: 5)")
     parser.add_argument("--n-iter-max", type=int, default=1000,
@@ -262,12 +255,10 @@ def main():
 
     args = parser.parse_args()
 
-    nonnegative = not args.standard_cp
     results = run_experiment(
         mat_path=args.mat_path,
         target_error=args.target_error,
         max_rank=args.max_rank,
-        nonnegative=nonnegative,
         n_restarts=args.n_restarts,
         n_iter_max=args.n_iter_max
     )

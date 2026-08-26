@@ -8,19 +8,19 @@
       "rank": 1,
       "relative_error": 0.4520504907734681,
       "fit_percentage": 54.794950922653186,
-      "fit_time_sec": 0.0026102066040039062
+      "fit_time_sec": 0.00877237319946289
     },
     {
       "rank": 2,
       "relative_error": 0.1410709409081614,
       "fit_percentage": 85.89290590918385,
-      "fit_time_sec": 0.04964041709899902
+      "fit_time_sec": 0.10462331771850586
     },
     {
       "rank": 3,
       "relative_error": 0.03309997718432088,
       "fit_percentage": 96.69000228156791,
-      "fit_time_sec": 0.37697935104370117
+      "fit_time_sec": 0.3802480697631836
     }
   ]
 }

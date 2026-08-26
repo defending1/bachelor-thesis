@@ -13,6 +13,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io as sio
+from colormaps import parula_map
 
 # Use SciencePlots for publication quality if available
 try:
@@ -62,7 +63,7 @@ def visualize_eem_slices(mat_path: Path = Path("EEM18.mat"),
         slice_data = X[i, :, :]  # Shape (251, 21)
 
         # Filled contour plot
-        cf = ax.contourf(XX, YY, slice_data, levels=levels, cmap='viridis', extend='both')
+        cf = ax.contourf(XX, YY, slice_data, levels=levels, cmap=parula_map, extend='both')
         # Subtle contour lines for crisp vector rendering in PDF
         ax.contour(XX, YY, slice_data, levels=levels[::2], colors='k', linewidths=0.3, alpha=0.3)
 
