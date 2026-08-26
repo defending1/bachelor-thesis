@@ -129,7 +129,6 @@ def run_experiment(mat_path: Path, target_error: float, max_rank: int,
             final_rank = rank
             final_error = rel_error
             print(f"\n>>> Target error threshold reached at Rank {final_rank}! Final Error = {final_error:.6f} <<<")
-            break
 
     if final_rank is None:
         final_rank = max_rank

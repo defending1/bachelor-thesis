@@ -8,19 +8,31 @@
       "rank": 1,
       "relative_error": 0.4520504907734681,
       "fit_percentage": 54.794950922653186,
-      "fit_time_sec": 0.002590656280517578
+      "fit_time_sec": 0.0069544315338134766
     },
     {
       "rank": 2,
       "relative_error": 0.1410709409081614,
       "fit_percentage": 85.89290590918385,
-      "fit_time_sec": 0.0527341365814209
+      "fit_time_sec": 0.10637974739074707
     },
     {
       "rank": 3,
       "relative_error": 0.03309997718432088,
       "fit_percentage": 96.69000228156791,
-      "fit_time_sec": 0.3916504383087158
+      "fit_time_sec": 0.3867361545562744
+    },
+    {
+      "rank": 4,
+      "relative_error": 0.031177575610367193,
+      "fit_percentage": 96.88224243896329,
+      "fit_time_sec": 0.37999439239501953
+    },
+    {
+      "rank": 5,
+      "relative_error": 0.022685578534414642,
+      "fit_percentage": 97.73144214655854,
+      "fit_time_sec": 0.4263420104980469
     }
   ]
 }
