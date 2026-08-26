@@ -1,0 +1,163 @@
+\definecolor{beamGreen}{RGB}{0, 195, 45}
+\definecolor{beamGlow}{RGB}{115, 235, 135}
+\definecolor{fluoRed}{RGB}{230, 25, 25}
+\definecolor{cuvetteGlass}{RGB}{210, 235, 245}
+\definecolor{liquidPale}{RGB}{254, 250, 205}
+\definecolor{liquidSpot}{RGB}{255, 230, 0}
+\definecolor{filterBlue}{RGB}{200, 215, 245}
+\definecolor{detectorMetal}{RGB}{195, 200, 205}
+\definecolor{detectorBase}{RGB}{160, 65, 30}
+
+\begin{tikzpicture}[
+  >=Stealth,
+  font=\sffamily,
+  every label/.style={font=\sffamily\small}
+]
+
+  % -------------------------------------------------------------
+  % 1. LIGHT SOURCE (Bottom-Left)
+  % -------------------------------------------------------------
+  \coordinate (LS) at (0.8, 1.1);
+
+  % Radiant rays around bulb
+  \foreach \angle in {40, 70, 100, 130, 160, 190, 220} {
+    \draw[line width=0.9pt, orange!80!yellow] ($(LS)+({\angle}:0.62)$) -- ($(LS)+({\angle}:0.82)$);
+  }
+
+  % Bulb Glass contour & fill
+  \draw[thick, fill=yellow!20!white, draw=gray!75]
+    (LS) ++(-0.25, -0.1)
+    arc[start angle=200, end angle=-20, radius=0.38cm]
+    .. controls ++(-0.05,-0.2) and ++(0,0.1) .. ($(LS)+(0.18,-0.5)$)
+    -- ($(LS)+(-0.18,-0.5)$)
+    .. controls ++(0,0.1) and ++(0.05,-0.2) .. cycle;
+
+  % Filament inside
+  \draw[thick, gray!70] ($(LS)+(-0.11,-0.24)$) -- ($(LS)+(-0.05,-0.04)$)
+    -- ($(LS)+(0.05,-0.04)$) -- ($(LS)+(0.11,-0.24)$);
+  \draw[thick, orange!95!black] ($(LS)+(-0.05,-0.04)$) -- (LS) -- ($(LS)+(0.05,-0.04)$);
+
+  % Screw base
+  \draw[fill=gray!45, draw=gray!75, rounded corners=1pt]
+    ($(LS)+(-0.16,-0.5)$) rectangle ($(LS)+(0.16,-0.72)$);
+  \draw[gray!65] ($(LS)+(-0.16,-0.57)$) -- ($(LS)+(0.16,-0.57)$);
+  \draw[gray!65] ($(LS)+(-0.16,-0.64)$) -- ($(LS)+(0.16,-0.64)$);
+
+  % Contact point
+  \draw[fill=gray!75, draw=gray!85]
+    ($(LS)+(-0.07,-0.72)$) -- ($(LS)+(0.07,-0.72)$) -- ($(LS)+(0,-0.78)$) -- cycle;
+
+  % Light source label
+  \node[font=\sffamily\small] at (0.8, 0.0) {light source};
+
+
+  % -------------------------------------------------------------
+  % 2. SAMPLE CUVETTE & LIQUID (Center)
+  % -------------------------------------------------------------
+  \coordinate (CuvetteTop) at (4.0, 4.1);
+  \coordinate (SampleSpot) at (4.0, 2.3);
+
+  % Main Liquid body fill
+  \draw[draw=none, fill=liquidPale, fill opacity=0.85]
+    (3.6, 0.95) -- (3.6, 3.0)
+    arc[start angle=180, end angle=360, x radius=0.4cm, y radius=0.12cm]
+    -- (4.4, 0.95)
+    arc[start angle=360, end angle=180, x radius=0.4cm, y radius=0.18cm] -- cycle;
+
+  % Excited fluorescing spot/band around the beam path
+  \draw[draw=none, fill=liquidSpot, fill opacity=0.9]
+    (4.0, 2.8) ellipse (0.39cm and 0.22cm);
+
+  % Liquid surface meniscus
+  \draw[thick, draw=orange!85!black, fill=liquidSpot!90!white, fill opacity=0.85]
+    (4.0, 3.0) ellipse (0.4cm and 0.12cm);
+
+  % Cuvette Glass outline
+  \draw[thick, draw=gray!65] (3.6, 4.1) -- (3.6, 0.95)
+    arc[start angle=180, end angle=360, x radius=0.4cm, y radius=0.18cm]
+    -- (4.4, 4.1);
+
+  % Glass top rim
+  \draw[thick, draw=gray!75, fill=white!90!cuvetteGlass, fill opacity=0.6]
+    (4.0, 4.1) ellipse (0.42cm and 0.13cm);
+  \draw[gray!50] (4.0, 4.1) ellipse (0.36cm and 0.10cm);
+
+  % Glass glossy highlight
+  \draw[white, line width=1.5pt, opacity=0.75] (3.68, 3.9) -- (3.68, 1.1);
+
+  % Sample cuvette label
+  \node[above=4pt of CuvetteTop, font=\sffamily\small] {sample cuvette};
+
+
+  % -------------------------------------------------------------
+  % 3. EXCITATION BEAM
+  % -------------------------------------------------------------
+  % Outer beam glow
+  \draw[line width=5.5pt, beamGlow, opacity=0.4] (1.35, 1.1) -- (6.75, 3.65);
+  % Main green arrow beam
+  \draw[->, line width=2.4pt, beamGreen] (1.35, 1.1) -- (6.85, 3.7);
+
+  % Label
+  \node[above left, font=\sffamily\small, align=center] at (2.6, 1.8) {excitation\\beam};
+
+
+  % -------------------------------------------------------------
+  % 4. FLUORESCENCE EMISSION (Radiating Red Rays)
+  % -------------------------------------------------------------
+  % Radiating arrows from focal point (SampleSpot)
+  \draw[->, line width=1.4pt, fluoRed] (SampleSpot) -- ++(135:1.15);
+  \draw[->, line width=1.4pt, fluoRed] (SampleSpot) -- ++(45:1.15);
+  \draw[->, line width=1.4pt, fluoRed] (SampleSpot) -- ++(175:1.05);
+  \draw[->, line width=1.4pt, fluoRed] (SampleSpot) -- ++(5:1.15)
+    node[right=1pt, font=\sffamily\small, black] {fluorescence};
+  \draw[->, line width=1.4pt, fluoRed] (SampleSpot) -- ++(255:1.05);
+
+  % Detector emission ray going down-right through filter
+  \draw[->, line width=1.4pt, fluoRed] (SampleSpot) -- (6.85, 0.75);
+
+
+  % -------------------------------------------------------------
+  % 5. FILTER
+  % -------------------------------------------------------------
+  \coordinate (FilterPos) at (5.4, 1.4);
+
+  % Filter plate (3D isometric square)
+  \draw[thick, draw=blue!80!black, fill=filterBlue, fill opacity=0.55]
+    (5.0, 0.9) -- (5.8, 0.7) -- (5.8, 1.9) -- (5.0, 2.1) -- cycle;
+  % Grid pattern inside filter
+  \draw[blue!50!gray, line width=0.4pt] (5.2, 0.85) -- (5.2, 2.05);
+  \draw[blue!50!gray, line width=0.4pt] (5.4, 0.80) -- (5.4, 2.00);
+  \draw[blue!50!gray, line width=0.4pt] (5.6, 0.75) -- (5.6, 1.95);
+  \draw[blue!50!gray, line width=0.4pt] (5.0, 1.30) -- (5.8, 1.10);
+  \draw[blue!50!gray, line width=0.4pt] (5.0, 1.70) -- (5.8, 1.50);
+
+  % Filter label
+  \node[font=\sffamily\small] at (5.4, 0.4) {filter};
+
+
+  % -------------------------------------------------------------
+  % 6. DETECTOR (Bottom-Right)
+  % -------------------------------------------------------------
+  % Detector Base (Brown/Copper Cylinder)
+  \draw[thick, draw=black!80, fill=detectorBase]
+    (6.6, 0.15) -- (6.6, 0.55)
+    arc[start angle=180, end angle=360, x radius=0.4cm, y radius=0.15cm]
+    -- (7.4, 0.15)
+    arc[start angle=360, end angle=180, x radius=0.4cm, y radius=0.15cm] -- cycle;
+  \draw[thick, draw=black!80, fill=detectorBase!85!black]
+    (7.0, 0.55) ellipse (0.4cm and 0.15cm);
+
+  % Detector Tube / Sensor Dome (Grey Cylinder)
+  \draw[thick, draw=black!70, fill=detectorMetal]
+    (6.65, 0.55) -- (6.65, 1.75)
+    arc[start angle=180, end angle=0, x radius=0.35cm, y radius=0.35cm]
+    -- (7.35, 0.55)
+    arc[start angle=360, end angle=180, x radius=0.35cm, y radius=0.13cm] -- cycle;
+
+  % Metal shine highlight
+  \draw[white, line width=1.3pt, opacity=0.65] (6.75, 0.6) -- (6.75, 1.8);
+
+  % Detector label
+  \node[font=\sffamily\small] at (7.0, -0.2) {detector};
+
+\end{tikzpicture}

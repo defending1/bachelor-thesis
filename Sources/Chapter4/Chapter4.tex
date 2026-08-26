@@ -33,19 +33,35 @@ Another is the diagnosis and management of strokes.
 
 \section{Fluorescenza spectroscopica}
 
-La fluorescenza spectroscopica è una tecnica della chimica che \ldots
+La \emph{fluorescenza spectroscopica} è una tecnica che permette di 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Sources/Chapter4/figures/spectroscopy.pdf}
+  \caption{Rappresentazione schematica di uno spettrofotometro per spettroscopia di fluorescenza.}
+  \label{fig:spectroscopy}
+\end{figure}
 
 \todo{Principali references: \cite{smilde2004multi}\S 10.2, for descriptions:
 \cite{landsberg2011tensors, BK25}}
 Vengono dati $ I $ campioni di soluzioni chimiche, ognuno dei quali contiene diverse sostanze
 diluite in diverse concentrazioni. Il primo obiettivo è determinare il numero $ r $ delle diverse
-sostanze presenti. In \todo{ref} ci sono quattro di queste, \emph{dihydroxybenzene},
-\emph{tryptophan}, \emph{phenylalanine} e DOPA\todo{qui aggiustare con i dataset di Ballard}. Ogni campione, diciamo il numero $ i $-esimo è
+sostanze presenti. 
+Il dataset che analizziamo~\cite{BK25} è composto da una serie di esperimenti riportati
+da~\cite{smilde2004multi}, nel quale sono presenti ci
+sono tre sostanze chimiche disciolte nelle soluzioni:
+\begin{itemize}
+  \item \emph{Valine-Tyrosine-Valine} (Val-Tyr-Val) - peptide,
+  \item \emph{Tryptophan-Glycine} (Trp-Gly) - peptide,
+  \item \emph{Phenylalanine} (Phe) - amino acid.
+\end{itemize}
+Ogni campione, diciamo il numero $ i $-esimo è
 successivamente eccitato da una luce in $ J $ diverse lunghezze d'onda. Per ogni lunghezza d'onda di
 eccitazione, viene misurato lo spettro emesso. Diciamo che l'intensità della luce fluorescente
-emessa è misurata da $ K $ diverse lunghezze d'onda. Allora per ogni $ i $, otteniamo una tabella $
+emessa è misurata da $ K $ diverse lunghezze d'onda. Allora per ogni $ i $, otteniamo $
 J\times K $ di matrici di eccitazione-emissione.
 
+\todo{vorrei usare la notazione "classica" della CP ma non riesco!}
 Quindi i dati possono essere rappresentati come un array $ I \times J \times K $. In basi, se $
 \{e_{i}\}  $ è la base di $ \C^I $, $ h_{j} $ è una base di $ C^J $, e $ g_{k} $ è una base di $
 \C^K $, allora $ T = \sum_{ijk} T_{ijk} e_{i} \otimes h_{j} \otimes g_{k} $. Il primo obiettivo è
@@ -59,44 +75,86 @@ usando le basi di $ \R^J $ e $ \R^K $, $ c_{k,f} $ è la frazione di protoni che
 sostanza emette nella lunghezza d'onda $ k $, e $ b_{j,f} $ è l'intensità della luce incidente alla
 lunghezza d'onda $ j $ moltiplicata per l'assorbimento alla lunghezza d'onda $ j $.
 
-Studiamo il dataset fornito da~\cite{kolda2021eem,acar2014structure} che contiene bla bla bla.
+Studiamo il dataset fornito da~\cite{kolda2021eem,acar2014structure} che contiene le misurazioni di matrici di eccitazione-emissione (EEM) per 18 campioni, ognuno dei quali consiste in una miscela di tre composti chimici (Val-Tyr-Val, Trp-Gly e Phe). I dati sono organizzati in un tensore tridimensionale di dimensioni $18 \times 251 \times 21$, corrispondenti rispettivamente ai campioni, alle lunghezze d'onda di emissione (da 250 a 500 nm) e alle lunghezze d'onda di eccitazione (da 210 a 310 nm).
 
-\todo{probabilmente va tolto}
-Siccome i dati conterranno rumore, possiamo assumere $ T $ di rango generico, ma esisterà un tensore
-di rango molto basso $ \tilde{T} $ che lo approssima fedelmente (\todo{ref to generic rank}). Gli
-autori di~\cite{smilde2004multi} non associano alcuna metrica ai dati, quindi il significato di ``approssimazione'' non è
-chiaro\todo{why?}. In~\cite{smilde2004multi} si procede come segue per trovare $ r $. Prima di tutto, si assume
-che $ r $ sia molto basso (al più $ 7 $ nella loro esposizione). Poi per ogni $ r_0 $ tale che $ 1
-\le r_0 \le 7 $, si assume $ r_0 = r $ e si applica un algoritmo numerico che tenta di trovare le $
-r_0 $ componenti (i.e, tensori di rango uno) che formano $ \tilde{T} $. I valori di $ r_{0} $ per
-cui l'algoritmo non converge velocemente sono scartati (gli autori sottolineano che questa procedura
-non è giustificata matematicamente, ma sembra funzionare bene in pratica; nell'esempio, questi valori di $ r_{0} $ sono troppo grandi). Poi, per i restanti valori di $ r_0
-$, vengono analizzati i tensori risultati per vedere se sono ragionevoli dal punto di vista fisico.
-Questo rende loro possibile di rimuovere valori di $ r_0 $ troppo piccoli. Nell'esempio, a loro
-restano $ r_0 = 4,5 $.
+Una rappresentazione tridimensionale del tensore è mostrata in figura~\ref{fig:piled_tensor}, mentre alcune sezioni corrispondenti a singoli campioni sono visualizzate in figura~\ref{fig:x_slices}.
 
-Assumiamo ora che $ r $ sia stato determinato. Siccome i valori di $ r $ sono relativamente piccoli,
-a meno di banalità, l'espressione di $ \tilde{T} $ come somma di elementi di rango uno sarà unica
-\todo{funziona kruskal?}. Quindi, decomponendo $ \tilde{T} $, possiamo recuperare la concentazione
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{Sources/Chapter4/figures/piled_tensor.pdf}
+  \caption{Rappresentazione tridimensionale del tensore EEM di dimensioni $18 \times 251 \times 21$, che evidenzia una selezione di sezioni laterali lungo la modalità di emissione.}
+  \label{fig:piled_tensor}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{Sources/Chapter4/figures/X-slices.pdf}
+  \caption{Visualizzazione di alcune matrici di eccitazione-emissione (EEM) per diversi campioni.}
+  \label{fig:x_slices}
+\end{figure}
+
+
+Cerchiamo di ottenere la fattorizzazione approssimata di $ T $ nel modo seguente. Fissata una
+tolleranza $ \varepsilon $ piccola, al crescere di $ r
+\in \{1, 2,\ldots, 10\} $ cerchiamo una fattorizzazione CP $ \tilde{T} $ attraverso ALS tale che
+$  \| T - \tilde{T} \| < \varepsilon$. La ricerca di $ \tilde{T} $ viene ripetuta attraverso una
+serie di restarts per evitare minimi locali.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Sources/Chapter4/figures/eem_cp_error_vs_rank.pdf}
+  \caption{Errore relativo di ricostruzione e percentuale di fit al variare del rango della decomposizione CP. Il rango ottimale selezionato è $R^* = 3$, corrispondente al superamento della tolleranza target $\varepsilon = 0.05$.}
+  \label{fig:eem_cp_error_vs_rank}
+\end{figure}
+
+
+Nell'articolo originale~\cite{smilde2004multi} vengono anche esclusi i tensori che non sono
+ragionevoli da un punto di vista fisico per rimuovere valori di $ r $ troppo piccoli. Per i nostri scopi ci limitiamo a imporre che le quantità fisiche coinvolte (concentrazioni, intensità di emissione ed eccitazione) siano non negative, per cui si scartano le decomposizioni che presentano fattori negativi.
+
+Assumiamo ora che il rango ottimale $ r $ sia stato determinato. Siccome i valori di $ r $ sono relativamente piccoli,
+a meno di piccole perturbazioni, l'espressione di $ \tilde{T} $ come somma di elementi di rango uno
+sarà unica grazie al Teorema di Kruskal~\ref{thm:kruskal3d}. Quindi, decomponendo $ \tilde{T} $,
+possiamo recuperare la concentrazione 
 di ognuna delle $ r $ sostanze in ogni soluzione, determinando i vettori $ a_{f} $ così come lo
 spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
+La figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le concentrazioni reali delle tre sostanze.
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{Sources/Chapter4/figures/eem_model.pdf}
+  \caption{Fattori della decomposizione CP non negativa a rango $r=3$ del tensore EEM. I diagrammi a barre a sinistra confrontano i profili di concentrazione calcolati con le concentrazioni effettive delle tre sostanze (Val-Tyr-Val, Trp-Gly, Phe).}
+  \label{fig:eem_model}
+\end{figure}
+
+
+
+\subsection*{Ricerca euristica del rango}
+
+Nella pratica calcoliamo il rango ottimale prendendo quello che
+minimizza \emph{l'errore relativo}, che per un tensore a tre indici $ T $ è definito come
+\begin{equation*}
+  \varepsilon_{\text{rel}} = \frac{\| T - \tilde{T} \|}{\| T \|}
+\end{equation*}
 
 
 \section{Cocktail party problem}
 
-Un problema centrale nel signal processing è il \emph{problema del cocktail party}, dove un inseme
+Un problema centrale nel signal processing è il \emph{problema del cocktail party}, dove un insieme
 di persone si trova in una stanza a parlare. Ci sono diversi ricevitori impostati che registrano le
 conversazioni: non singolarmente ma tutte insieme, sovrapposte. L'obiettivo è recuperare cosa ogni
-persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione CP. Un problema
-simile, forse più semplice da analizzare è il seguente.
+persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione CP. Questo problema
+è noto nell'analisi di segnali come \emph{blind deconvolution}, dove si possono vedere le persone
+come ``sorgenti'' e i ricevitori come ``antenne''. Lo studiamo nella prossima sezione.
 
 \section{Blind deconvolution di segnali DS-CMDA}
-In questa sezione riassumiamo la discussione
-in~\cite{sidiropoulos2000blind,de2008blind,landsberg2011tensors}.
+
 Nella comunicazione wireless il modello di segnali \emph{direct-sequence code-division multiple
 access} (DS-CDMA). Senza entrare nel dettaglio del funzionamento, dei segnali (e.g. provenienti da
 telefoni cellulari) sono mandati da $ R $ sorgenti e ricevuti da $ I $ antenne. I segnali arrivano
-mischiati, e l'obiettivo è recuperare i segnali individuali, come nel cocktail party problem.
+mischiati, e l'obiettivo è recuperare i segnali individuali, come nel cocktail party problem. In
+questa sezione studieremo un caso specifico illustrato
+in~\cite{sidiropoulos2000blind,de2008blind,landsberg2011tensors}, con una breve sperimentazione numerica.
 
 
 \begin{figure}[htbp]
@@ -106,7 +164,7 @@ mischiati, e l'obiettivo è recuperare i segnali individuali, come nel cocktail 
   \label{fig:antennae}
 \end{figure}
 
-Facciamo un primo tentativo con le matrici. Consideriamo uno scenario dove ci sono $ R $ sorgenti
+Consideriamo uno scenario dove ci sono $ R $ sorgenti
 dei segnali (anche detti \emph{utenti}), e ognuno trasmette $ K $ simboli in un messaggio; diciamo
 che l'utente $ r $-esimo vuole inviare un vettore $ \bm{s}_{r} = \left( s_{1r}, \ldots, s_{Kr}
 \right) $ dove le entrate possono essere pensati come numeri complessi in qualche intervallo di
@@ -120,12 +178,21 @@ In questo scenario si riceve un tensore $ T \in \C^{I \times K} $ di rango $ R $
 \begin{equation*}
   T_{ik} = \sum_{r=1}^R a_{ir}s_{kr}.
 \end{equation*}
-L'obiettivo sarebbe recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r \le R $ da quesot tensore
+L'obiettivo sarebbe recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r \le R $ da questo tensore
 (matrice) decomponendole come matrici di rango uno. Sfortunatamente, questa decomposizione non è mai
 unica quando $ R > 1 $. La soluzione è introdurre dei ``codici'' per ``diffondere'' il segnale che
 ogni utente invia per ottenere un tensore a tre indici che avrà generalmente una decomposizione
 unica. Tale spreading è comune nelle telecomunicazioni, e.g. della ridondanza è introdotta per
 compensare gli errori causati dalla corruzione dei segnali durante la trasmissione.
+
+\begin{remark}[Acronimi ICI e ISI]
+  
+L'\emph{Interchip interference} (ICI) occorre quando il segnale segue diverse strade per raggiungere
+l'antenna (e.g. rimbalzando contro edifici o colline). 
+L'\emph{Intersignal interference} (ISI) occorre quando il ritardo di tempo dato dalle diverse strade
+prese dal segnale, fa arrivare, ad esempio $ s_{kr} $ allo stesso tempo di $ s_{k+1,r} $
+
+\end{remark}
 \subsection*{Decomposizione CP in assenza di ICI e ISI}
 
 Assumiamo che la trasmissione avvenga in linea d'aria---ovvero i segnali viaggiano direttamente da
@@ -146,15 +213,6 @@ $ i $. In totale, viene ricevuto un tensore $ T \in \C^{I \times J\times K} $ di
   T_{ijk} = \sum_{r=1}^R a_{ir}c_{jr}s_{kr},
 \end{equation*}
 e l'obiettivo è recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r\le R $ da questo tensore. Per il
-Teorema di Kruskal\todo{cite krk} questa decomposizione è unica se le componenti $ \bm{a}_{r} $, $
+Teorema di Kruskal~\ref{thm:kruskal3d} questa decomposizione è unica se le componenti $ \bm{a}_{r} $, $
 \bm{c}_{r} $ e $ \bm{s}_{r} $ sono ``abbastanza'' indipendenti\todo{landsberg dice se il tensore è
 abbastanza generale, che vuol dire?} e $ r $ è sufficiente piccolo.
-
-\begin{remark}[Acronimi ICI e ISI]
-  
-\emph{Interchip interference} (ICI) occorre quando il segnale segue diverse strade per raggiungere
-l'antenna (e.g. rimbalzando contro edifici o colline). 
-\emph{Intersignal interference} (ISI) occorre quando il ritardo di tempo dato dalle diverse strade
-prese dal segnale, fa arrivare, ad esempio $ s_{kr} $ allo stesso tempo di $ s_{k+1,r} $
-
-\end{remark}
