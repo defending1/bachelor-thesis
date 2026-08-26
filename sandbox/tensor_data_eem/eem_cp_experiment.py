@@ -2,152 +2,33 @@
 """
 Fluorescence Spectroscopy (EEM) CP Decomposition Rank Selection Experiment.
 
-This script loads the Excitation-Emission Matrix (EEM) dataset from EEM18.mat
-and fits CP (CANDECOMP/PARAFAC) tensor decompositions of increasing rank R
-until a relative reconstruction error <= target_error (epsilon) is reached.
+Loads the Excitation-Emission Matrix (EEM) dataset and fits CP tensor
+decompositions of increasing rank R until a relative reconstruction error
+<= target_error is reached. Uses the refactored 'src' modules.
 
 Usage via uv:
-    uv run python sandbox/tensor_data_eem/eem_cp_experiment.py --target-error 0.05 --max-rank 10
+    uv run python eem_cp_experiment.py --target-error 0.05 --max-rank 10
 """
 
 import argparse
 import json
-import time
+import sys
 from pathlib import Path
-
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.io as sio
-import tensorly as tl
-from tensorly.decomposition import non_negative_parafac
 
+# Add src folder to python path
+script_dir = Path(__file__).parent
+sys.path.append(str(script_dir / "src"))
 
-def load_eem_data(mat_path: Path):
-    """Load preprocessed EEM tensor data and metadata from EEM18.mat."""
-    if not mat_path.exists():
-        raise FileNotFoundError(f"Dataset file not found at {mat_path}")
-
-    mat = sio.loadmat(str(mat_path))
-
-    # Extract X (MatlabObject / struct with field 'data')
-    x_obj = mat['X'][0, 0]
-    x_tensor = np.asarray(x_obj['data'], dtype=np.float64)
-
-    # Extract metadata if available
-    mixtures = mat.get('mixtures', None)
-    compound_names = mat.get('compound_names', None)
-    mode_ranges = mat.get('mode_ranges', None)
-    mode_titles = mat.get('mode_titles', None)
-
-    return {
-        'X': x_tensor,
-        'mixtures': mixtures,
-        'compound_names': compound_names,
-        'mode_ranges': mode_ranges,
-        'mode_titles': mode_titles
-    }
-
-
-def fit_cp_with_restarts(X: np.ndarray, rank: int,
-                         n_iter_max: int = 1000, n_restarts: int = 5, tol: float = 1e-7):
-    """
-    Fit non-negative CP decomposition of specified rank with multiple random initializations
-    to avoid local minima. Returns the best tensor factor representation and error.
-    """
-    best_error = float('inf')
-    best_cp = None
-    best_time = 0.0
-
-    x_norm = tl.norm(X)
-
-    for trial in range(n_restarts):
-        start_t = time.time()
-        random_state = 42 + trial * 100
-
-        cp_tensor = non_negative_parafac(
-            X, rank=rank, n_iter_max=n_iter_max, tol=tol,
-            init='random', random_state=random_state
-        )
-
-        elapsed = time.time() - start_t
-
-        reconstruction = tl.cp_to_tensor(cp_tensor)
-        rel_error = float(tl.norm(X - reconstruction) / x_norm)
-
-        if rel_error < best_error:
-            best_error = rel_error
-            best_cp = cp_tensor
-            best_time = elapsed
-
-    return best_cp, best_error, best_time
-
-
-def run_experiment(mat_path: Path, target_error: float, max_rank: int,
-                   n_restarts: int, n_iter_max: int):
-    """
-    Run experiment: test non-negative CP decomposition of increasing rank R = 1..max_rank
-    until relative error <= target_error.
-    """
-    data = load_eem_data(mat_path)
-    X = data['X']
-
-    print("=" * 65)
-    print(f"EEM Tensor Spectroscopy Experiment")
-    print(f"Tensor Shape: {X.shape} (Samples x Emission x Excitation)")
-    print(f"Target Error Epsilon: {target_error:.4f} ({target_error * 100:.2f}%)")
-    print(f"Decomposition Type: Non-negative CP (NCP)")
-    print(f"Max Rank: {max_rank}")
-    print("=" * 65)
-
-    rank_history = []
-    final_rank = None
-    final_error = None
-    best_cp_models = {}
-
-    for rank in range(1, max_rank + 1):
-        cp_model, rel_error, elapsed = fit_cp_with_restarts(
-            X, rank=rank,
-            n_iter_max=n_iter_max, n_restarts=n_restarts
-        )
-
-        fit_percentage = (1.0 - rel_error) * 100.0
-        best_cp_models[rank] = cp_model
-
-        rank_history.append({
-            'rank': rank,
-            'relative_error': rel_error,
-            'fit_percentage': fit_percentage,
-            'fit_time_sec': elapsed
-        })
-
-        print(f"Rank {rank:2d}: Relative Error = {rel_error:.6f} | Fit = {fit_percentage:6.2f}% | Time = {elapsed:.3f}s")
-
-        if rel_error <= target_error and final_rank is None:
-            final_rank = rank
-            final_error = rel_error
-            print(f"\n>>> Target error threshold reached at Rank {final_rank}! Final Error = {final_error:.6f} <<<")
-            break
-
-    if final_rank is None:
-        # If target error not reached within max_rank
-        final_rank = max_rank
-        final_error = rank_history[-1]['relative_error']
-        print(f"\n>>> Target error not reached within max_rank={max_rank}. Final Rank = {final_rank}, Error = {final_error:.6f} <<<")
-
-    return {
-        'final_rank': final_rank,
-        'final_error': final_error,
-        'target_error': target_error,
-        'nonnegative': True,
-        'rank_history': rank_history,
-        'cp_models': best_cp_models,
-        'data': data
-    }
-
+from cp.decomposition import run_experiment
+from plots.utils import setup_plot_style, get_wavelength_ranges
 
 def plot_results(results: dict, output_dir: Path):
-    """Generate and save plots for rank vs error and factor components."""
+    """Generate and save plots for rank vs error and factor components using shared styles."""
+    setup_plot_style()
     output_dir.mkdir(parents=True, exist_ok=True)
+    
     history = results['rank_history']
     ranks = [h['rank'] for h in history]
     errors = [h['relative_error'] for h in history]
@@ -190,13 +71,9 @@ def plot_results(results: dict, output_dir: Path):
     # 2. Plot Factors for Final Rank
     final_cp = results['cp_models'][final_rank]
     weights, factors = final_cp
-    # factors[0]: Sample loadings (18, R)
-    # factors[1]: Emission spectra (251, R)
-    # factors[2]: Excitation spectra (21, R)
 
     mode_ranges = results['data']['mode_ranges']
-    em_range = np.linspace(250, 500, 251) if mode_ranges is None else mode_ranges[0, 1].squeeze()
-    ex_range = np.linspace(210, 310, 21) if mode_ranges is None else mode_ranges[0, 2].squeeze()
+    em_range, ex_range = get_wavelength_ranges(mode_ranges)
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
 
@@ -237,21 +114,20 @@ def plot_results(results: dict, output_dir: Path):
 
 def main():
     parser = argparse.ArgumentParser(description="EEM Spectroscopy CP Approximation Experiment")
-    parser.add_argument("--mat-path", type=Path, default=Path("EEM18.mat"),
-                        help="Path to EEM18.mat dataset (default: EEM18.mat)")
+    parser.add_argument("--mat-path", type=Path, default=script_dir / "EEM18.mat",
+                        help="Path to EEM18.mat dataset")
     parser.add_argument("--target-error", "-e", type=float, default=0.05,
                         help="Target relative error threshold epsilon (default: 0.05)")
     parser.add_argument("--max-rank", "-r", type=int, default=10,
                         help="Maximum rank R to test (default: 10)")
-
     parser.add_argument("--n-restarts", type=int, default=5,
                         help="Number of random restarts per rank (default: 5)")
     parser.add_argument("--n-iter-max", type=int, default=1000,
                         help="Maximum iterations for CP decomposition (default: 1000)")
-    parser.add_argument("--output-json", type=Path, default=Path("experiment_results.json"),
-                        help="Output path for JSON experiment summary (default: experiment_results.json)")
-    parser.add_argument("--plot-dir", type=Path, default=Path("."),
-                        help="Output directory for plots (default: .)")
+    parser.add_argument("--output-json", type=Path, default=script_dir / "experiment_results.json",
+                        help="Output path for JSON experiment summary")
+    parser.add_argument("--plot-dir", type=Path, default=script_dir,
+                        help="Output directory for plots")
 
     args = parser.parse_args()
 
