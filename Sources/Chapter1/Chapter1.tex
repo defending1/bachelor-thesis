@@ -32,6 +32,16 @@ dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U
 \end{remark}
 
 \begin{definition}
+\todo{change letters}
+Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
+P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
+lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
+M_1 \times M_2 \times  M_3 \to P$.
+
+
+\end{definition}
+
+\begin{definition}
   Un \emph{tensore} $ T  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
   \K $, che denotiamo come $  T \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
   $ T_{\miwc} $, dove $ (\miwc) \in \mdom$.
@@ -583,8 +593,65 @@ complicano notevolmente rispetto al caso matriciale.\todo{non mi piace}
 
 \subsection*{Border rank}
 L'insieme dei tensori di un rango fissato $ r $ non è chiuso, ad esempio, un tensore di rango $ 3 $
-può convergere ad uno di rango $ 2 $, come mostra l'Esempio~\ref{ex:border_rank}. Questo limita
+può convergere ad uno di rango $ 2 $, come mostra il prossimo esempio. Questo limita
 l'utilità del rango dal punto di vista teorico, ma ha risvolti applicativi interessanti, che vedremo nella Sezione~\ref{sec:APA}.
+
+\begin{example}
+  \label{ex:border_rank}
+  Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
+  linearmente indipendenti. Definiamo il tensore 
+  \begin{equation}
+    T = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
+  \end{equation}
+  e notiamo che $ \rk(T) = 3 $ dato che non può
+  essere scomposto come somma di tensori più semplici.
+  Consideriamo la successioni di tensori 
+  \begin{equation}
+  \label{eq:rank_counterex}
+  T_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
+  \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
+  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
+  \end{equation}
+  che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
+  Vediamo che $ \lim_{\varepsilon \to 0} T_\varepsilon = T $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
+  Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
+  \begin{equation}
+    \begin{aligned}
+      \Tn{y}_\varepsilon &=  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
+      +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
+      b_1 \topp c_1 \\
+                         &= T + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
+    \end{aligned}
+  \end{equation}
+  Quindi $ T_\varepsilon - T \to 0 $.
+\end{example}
+
+Questo motiva la seguente definizione:
+
+
+\begin{definition}[Border rank]
+  Un tensore $ T $ ha \emph{border rank} $ r $ se è limite di una successione di tensori di
+  rango $ r $, ma non è limite di una successione di tesori di rango $ s $, per ogni $ s < r $. Lo
+  denoteremo con il simbolo $ \brk(T) $.
+\end{definition}
+\begin{remark}
+  $ \rk(T) \ge \brk(T) $.
+\end{remark}
+\begin{remark}
+  In coordinate, se $ T \in \Rmsiz $, il suo border rank è la quantità
+  \[
+  \brk(T) = \min \left\{ r \in \N \mid \exists T' \in \Rmsiz! \text{ tale che }
+  \rk(T')=r, \, \|T - T'\|  < \varepsilon \right\}
+  .\] 
+\end{remark}
+\todo{Disegno interpretazione geometrica (landsberg pg 38)}
+
+Il border rank ammette anche la seguente interpretazione geometrica:
+
+
+
 
 \subsection*{Costo computazionale}
 Calcolare il costo di una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
@@ -612,6 +679,18 @@ Sfortunatamente, generalizzare questo risultato in più dimensioni è
 ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposednessbest}.
 
 \subsection*{Rango tipico}
+
+Sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$
+\begin{definition}
+  Il \emph{rango tipico} (o \emph{rango generico}) per un tensore di formato $ n_1 \times n_2 \times
+  \cdots \times n_{d}$ è l'insieme dei ranghi che occorrono con probabilità non nulla, rispetto ad
+  ogni distribuzione continua $  \mathcal{D}(n_1, n_2, \ldots, n_{d})$ sull'insieme di tali tensori.
+  In formule,
+  \begin{equation*}
+    \rk_{\text{typical}} = \{r \mid P \left( \rk(T) = r, \; T \sim \mathcal{D}(n_1, \ldots,
+    n_{d})\right) > 0\}.
+  \end{equation*}
+\end{definition}
 
 Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
 formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
@@ -757,15 +836,16 @@ In ambito teorico, i ranghi tipici sul campo reale $\mathbb{R}$ sono stati carat
     \toprule
     Formato ($m \times n \times p$) & Rango tipico & Fonte \\
     \midrule
-    $2 \times n \times n$ & $\{n, n+1\}$ & ten Berge e Kiers (1999)~\cite{tenberge1999} \\
-    $3 \times 3 \times 3$ & $5$ & ten Berge e Stegeman (2006)~\cite{tenberge2006} \\
-    $3 \times 3 \times 5$ & $\{5, 6\}$ & ten Berge, Sidiropoulos e Rocci (2004)~\cite{tenberge2004} \\
-    $3 \times 4 \times 8$ & $\{8, 9\}$ & Sumi et al. (2013)~\cite{sumi2013} \\
-    $3 \times 5 \times 9$ & $\{9, 10\}$ & Choulakian (2010)~\cite{choulakian2010}; ten Berge (2011)~\cite{tenberge2011} \\
-    $4 \times 4 \times 12$ & $\{12, 13\}$ & Friedland (2012)~\cite{friedland2012} \\
-    $m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$ & ten Berge (2000)~\cite{tenberge2000b} \\
-    $m \times n \times p$ ($n(m-1) < p < mn$) & $p$ & ten Berge e Kiers (1999)~\cite{tenberge1999}; ten Berge (2000)~\cite{tenberge2000b} \\
-    $m \times n \times p$ ($p \ge mn$) & $mn$ & ten Berge e Kiers (1999)~\cite{tenberge1999}; ten Berge (2000)~\cite{tenberge2000b} \\
+    $2 \times n \times n$ & $\{n, n+1\}$ & ten Berge, Kiers~\cite{tenberge1999} \\
+    $3 \times 3 \times 3$ & $5$ & ten Berge, Stegeman~\cite{tenberge2006} \\
+    $3 \times 3 \times 5$ & $\{5, 6\}$ & ten Berge, Sidiropoulos, Rocci~\cite{tenberge2004} \\
+    $3 \times 4 \times 8$ & $\{8, 9\}$ & Sumi et al.~\cite{sumi2013} \\
+    $3 \times 5 \times 9$ & $\{9, 10\}$ & Choulakian~\cite{choulakian2010}; ten Berge~\cite{tenberge2011} \\
+    $4 \times 4 \times 12$ & $\{12, 13\}$ & Friedland~\cite{friedland2012} \\
+    $m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$ & ten Berge~\cite{tenberge2000b} \\
+    $m \times n \times p$ ($n(m-1) < p < mn$) & $p$ & ten Berge, Kiers~\cite{tenberge1999}; ten Berge~\cite{tenberge2000b} \\
+    $m \times n \times p$ ($p \ge mn$) & $mn$ & ten Berge, Kiers~\cite{tenberge1999}; ten
+    Berge~\cite{tenberge2000b} \\
     \bottomrule
   \end{tabular}
 \end{table}
