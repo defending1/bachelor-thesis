@@ -13,305 +13,306 @@
 Denotiamo gli spazi vettoriali con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
 lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Se $ v_1,\ldots,v_p \in V$,
 $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^* = \{ f : V \to \K \mid f \text{ lineare} \} $ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
-\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
+	\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
 dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
-\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
+	\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
 
 
 \begin{definition}
-  Denotiamo l'insieme dei numeri naturali da $ 1 $ a $ n \in \N $ come $ \underline{n} = \left\{ 1,\dots,n
-  \right\} $, e il prodotto cartesiano tra $ \underline{n} $ e $ \underline{m} $ come $ \underline{n}
-  \times  \underline{m} =
-  \left\{ (i,j) : i \in \underline{n}, j \in \underline{m} \right\} $.
+	Denotiamo l'insieme dei numeri naturali da $ 1 $ a $ n \in \N $ come $ \underline{n} = \left\{ 1,\dots,n
+		\right\} $, e il prodotto cartesiano tra $ \underline{n} $ e $ \underline{m} $ come $ \underline{n}
+		\times  \underline{m} =
+		\left\{ (i,j) : i \in \underline{n}, j \in \underline{m} \right\} $.
 \end{definition}
 
 \begin{remark}
-  Un tensore $ T \in \R^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
-  un tensore $ T \in \R^{n_1\times n_{d-1} \times 1} $ è un tensore di dimensione $ n_1\times
-  n_2\times \cdots \times  n_{d-1} $.
+	Un tensore $ T \in \R^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
+	un tensore $ T \in \R^{n_1\times n_{d-1} \times 1} $ è un tensore di dimensione $ n_1\times
+		n_2\times \cdots \times  n_{d-1} $.
 \end{remark}
 
 \begin{definition}
-\todo{change letters}
-Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
-P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
-lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
-M_1 \times M_2 \times  M_3 \to P$.
+	\todo{change letters}
+	Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
+		P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
+	lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
+		M_1 \times M_2 \times  M_3 \to P$.
 
 
 \end{definition}
 
 \begin{definition}
-  Un \emph{tensore} $ T  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
-  \K $, che denotiamo come $  T \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
-  $ T_{\miwc} $, dove $ (\miwc) \in \mdom$.
+	Un \emph{tensore} $ T  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
+		\K $, che denotiamo come $  T \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
+	$ T_{\miwc} $, dove $ (\miwc) \in \mdom$.
 \end{definition}
 
 \begin{remark}
-  Per array intendiamo un arrangiamento di elementi di $ \K $ secondo gli indici $ (\miwc) \in
-  \mdom $. Trattare la buona definizione dei tensori dal punto di vista algebrico esula dallo scopo
-  del presente lavoro, tuttavia il lettore interessato a una visione algebrica più ampia, può
-  guardare. \todo{Cita landberg o Hackbush)}
+	Per array intendiamo un arrangiamento di elementi di $ \K $ secondo gli indici $ (\miwc) \in
+		\mdom $. Trattare la buona definizione dei tensori dal punto di vista algebrico esula dallo scopo
+	del presente lavoro, tuttavia il lettore interessato a una visione algebrica più ampia, può
+	guardare. \todo{Cita landberg o Hackbush)}
 \end{remark}
 
 \begin{example}(Tensori che rappresentano applicazioni multilineari)
-  \todo{Scrivere}
+	\todo{Scrivere}
 \end{example}
 
 
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
 
 \begin{remark}
-  L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R- $spazio vettoriale, dotato del prodotto
-  scalare euclideo, con le operazioni
-  \begin{itemize}
-    \item Addizione: $(T_1 + T_2)(\miwc!) = T_1(\miwc!) + T_2(\miwc!)$.
-    \item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (T(\miwc!)) = (\alpha
-      T)(\miwc!)$
-    \item Prodotto scalare: $ \angb{T_1, T_2} = \Vec(T_1)^{\top} \Vec(T_2)$
-    \item Norma: $\| \Vec(T)\|$
-  \end{itemize}
+	L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R- $spazio vettoriale, dotato del prodotto
+	scalare euclideo, con le operazioni
+	\begin{itemize}
+		\item Addizione: $(T_1 + T_2)(\miwc!) = T_1(\miwc!) + T_2(\miwc!)$.
+		\item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (T(\miwc!)) = (\alpha
+			      T)(\miwc!)$
+		\item Prodotto scalare: $ \angb{T_1, T_2} = \Vec(T_1)^{\top} \Vec(T_2)$
+		\item Norma: $\| \Vec(T)\|$
+	\end{itemize}
 \end{remark}
 
 \section{Il prodotto esterno}
 Dati due vettori $ u = \begin{bmatrix} u_1, \ldots, u_m \end{bmatrix}^{\top} \in \R^m $ e $ v =
-\begin{bmatrix} v_1, \ldots, v_n \end{bmatrix}^{\top} \in \R^n  $, possiamo introdurre un'operazione $ \topp
+	\begin{bmatrix} v_1, \ldots, v_n \end{bmatrix}^{\top} \in \R^n  $, possiamo introdurre un'operazione $ \topp
 $ tra $ u $ e $ v $ definita come
 \begin{equation*}
-  u \topp v = uv^{\top} = 
-  \begin{bmatrix} u_1v_1 & u_1v_2 & \ldots & u_1v_n \\ u_2v_1 & u_2v_2 &
-  \ldots & u_2v_n \\ 
-  \vdots & \vdots & \ddots & \vdots \\
-  u_mv_1 & u_mv_2 & \ldots & u_mv_n
-  \end{bmatrix} \in \R^{m\times n}.
+	u \topp v = uv^{\top} =
+	\begin{bmatrix} u_1v_1 & u_1v_2 & \ldots & u_1v_n \\ u_2v_1 & u_2v_2 &
+                \ldots & u_2v_n                   \\
+                \vdots & \vdots & \ddots & \vdots \\
+                u_mv_1 & u_mv_2 & \ldots & u_mv_n
+	\end{bmatrix} \in \R^{m\times n}.
 \end{equation*}
 Possiamo generalizzare tale costruzione a più dimensioni:
 \begin{definition}[Prodotto esterno]
-  Dati dei vettori $ v^1 \in \R^{n_1}, \ldots, v^d \in \R^{n_d} $, loro \emph{prodotto
-  esterno}, anche detto \emph{prodotto tensore}, è il tensore
-  \begin{equation}
-    \label{eq:rk1}
-  T = v^1 \topp v^2 \topp \cdots \topp v^d \in \Rmsiz
-  \end{equation}
-   tale che la sua scrittura in componenti è
-     \[
-       T_{\miwc} = v_{i_1}^1v_{i_2}^2 \cdots v_{i_d}^d = \prod_{j=1}^d v_{i_j}^j
-     .\] 
+	Dati dei vettori $ v^1 \in \R^{n_1}, \ldots, v^d \in \R^{n_d} $, loro \emph{prodotto
+		esterno}, anche detto \emph{prodotto tensore}, è il tensore
+	\begin{equation}
+		\label{eq:rk1}
+		T = v^1 \topp v^2 \topp \cdots \topp v^d \in \Rmsiz
+	\end{equation}
+	tale che la sua scrittura in componenti è
+	\[
+		T_{\miwc} = v_{i_1}^1v_{i_2}^2 \cdots v_{i_d}^d = \prod_{j=1}^d v_{i_j}^j
+		.\]
 \end{definition}
 \begin{definition}[Tensore di rango uno]
-  Un tensore $ T \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione
-  \ref{eq:rk1}.
-\end{definition} 
+	Un tensore $ T \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione
+	\ref{eq:rk1}.
+\end{definition}
 Questo ci permette di definire la seguente quantità fondamentale:
 \begin{definition}[Rango di un tensore]
-  Il rango di un tensore $ T \in \Rmsiz!$ è il minimo intero positivo $ r $ tale che $ T $ si può scrivere
-  come somma di tensori di rango uno, e scriviamo $ \rk(T) = r $.
+	Il rango di un tensore $ T \in \Rmsiz!$ è il minimo intero positivo $ r $ tale che $ T $ si può scrivere
+	come somma di tensori di rango uno, e scriviamo $ \rk(T) = r $.
 \end{definition}
 Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 
 \begin{definition}[Prodotto di Kroneker]
-  \label{def:krn}
-  Date due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{p \times q} $, il loro prodotto
-  di Kroneker è la matrice 
-  \[
-  C = A \krn B = 
-  \begin{bmatrix} 
-    a_{11}B & a_{12}B & \ldots & a_{1n}B \\ 
-    a_{21}B & a_{22}B & \ldots & a_{2n}B \\ 
-    \vdots & \vdots & \ddots & \vdots \\ 
-    a_{m1}B & a_{m2}B & \ldots & a_{mn}B \\ 
-  \end{bmatrix}  \in  \R^{mp \times nq}, \text{dove } c_{kl} = a_{ij}b_{nl},
-  .\] 
-  dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
-  \todo{riscrivere con L*. Vedi definizione nelle note}
-  
+	\label{def:krn}
+	Date due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{p \times q} $, il loro prodotto
+	di Kroneker è la matrice
+	\[
+		C = A \krn B =
+		\begin{bmatrix}
+			a_{11}B & a_{12}B & \ldots & a_{1n}B \\
+			a_{21}B & a_{22}B & \ldots & a_{2n}B \\
+			\vdots  & \vdots  & \ddots & \vdots  \\
+			a_{m1}B & a_{m2}B & \ldots & a_{mn}B \\
+		\end{bmatrix}  \in  \R^{mp \times nq}, \text{dove } c_{kl} = a_{ij}b_{nl},
+		.\]
+	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
+	\todo{riscrivere con L*. Vedi definizione nelle note}
+
 \end{definition}
 \begin{remark}[Collegamento con il prodotto tensore]
-  \label{rmk:krn_tensor}
-  Dati due vettori $ u \in \R^m $ e $ v \in \R^n $, il loro prodotto di Kroneker si può vedere come
-  vettorizzazione del prodotto vettore, ossia
-  \begin{equation}
-    \Vec(v \topp u) =
-  \Vec \left( 
-  \begin{bmatrix} 
-  v_1u_1 & v_1u_2 & \ldots & v_1u_m \\
-  v_2u_1 & v_2u_2 & \ldots & v_2u_m \\ 
-  \vdots & \vdots & \ddots & \vdots \\
-  v_nu_1 & v_nu_2 & \ldots & v_nu_m
-  \end{bmatrix}  \right) =
-  \begin{bmatrix} u_1v \mid u_2v \mid \ldots \mid  u_mv \end{bmatrix} = u \krn v
-  \end{equation}
-  Notiamo che tale operazione scambia l'ordine tra i vettori.
+	\label{rmk:krn_tensor}
+	Dati due vettori $ u \in \R^m $ e $ v \in \R^n $, il loro prodotto di Kroneker si può vedere come
+	vettorizzazione del prodotto vettore, ossia
+	\begin{equation}
+		\Vec(v \topp u) =
+		\Vec \left(
+		\begin{bmatrix}
+			v_1u_1 & v_1u_2 & \ldots & v_1u_m \\
+			v_2u_1 & v_2u_2 & \ldots & v_2u_m \\
+			\vdots & \vdots & \ddots & \vdots \\
+			v_nu_1 & v_nu_2 & \ldots & v_nu_m
+		\end{bmatrix}  \right) =
+		\begin{bmatrix} u_1v \mid u_2v \mid \ldots \mid  u_mv \end{bmatrix} = u \krn v
+	\end{equation}
+	Notiamo che tale operazione scambia l'ordine tra i vettori.
 \end{remark}
 
 \todo{Breve motivazione dell'ordinamento naturale}
 
 \begin{definition}[Ordinamento naturale]
-  \emph{L'ordinamento naturale (o natural ordering)} sull'insieme $ \mdom! $ è la mappa biunivoca
-\begin{equation*}
-  \begin{aligned}
-    \L \colon \mdom! &\to [\prod_{j=1}^d n_j]\\
-    (\miwc) &\mapsto 1 + s_1 (i_1-1) + \ldots + s_d(i_d-1) = 1 + \sum_{j=1}^d s_j(i_j - 1),
-  \end{aligned}
-\end{equation*}
-dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j- $esimi} e sono definiti come $ s_1=1 $ e
-$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j \in [d-1] $.
-L'inversa di $ \L $ è data dalla mappa
-\begin{equation*}
-  \begin{aligned}
-    \L^{-1} \colon [\prod_{j=1}^d n_j] &\to \mdom!\\
-    l &\mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
-    \left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor \right).
-  \end{aligned}
-\end{equation*} 
-Le mappe $ \L $ e $ \L^{-1} $ sono l'una l'inversa dell'altra, e sono anche dette linearizzazione e tensorizzazione
-  degli indici, rispettivamente, in quanto permettono di passare da un indice tensoriale a uno
-  lineare, e viceversa.
+	\emph{L'ordinamento naturale (o natural ordering)} sull'insieme $ \mdom! $ è la mappa biunivoca
+	\begin{equation*}
+		\begin{aligned}
+			\L \colon \mdom! & \to [\prod_{j=1}^d n_j]                                                        \\
+			(\miwc)          & \mapsto 1 + s_1 (i_1-1) + \ldots + s_d(i_d-1) = 1 + \sum_{j=1}^d s_j(i_j - 1),
+		\end{aligned}
+	\end{equation*}
+	dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j- $esimi} e sono definiti come $ s_1=1 $ e
+	$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j \in [d-1] $.
+	L'inversa di $ \L $ è data dalla mappa
+	\begin{equation*}
+		\begin{aligned}
+			\L^{-1} \colon [\prod_{j=1}^d n_j] & \to \mdom!                                                                              \\
+			l                                  & \mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
+			\left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor \right).
+		\end{aligned}
+	\end{equation*}
+	Le mappe $ \L $ e $ \L^{-1} $ sono l'una l'inversa dell'altra, e sono anche dette linearizzazione e tensorizzazione
+	degli indici, rispettivamente, in quanto permettono di passare da un indice tensoriale a uno
+	lineare, e viceversa.
 \end{definition}
 
 
 \begin{proof}[Buona definizione]
-Segue direttamente dalla definizione di $ \L $ e dalle proprietà del modulo, infatti,
-\[
-\begin{aligned}
-  \L^{-1}(\L(\miwc)) &= \L^{-1}(1 + s_1(i_1-1)) + \ldots + s_d(i_d-1)) \\
-                     &= \left( 1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1) \mod(n_1s_1)}{s_1}
-                     \right\rfloor, \ldots,   1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1)
-                   \mod(n_ds_d)}{s_d} \right\rfloor \right)\\
-                     &= \left( 1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_1}(i_j-1) \mod(n_1s_1)
-                     \right\rfloor, \ldots,   1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_d}(i_j-1)
-                   \mod(n_ds_d) \right\rfloor \right)\\
-                     &= \left( \miwc \right),
-\end{aligned}
-\]
-dove nell'ultimo passaggio abbiamo usato che $ s_j = \prod_{k=1}^d n_k$ e il fatto che $
-\left\lfloor x \right\rfloor = 0 $ per ogni $ x \in [0,1) $.
-Viceversa,
-\[
-\begin{aligned}
-  \L(\L^{-1}(l)) &= \L\left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
-    \left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor\right) = \\
-                 &=1 + s_1\left(\left\lfloor \frac{(l-1) \mod(n_1s_1)}{s_1} \right\rfloor \right) + \ldots +
-                 s_d\left(\left\lfloor \frac{(l-1) \mod(n_ds_d)}{s_d} \right\rfloor\right)
-\end{aligned}
-\] 
-\todo{FINIRE}
+	Segue direttamente dalla definizione di $ \L $ e dalle proprietà del modulo, infatti,
+	\[
+		\begin{aligned}
+			\L^{-1}(\L(\miwc)) & = \L^{-1}(1 + s_1(i_1-1)) + \ldots + s_d(i_d-1))                          \\
+			                   & = \left( 1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1) \mod(n_1s_1)}{s_1}
+			\right\rfloor, \ldots,   1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1)
+			\mod(n_ds_d)}{s_d} \right\rfloor \right)                                                       \\
+			                   & = \left( 1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_1}(i_j-1) \mod(n_1s_1)
+			\right\rfloor, \ldots,   1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_d}(i_j-1)
+			\mod(n_ds_d) \right\rfloor \right)                                                             \\
+			                   & = \left( \miwc \right),
+		\end{aligned}
+	\]
+	dove nell'ultimo passaggio abbiamo usato che $ s_j = \prod_{k=1}^d n_k$ e il fatto che $
+		\left\lfloor x \right\rfloor = 0 $ per ogni $ x \in [0,1) $.
+	Viceversa,
+	\[
+		\begin{aligned}
+			\L(\L^{-1}(l)) & = \L\left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
+			\left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor\right) =                                          \\
+			               & =1 + s_1\left(\left\lfloor \frac{(l-1) \mod(n_1s_1)}{s_1} \right\rfloor \right) + \ldots +
+			s_d\left(\left\lfloor \frac{(l-1) \mod(n_ds_d)}{s_d} \right\rfloor\right)
+		\end{aligned}
+	\]
+	\todo{FINIRE}
 \end{proof}
 
 \begin{example}
-  È utile visualizzare il caso $ 3- $dimensionale: fissato un tensore $ T \in \R^{m\times
-  n\times p}$ indicizzato con $ (i,j,k) $, abbiamo che $ s_1=1,s_2 = m $ e $ s_3 = mn $, dunque 
-\[
-  \L(i,j,k) = 1 + (i-1) + m(j-1) + mn(k-1) = i + m(j-1) + mn(k-1)
-,\] 
-  mentre l'inversa è 
-\[
-  \L^{-1}(i,j,k) = \left( \left\lfloor (l-1) \mod(m)
-  \right\rfloor, 1 + \left\lfloor \frac{(l-1) \mod(mn)}{m} \right\rfloor, 1 + \left\lfloor
-\frac{(l-1) \mod(mnp)}{mn} \right\rfloor \right)
-.\] 
+	È utile visualizzare il caso $ 3- $dimensionale: fissato un tensore $ T \in \R^{m\times
+			n\times p}$ indicizzato con $ (i,j,k) $, abbiamo che $ s_1=1,s_2 = m $ e $ s_3 = mn $, dunque
+	\[
+		\L(i,j,k) = 1 + (i-1) + m(j-1) + mn(k-1) = i + m(j-1) + mn(k-1)
+		,\]
+	mentre l'inversa è
+	\[
+		\L^{-1}(i,j,k) = \left( \left\lfloor (l-1) \mod(m)
+		\right\rfloor, 1 + \left\lfloor \frac{(l-1) \mod(mn)}{m} \right\rfloor, 1 + \left\lfloor
+		\frac{(l-1) \mod(mnp)}{mn} \right\rfloor \right)
+		.\]
 \end{example}
 
 \begin{definition}[Reverse ordering]
-  \emph{L'ordinamento inverso} sull'insieme $ \mdom! $ è la mappa biunivoca
-\begin{equation*}
-  \begin{aligned}
-    \L^* \colon \mdom! &\to [\prod_{j=1}^d n_j]\\
-    (\miwc) &\mapsto 1 + \sum_{j=1}^d s_j^*(i_j - 1),
-  \end{aligned}
-\end{equation*} dove $ s_d^* =1 $ e $ s_{j-1}^* = \prod_{h=j}^{d} n_h = s_j^*n_j $, per $ j = d,\ldots,2 $. La sua inversa è la mappa
-\begin{equation*}
-  \begin{aligned}
-    (\L^*)^{-1} \colon [\prod_{j=1}^d n_j] &\to \mdom!\\
-    l &\mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1^*)}{s_1^*}\right\rfloor, \ldots, 1 +
-    \left\lfloor \frac{ (l-1)\mod(n_ds_d^*)}{s_d^*} \right\rfloor \right)
-  \end{aligned}
-\end{equation*}. 
+	\emph{L'ordinamento inverso} sull'insieme $ \mdom! $ è la mappa biunivoca
+	\begin{equation*}
+		\begin{aligned}
+			\L^* \colon \mdom! & \to [\prod_{j=1}^d n_j]                  \\
+			(\miwc)            & \mapsto 1 + \sum_{j=1}^d s_j^*(i_j - 1),
+		\end{aligned}
+	\end{equation*} dove $ s_d^* =1 $ e $ s_{j-1}^* = \prod_{h=j}^{d} n_h = s_j^*n_j $, per $ j = d,\ldots,2 $. La sua inversa è la mappa
+	\begin{equation*}
+		\begin{aligned}
+			(\L^*)^{-1} \colon [\prod_{j=1}^d n_j] & \to \mdom!                                                                                  \\
+			l                                      & \mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1^*)}{s_1^*}\right\rfloor, \ldots, 1 +
+			\left\lfloor \frac{ (l-1)\mod(n_ds_d^*)}{s_d^*} \right\rfloor \right)
+		\end{aligned}
+	\end{equation*}.
 \end{definition}
 
 \begin{example}
-  Nel caso di un tensore $ T \in \R^{m\times n\times p}$, i passi sono $ s_3^* = 1 $, $ s_2^* =
-  p$ e $ s_1^* = np $.
+	Nel caso di un tensore $ T \in \R^{m\times n\times p}$, i passi sono $ s_3^* = 1 $, $ s_2^* =
+		p$ e $ s_1^* = np $.
 \end{example}
 
 \begin{remark}
-  I passi determinano l'ordine di percorrenza del tensore nelle definizioni di $ \L $ e $ \L^* $.
+	I passi determinano l'ordine di percorrenza del tensore nelle definizioni di $ \L $ e $ \L^* $.
 
-\missingfigure{Tensore 3x3 che mostri come funzionino le strides, sia nell'ordine inverso e diretto
-(e.g pag 25 book)}
+	\missingfigure{Tensore 3x3 che mostri come funzionino le strides, sia nell'ordine inverso e diretto
+		(e.g pag 25 book)}
 \end{remark}
 
 Analogamente alle matrici, i tensori vengono salvati in memoria come vettori, risulta quindi
-naturale definire la seguente operazione 
+naturale definire la seguente operazione
 \begin{definition}
-  Dato un tensore $ T$, possiamo definire l'operazione che trasforma un tensore in vettore,
-  tramite la mappa di vettorizzazione 
-\begin{equation*}
-\begin{aligned}
-  \Vec \colon \Rmsiz &\to \R^{\prod_{j=1}^d n_j}\\
-  T &\mapsto x\\
-\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35, z={(0.4,0.4)}]
-    
-    % --- Back slice (k=2) ---
-    % Top faces (Orange, Brown)
-    \draw[fill=cOrange] (0,2,1) -- (1,2,1) -- (1,2,2) -- (0,2,2) -- cycle;
-    \draw[fill=cBrown]  (1,2,1) -- (2,2,1) -- (2,2,2) -- (1,2,2) -- cycle;
-    
-    % Right faces (Brown, Pink)
-    \draw[fill=cBrown]  (2,1,1) -- (2,2,1) -- (2,2,2) -- (2,1,2) -- cycle;
-    \draw[fill=cPink]   (2,0,1) -- (2,1,1) -- (2,1,2) -- (2,0,2) -- cycle;
+	Dato un tensore $ T$, possiamo definire l'operazione che trasforma un tensore in vettore,
+	tramite la mappa di vettorizzazione
+	\begin{equation*}
+		\begin{aligned}
+			\Vec \colon \Rmsiz & \to \R^{\prod_{j=1}^d n_j} \\
+			T                  & \mapsto x                  \\
+			\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35, z={(0.4,0.4)}]
 
-    % --- Front slice (k=1) ---
-    % Top faces (Red, Green)
-    \draw[fill=cRed]    (0,2,0) -- (1,2,0) -- (1,2,1) -- (0,2,1) -- cycle;
-    \draw[fill=cGreen]  (1,2,0) -- (2,2,0) -- (2,2,1) -- (1,2,1) -- cycle;
-    
-    % Right faces (Green, Purple)
-    \draw[fill=cGreen]  (2,1,0) -- (2,2,0) -- (2,2,1) -- (2,1,1) -- cycle;
-    \draw[fill=cPurple] (2,0,0) -- (2,1,0) -- (2,1,1) -- (2,0,1) -- cycle;
+				% --- Back slice (k=2) ---
+				% Top faces (Orange, Brown)
+				\draw[fill=cOrange] (0,2,1) -- (1,2,1) -- (1,2,2) -- (0,2,2) -- cycle;
+				\draw[fill=cBrown]  (1,2,1) -- (2,2,1) -- (2,2,2) -- (1,2,2) -- cycle;
 
-    % Front faces (Blue, Purple, Red, Green)
-    \draw[fill=cBlue]   (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
-    \draw[fill=cPurple] (1,0,0) -- (2,0,0) -- (2,1,0) -- (1,1,0) -- cycle;
-    \draw[fill=cRed]    (0,1,0) -- (1,1,0) -- (1,2,0) -- (0,2,0) -- cycle;
-    \draw[fill=cGreen]  (1,1,0) -- (2,1,0) -- (2,2,0) -- (1,2,0) -- cycle;
+				% Right faces (Brown, Pink)
+				\draw[fill=cBrown]  (2,1,1) -- (2,2,1) -- (2,2,2) -- (2,1,2) -- cycle;
+				\draw[fill=cPink]   (2,0,1) -- (2,1,1) -- (2,1,2) -- (2,0,2) -- cycle;
 
-\end{tikzpicture}
-&\mapsto 
-\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35]
-    % Draw the vectorized column from bottom (y=0) to top (y=8)
-    \draw[fill=cPink]   (0,0) rectangle (1,1);
-    \draw[fill=cBrown]  (0,1) rectangle (1,2);
-    \draw[fill=cGrey]   (0,2) rectangle (1,3);
-    \draw[fill=cOrange] (0,3) rectangle (1,4);
-    \draw[fill=cPurple] (0,4) rectangle (1,5);
-    \draw[fill=cGreen]  (0,5) rectangle (1,6);
-    \draw[fill=cBlue]   (0,6) rectangle (1,7);
-    \draw[fill=cRed]    (0,7) rectangle (1,8);
-\end{tikzpicture}
-\end{aligned}
-\end{equation*}
- dove $ x_l = T(\L^{-1}(l;\miwc[n])) $.
+				% --- Front slice (k=1) ---
+				% Top faces (Red, Green)
+				\draw[fill=cRed]    (0,2,0) -- (1,2,0) -- (1,2,1) -- (0,2,1) -- cycle;
+				\draw[fill=cGreen]  (1,2,0) -- (2,2,0) -- (2,2,1) -- (1,2,1) -- cycle;
+
+				% Right faces (Green, Purple)
+				\draw[fill=cGreen]  (2,1,0) -- (2,2,0) -- (2,2,1) -- (2,1,1) -- cycle;
+				\draw[fill=cPurple] (2,0,0) -- (2,1,0) -- (2,1,1) -- (2,0,1) -- cycle;
+
+				% Front faces (Blue, Purple, Red, Green)
+				\draw[fill=cBlue]   (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+				\draw[fill=cPurple] (1,0,0) -- (2,0,0) -- (2,1,0) -- (1,1,0) -- cycle;
+				\draw[fill=cRed]    (0,1,0) -- (1,1,0) -- (1,2,0) -- (0,2,0) -- cycle;
+				\draw[fill=cGreen]  (1,1,0) -- (2,1,0) -- (2,2,0) -- (1,2,0) -- cycle;
+
+			\end{tikzpicture}
+			                   & \mapsto
+			\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35]
+				% Draw the vectorized column from bottom (y=0) to top (y=8)
+				\draw[fill=cPink]   (0,0) rectangle (1,1);
+				\draw[fill=cBrown]  (0,1) rectangle (1,2);
+				\draw[fill=cGrey]   (0,2) rectangle (1,3);
+				\draw[fill=cOrange] (0,3) rectangle (1,4);
+				\draw[fill=cPurple] (0,4) rectangle (1,5);
+				\draw[fill=cGreen]  (0,5) rectangle (1,6);
+				\draw[fill=cBlue]   (0,6) rectangle (1,7);
+				\draw[fill=cRed]    (0,7) rectangle (1,8);
+			\end{tikzpicture}
+		\end{aligned}
+	\end{equation*}
+	dove $ x_l = T(\L^{-1}(l;\miwc[n])) $.
 \end{definition}
 \begin{remark}
-  L'operatore di trasposizione per matrici induce l'ordinamento inverso sulla vettorizzazione.
-  Consideriamo ad esempio il caso $ 2\times 2 $:
-  \begin{equation*}
-    A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}, \quad A^{\top} =
-    \begin{bmatrix} a_{11} & a_{21} \\ a_{12} & a_{22} \end{bmatrix}
-    \implies
-    \Vec(A) = \begin{bmatrix} a_{11}\\a_{21}\\a_{12}\\a_{22} \end{bmatrix},  \quad \Vec(A^{\top}) =
-    \begin{bmatrix} a_{11}\\a_{12}\\a_{21}\\a_{22} \end{bmatrix}.
-  \end{equation*}
-  Nel caso matriciale si usa riferirsi all'ordine naturale come \emph{column-major} e a quello
-  inverso come \emph{row-major}, specialmente nel contesto dei linguaggi di programmazione.
-  \todo{Check}
+	L'operatore di trasposizione per matrici induce l'ordinamento inverso sulla vettorizzazione.
+	Consideriamo ad esempio il caso $ 2\times 2 $:
+	\begin{equation*}
+		A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}, \quad A^{\top} =
+		\begin{bmatrix} a_{11} & a_{21} \\ a_{12} & a_{22} \end{bmatrix}
+		\implies
+		\Vec(A) = \begin{bmatrix} a_{11}\\a_{21}\\a_{12}\\a_{22} \end{bmatrix},  \quad \Vec(A^{\top}) =
+		\begin{bmatrix} a_{11}\\a_{12}\\a_{21}\\a_{22} \end{bmatrix}.
+	\end{equation*}
+	Nel caso matriciale si usa riferirsi all'ordine naturale come \emph{column-major} e a quello
+	inverso come \emph{row-major}, specialmente nel contesto dei linguaggi di programmazione.
+	\todo{Check}
 \end{remark}
 
 
 
 
 \section{La fattorizzazione CP}
+\label{sec:cp_factorization}
 
 Introduciamo una scrittura di un tensore in tensori elementari, utile a risolvere i seguenti
 problemi che affronteremo nei prossimi capitoli.
@@ -329,93 +330,93 @@ Capitolo~\ref{chp:matmul}.
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
-  X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
-u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
-,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
+	X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
+	u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
+	,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
 decomposizione è vantaggioso in termini di memoria: infatti
 \[
-\Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
-,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
+	\Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
+	,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
 quindi riadattare questa decomposizione per memorizzare $ T $ con costo $ O((n_1+\ldots+n_d)r)
 $ invece che $ O(n_1\cdots n_d) $. \todo{discorso unicità} Tuttavia, generalizzare questa decomposizione a più dimensioni ha
 numerosi ostacoli \todo{ref to ostacoli}.
 
 \begin{definition}[Canonical Polyadic Decomposition (CP)]
-\label{def:CP}
-Dati degli spazi vettoriali $ A_1 \otimes \cdots \otimes A_d $ e dei vettori $ \{u_1^t, \ldots,
-u_{n_{t}}^t\} \subset A_{t}  $, diciamo che un tensore $ T \in A_1 \otimes \cdots \otimes A_d $
-ammette una \emph{decomposizione CP} di rango $ r \in \N $ se si può scrivere come
-\begin{equation*}
-  T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
-  \otimes u_r^d.
-\end{equation*}
-\todo{serve ipotesi sui vettori?}
+	\label{def:CP}
+	Dati degli spazi vettoriali $ A_1 \otimes \cdots \otimes A_d $ e dei vettori $ \{u_1^t, \ldots,
+		u_{n_{t}}^t\} \subset A_{t}  $, diciamo che un tensore $ T \in A_1 \otimes \cdots \otimes A_d $
+	ammette una \emph{decomposizione CP} di rango $ r \in \N $ se si può scrivere come
+	\begin{equation*}
+		T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
+		\otimes u_r^d.
+	\end{equation*}
+	\todo{serve ipotesi sui vettori?}
 \end{definition}
 \begin{remark}
-La definizione è invariante per cambiamento di base. 
+	La definizione è invariante per cambiamento di base.
 \end{remark}
 
 \begin{remark}[Versione originale]
- In letteratura spesso la CP viene
- definita in coordinate $ \Rmsiz $ tramite delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
- \ldots \mid u_r^t\right]\in \R^{n_t \times r} $ tali per cui 
-\begin{equation*}
-  T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
-  \otimes u_r^d \in \Rmsiz.
-\end{equation*}
-  In tal caso, scriveremo $ T = \dsqr{U_1, \ldots, U_d} $.
+	In letteratura spesso la CP viene
+	definita in coordinate $ \Rmsiz $ tramite delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
+			\ldots \mid u_r^t\right]\in \R^{n_t \times r} $ tali per cui
+	\begin{equation*}
+		T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
+		\otimes u_r^d \in \Rmsiz.
+	\end{equation*}
+	In tal caso, scriveremo $ T = \dsqr{U_1, \ldots, U_d} $.
 \end{remark}
 
 \begin{remark}
-  Fissando la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
-  \begin{enumerate}[label=(\roman*)]
-    \item $ T = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d$.
-    \item $ \Vec(T) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
-    \item $T_{\miwc} = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
-  \end{enumerate}
-  \todo{la 3 non torna}
+	Fissando la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
+	\begin{enumerate}[label=(\roman*)]
+		\item $ T = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d$.
+		\item $ \Vec(T) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
+		\item $T_{\miwc} = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
+	\end{enumerate}
+	\todo{la 3 non torna}
 \end{remark}
 
 \begin{example}[De Lathauwer~\cite{lieven2006}]
-  Consideriamo il tensore $ T $ di taglia $ 2\times 2\times 2 $ definito da
-  \begin{equation*}
-    a_{111}=-a_{121} = 3, \quad a_{211} = -a_{221} = 6, \quad a_{112} = -a_{122} = 1, \quad a_{212} = - a_{222} = 2.
-  \end{equation*}
-  I vettori dei modi $ 1,2 $ e $ 3 $ sono le colonne delle matrici
-  \begin{equation*}
-    \Tm{T}{1} = \begin{bmatrix} 3 & -3 & 1 & -1 \\ 6 & -6 & 2 & -2 \end{bmatrix}, \quad
-    \Tm{T}{2} = \begin{bmatrix} 3 & 6 & 1 & 2 \\ -3 & -6 & -1 & -2 \end{bmatrix}, \quad 
-    \Tm{T}{3} = \begin{bmatrix} 3 & 6 & -3 & -6 \\ 1 & 2 & -1 & -2 \end{bmatrix},
-  \end{equation*}
-  rispettivamente. Il tensore ha rango uno perché si può decomporre come
-  \begin{equation*}
-    T = \begin{bmatrix} 1 \\ 2 \end{bmatrix}  \topp \begin{bmatrix} 1 \\ -1 \end{bmatrix} \topp
-    \begin{bmatrix} 3 \\ 1 \end{bmatrix}.
-  \end{equation*}
-  Pensando la terza dimensione nel verso entrante al foglio, possiamo riassumere i passaggi svolti
-  per fattorizzare $ T $, dove è stata applicata più volte la definizione di prodotto tensore:
-  \begin{center}
-  \includegraphics[width=0.65\textwidth, keepaspectratio]{./Sources/Chapter1/figures/cp_example.pdf}
-  \end{center}
+	Consideriamo il tensore $ T $ di taglia $ 2\times 2\times 2 $ definito da
+	\begin{equation*}
+		a_{111}=-a_{121} = 3, \quad a_{211} = -a_{221} = 6, \quad a_{112} = -a_{122} = 1, \quad a_{212} = - a_{222} = 2.
+	\end{equation*}
+	I vettori dei modi $ 1,2 $ e $ 3 $ sono le colonne delle matrici
+	\begin{equation*}
+		\Tm{T}{1} = \begin{bmatrix} 3 & -3 & 1 & -1 \\ 6 & -6 & 2 & -2 \end{bmatrix}, \quad
+		\Tm{T}{2} = \begin{bmatrix} 3 & 6 & 1 & 2 \\ -3 & -6 & -1 & -2 \end{bmatrix}, \quad
+		\Tm{T}{3} = \begin{bmatrix} 3 & 6 & -3 & -6 \\ 1 & 2 & -1 & -2 \end{bmatrix},
+	\end{equation*}
+	rispettivamente. Il tensore ha rango uno perché si può decomporre come
+	\begin{equation*}
+		T = \begin{bmatrix} 1 \\ 2 \end{bmatrix}  \topp \begin{bmatrix} 1 \\ -1 \end{bmatrix} \topp
+		\begin{bmatrix} 3 \\ 1 \end{bmatrix}.
+	\end{equation*}
+	Pensando la terza dimensione nel verso entrante al foglio, possiamo riassumere i passaggi svolti
+	per fattorizzare $ T $, dove è stata applicata più volte la definizione di prodotto tensore:
+	\begin{center}
+		\includegraphics[width=0.65\textwidth, keepaspectratio]{./Sources/Chapter1/figures/cp_example.pdf}
+	\end{center}
 \end{example}
 
 
 \begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
-  \caption{Fattorizzazione CP di un tensore $ T = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
-  dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
-  \label{fig:cp_dec}
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
+	\caption{Fattorizzazione CP di un tensore $ T = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
+		dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
+	\label{fig:cp_dec}
 \end{figure}
 
 \begin{remark}
-Il rango CP di $ T $ coincide per definizione al rango di $ T $.
+	Il rango CP di $ T $ coincide per definizione al rango di $ T $.
 \end{remark}
 
 \begin{remark}[Risparmio in memoria della CP]
-  La fattorizzazione CP di un tensore $ T $ di rango $ r $ permette di ridurre notevolmente il
-  costo di memorizzazione del tensore, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
-  O(\prod_{i=1}^d n_j)$.
+	La fattorizzazione CP di un tensore $ T $ di rango $ r $ permette di ridurre notevolmente il
+	costo di memorizzazione del tensore, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
+		O(\prod_{i=1}^d n_j)$.
 \end{remark}
 
 
@@ -425,17 +426,17 @@ Il rango CP di $ T $ coincide per definizione al rango di $ T $.
 
 
 \begin{definition}[Tensor slice]
-  Dato $ T \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ T $ ogni matrice ottenuta da $
-  T $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
-Nel caso $ d=3 $ si identificano tutte le possibili slices:
-\missingfigure{horizontal lateral, frontal slices}
+	Dato $ T \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ T $ ogni matrice ottenuta da $
+		T $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
+	Nel caso $ d=3 $ si identificano tutte le possibili slices:
+	\missingfigure{horizontal lateral, frontal slices}
 \end{definition}
 
 \begin{definition}[Mode$-k$ fiber]
-  Dato un tensore $ T \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
-  tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k- $esimo lo chiamiamo
-  \emph{mode$-k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
-  \missingfigure{column, row, tube fibers}
+	Dato un tensore $ T \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
+	tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k- $esimo lo chiamiamo
+	\emph{mode$-k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
+	\missingfigure{column, row, tube fibers}
 \end{definition}
 \todo{Definizione fibre}
 
@@ -443,125 +444,125 @@ In molte situazioni risulta comodo disporre gli elementi di un tensore in una ma
 per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 
 \begin{definition}[Mode$-k$ unfolding]
-  Il \emph{mode$-k$ unfolding} di un tensore $ T \in \Rmsiz! $ è la matrice $ \Tm{T}{k} \in \R^{n_k \times
-  \prod_{j\neq k}n_j} $ le cui colonne sono mode$ -k $ fibers ordinate seguendo l'ordine naturale
-  su $ \sdom $. In particolare si ha
-  \[
-  T(i,j) = T(\siwc{i}) \text{, con } j = \L(\siwc)
-  .\] 
+	Il \emph{mode$-k$ unfolding} di un tensore $ T \in \Rmsiz! $ è la matrice $ \Tm{T}{k} \in \R^{n_k \times
+			\prod_{j\neq k}n_j} $ le cui colonne sono mode$ -k $ fibers ordinate seguendo l'ordine naturale
+	su $ \sdom $. In particolare si ha
+	\[
+		T(i,j) = T(\siwc{i}) \text{, con } j = \L(\siwc)
+		.\]
 \end{definition}
 
 \begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/unfoldings.pdf}
-  \caption{Schema delle matricizzazioni di un tensore.}
-  \label{fig:unfoldings}
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/unfoldings.pdf}
+	\caption{Schema delle matricizzazioni di un tensore.}
+	\label{fig:unfoldings}
 \end{figure}
 L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
 \begin{definition}[Multirank]
-  Il \emph{multilinear rank} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
-  (r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}  $.
+	Il \emph{multilinear rank} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
+		(r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}  $.
 \end{definition}
 
 Dal punto di vista computazionale è utile introdurre la seguente operazione
 
 \todo{refrasare un poco per renderla più leggibile}
 \begin{definition}[Reshape]
-  Definiamo l'operatore di \emph{reshape} come l'operazione riarrangia il tensore senza alterarne le dimensioni e mantenendo l'ordine delle entrate. Formalmente,
-  fissati $ d, d' \in \N$ e un tensore $ T \in \Rmsiz! $, per ogni $ m_1, \ldots, m_{d'} $ tali
-  che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore $ \Tn{y} = \reshape(T,
-  \msiz![m][d']) \in \Rmsiz![m][d'] $ è definito come
-  \[
-  \Tn{y}(i_1, \ldots, i_{d'})= T(j_1, \ldots, j_d) 
-,\] 
- per ogni $(i_1, \ldots, i_{d'}),(j_1, \ldots,
-  j_d) $ tali che $ \L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
-  j_d; \msiz!)$.
+	Definiamo l'operatore di \emph{reshape} come l'operazione riarrangia il tensore senza alterarne le dimensioni e mantenendo l'ordine delle entrate. Formalmente,
+	fissati $ d, d' \in \N$ e un tensore $ T \in \Rmsiz! $, per ogni $ m_1, \ldots, m_{d'} $ tali
+	che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore $ \Tn{y} = \reshape(T,
+		\msiz![m][d']) \in \Rmsiz![m][d'] $ è definito come
+	\[
+		\Tn{y}(i_1, \ldots, i_{d'})= T(j_1, \ldots, j_d)
+		,\]
+	per ogni $(i_1, \ldots, i_{d'}),(j_1, \ldots,
+		j_d) $ tali che $ \L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
+		j_d; \msiz!)$.
 \end{definition}
 
 \begin{lemma}[Legame tra il prodotto esterno e il prodotto di Kroneker]
-  Dato un tensore $ T = v^1 \topp \cdots \topp v^d $, allora
-  \begin{enumerate}[label=(\roman*)]
-    \item $\Vec(T) = v^d \krn \cdots \krn v^1$
-  \item $ \Tm{T}{k} = v^k\left( v^d \krn \cdots \krn v^{k-1} \krn v^{k+1} \krn \cdots
-    \krn v^1 \right)^{\top}$
-  \item $\Tm{T}{\mathcal{R} \times \mathcal{C}} = (v^{r_\delta} \krn \cdots \krn
-    v^{r_1})(v^{c_{d-\delta}} \krn \cdots \krn v^{c_1})^{\top}$, dove $\mathcal{R} =\left\{ r_1, \ldots,
-    r_\delta \right\} $ e $ \mathcal{C} = \left\{ c_1, \ldots, c_{d-\delta}
-  \right\} $.
-  \end{enumerate}
-In particolare, tutte le matricizzazioni di un prodotto esterno hanno rango 1.
+	Dato un tensore $ T = v^1 \topp \cdots \topp v^d $, allora
+	\begin{enumerate}[label=(\roman*)]
+		\item $\Vec(T) = v^d \krn \cdots \krn v^1$
+		\item $ \Tm{T}{k} = v^k\left( v^d \krn \cdots \krn v^{k-1} \krn v^{k+1} \krn \cdots
+			      \krn v^1 \right)^{\top}$
+		\item $\Tm{T}{\mathcal{R} \times \mathcal{C}} = (v^{r_\delta} \krn \cdots \krn
+			      v^{r_1})(v^{c_{d-\delta}} \krn \cdots \krn v^{c_1})^{\top}$, dove $\mathcal{R} =\left\{ r_1, \ldots,
+			      r_\delta \right\} $ e $ \mathcal{C} = \left\{ c_1, \ldots, c_{d-\delta}
+			      \right\} $.
+	\end{enumerate}
+	In particolare, tutte le matricizzazioni di un prodotto esterno hanno rango 1.
 \end{lemma}
 \begin{proof}
-  La $ (i) $ segue applicando più volte l'Osservazione~\ref{rmk:krn_tensor}. Dimostriamo la $ (ii)
-  $:
-\end{proof} 
+	La $ (i) $ segue applicando più volte l'Osservazione~\ref{rmk:krn_tensor}. Dimostriamo la $ (ii)
+	$:
+\end{proof}
 
 In molte situazioni è utile moltiplicare un tensore con una matrice, ma purtroppo le dimensioni non
 combaciano. La seguente definizione risolve
 il problema facendo agire la matrice la matrice lungo il modo $ k- $esimo di un tensore, e si
 chiama.
 \begin{definition}[Prodotto nel modo $k$]
-  Il \emph{prodotto nel modo $ k $} di un tensore $ T \in \Rmsiz! $ con una matrice $ U \in
-  \R^{r \times n_k} $ descrive l'azione di $ U $ sulla $ k- $esima coordinata di $ T $. Formalmente, è un tensore 
-\[
-  \Tn{y} = T \ttm U \in \R^{\ssiz{r}} \text{ con } \Tm{Y}{k} = U \Tm{T}{k}
-.\] 
-In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_k} $.
+	Il \emph{prodotto nel modo $ k $} di un tensore $ T \in \Rmsiz! $ con una matrice $ U \in
+		\R^{r \times n_k} $ descrive l'azione di $ U $ sulla $ k- $esima coordinata di $ T $. Formalmente, è un tensore
+	\[
+		\Tn{y} = T \ttm U \in \R^{\ssiz{r}} \text{ con } \Tm{Y}{k} = U \Tm{T}{k}
+		.\]
+	In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_k} $.
 \end{definition}
 
 \begin{lemma}
-  Siano $ \Mx{A} \in \K^{m \times n} $, $ \Mx{B} \in \K^{m \times n}$ ed $ \Mx{X} \in \K^{n \times m}$. Allora
-  \begin{equation*}
-  \Vec({\Mx{A}\Mx{X}\Mx{B}}) = (B^{\top} \krn A)\Vec(X)
-  \end{equation*}
+	Siano $ \Mx{A} \in \K^{m \times n} $, $ \Mx{B} \in \K^{m \times n}$ ed $ \Mx{X} \in \K^{n \times m}$. Allora
+	\begin{equation*}
+		\Vec({\Mx{A}\Mx{X}\Mx{B}}) = (B^{\top} \krn A)\Vec(X)
+	\end{equation*}
 \end{lemma}
 \begin{proof}
-  Scrivendo $ B = [b_1, \ldots, b_n] $ ed $ X = [x_1, \ldots, x_n] $, la $ k- $esima colonna di $
-  AXB $ è 
-  \begin{equation*}
-    \begin{aligned}
-      (AXB)_{:,k} &= AXb_k = A \sum_{i=1}^m x_i b_{i,k} = \left[ b_{1,k}A ,\ldots, b_{n,k}A \right]
-      \begin{bmatrix} x_1 \\ \vdots \\ x_m \end{bmatrix} = ([b_{1,k}, \ldots, b_{m,k}] \krn A)
-      \Vec(X).
-    \end{aligned}
-  \end{equation*}
-  Impilando insieme le colonne otteniamo che
-  \begin{equation*}
-  \Vec(AXB) = \begin{bmatrix} (AXB)_{:,1} \\(AXB)_{:,2}\\ \vdots \\ (AXB)_{:,n} \end{bmatrix} =
-  \begin{bmatrix} b_1^{\top} \krn A \\ b_2^{\top} \krn A \\ \vdots \\ b_n^{\top} \krn A
-  \end{bmatrix} \Vec(X) = (B^{\top} \krn A)\Vec(X).
-  \end{equation*}
+	Scrivendo $ B = [b_1, \ldots, b_n] $ ed $ X = [x_1, \ldots, x_n] $, la $ k- $esima colonna di $
+		AXB $ è
+	\begin{equation*}
+		\begin{aligned}
+			(AXB)_{:,k} & = AXb_k = A \sum_{i=1}^m x_i b_{i,k} = \left[ b_{1,k}A ,\ldots, b_{n,k}A \right]
+			\begin{bmatrix} x_1 \\ \vdots \\ x_m \end{bmatrix} = ([b_{1,k}, \ldots, b_{m,k}] \krn A)
+			\Vec(X).
+		\end{aligned}
+	\end{equation*}
+	Impilando insieme le colonne otteniamo che
+	\begin{equation*}
+		\Vec(AXB) = \begin{bmatrix} (AXB)_{:,1} \\(AXB)_{:,2}\\ \vdots \\ (AXB)_{:,n} \end{bmatrix} =
+		\begin{bmatrix} b_1^{\top} \krn A \\ b_2^{\top} \krn A \\ \vdots \\ b_n^{\top} \krn A
+		\end{bmatrix} \Vec(X) = (B^{\top} \krn A)\Vec(X).
+	\end{equation*}
 \end{proof}
 
 \begin{proposition}
-  Dato un tensore $ T \in \Rmsiz* $ e delle matrici $ U \in \R^{m_1 \times n_1} $, $ V \in
-  \R^{m_1 \times n_2} $ e $ W \in \R^{m_3 \times n_3} $. Sono fatti equivalenti:
-  \begin{enumerate}[label=(\roman*)]
-    \item $\Tn{y} = T \ttm[1] U \ttm[2] V \ttm[3] W \in \Rmsiz*[m]$.
-    \item $\Vec(\Tn{y}) = (W \krn V \krn U) \cdot \Vec(T)$.
-    \item $\Tm{Y}{1} = U\Tm{T}{1}(W \krn V)^{\top}$.
-    \item $ \Tm{Y}{2} = V\Tm{T}{2}(W \krn U)^{\top} $.
-    \item $\Tm{Y}{3} = W\Tm{T}{3}(V \krn U)^{\top}$.
-  \end{enumerate}
+	Dato un tensore $ T \in \Rmsiz* $ e delle matrici $ U \in \R^{m_1 \times n_1} $, $ V \in
+		\R^{m_1 \times n_2} $ e $ W \in \R^{m_3 \times n_3} $. Sono fatti equivalenti:
+	\begin{enumerate}[label=(\roman*)]
+		\item $\Tn{y} = T \ttm[1] U \ttm[2] V \ttm[3] W \in \Rmsiz*[m]$.
+		\item $\Vec(\Tn{y}) = (W \krn V \krn U) \cdot \Vec(T)$.
+		\item $\Tm{Y}{1} = U\Tm{T}{1}(W \krn V)^{\top}$.
+		\item $ \Tm{Y}{2} = V\Tm{T}{2}(W \krn U)^{\top} $.
+		\item $\Tm{Y}{3} = W\Tm{T}{3}(V \krn U)^{\top}$.
+	\end{enumerate}
 \end{proposition}
 \begin{proof}
-\begin{description}
-        \item[$(1) \iff (2)$] Mostriamo che $\Vec(T \ttm[1] U) = (I \krn I \krn U)
-          \Vec(T)$.
-        \item[$(2) \iff (4)$] Conversely, assume statement 2 holds. Thus...
-    \end{description}
+	\begin{description}
+		\item[$(1) \iff (2)$] Mostriamo che $\Vec(T \ttm[1] U) = (I \krn I \krn U)
+			      \Vec(T)$.
+		\item[$(2) \iff (4)$] Conversely, assume statement 2 holds. Thus...
+	\end{description}
 \end{proof}
 
 \begin{proposition}
-  Siano $ \Mx{A} \in \R^{m \times p} $ e $ \Mx{B} \in \R^{n \times q} $. Allora, 
-  \[
-  \Mx{A} \krn \Mx{B} = \Mx{P}(\Mx{B} \krn \Mx{A})\Mx{Q}^{\top},
-  .\] 
-  dove $ \Mx{P} $ e $ \Mx{Q} $ sono matrici di permutazione $ (m,n)- $ e $ (p,q)- $ perfect shuffle, rispettivamente.
+	Siano $ \Mx{A} \in \R^{m \times p} $ e $ \Mx{B} \in \R^{n \times q} $. Allora,
+	\[
+		\Mx{A} \krn \Mx{B} = \Mx{P}(\Mx{B} \krn \Mx{A})\Mx{Q}^{\top},
+		.\]
+	dove $ \Mx{P} $ e $ \Mx{Q} $ sono matrici di permutazione $ (m,n)- $ e $ (p,q)- $ perfect shuffle, rispettivamente.
 \end{proposition}
 \begin{proof}
-\todo{ADD}
+	\todo{ADD}
 
 \end{proof}
 
@@ -569,19 +570,19 @@ In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_
 \todo{Esempio polinomio semisep + altro es}
 
 \begin{definition}[Prodotto Khatri-Rao]
-  Date due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times r} $, il loro \emph{prodotto
-  Khatri-Rao} è dato da
-  \begin{equation}
-    C = A \krp B = \left[ a_1 \krn b_1 \mid \ldots \mid a_r \krn b_r \right] \in \R^{(mn) \times r},
-  \end{equation}
-  dove $ a_j $ e $ b_j $ indicano la $ j-$esima colonna di $ A $ e $ B $, rispettivamente, e la matrice $ C $
-  si lascia scrivere in componenti come $ C_{k,l} = A_{i,l}B_{j,l} $, dove $ \L^*(i,j) = \L(j,i) = k $.
+	Date due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times r} $, il loro \emph{prodotto
+		Khatri-Rao} è dato da
+	\begin{equation}
+		C = A \krp B = \left[ a_1 \krn b_1 \mid \ldots \mid a_r \krn b_r \right] \in \R^{(mn) \times r},
+	\end{equation}
+	dove $ a_j $ e $ b_j $ indicano la $ j-$esima colonna di $ A $ e $ B $, rispettivamente, e la matrice $ C $
+	si lascia scrivere in componenti come $ C_{k,l} = A_{i,l}B_{j,l} $, dove $ \L^*(i,j) = \L(j,i) = k $.
 \end{definition}
 
 \begin{remark}
-  Calcolare il prodotto di Khatri-Rao di due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times
-  r} $ ha un costo in memoria di $ O(mn
-  \cdot r) $.
+	Calcolare il prodotto di Khatri-Rao di due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times
+			r} $ ha un costo in memoria di $ O(mn
+		\cdot r) $.
 \end{remark}
 
 
@@ -597,54 +598,54 @@ può convergere ad uno di rango $ 2 $, come mostra il prossimo esempio. Questo l
 l'utilità del rango dal punto di vista teorico, ma ha risvolti applicativi interessanti, che vedremo nella Sezione~\ref{sec:APA}.
 
 \begin{example}
-  \label{ex:border_rank}
-  Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
-  linearmente indipendenti. Definiamo il tensore 
-  \begin{equation}
-    T = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
-  \end{equation}
-  e notiamo che $ \rk(T) = 3 $ dato che non può
-  essere scomposto come somma di tensori più semplici.
-  Consideriamo la successioni di tensori 
-  \begin{equation}
-  \label{eq:rank_counterex}
-  T_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
-  \varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
-  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
-  \end{equation}
-  che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
-  Vediamo che $ \lim_{\varepsilon \to 0} T_\varepsilon = T $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
-  Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
-  \begin{equation}
-    \begin{aligned}
-      \Tn{y}_\varepsilon &=  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
-      +a_2 \topp b_1 \topp c_1  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
-      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
-      b_1 \topp c_1 \\
-                         &= T + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
-      a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
-    \end{aligned}
-  \end{equation}
-  Quindi $ T_\varepsilon - T \to 0 $.
+	\label{ex:border_rank}
+	Consideriamo dei vettori $ a_1,a_2 \in \R^m$, $b_1,b_2 \in \R^n$ e $c_1,c_2\in \R^p $ vettori
+	linearmente indipendenti. Definiamo il tensore
+	\begin{equation}
+		T = a_1 \topp  b_1 \topp c_2 + a_1 \topp b_2 \topp c_1 + a_2 \topp b_1 \topp c_1,
+	\end{equation}
+	e notiamo che $ \rk(T) = 3 $ dato che non può
+	essere scomposto come somma di tensori più semplici.
+	Consideriamo la successioni di tensori
+	\begin{equation}
+		\label{eq:rank_counterex}
+		T_\varepsilon = \frac{1}{\varepsilon}\left( a_1 +
+		\varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
+		\frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
+	\end{equation}
+	che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
+	Vediamo che $ \lim_{\varepsilon \to 0} T_\varepsilon = T $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
+	Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
+	\begin{equation}
+		\begin{aligned}
+			\Tn{y}_\varepsilon & =  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
+			+a_2 \topp b_1 \topp c_1                                                                                                  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+			a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
+			b_1 \topp c_1                                                                                                             \\
+			                   & = T + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+			a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
+		\end{aligned}
+	\end{equation}
+	Quindi $ T_\varepsilon - T \to 0 $.
 \end{example}
 
 Questo motiva la seguente definizione:
 
 
 \begin{definition}[Border rank]
-  Un tensore $ T $ ha \emph{border rank} $ r $ se è limite di una successione di tensori di
-  rango $ r $, ma non è limite di una successione di tesori di rango $ s $, per ogni $ s < r $. Lo
-  denoteremo con il simbolo $ \brk(T) $.
+	Un tensore $ T $ ha \emph{border rank} $ r $ se è limite di una successione di tensori di
+	rango $ r $, ma non è limite di una successione di tesori di rango $ s $, per ogni $ s < r $. Lo
+	denoteremo con il simbolo $ \brk(T) $.
 \end{definition}
 \begin{remark}
-  $ \rk(T) \ge \brk(T) $.
+	$ \rk(T) \ge \brk(T) $.
 \end{remark}
 \begin{remark}
-  In coordinate, se $ T \in \Rmsiz $, il suo border rank è la quantità
-  \[
-  \brk(T) = \min \left\{ r \in \N \mid \exists T' \in \Rmsiz! \text{ tale che }
-  \rk(T')=r, \, \|T - T'\|  < \varepsilon \right\}
-  .\] 
+	In coordinate, se $ T \in \Rmsiz $, il suo border rank è la quantità
+	\[
+		\brk(T) = \min \left\{ r \in \N \mid \exists T' \in \Rmsiz! \text{ tale che }
+		\rk(T')=r, \, \|T - T'\|  < \varepsilon \right\}
+		.\]
 \end{remark}
 \todo{Disegno interpretazione geometrica (landsberg pg 38)}
 
@@ -657,21 +658,21 @@ Il border rank ammette anche la seguente interpretazione geometrica:
 Calcolare il costo di una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
 solo; il problema di trovare un tensore approssimante di un certo rango è computazionalmente
 difficile. In altre parole, la miglior approssimazione di rango $ r $ è data da dei vettori $ x_{i}
-\in \R^{n_1}, y_{i} \in \R^{n_2}, \ldots, z_{i} \in \R^{n_{d}}   $, per $ i = 1, \ldots, r $ che minimizzano
+	\in \R^{n_1}, y_{i} \in \R^{n_2}, \ldots, z_{i} \in \R^{n_{d}}   $, per $ i = 1, \ldots, r $ che minimizzano
 \begin{equation*}
-  \| A - x_1 \otimes y_1 \otimes \cdots \otimes z_1 - \cdots x_{r} \otimes y_{r} \otimes \cdots
-  \otimes z_{r}\|
+	\| A - x_1 \otimes y_1 \otimes \cdots \otimes z_1 - \cdots x_{r} \otimes y_{r} \otimes \cdots
+	\otimes z_{r}\|
 \end{equation*}
 oppure, in altre parole un tensore $ B $ dato da una fattorizzazione CP, che realizza
 \begin{equation*}
-  \min_{\rank(B) \le r} \| A - B \|.
+	\min_{\rank(B) \le r} \| A - B \|.
 \end{equation*}
 Qui $ \| \cdot \| $ denota una norma fissata su $ \R^{n_1 \times  \cdots \times n_{d}}$. Quando $ d =2$, il
 problema è risolto per norme invarianti per trasformazioni unitarie su $ \R^{m \times n} $ dal
 teorema di Eckart-Young-Mirsky~\cite{eckart1936approximation}: se
 \begin{equation*}
-  A = U\Sigma V^* = \sum_{i = 1}^{\rank(A)}\sigma_i u_{i} \otimes v_{i}, \qquad \sigma_{i} \ge
-  \sigma_{i+1},
+	A = U\Sigma V^* = \sum_{i = 1}^{\rank(A)}\sigma_i u_{i} \otimes v_{i}, \qquad \sigma_{i} \ge
+	\sigma_{i+1},
 \end{equation*}
 è la decomposizione ai valori singolari di $ A $ (anche detta SVD), allora la migliore
 approssimazione di rango $ r $ è data dai primi $ r $ termini della somma.
@@ -682,14 +683,14 @@ ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposedness
 
 Sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$
 \begin{definition}
-  Il \emph{rango tipico} (o \emph{rango generico}) per un tensore di formato $ n_1 \times n_2 \times
-  \cdots \times n_{d}$ è l'insieme dei ranghi che occorrono con probabilità non nulla, rispetto ad
-  ogni distribuzione continua $  \mathcal{D}(n_1, n_2, \ldots, n_{d})$ sull'insieme di tali tensori.
-  In formule,
-  \begin{equation*}
-    \rk_{\text{typical}} = \{r \mid P \left( \rk(T) = r, \; T \sim \mathcal{D}(n_1, \ldots,
-    n_{d})\right) > 0\}.
-  \end{equation*}
+	Il \emph{rango tipico} (o \emph{rango generico}) per un tensore di formato $ n_1 \times n_2 \times
+		\cdots \times n_{d}$ è l'insieme dei ranghi che occorrono con probabilità non nulla, rispetto ad
+	ogni distribuzione continua $  \mathcal{D}(n_1, n_2, \ldots, n_{d})$ sull'insieme di tali tensori.
+	In formule,
+	\begin{equation*}
+		\rk_{\text{typical}} = \{r \mid P \left( \rk(T) = r, \; T \sim \mathcal{D}(n_1, \ldots,
+			n_{d})\right) > 0\}.
+	\end{equation*}
 \end{definition}
 
 Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
@@ -701,16 +702,16 @@ Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
 rango se visto come elemento di $ \R^{m\times n} $ o di $ \C^{m \times n} $, per i tensori questo è
 falso. Consideriamo il seguente esempio:
 \begin{example}[De Silva and Lim~\cite{desilva2008tensorrankillposednessbest}]
-Scriviamo $ z_{k} = x_{k} + \I y_{k} $ e $ \overline{z}_k = x_{k} - \I y_{k} $, allora
-  \begin{equation}
-  \begin{aligned}
-    x_1 \topp x_2 \topp x_3 + x_1 \topp y_2 \topp y_3 - y_1 \topp x_2 \topp &y_3 + y_1 \topp y_2 \topp
-  x_3 \\
-  &= \frac{1}{2}\left( \overline{z}_1 \topp z_2 \topp \overline{z}_3 + z_1 \topp \overline{z}_2 \topp
-  z_3\right)
-  \end{aligned}
-  \end{equation}
-  \todo{espandi conti e aggiungere considerazioni su svd da articolo}
+	Scriviamo $ z_{k} = x_{k} + \I y_{k} $ e $ \overline{z}_k = x_{k} - \I y_{k} $, allora
+	\begin{equation}
+		\begin{aligned}
+			x_1 \topp x_2 \topp x_3 + x_1 \topp y_2 \topp y_3 - y_1 \topp x_2 \topp & y_3 + y_1 \topp y_2 \topp
+			x_3                                                                                                                                                                          \\
+			                                                                        & = \frac{1}{2}\left( \overline{z}_1 \topp z_2 \topp \overline{z}_3 + z_1 \topp \overline{z}_2 \topp
+			z_3\right)
+		\end{aligned}
+	\end{equation}
+	\todo{espandi conti e aggiungere considerazioni su svd da articolo}
 
 \end{example}
 
@@ -722,81 +723,81 @@ tensore---queste spesso coinvolgono tecniche algebrico-combinatoriche avanzate. 
 queste stime nella Sezione~\ref{sec:exp_estimates}.
 
 \begin{proposition}[Teorema del rango]
-  \label{th:rank}
-  Sia $ T \in \Rmsiz! $ un tensore che ammette fattorizzazione $ T = \dsqr{U_1, \ldots,
-  U_d} $, e sia $ r_j = \rk(X_{(j)}) $ il rango dell'unfolding $ X_{(j)}, $ con $ j = 1, \ldots, d $. Allora vale che
-  \begin{equation}
-    \max_{j=1, \ldots, d}(r_j) \le \rk(T) \le \min_{j=1, \ldots, d}\left( \prod_{i \neq j}r_i \right)
-  \end{equation}
+	\label{th:rank}
+	Sia $ T \in \Rmsiz! $ un tensore che ammette fattorizzazione $ T = \dsqr{U_1, \ldots,
+			U_d} $, e sia $ r_j = \rk(X_{(j)}) $ il rango dell'unfolding $ X_{(j)}, $ con $ j = 1, \ldots, d $. Allora vale che
+	\begin{equation}
+		\max_{j=1, \ldots, d}(r_j) \le \rk(T) \le \min_{j=1, \ldots, d}\left( \prod_{i \neq j}r_i \right)
+	\end{equation}
 \end{proposition}
 Introduciamo un lemma di supporto:
 \begin{lemma}
-  Data una fattorizzazione $ T = \dsqr{U_1,\ldots, U_d} \in \Rmsiz!$, essa ha come unfoldings
-  \[
-  \Tm{T}{j} = U_j \left( U_d \krp U_{d-1} \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots U_1 \right)^{\top}
-  ,\]  per ogni $ j = 1, \ldots, d $.
+	Data una fattorizzazione $ T = \dsqr{U_1,\ldots, U_d} \in \Rmsiz!$, essa ha come unfoldings
+	\[
+		\Tm{T}{j} = U_j \left( U_d \krp U_{d-1} \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots U_1 \right)^{\top}
+		,\]  per ogni $ j = 1, \ldots, d $.
 \end{lemma}
 \begin{proof}
-  Scrivendo le matricizzazioni di $ T = \sum_{h=1}^r u_h^1 \topp \cdots \topp u_h^d $, dove i vettori $ u_1^j,
-  \ldots, u_r^j $ rappresentano le colonne della matrice $ U_j $, troviamo che \todo{primo passsagio
-  non chiaro}
-  \begin{equation*}
-    \begin{aligned}
-      \Tm{T}{j} &= \sum_{h=1}^r u_h^j \left( u_h^d \krn \cdots \krn u_h^{j+1} \krn u_h^{j-1} \krn
-      \cdots \krn u_h^1 \right)^{\top} \\
-                &= U_j \begin{bmatrix} u_1^d \krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots
-                \krn u_r^1  \end{bmatrix}^{\top} \\
-                &= U_j \left( U_d \krp \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1 \right)^{\top}
-    \end{aligned}
-  \end{equation*}
+	Scrivendo le matricizzazioni di $ T = \sum_{h=1}^r u_h^1 \topp \cdots \topp u_h^d $, dove i vettori $ u_1^j,
+		\ldots, u_r^j $ rappresentano le colonne della matrice $ U_j $, troviamo che \todo{primo passsagio
+		non chiaro}
+	\begin{equation*}
+		\begin{aligned}
+			\Tm{T}{j} & = \sum_{h=1}^r u_h^j \left( u_h^d \krn \cdots \krn u_h^{j+1} \krn u_h^{j-1} \krn
+			\cdots \krn u_h^1 \right)^{\top}                                                                       \\
+			          & = U_j \begin{bmatrix} u_1^d \krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots
+				                  \krn u_r^1\end{bmatrix}^{\top}             \\
+			          & = U_j \left( U_d \krp \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1 \right)^{\top}
+		\end{aligned}
+	\end{equation*}
 \end{proof}
 
 \begin{proof}[Dimostrazione del teorema del rango]
-  La minorazione segue direttamente dalla scrittura delle
-  ??
-  Mostriamo la maggiorazione, assumendo senza perdita di generalità che $ \rk(T) \le
-  \prod_{i=2}^d r_i $. Consideriamo la vettorizzazione 
-  \begin{equation}
-    \label{eq:vec_rk_krn}
-     \Vec(T) = \sum_{k=1}^r u_k^d \krn \cdots \krn u_k^2 \krn u_k^1.
-  \end{equation} 
-  Allora l'insieme
-  \[
-  \{u_k^d \krn \cdots \krn u_k^2\}
-  \] è formato da vettori linearmente indipendenti, per ogni $ k = 1,\ldots,r $. Se così non fosse,
-  esisterebbe un indice $ k_0 $, che possiamo supporre $ k_0 = 1 $ a meno di riordinamento degli
-  indici $ k $, tale per cui
-  \begin{equation}
-  u_{1}^d \krn \cdots \krn u_{1}^2 = \sum_{h = 2}^r c_h(u_h^d \krn \cdots \krn u_h^2)
-  .\end{equation}
-  che sostituita nella Equazione~\ref{eq:vec_rk_krn} porta alla seguente decomposizione:
-  \begin{equation*}
-   \begin{aligned}
-     \Vec(T) &= \sum_{k=2}^r u_k^d \krn \cdots \krn u_k^2 \krn u_k^1 + \left(\sum_{k=2}^r c_k
-     (u_k^d \krn \cdots \krn u_k^2) \right) \krn u_1^1 \\
-                  &= \sum_{k=2}^r (u_k^d \krn \cdots \krn u_k^2)
-     \krn (u_k^1 + c_k u_1^1)
-  \end{aligned},
-  \end{equation*}
-  che ha rango $ r-1 $, contraddicendo la minimalità di $ r $.
-  Quindi per il lemma (! missing) avremmo che 
-  \[
-  \Tm{T}{1} = U_1 \left( U_d \krp \cdots \krp U_2 \right)^{\top},
-  \] dove $ \rk \left(U_d \krp \cdots U_2 \right) =r $.
-  Siccome $ U_d \krp \cdots \krp U_r $ è sottomatrice di $ U_d \krn \cdots \krn U_2 $, abbiamo dal
-  lemma sul rango del krp (missing) che
-  \begin{equation*}
-    r \le \rk \left(U_d \krn \cdots \krn U_2 \right) = r_2 \cdots r_d.
-  \end{equation*}
-  Ripetendo l'argomento per gli altri unfoldings si ha la tesi.
+	La minorazione segue direttamente dalla scrittura delle
+	??
+	Mostriamo la maggiorazione, assumendo senza perdita di generalità che $ \rk(T) \le
+		\prod_{i=2}^d r_i $. Consideriamo la vettorizzazione
+	\begin{equation}
+		\label{eq:vec_rk_krn}
+		\Vec(T) = \sum_{k=1}^r u_k^d \krn \cdots \krn u_k^2 \krn u_k^1.
+	\end{equation}
+	Allora l'insieme
+	\[
+		\{u_k^d \krn \cdots \krn u_k^2\}
+	\] è formato da vettori linearmente indipendenti, per ogni $ k = 1,\ldots,r $. Se così non fosse,
+	esisterebbe un indice $ k_0 $, che possiamo supporre $ k_0 = 1 $ a meno di riordinamento degli
+	indici $ k $, tale per cui
+	\begin{equation}
+		u_{1}^d \krn \cdots \krn u_{1}^2 = \sum_{h = 2}^r c_h(u_h^d \krn \cdots \krn u_h^2)
+		.\end{equation}
+	che sostituita nella Equazione~\ref{eq:vec_rk_krn} porta alla seguente decomposizione:
+	\begin{equation*}
+		\begin{aligned}
+			\Vec(T) & = \sum_{k=2}^r u_k^d \krn \cdots \krn u_k^2 \krn u_k^1 + \left(\sum_{k=2}^r c_k
+			(u_k^d \krn \cdots \krn u_k^2) \right) \krn u_1^1                                         \\
+			        & = \sum_{k=2}^r (u_k^d \krn \cdots \krn u_k^2)
+			\krn (u_k^1 + c_k u_1^1)
+		\end{aligned},
+	\end{equation*}
+	che ha rango $ r-1 $, contraddicendo la minimalità di $ r $.
+	Quindi per il lemma (! missing) avremmo che
+	\[
+		\Tm{T}{1} = U_1 \left( U_d \krp \cdots \krp U_2 \right)^{\top},
+	\] dove $ \rk \left(U_d \krp \cdots U_2 \right) =r $.
+	Siccome $ U_d \krp \cdots \krp U_r $ è sottomatrice di $ U_d \krn \cdots \krn U_2 $, abbiamo dal
+	lemma sul rango del krp (missing) che
+	\begin{equation*}
+		r \le \rk \left(U_d \krn \cdots \krn U_2 \right) = r_2 \cdots r_d.
+	\end{equation*}
+	Ripetendo l'argomento per gli altri unfoldings si ha la tesi.
 \end{proof}
 
 Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una risposta generale (a
 differenza del
 caso matriciale) a domande del tipo:
 \begin{enumerate}
-  \item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
-  \item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
+	\item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
+	\item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
 \end{enumerate}
 
 \section{Rango tipico}
@@ -811,43 +812,43 @@ Per studiare empiricamente questo comportamento, abbiamo implementato un esperim
 
 La distribuzione empirica dei ranghi (riportata in Figura~\ref{fig:typical_ranks_dist}) mostra i seguenti risultati:
 \begin{itemize}
-  \item Per il formato $2 \times 2 \times 2$, circa il $70.5\%$--$74.0\%$ dei tensori presenta rango $2$, e il restante $26.0\%$--$29.5\%$ ha rango $3$.
-  \item Per il formato $3 \times 3 \times 2$, circa il $29.5\%$--$39.5\%$ dei tensori presenta rango $3$, e il $60.5\%$--$70.5\%$ ha rango $4$.
-  \item Per il formato $3 \times 3 \times 3$, il $100\%$ dei tensori ha rango $5$ per entrambe le distribuzioni, a conferma del fatto che $5$ è l'unico rango tipico reale per questa classe.
-  \item Per il formato $3 \times 3 \times 5$, circa il $91.0\%$--$94.0\%$ dei tensori presenta rango $6$, un'ulteriore quota del $4.0\%$--$7.0\%$ ha rango $7$, e una frazione minore ($2.0\%$) converge a rango $5$.
+	\item Per il formato $2 \times 2 \times 2$, circa il $70.5\%$--$74.0\%$ dei tensori presenta rango $2$, e il restante $26.0\%$--$29.5\%$ ha rango $3$.
+	\item Per il formato $3 \times 3 \times 2$, circa il $29.5\%$--$39.5\%$ dei tensori presenta rango $3$, e il $60.5\%$--$70.5\%$ ha rango $4$.
+	\item Per il formato $3 \times 3 \times 3$, il $100\%$ dei tensori ha rango $5$ per entrambe le distribuzioni, a conferma del fatto che $5$ è l'unico rango tipico reale per questa classe.
+	\item Per il formato $3 \times 3 \times 5$, circa il $91.0\%$--$94.0\%$ dei tensori presenta rango $6$, un'ulteriore quota del $4.0\%$--$7.0\%$ ha rango $7$, e una frazione minore ($2.0\%$) converge a rango $5$.
 \end{itemize}
 Si nota come la distribuzione delle entrate (normale o uniforme) non alteri l'insieme dei ranghi tipici e produca frequenze empiriche del tutto analoghe, in perfetto accordo con il fatto che la proprietà di tipicità è di natura topologico-misurabile (ovvero legata agli insiemi di misura di Lebesgue positiva).
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/typical_rank_distribution.pdf}
-  \caption{Distribuzione empirica dei ranghi per tensori casuali reali di formato $2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$ con entrate estratte da distribuzioni Normali $\mathcal{N}(0, 1)$ ed Uniformi $\mathcal{U}(-1, 1)$ (istogrammi affiancati).}
-  \label{fig:typical_ranks_dist}
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/typical_rank_distribution.pdf}
+	\caption{Distribuzione empirica dei ranghi per tensori casuali reali di formato $2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$ con entrate estratte da distribuzioni Normali $\mathcal{N}(0, 1)$ ed Uniformi $\mathcal{U}(-1, 1)$ (istogrammi affiancati).}
+	\label{fig:typical_ranks_dist}
 \end{figure}
 
 In ambito teorico, i ranghi tipici sul campo reale $\mathbb{R}$ sono stati caratterizzati per diverse famiglie di formati $m \times n \times p$ (assumendo senza perdita di generalità $2 \le m \le n \le p$). La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
 
 \begin{table}[htbp]
-  \centering
-  \small
-  \caption{Ranghi tipici noti sul campo reale $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (adattata da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
-  \label{tab:typical_ranks}
-  \begin{tabular}{lll}
-    \toprule
-    Formato ($m \times n \times p$) & Rango tipico & Fonte \\
-    \midrule
-    $2 \times n \times n$ & $\{n, n+1\}$ & ten Berge, Kiers~\cite{tenberge1999} \\
-    $3 \times 3 \times 3$ & $5$ & ten Berge, Stegeman~\cite{tenberge2006} \\
-    $3 \times 3 \times 5$ & $\{5, 6\}$ & ten Berge, Sidiropoulos, Rocci~\cite{tenberge2004} \\
-    $3 \times 4 \times 8$ & $\{8, 9\}$ & Sumi et al.~\cite{sumi2013} \\
-    $3 \times 5 \times 9$ & $\{9, 10\}$ & Choulakian~\cite{choulakian2010}; ten Berge~\cite{tenberge2011} \\
-    $4 \times 4 \times 12$ & $\{12, 13\}$ & Friedland~\cite{friedland2012} \\
-    $m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$ & ten Berge~\cite{tenberge2000b} \\
-    $m \times n \times p$ ($n(m-1) < p < mn$) & $p$ & ten Berge, Kiers~\cite{tenberge1999}; ten Berge~\cite{tenberge2000b} \\
-    $m \times n \times p$ ($p \ge mn$) & $mn$ & ten Berge, Kiers~\cite{tenberge1999}; ten
-    Berge~\cite{tenberge2000b} \\
-    \bottomrule
-  \end{tabular}
+	\centering
+	\small
+	\caption{Ranghi tipici noti sul campo reale $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (adattata da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
+	\label{tab:typical_ranks}
+	\begin{tabular}{lll}
+		\toprule
+		Formato ($m \times n \times p$)                   & Rango tipico & Fonte                                                                \\
+		\midrule
+		$2 \times n \times n$                             & $\{n, n+1\}$ & ten Berge, Kiers~\cite{tenberge1999}                                 \\
+		$3 \times 3 \times 3$                             & $5$          & ten Berge, Stegeman~\cite{tenberge2006}                              \\
+		$3 \times 3 \times 5$                             & $\{5, 6\}$   & ten Berge, Sidiropoulos, Rocci~\cite{tenberge2004}                   \\
+		$3 \times 4 \times 8$                             & $\{8, 9\}$   & Sumi et al.~\cite{sumi2013}                                          \\
+		$3 \times 5 \times 9$                             & $\{9, 10\}$  & Choulakian~\cite{choulakian2010}; ten Berge~\cite{tenberge2011}      \\
+		$4 \times 4 \times 12$                            & $\{12, 13\}$ & Friedland~\cite{friedland2012}                                       \\
+		$m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$     & ten Berge~\cite{tenberge2000b}                                       \\
+		$m \times n \times p$ ($n(m-1) < p < mn$)         & $p$          & ten Berge, Kiers~\cite{tenberge1999}; ten Berge~\cite{tenberge2000b} \\
+		$m \times n \times p$ ($p \ge mn$)                & $mn$         & ten Berge, Kiers~\cite{tenberge1999}; ten
+		Berge~\cite{tenberge2000b}                                                                                                              \\
+		\bottomrule
+	\end{tabular}
 \end{table}
 
 \todo{change}
@@ -855,22 +856,22 @@ Come si evince dalla Tabella~\ref{tab:typical_ranks}, per i tensori di formato $
 
 
 \section{Operazioni nel formato CP}
-  
+
 \todo{Se serve, versione per unfoldings generalizzati}
 \begin{lemma}
-  Dato un tensore $ T = \dsqr{U_1,\ldots,U_d} $, vale $ \Vec(T) = \left( U_d \krp U_{d-1}
-    \krp \ldots \krp U_1 \right) \mathbf{1}_r$, dove $ \mathbf{1}_r = \left[ 1, \ldots, 1
-    \right]^{\top} $.
+	Dato un tensore $ T = \dsqr{U_1,\ldots,U_d} $, vale $ \Vec(T) = \left( U_d \krp U_{d-1}
+		\krp \ldots \krp U_1 \right) \mathbf{1}_r$, dove $ \mathbf{1}_r = \left[ 1, \ldots, 1
+			\right]^{\top} $.
 \end{lemma}
 \begin{proof}
-  Segue dall'identità
-  \begin{equation*}
-    \begin{aligned}
-      \Vec({T}) &= \sum_{h=1}^r u_h^d \krn \cdots \krn u_h^1 = \left[ u_1^d 
-  \krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots \krn u_r^1\right]^{\top}\mathbf{1}_r \\
-                     &= \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
-    \end{aligned}
-  \end{equation*}
+	Segue dall'identità
+	\begin{equation*}
+		\begin{aligned}
+			\Vec({T}) & = \sum_{h=1}^r u_h^d \krn \cdots \krn u_h^1 = \left[ u_1^d
+			\krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots \krn u_r^1\right]^{\top}\mathbf{1}_r \\
+			          & = \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
+		\end{aligned}
+	\end{equation*}
 \end{proof}
 
 \section{Calcolo della fattorizzazione CP}
@@ -881,7 +882,7 @@ Dato $ T \in \R ^ {m \times n \times p} $ cerchiamo una fattorizzazione $ \dsqr{
 $ A \in \R^{m \times r}, B \in \R^{n\times r} $ e $ C \in \R^{p \times r} $ cercando di risolvere il
 problema ai minimi quadrati
 \begin{equation}
-  \min_{A,B,C}\| T - \dsqr{A,B,C}\|^2.
+	\min_{A,B,C}\| T - \dsqr{A,B,C}\|^2.
 \end{equation}
 Tale problema puoò essere mal posto per quanto detto sul border rank. Inoltre si tratta di un
 problema non convesso (esistono molti minimi locali \todo{why?}) e dato che ogni tensore ha
@@ -889,23 +890,23 @@ rappresentazioni CP multiple.
 
 \subsubsection{Alternating least-squares}
 
-Considero 
+Considero
 \[
-\| T - \dsqr{A,B,C}\|^2 = \| \Tm{T}{1} - A(C \krp B)^{\top}\|_F^2 = \| (C \krp B)A^{\top} -
-\Tm{T}{1}^{\top}\|_F^2
-,\] 
+	\| T - \dsqr{A,B,C}\|^2 = \| \Tm{T}{1} - A(C \krp B)^{\top}\|_F^2 = \| (C \krp B)A^{\top} -
+	\Tm{T}{1}^{\top}\|_F^2
+	,\]
 ovvero un problema lineare ai minimi quadrati dove l'incognita è una matrice $ A $.
 La soluzione può essere espressa \todo{why?} in termini delle equazioni normali
 \[
-  (C \krp B)^{\top}(C \krp B)A^T = (C \krp B)^{\top}\Tm{T}{1}^{\top}
-,\] 
+	(C \krp B)^{\top}(C \krp B)A^T = (C \krp B)^{\top}\Tm{T}{1}^{\top}
+	,\]
 se e solo se, usando il lemma \todo{lemma KRP HADamard}
 \[
-  (C^{\top}C \had B^{\top}B)A^{\top} = (C \krp B)^{\top}\Tm{T}{1}^{\top}
-.\] 
+	(C^{\top}C \had B^{\top}B)A^{\top} = (C \krp B)^{\top}\Tm{T}{1}^{\top}
+	.\]
 La matrice $ Z = \R^{r\times r} $ è semidefinita positiva, e quando è positiva definita (accade se
 $ C \krp B $ è full-rank possiamo risolvere con la fattorizzazione di Cholesky il sistema)
 \begin{equation}
-  AZ = \Tm{T}{1}(C\krp B)= M
+	AZ = \Tm{T}{1}(C\krp B)= M
 \end{equation}
 \todo{vEdi fogli per calcolo costo}
