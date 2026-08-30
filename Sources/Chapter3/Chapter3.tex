@@ -3,18 +3,18 @@
 \label{chp:matmul}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Gli \emph{algoritmi di moltiplicazione veloce} sono degli algoritmi di moltiplicazione matriciale che
+In questo capitolo introdurremo l'esponente asintotico della moltiplicazione matriciale $ \omega $ e
+alcuni fondamenti teorici per calcolare la complessità del prodotto tra matrici. Formuleremo tale
+prodotto come una mappa bilineare, e quindi come un tensore. Osserveremo che il rango della forma
+bilineare dà il numero di moltiplicazioni di un algoritmo, e viceversa. In questo contesto,
+introdurremo gli \emph{algoritmi di moltiplicazione veloce}, cioè gli algoritmi di moltiplicazione matriciale che
 impiegano un asintoticamente numero minore di operazioni aritmetiche rispetto all'algoritmo
 classico, ottenendo un esponente di complessità asintotica minore di $ 3 $ per le matrici quadrate.
-\todo{descrivi cosa faremo}
-
-Conoscere il rango CP di tensori che rappresentano applicazioni multilineari può rivelare
-informazioni sulla complessità asintotica e fornire algoritmi con complessità ottimale per la loro
-valutazione. Proviamo a formulare il problema.\todo{sistemare}
+Presenteremo alcuni algoritmi di moltiplicazione veloci esatti e approssimati, e concluderemo
+discutendo dell'errore algoritmico.
 
 \todo{Controlla che non ci sia ambiguità nel riferirti a mappe/forme bilineari: $ \psi : U\times V
 		\to W $ è una forma bilineare se $ W = \K $, altrimenti chiamala mappa bilineare}
-\todo{rinomina le forme bilineari con $ \varphi $ invece che $ f $}
 
 \section{Mappe multilineari e moltiplicazione tra matrici}
 \label{sec:tensor_bil}
@@ -114,7 +114,7 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
+	\includegraphics[width=0.5\textwidth, keepaspectratio]{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
 	\caption{Esempio di circuito aritmetico per il polinomio $\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$.}
 	\label{fig:algebraic_circuit_example}
 \end{figure}
@@ -250,7 +250,7 @@ trovando fattorizzazioni di rango più basso di $ T $.
 
 
 
-La prossima proposizione assicura che il rango di una forma bilineare è dato dal rango CP.
+La prossima proposizione assicura che il rango di una forma bilineare sia dato dal rango CP.
 \begin{proposition}
 	Fissata una forma bilineare $ \varphi $, e detto $ T $ il tensore che la rappresenta. Allora, dalla
 	fattorizzazione CP di un tensore $ T $ si ottieme una bilinear computation, e in particolare $
@@ -297,13 +297,25 @@ algoritmo tramite un tensore.
 		\otimes V^* \otimes W \to \{\varphi : U \times V \to  W, \text{ bilineare}\} $ che manda $ f
 		\otimes g \otimes w $ nella mappa bilineare $ (u,v) \mapsto f(u)g(u)w $.
 \end{proposition}
+\begin{remark}
+	Grazie a questo isomorfismo, possiamo passare da una bilinear computation
+	\begin{equation*}
+		\varphi(u,v) = \sum_{i=1}^r f_{i}(u)g_{i}(v)w_{i},
+	\end{equation*}
+	al suo tensore
+	\begin{equation*}
+		T = \sum_{i = 1}^r f_{i} \otimes g_{i} \otimes w_{i},
+	\end{equation*}
+	e viceversa.
+
+\end{remark}
 
 La seguente proposizione lega la misura di complessità con il rango di una forma bilineare.
 \begin{proposition}[Strassen, si veda~\cite{burgisser2013algebraic}, Capitolo 14]
 	\todo{in realtà è un corollario semplice di un teorema formulato da Strassen, che ho deciso di
 		attribuire a Strassen (non aveva nome)}
 
-	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali finiti, e $ \varphi : U\times V \to  W $ una
+	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali di dimensione finita, e $ \varphi : U\times V \to  W $ una
 	mappa bilineare. Allora
 	\begin{equation*}
 		L(\varphi) = \text{Lunghezza della più breve bilinear computation per } \varphi.
@@ -343,6 +355,7 @@ bilinear computation
 	(v_l^\top\Vec(B))w_l = \sum_{l=1}^r (s_l \cdot
 	t_l)w_l = \sum_{l=1}^r m_lw_l,
 \end{equation}
+\todo{ha senso usare $ f_{l} $ e $ t_{l} $ invece che $ s_{l} $ e $ t_{l} $?}
 Dove abbiamo posto $ s_l \defeq  s_{l}(A) \defeq  u_l^\top \Vec(A)$, $ t_l \defeq t_{l}(B) \defeq v_l^\top\Vec(B)$ e $ m_l \defeq
 	s_lt_l $.
 
@@ -351,7 +364,7 @@ l'algoritmo in maniera ricorsiva. Nella prossima sezione giustificheremo meglio 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\textwidth, keepaspectratio]{Sources/Chapter3/figures/circuit.pdf}
+	\includegraphics[width=0.6\textwidth, keepaspectratio]{Sources/Chapter3/figures/circuit.pdf}
 	\caption{Circuito aritmetico per la moltiplicazione di matrici $2 \times 2$.}
 	\label{fig:arithmetic_circuit_222}
 \end{figure}
@@ -360,7 +373,7 @@ l'algoritmo in maniera ricorsiva. Nella prossima sezione giustificheremo meglio 
 
 
 
-\subsection*{Trattare il caso generale}
+\subsection*{Stimare la complessità nel caso generale}
 
 Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come il prodotto
 di matrici $ n\times n $ sull'algebra delle matrici $ n^{i-1}\times
@@ -400,8 +413,11 @@ applicando l'Equazione~\ref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0}
 l'algoritmo di Strassen (che introdurremo a breve) avremo che $ r = 7, n_0 = 2 $, da cui $ \omega \le \log_{2} 7 < 2.81 $. Abbiamo
 dimostrato la seguente:
 \begin{proposition}
+	\label{prop:omega_rk_estimate}
 	Se $ \rk(\algob{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
 \end{proposition}
+Questo risultato tornerà utile per calcolare l'esponente quando scopriremo una nuova fattorizzazione
+tensoriale di un algoritmo, in quanto $ \omega \le \log_{n} r $.
 \todo{da quello che ho capito quindi potremmo usare questa proposizione invece che il master theorem
 	per calcolare la complessità?}
 
@@ -425,12 +441,38 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 	\end{equation*}
 	cioè le due forme bilineari sono isomorfe.
 \end{proposition}
+\todo{warning! Potrebbe essere il kroneker product di mappe bilineari}
 \begin{proposition}
 	\label{prop:rk_bil_map_product}
-	Siamo $ \varphi_1,\varphi_2 $ due mappe bilineari. Allora $ \rk(\varphi_1 \otimes \varphi_{2}) \le
+	Siano $ \varphi_1,\varphi_2 $ due mappe bilineari. Allora $ \rk(\varphi_1 \otimes \varphi_{2}) \le
 		\rk(\varphi_1)\rk(\varphi_2)$.
 \end{proposition}
-\todo{forse si possono dimostrare con qualche conticino}
+\begin{proof}
+	Scriviamo $ \varphi_1,\varphi_2 $ come bilinear computation:
+	\begin{equation*}
+		\begin{aligned}
+			\varphi_1(u_{1},v_1)   & = \sum_{i=1}^{r_1} \alpha_{i}(u_{1}) \beta_{i}(v_{1}) w_{i}, \\
+			\varphi_2(u_{2},v_{2}) & = \sum_{j=1}^{r_2} \gamma_{j}(u_2) \beta_{j}(v_2) z_{j}.
+		\end{aligned}
+	\end{equation*}
+	Calcolando il loro prodotto tensoriale,
+	\begin{equation*}
+		\begin{aligned}
+			(\varphi_1 \otimes \varphi_2)(u_1 \otimes u_2, v_1 \otimes v_2) & = \varphi_1(u_1,v_1) \otimes
+			\varphi(u_2, v_2)                                                                                                                                                \\
+			                                                                & = \left(\sum_{i=1}^{r_1} \alpha_{i}(u_{1})
+			\beta_{i}(v_{1}) w_{i}  \right) \otimes \left(  \sum_{j=1}^{r_2} \gamma_{j}(u_2)
+			\beta_{j}(v_2) z_{j} \right)                                                                                                                                     \\
+			                                                                & = \sum_{i=1}^{r_1}\sum_{j=1}^{r_2} \alpha_{i}(u_1)\beta_{i}(v_1)\gamma_{j}(u_2) \beta_{j}(v_2)
+			(w_{i} \otimes z_{j}),
+		\end{aligned}
+	\end{equation*}
+	che è un'espressione di $ \varphi_1 \otimes \varphi_2 $ come somma di mappe bilineari di rango
+	uno. Per minimalità del rango, segue
+	\begin{equation*}
+		\rk(\varphi_1 \otimes \varphi_2) \le r_1r_2 = \rk(\varphi_1)\rk(\varphi_2).
+	\end{equation*}
+\end{proof}
 
 \section{Il rango come misura della complessità}
 
@@ -438,10 +480,11 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 La prossima proposizione risponde al problema inverso problema inverso: dato un intero positivo $ r $, è possibile
 trovare un algoritmo con $ r $ moltiplicazioni?
 
+\todo{non capisco come sia collegata alla prop~\ref{prop:omega_rk_estimate}}
 \begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
 	\label{thm:strassen}
 	\begin{equation*}
-		\omega = \inf \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
+		\omega = \inf_{n} \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
 	\end{equation*}
 	Ovvero, è possibile moltiplicare due matrici $ n\times n $ usando $ O(n^{\omega + \varepsilon}) $
 	operazioni aritmetiche se e solo se il rango tensoriale di $ \algob{n} $ è $
@@ -678,31 +721,20 @@ addizioni:
 
 Proviamo a scriverlo in forma tensoriale. La sua bilinear computation è
 \begin{equation*}
-	C = \sum_{i=1}^8 m_{i}w_{i}
+	C = \sum_{i=1}^8 m_{i}w_{i},
 \end{equation*}
-Usando l'Osservazione~\ref{rmk:triliear_matmul} possiamo scrivere $ \algob{2} $ come mappa
-trilineare:
-\begin{equation*}
-	\begin{aligned}
-		\mathop{trace}(ABC) & =
-		\mathop{trace}\left(
-		\begin{bmatrix}
-				s_1t_1 + s_2t_2 & s_3t_3 + s_4t_4 \\
-				s_5t_5 + s_6t_6 & s_7t_7 + s_8t_8
-			\end{bmatrix}
-		\begin{bmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{bmatrix}
-		\right)                                                                              \\
-		                    & = (s_1t_1 + s_2t_2)c_{11} + (s_3t_3 + s_4t_4)c_{21}+ (s_5t_5 +
-		s_6t_6)c_{12} + (s_7t_7 + s_8t_8)c_{22}.
-	\end{aligned}
-\end{equation*}
-Poniamo
+a noi resta solo da assegnare i termini $ w_{i} $. Una regola per farlo è questa: guardiamo quali
+termini $ m_{r} $ formano le entrate $ c_{ij} $, e impostiamo $ w_{r} $ uguale al valore $ c_{ij} $
+dove si trova il rispettivo $ m_{r} $ (se fossero presenti più copie di un certo $ m_{r} $, i $
+	w_{r} $ sarebbero combinazione lineare dei termini $ c_{ij} $). Nel caso di $ c_{11} $ ad esempio, sono presenti $
+	m_1 $ e $ m_2 $, quindi $ w_1 =w_2 = c_{11} $. Procedendo in questo modo per gli altri termini troviamo,
 \begin{equation*}
 	\begin{aligned}
 		w_1 & = w_2 = c_{11}, \qquad w_5 = w_6 = c_{12}, \\
 		w_3 & = w_4 = c_{21}, \qquad w_7 = w_8 = c_{22}.
 	\end{aligned}
 \end{equation*}
+
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
 	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$ e scrivere il tensore struttrale di $
 	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}):
@@ -812,8 +844,22 @@ Che in forma tensoriale diventa
 	\end{aligned}
 \end{equation*}
 Espandendo i prodotto tensoriali e facendo opportune semplificazioni, possiamo ritrovare il tensore
-dell'Equazione~\ref{eq:tensor_222}.
-\todo{aggiungere costo}
+dell'algoritmo classico riportato nell'Equazione~\ref{eq:tensor_222}.
+\begin{remark}[Costo computazionale]
+	Similmente a quanto svolto sopra, troviamo che $ M(n) = O(n^{\log_{2}
+				7}) = O(n^{2.81})$. Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
+		\le \log_2 7 < 2.81$.
+\end{remark}
+
+\begin{remark}
+	L'algoritmo di Strassen non è unico.\todo{se serve posso aggiungere il tensore che dipende dal
+		parametro}
+\end{remark}
+
+\begin{remark}[Osservazioni pratiche]
+	\todo{aggiungere qualche considerazione pratica? o un plot che mostra confronto libreria dgemm e
+	}
+\end{remark}
 
 \section{Alcune stime sull'esponente}
 \label{sec:exp_estimates}
@@ -823,7 +869,7 @@ come dimostrato da Winograd~\cite{winograd1971}, $ \rk(\algob{2}) = 7$, ovvero n
 matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
 Nei casi diversi da $ \algob{2} $ il problema si complica, e attualmente abbiamo alcune stime più lasche: già
 per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\algob{3}) \le 23 $~\cite{BLASER200343,
-	bams/1183537626}; questo caso è ritenuto molto curioso peché esiste un'espressione nota per il
+	bams/1183537626}; questo caso è ritenuto molto curioso perché esiste un'espressione nota per il
 tensore, ma è difficile dimostrarne il rango. Mentre la migliore stima astintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
 	\rk(\algob{n}) $~\cite{blaser2001}. Si veda~\cite[Capitolo 11]{landsberg2011tensors} per una
 discussione più ampia.
@@ -853,8 +899,8 @@ Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazio
 \begin{equation*}
 	\begin{aligned}
 		\algob{2}^{\text{red}}
-		 & \defeq a_{11} \otimes (b_{11} \otimes c_{11} + b_{12} \otimes c_{12})
-		+ a_{12} \otimes (b_{21} \otimes c_{11} + b_{22} \otimes c_{12})         \\
+		 & \defeq a_{11} \otimes (b_{11} \otimes c_{11} + b_{12} \otimes c_{12}) \\
+		 & + a_{12} \otimes (b_{21} \otimes c_{11} + b_{22} \otimes c_{12})      \\
 		 & + a_{21} \otimes (b_{11} \otimes c_{21} + b_{12}
 		\otimes c_{22}).
 	\end{aligned}
@@ -878,42 +924,44 @@ L'espressione del tensore che stavano cercando era il seguente tensore di rango 
 	\end{aligned}
 \end{equation*}
 dove \todo{qui $ z_1^2 $ con $ z_2^1 $ è scambiato rispetto alla source, controlla di nuovo}
+
+\todo{correggi errore di copiatura nella III}
 \begin{equation*}
 	\begin{aligned}
-		(I)   & = (x_2^1 + tx_1^1) \otimes (y_2^1 + ty_2^2 \otimes z_2^1)                                   \\
-		      & = x_{2}^1 \otimes y_2^1 \otimes z_2^1 + t[x_2^1 \otimes y_2^2 \otimes z_2^1 + x_1^1 \otimes
-		y_2^1 \otimes z_2^1] + O(t^2)                                                                       \\
-		(II)  & = (x_1^2 + tx_1^1) \otimes y_1^1 \otimes (z_1^1 + tz_1^2)                                   \\
-		      & = x_1^2 \otimes y_1^1 \otimes z_1^1 +t[x_1^2 \otimes y_1^1 \otimes z_1^2 + x_1^1 \otimes
-		y_1^1 \otimes z_1^1] + O(t^2)                                                                       \\
-		(III) & = x_1^2 \otimes y_1^1 \otimes z_1^1 + t[x_1^2 \otimes y_1^1 \otimes z_1^2 + x_1^1 \otimes
-		y_1^1 \otimes z_1^1] + O(t^2)                                                                       \\
-		(IV)  & = x_1^2 \otimes ((y_1^1 + y_2^1) + ty_1^2) \otimes z_1^1                                    \\
-		      & = x_1^2 \otimes y_1^1 \otimes z_1^1 + x_1^2 \otimes y_2^1 \otimes z_1^1 + t[x_1^2 \otimes
-		y_1^2 \otimes z_1^1]                                                                                \\
-		(V)   & = (x_2^1 + x_1^2) \otimes (y_2^1 + ty_1^2) \otimes (z_1^1 + tz_2^2)                         \\
-		      & =x_2^1\otimes y_2^1 \otimes z_1^1 + x_1^2 \otimes y_2^1 \otimes z_1^1                       \\
-		      & + t[x_2^1 \otimes
-				(y_2^1 + z_2^2 + y_1^2 \otimes z_1^1) + x_1^2 \otimes (y_2^1 \otimes z_2^2 + y_1^2 \otimes
-				z_1^1)] + O(t^2)
+		(I)   & = (a_2^1 + ta_1^1) \otimes (b_2^1 + tb_2^2 \otimes c_2^1)                                   \\
+		      & = a_{2}^1 \otimes b_2^1 \otimes c_2^1 + t[a_2^1 \otimes b_2^2 \otimes c_2^1 + a_1^1 \otimes
+		b_2^1 \otimes c_2^1] + O(t^2)                                                                       \\
+		(II)  & = (a_1^2 + ta_1^1) \otimes b_1^1 \otimes (c_1^1 + tc_1^2)                                   \\
+		      & = a_1^2 \otimes b_1^1 \otimes c_1^1 +t[a_1^2 \otimes b_1^1 \otimes c_1^2 + a_1^1 \otimes
+		b_1^1 \otimes c_1^1] + O(t^2)                                                                       \\
+		(III) & = a_1^2 \otimes b_1^1 \otimes c_1^1 + t[a_1^2 \otimes b_1^1 \otimes c_1^2 + a_1^1 \otimes
+		b_1^1 \otimes c_1^1] + O(t^2)                                                                       \\
+		(IV)  & = a_1^2 \otimes ((b_1^1 + b_2^1) + tb_1^2) \otimes c_1^1                                    \\
+		      & = a_1^2 \otimes b_1^1 \otimes c_1^1 + a_1^2 \otimes b_2^1 \otimes c_1^1 + t[a_1^2 \otimes
+		b_1^2 \otimes c_1^1]                                                                                \\
+		(V)   & = (a_2^1 + a_1^2) \otimes (b_2^1 + tb_1^2) \otimes (c_1^1 + tc_2^2)                         \\
+		      & =a_2^1\otimes b_2^1 \otimes c_1^1 + a_1^2 \otimes b_2^1 \otimes c_1^1                       \\
+		      & + t[a_2^1 \otimes
+				(b_2^1 + c_2^2 + b_1^2 \otimes c_1^1) + a_1^2 \otimes (b_2^1 \otimes c_2^2 + b_1^2 \otimes
+				c_1^1)] + O(t^2)
 	\end{aligned}
 \end{equation*}
 In ogni passaggio abbiamo applicato più volte la proprietà distributiva del prodotto tensoriale.
 Osserviamo che i termini di grado costante in $ t $ si cancellano:
 \begin{equation*}
 	\begin{aligned}
-		x_2^1   & \otimes (y_2^1 \otimes z_2^1 - y_2^1 \otimes z_1^1 - y_2^1 \otimes z_2^1 + y_2^1 \otimes
-		z_1^1)                                                                                                    \\
-		+ x_1^2 & \otimes (y_1^1 \otimes z_1^1 - y_1^1 \otimes z_1^1 + y_2^1 \otimes z_1^1 - y_2^1 \otimes z_1^1)
+		a_2^1   & \otimes (b_2^1 \otimes c_2^1 - b_2^1 \otimes c_1^1 - b_2^1 \otimes c_2^1 + b_2^1 \otimes
+		c_1^1)                                                                                                    \\
+		+ a_1^2 & \otimes (b_1^1 \otimes c_1^1 - b_1^1 \otimes c_1^1 + b_2^1 \otimes c_1^1 - b_2^1 \otimes c_1^1)
 		= 0
 	\end{aligned}
 \end{equation*}
 Sommando e raggruppando i termini di grado uno in $ t $ troviamo
 \begin{equation*}
 	\begin{aligned}
-		\algob{n}^\text{red} = x_1^1 & \otimes (y_1^1 \otimes z_1^1 + y_2^1 \otimes z_2^1) + \\
-		x_2^1                        & \otimes (y_1^2 \otimes z_1^1 + y_2^2 \otimes z_2^1) + \\
-		x_1^2                        & \otimes (y_1^1 \otimes z_1^2 + y_2^1 \otimes z_2^2),
+		\algob{n}^\text{red} = a_1^1 & \otimes (b_1^1 \otimes c_1^1 + b_2^1 \otimes c_2^1) + \\
+		a_2^1                        & \otimes (b_1^2 \otimes c_1^1 + b_2^2 \otimes c_2^1) + \\
+		a_1^2                        & \otimes (b_1^1 \otimes c_1^2 + b_2^1 \otimes c_2^2),
 	\end{aligned}
 \end{equation*}
 ovvero il tensore di partenza. Da cui,
@@ -924,6 +972,7 @@ ovvero il tensore di partenza. Da cui,
 		                                                  & = O(t) \xrightarrow[t \to 0]{} 0
 	\end{aligned}
 \end{equation*}
+
 Abbiamo dimostrato che i tensori approssimanti $ \algob{n}_{t}^\text{red} $, di rango $ 5 $
 convergono ad un tensore di rango $ 6 $. Nella pratica, è possibile calcolare il prodotto di due
 matrici usando il tensore $ \algob{n}_{t}^\text{red}  $ per una scelta di $ t $ maggiore della
@@ -938,6 +987,11 @@ il rango con il border rank nel Teorema~\ref{thm:strassen}:
 		\omega = \inf \{\tau \in \R \mid \brk(\algob{n}) = O(n^\tau)\} .
 	\end{equation*}
 \end{theorem}
+Possiamo inoltre generalizzare la Proposizione~\ref{prop:omega_rk_estimate}.
+\todo{l'ho trovato anche in forma $ \brk{\algob{n}} \ge n^{\omega} $ per ogni intero positivo $ n $}
+\begin{proposition}
+	Se $ \brk(\algob{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
+\end{proposition}
 Anche se potremmo avere $ \brk(\algob{n}) < \rk(\algob{n}) $, non sono abbastanza diversi da
 avere un impatto sull'esponente\todo{why?}.
 

@@ -4,54 +4,58 @@
 
 \todo{Usare emph quando si introduce un termine nuovo, inserire tabella notazione all'inizio}
 
-\todo{Vorrei introdurre il prima possible la CP}
-
-\todo{trovare notazione alternativa per $ [n] $ perché si confonde con il proiettivo}
-
 \section{Tensori}
 
-Denotiamo gli spazi vettoriali con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
+In questo elaborato lavoriamo in $ \K \in \{\R, \C\}  $, e denotiamo gli spazi vettoriali, che
+assumeremo sempre finiti, con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
 lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Se $ v_1,\ldots,v_p \in V$,
 $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^* = \{ f : V \to \K \mid f \text{ lineare} \} $ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
 	\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
 dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
 	\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
 
+\begin{definition}[Mappe trilineari]
+	Siano $ U,V,W $ spazi vettoriali di dimensione finita su un campo $ \K $. Una \emph{forma bilineare} è una mappa $ \varphi : U \times V \to
+		W$ lineare in ogni componente, in altre parole tale che $ f(u, \cdot) $ e $ f(\cdot,v) $ sono
+	lineari per ogni $ u\in U $ e $ v\in V $. Quando $ W = \K $ la chiameremo \emph{forma bilineare}.
 
-\begin{definition}
-	Denotiamo l'insieme dei numeri naturali da $ 1 $ a $ n \in \N $ come $ \underline{n} = \left\{ 1,\dots,n
-		\right\} $, e il prodotto cartesiano tra $ \underline{n} $ e $ \underline{m} $ come $ \underline{n}
-		\times  \underline{m} =
-		\left\{ (i,j) : i \in \underline{n}, j \in \underline{m} \right\} $.
+
+
+\end{definition}
+In generale, dati degli spazi vettoriali $ A_1, \ldots, A_{n} $ di
+dimensione finita, definiamo le forme $ n $-multilineari come applicazioni $ \varphi : A_1
+	\times \cdots \times A_{n} \to \K $ lineari in ognuna delle $ n $ componenti, e data una forma $ n
+$-multilineare $ \varphi : A_1 \times A_2 \times \cdots \times A_{n} $ è possibile costruire una
+mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to \K $.
+
+\begin{definition}[Tensore]
+	Definiamo lo spazio dei \emph{tensori} $ A_1 \otimes A_2 \otimes \cdots \otimes
+		A_{n} $ come l'insieme delle forme $ n $-multilineari $ \varphi : A_1^* \times A_2^* \times
+		\cdots \times A_{n}^* \to \K$.
 \end{definition}
 
+\begin{remark}[Spazio standard]
+	Sfruttando l'identificazione canonica $ \K^m \otimes \K^n \simeq \K^{m \times n} $ (o più in
+	generale $ \K^{n_1}\otimes \K^{n_2} \otimes \cdots \otimes \K^{n_{d}} \simeq \R^{n_1 \times n_2 \times
+			\cdots \times n_{d}}$) possiamo dare una definizione di tensore operativamente utile in molti contesti del
+	calcolo tensoriale, dove spesso è più conveniente lavorare nello spazio standard $ \R^{n_1 \times
+			\cdots \times n_{d}} $.
+
+
+\end{remark}
+\begin{definition}[Tensore in coordinate]
+	Un \emph{tensore in coordinate} $ T  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
+		\K $, che denotiamo come $  T \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
+	$ T_{\miwc} $.
+\end{definition}
 \begin{remark}
-	Un tensore $ T \in \R^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
+	Per la ragione sopra, spesso chiameremo tensore anche l'oggetto sopra scrivendo
+	semplicemente $ T \in \Rmsiz $.
+\end{remark}
+\begin{remark}
+	Siccome per ogni spazio vettoriale $ V $, vale $ V \otimes \K \simeq V $, un tensore $ T \in \K^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
 	un tensore $ T \in \R^{n_1\times n_{d-1} \times 1} $ è un tensore di dimensione $ n_1\times
 		n_2\times \cdots \times  n_{d-1} $.
-\end{remark}
-
-\begin{definition}
-	\todo{change letters}
-	Siano $ M,N,P $ spazi vettoriali di dimensione finita, di dimensione $ m,n,p $ rispettivamente. Una forma bilineare è una mappa $ f : M \times N \to
-		P$ lineare in ogni componente, in altre parole tale che $ f(m, \cdot) $ e $ f(\cdot,n) $ sono
-	lineari per ogni $ m\in M $ e $ n\in N $. In maniera analoga si definiscono le mappe trilineari $ f:
-		M_1 \times M_2 \times  M_3 \to P$.
-
-
-\end{definition}
-
-\begin{definition}
-	Un \emph{tensore} $ T  $ di ordine $ d $ è un array multidimensionale con entrate definite sul campo $
-		\K $, che denotiamo come $  T \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
-	$ T_{\miwc} $, dove $ (\miwc) \in \mdom$.
-\end{definition}
-
-\begin{remark}
-	Per array intendiamo un arrangiamento di elementi di $ \K $ secondo gli indici $ (\miwc) \in
-		\mdom $. Trattare la buona definizione dei tensori dal punto di vista algebrico esula dallo scopo
-	del presente lavoro, tuttavia il lettore interessato a una visione algebrica più ampia, può
-	guardare. \todo{Cita landberg o Hackbush)}
 \end{remark}
 
 \begin{example}(Tensori che rappresentano applicazioni multilineari)
@@ -67,16 +71,25 @@ dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U
 	\begin{itemize}
 		\item Addizione: $(T_1 + T_2)(\miwc!) = T_1(\miwc!) + T_2(\miwc!)$.
 		\item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (T(\miwc!)) = (\alpha
-			      T)(\miwc!)$
-		\item Prodotto scalare: $ \angb{T_1, T_2} = \Vec(T_1)^{\top} \Vec(T_2)$
-		\item Norma: $\| \Vec(T)\|$
+			      T)(\miwc!)$.
+		\item Prodotto scalare: $ \angb{T_1, T_2} = \Vec(T_1)^{\top} \Vec(T_2)$.
+		\item Norma: $\| \Vec(T)\| = \sqrt{\sum_{i_1=1}^{n_1}\sum_{i_2=1}^{n_2}\cdots
+				      \sum_{i_{d}=1}^{n_{d}} (T_{i_1,i_2,\ldots,i_{d}})^2 }$.
 	\end{itemize}
 \end{remark}
 
-\section{Il prodotto esterno}
-Dati due vettori $ u = \begin{bmatrix} u_1, \ldots, u_m \end{bmatrix}^{\top} \in \R^m $ e $ v =
-	\begin{bmatrix} v_1, \ldots, v_n \end{bmatrix}^{\top} \in \R^n  $, possiamo introdurre un'operazione $ \topp
-$ tra $ u $ e $ v $ definita come
+\section{Rango tensoriale}
+
+\begin{definition}[Tensore di rango uno]
+	Dati $ a_1 \in A_1, a_2 \in A_2, \ldots, a_{d} \in A_{d} $, definiamo un \emph{tensore di rango
+		uno} come un elemento $ a_1 \otimes a_2 \otimes \cdots \otimes a_{n} \in A_1
+		\otimes A_2 \otimes \cdots \otimes A_{n}$ tale che $ a_1 \otimes \cdots \otimes a_{d}(\beta_1, \ldots,
+		\beta_{n}) = \beta_1(a_1)\beta_2(a_2) \cdots \beta_{d}(a_{d}) $.
+\end{definition}
+
+Operativamente, dati due vettori $ u = \begin{bmatrix} u_1, \ldots, u_m \end{bmatrix}^{\top} \in \R^m $ e $ v =
+	\begin{bmatrix} v_1, \ldots, v_n \end{bmatrix}^{\top} \in \R^n  $, possiamo calcolare il prodotto
+tensore come
 \begin{equation*}
 	u \topp v = uv^{\top} =
 	\begin{bmatrix} u_1v_1 & u_1v_2 & \ldots & u_1v_n \\ u_2v_1 & u_2v_2 &
@@ -85,28 +98,23 @@ $ tra $ u $ e $ v $ definita come
                 u_mv_1 & u_mv_2 & \ldots & u_mv_n
 	\end{bmatrix} \in \R^{m\times n}.
 \end{equation*}
-Possiamo generalizzare tale costruzione a più dimensioni:
-\begin{definition}[Prodotto esterno]
-	Dati dei vettori $ v^1 \in \R^{n_1}, \ldots, v^d \in \R^{n_d} $, loro \emph{prodotto
-		esterno}, anche detto \emph{prodotto tensore}, è il tensore
-	\begin{equation}
-		\label{eq:rk1}
-		T = v^1 \topp v^2 \topp \cdots \topp v^d \in \Rmsiz
-	\end{equation}
-	tale che la sua scrittura in componenti è
-	\[
-		T_{\miwc} = v_{i_1}^1v_{i_2}^2 \cdots v_{i_d}^d = \prod_{j=1}^d v_{i_j}^j
-		.\]
-\end{definition}
-\begin{definition}[Tensore di rango uno]
-	Un tensore $ T \in \Rmsiz! $ ha \emph{rango uno} se si può scrivere come nell'Equazione
-	\ref{eq:rk1}.
-\end{definition}
+In più dimensioni, presi $ a_{1} \in \R^{n_1}, \ldots, a_{n} \in \R^{n_n} $, il loro prodotto tensore è
+\begin{equation}
+	\label{eq:rk1}
+	T = a^{(1)} \topp a^{(2)} \topp \cdots \topp a^{(d)} \in \Rmsiz
+\end{equation}
+tale che la sua scrittura in componenti è
+\[
+	T_{\miwc} = a_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)}
+	.\]
+
 Questo ci permette di definire la seguente quantità fondamentale:
 \begin{definition}[Rango di un tensore]
-	Il rango di un tensore $ T \in \Rmsiz!$ è il minimo intero positivo $ r $ tale che $ T $ si può scrivere
-	come somma di tensori di rango uno, e scriviamo $ \rk(T) = r $.
+	Il rango di un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_{n}$ è il minimo intero positivo $ r $ tale che $ T $ si può scrivere come somma di tensori di rango uno, e scriviamo $ \rk(T) = r $.
 \end{definition}
+
+\section{Ordinamenti}
+
 Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 
 \begin{definition}[Prodotto di Kroneker]
@@ -114,7 +122,7 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 	Date due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{p \times q} $, il loro prodotto
 	di Kroneker è la matrice
 	\[
-		C = A \krn B =
+		C = A \boxtimes B =
 		\begin{bmatrix}
 			a_{11}B & a_{12}B & \ldots & a_{1n}B \\
 			a_{21}B & a_{22}B & \ldots & a_{2n}B \\
@@ -123,15 +131,14 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 		\end{bmatrix}  \in  \R^{mp \times nq}, \text{dove } c_{kl} = a_{ij}b_{nl},
 		.\]
 	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
-	\todo{riscrivere con L*. Vedi definizione nelle note}
 
 \end{definition}
-\begin{remark}[Collegamento con il prodotto tensore]
+\begin{remark}[Prodotto di Kroneker come vettorizzazione del prodotto tensore]
 	\label{rmk:krn_tensor}
 	Dati due vettori $ u \in \R^m $ e $ v \in \R^n $, il loro prodotto di Kroneker si può vedere come
 	vettorizzazione del prodotto vettore, ossia
 	\begin{equation}
-		\Vec(v \topp u) =
+		\Vec(v \otimes u) =
 		\Vec \left(
 		\begin{bmatrix}
 			v_1u_1 & v_1u_2 & \ldots & v_1u_m \\
@@ -331,13 +338,13 @@ costo di rappresentazione in memoria e delle operazioni algebriche che lo convol
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
 	X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
-	u_1v_1^{\top} + \ldots + u_rv_r^{\top} = u_1 \topp v_1 + \ldots + u_r \topp v_r
+	u_1v_1^{\top} + \cdots + u_rv_r^{\top} = u_1 \topp v_1 + \cdots + u_r \topp v_r
 	,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
 decomposizione è vantaggioso in termini di memoria: infatti
 \[
-	\Vec(X) = v_1 \krn u_1 + \ldots + v_r \krn u_r
+	\Vec(X) = v_1 \krn u_1 + \cdots + v_r \krn u_r
 	,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
-quindi riadattare questa decomposizione per memorizzare $ T $ con costo $ O((n_1+\ldots+n_d)r)
+quindi riadattare questa decomposizione per memorizzare $ T $ con costo $ O((n_1+\cdots+n_d)r)
 $ invece che $ O(n_1\cdots n_d) $. \todo{discorso unicità} Tuttavia, generalizzare questa decomposizione a più dimensioni ha
 numerosi ostacoli \todo{ref to ostacoli}.
 
@@ -353,10 +360,11 @@ numerosi ostacoli \todo{ref to ostacoli}.
 	\todo{serve ipotesi sui vettori?}
 \end{definition}
 \begin{remark}
-	La definizione è invariante per cambiamento di base.
+	Siccome $ A_1 \otimes \cdots \otimes A_{n} $ è generato da elementi di rango uno, è sempre
+	possibile decomporre un tensore in formato $ CP $.
 \end{remark}
 
-\begin{remark}[Versione originale]
+\begin{remark}[Canonical Polyadic Decomposition (CP)]
 	In letteratura spesso la CP viene
 	definita in coordinate $ \Rmsiz $ tramite delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
 			\ldots \mid u_r^t\right]\in \R^{n_t \times r} $ tali per cui
@@ -376,6 +384,57 @@ numerosi ostacoli \todo{ref to ostacoli}.
 	\end{enumerate}
 	\todo{la 3 non torna}
 \end{remark}
+
+
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
+	\caption{Fattorizzazione CP di un tensore $ T = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
+		dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
+	\label{fig:cp_dec}
+\end{figure}
+
+\begin{remark}[Risparmio in memoria della CP]
+	La fattorizzazione CP di un tensore $ T $ di rango $ r $ permette di ridurre notevolmente il
+	costo di memorizzazione, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
+		O(\prod_{i=1}^d n_j)$.
+\end{remark}
+
+
+\section{Verso l'unicità}
+\todo{Cambiare}
+
+
+
+\begin{definition}[Tensor slice]
+	Dato $ T \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ T $ ogni matrice ottenuta da $
+		T $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
+	Nel caso $ d=3 $ si identificano tutte le possibili slices:
+	\missingfigure{horizontal lateral, frontal slices}
+\end{definition}
+
+\begin{definition}[Mode-$k$ fiber]
+	Dato un tensore $ T \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
+	tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k $-esimo lo chiamiamo
+	\emph{mode-$k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
+	\todo{finire!!}
+	\missingfigure{column, row, tube fibers}
+\end{definition}
+\todo{Definizione fibre}
+
+In molte situazioni risulta comodo disporre gli elementi di un tensore in una matrice. Uno dei modi
+per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
+
+\begin{definition}[Mode-$k$ unfolding]
+	Il \emph{mode-$k$ unfolding} di un tensore $ T \in \Rmsiz! $ è la matrice $ \Tm{T}{k} \in \R^{n_k \times
+			\prod_{j\neq k}n_j} $ le cui colonne sono mode-$ k $ fibers ordinate seguendo l'ordine naturale
+	su $ \sdom $. In particolare si ha
+	\[
+		T(i,j) = T(\siwc{i}) \text{, con } j = \L(\siwc)
+		.\]
+\end{definition}
 
 \begin{example}[De Lathauwer~\cite{lieven2006}]
 	Consideriamo il tensore $ T $ di taglia $ 2\times 2\times 2 $ definito da
@@ -403,66 +462,17 @@ numerosi ostacoli \todo{ref to ostacoli}.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
-	\caption{Fattorizzazione CP di un tensore $ T = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
-		dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
-	\label{fig:cp_dec}
-\end{figure}
-
-\begin{remark}
-	Il rango CP di $ T $ coincide per definizione al rango di $ T $.
-\end{remark}
-
-\begin{remark}[Risparmio in memoria della CP]
-	La fattorizzazione CP di un tensore $ T $ di rango $ r $ permette di ridurre notevolmente il
-	costo di memorizzazione del tensore, in quanto richiede $ O((n_1 + \ldots + n_d)r) \ll
-		O(\prod_{i=1}^d n_j)$.
-\end{remark}
-
-
-\section{Verso l'unicità}
-\todo{Cambiare}
-
-
-
-\begin{definition}[Tensor slice]
-	Dato $ T \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ T $ ogni matrice ottenuta da $
-		T $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
-	Nel caso $ d=3 $ si identificano tutte le possibili slices:
-	\missingfigure{horizontal lateral, frontal slices}
-\end{definition}
-
-\begin{definition}[Mode$-k$ fiber]
-	Dato un tensore $ T \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
-	tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k- $esimo lo chiamiamo
-	\emph{mode$-k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
-	\missingfigure{column, row, tube fibers}
-\end{definition}
-\todo{Definizione fibre}
-
-In molte situazioni risulta comodo disporre gli elementi di un tensore in una matrice. Uno dei modi
-per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
-
-\begin{definition}[Mode$-k$ unfolding]
-	Il \emph{mode$-k$ unfolding} di un tensore $ T \in \Rmsiz! $ è la matrice $ \Tm{T}{k} \in \R^{n_k \times
-			\prod_{j\neq k}n_j} $ le cui colonne sono mode$ -k $ fibers ordinate seguendo l'ordine naturale
-	su $ \sdom $. In particolare si ha
-	\[
-		T(i,j) = T(\siwc{i}) \text{, con } j = \L(\siwc)
-		.\]
-\end{definition}
-
-\begin{figure}[ht]
-	\centering
 	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/unfoldings.pdf}
 	\caption{Schema delle matricizzazioni di un tensore.}
 	\label{fig:unfoldings}
 \end{figure}
 L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
+
 \begin{definition}[Multirank]
 	Il \emph{multilinear rank} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
 		(r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}  $.
 \end{definition}
+
 
 Dal punto di vista computazionale è utile introdurre la seguente operazione
 
@@ -496,6 +506,7 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 \begin{proof}
 	La $ (i) $ segue applicando più volte l'Osservazione~\ref{rmk:krn_tensor}. Dimostriamo la $ (ii)
 	$:
+	\todo{scrivere}
 \end{proof}
 
 In molte situazioni è utile moltiplicare un tensore con una matrice, ma purtroppo le dimensioni non
@@ -504,11 +515,11 @@ il problema facendo agire la matrice la matrice lungo il modo $ k- $esimo di un 
 chiama.
 \begin{definition}[Prodotto nel modo $k$]
 	Il \emph{prodotto nel modo $ k $} di un tensore $ T \in \Rmsiz! $ con una matrice $ U \in
-		\R^{r \times n_k} $ descrive l'azione di $ U $ sulla $ k- $esima coordinata di $ T $. Formalmente, è un tensore
+		\R^{r \times n_k} $ descrive l'azione di $ U $ sulla $ k $-esima coordinata di $ T $. Formalmente, è un tensore
 	\[
-		\Tn{y} = T \ttm U \in \R^{\ssiz{r}} \text{ con } \Tm{Y}{k} = U \Tm{T}{k}
+		Y = T \ttm U \in \R^{\ssiz{r}} \text{ con } \Tm{Y}{k} = U \Tm{T}{k}
 		.\]
-	In componenti, $ \Tn{y}(\siwc{\alpha}) = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_k} $.
+	In componenti, $ Y_{\siwc{\alpha}} = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_k} $.
 \end{definition}
 
 \begin{lemma}
@@ -539,8 +550,8 @@ chiama.
 	Dato un tensore $ T \in \Rmsiz* $ e delle matrici $ U \in \R^{m_1 \times n_1} $, $ V \in
 		\R^{m_1 \times n_2} $ e $ W \in \R^{m_3 \times n_3} $. Sono fatti equivalenti:
 	\begin{enumerate}[label=(\roman*)]
-		\item $\Tn{y} = T \ttm[1] U \ttm[2] V \ttm[3] W \in \Rmsiz*[m]$.
-		\item $\Vec(\Tn{y}) = (W \krn V \krn U) \cdot \Vec(T)$.
+		\item $Y = T \ttm[1] U \ttm[2] V \ttm[3] W \in \Rmsiz*[m]$.
+		\item $\Vec(Y) = (W \krn V \krn U) \cdot \Vec(T)$.
 		\item $\Tm{Y}{1} = U\Tm{T}{1}(W \krn V)^{\top}$.
 		\item $ \Tm{Y}{2} = V\Tm{T}{2}(W \krn U)^{\top} $.
 		\item $\Tm{Y}{3} = W\Tm{T}{3}(V \krn U)^{\top}$.
@@ -591,11 +602,21 @@ chiama.
 
 In più dimensioni il problema di calcolare il rango, e una fattorizzazione CP di un tensore si
 complicano notevolmente rispetto al caso matriciale.\todo{non mi piace}
+Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una risposta generale (a
+differenza del
+caso matriciale) a domande del tipo:
+\begin{enumerate}
+	\item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
+	\item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
+\end{enumerate}
 
 \subsection*{Border rank}
-L'insieme dei tensori di un rango fissato $ r $ non è chiuso, ad esempio, un tensore di rango $ 3 $
-può convergere ad uno di rango $ 2 $, come mostra il prossimo esempio. Questo limita
-l'utilità del rango dal punto di vista teorico, ma ha risvolti applicativi interessanti, che vedremo nella Sezione~\ref{sec:APA}.
+Nel caso delle matrici, una successione di matrici di rango $ r $ converge sempre a una matrice di
+rango $ \le r $. Per i tensori possono accadere dei ``salti'', in altre parole, la varietà dei
+tensori di un rango fissato $ r $ non è chiusa\footnote{Non precisiamo la topologia, per una
+	discussione formale si vedano~\cite{landsberg2011tensors,landsberg2015geometry}.}, ad esempio, un tensore di rango $ 2 $
+può convergere ad uno di rango $ 3 $, come mostra il prossimo esempio. Questo inconveniente teorico
+ha risvolti interessanti che vedremo nella \S~\ref{sec:APA}.
 
 \begin{example}
 	\label{ex:border_rank}
@@ -641,7 +662,7 @@ Questo motiva la seguente definizione:
 	$ \rk(T) \ge \brk(T) $.
 \end{remark}
 \begin{remark}
-	In coordinate, se $ T \in \Rmsiz $, il suo border rank è la quantità
+	In altri termini, se $ T \in \Rmsiz $, il suo border rank è la quantità
 	\[
 		\brk(T) = \min \left\{ r \in \N \mid \exists T' \in \Rmsiz! \text{ tale che }
 		\rk(T')=r, \, \|T - T'\|  < \varepsilon \right\}
@@ -680,11 +701,18 @@ Sfortunatamente, generalizzare questo risultato in più dimensioni è
 ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposednessbest}.
 
 \subsection*{Rango tipico}
+\label{sec:rango_tipico}
 
-Sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$
+Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
+formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
+come \emph{rango tipico}.
+
+Sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$ una distribuzione di probabilità continua sullo spazio
+dei tensori $ \R^{n_1 \times n_2 \times \cdots \times n_{d}} $ (un esempio sono i tensori a entrate
+gaussiane).
 \begin{definition}
-	Il \emph{rango tipico} (o \emph{rango generico}) per un tensore di formato $ n_1 \times n_2 \times
-		\cdots \times n_{d}$ è l'insieme dei ranghi che occorrono con probabilità non nulla, rispetto ad
+	Il \emph{rango tipico} (o \emph{rango generico}) di un tensore $ T \in \K^{n_1 \times \cdots
+			\times n_{d}} $ è l'insieme dei ranghi che occorrono con probabilità non nulla, rispetto ad
 	ogni distribuzione continua $  \mathcal{D}(n_1, n_2, \ldots, n_{d})$ sull'insieme di tali tensori.
 	In formule,
 	\begin{equation*}
@@ -693,9 +721,53 @@ Sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$
 	\end{equation*}
 \end{definition}
 
-Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
-formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
-come \emph{rango tipico} e verrà discusso nella Sezione~\ref{sec:rango_tipico}.
+\todo{rewrite and verify}
+
+Mentre per le matrici il rango tipico è unico e coincide con il massimo rango possibile, per i
+tensori di ordine superiore a due. In particolare su $\mathbb{R}$ possono coesistere
+più ranghi tipici, mentre su $\mathbb{C}$ il rango tipico è sempre unico. La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
+Per studiare empiricamente questo comportamento, abbiamo implementato un esperimento numerico.
+Selezionando alcuni formati, abbiamo generato dei tensori casuali con entrate estratte
+indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
+distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
+usando l'algoritmo ALS interrompendo una volta raggiunto un errore relativo inferiore a
+$10^{-5}$. Per evitare minimi locali, ogni esecuzione dell'algoritmo è stata
+ripetuta con alcuni riavvii.
+La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
+distribuzione delle entrate (normale o uniforme) non alteri l'insieme dei ranghi tipici e produca
+frequenze empiriche analoghe.\todo{non chiaro perché $ 3\times 3\times 5 $ produca anche tensori di
+	rango $ 7 $}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/typical_rank_distribution.pdf}
+	\caption{Distribuzione empirica dei ranghi per tensori casuali reali di formato $2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$ con entrate estratte da distribuzioni Normali $\mathcal{N}(0, 1)$ ed Uniformi $\mathcal{U}(-1, 1)$ (istogrammi affiancati).}
+	\label{fig:typical_ranks_dist}
+\end{figure}
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Ranghi tipici noti sul campo reale $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (adattata da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
+	\label{tab:typical_ranks}
+	\begin{tabular}{lll}
+		\toprule
+		Formato ($m \times n \times p$)                   & Rango tipico & Fonte                                                                \\
+		\midrule
+		$2 \times n \times n$                             & $\{n, n+1\}$ & ten Berge, Kiers~\cite{tenberge1999}                                 \\
+		$3 \times 3 \times 3$                             & $5$          & ten Berge, Stegeman~\cite{tenberge2006}                              \\
+		$3 \times 3 \times 5$                             & $\{5, 6\}$   & ten Berge, Sidiropoulos, Rocci~\cite{tenberge2004}                   \\
+		$3 \times 4 \times 8$                             & $\{8, 9\}$   & Sumi et al.~\cite{sumi2013}                                          \\
+		$3 \times 5 \times 9$                             & $\{9, 10\}$  & Choulakian~\cite{choulakian2010}; ten Berge~\cite{tenberge2011}      \\
+		$4 \times 4 \times 12$                            & $\{12, 13\}$ & Friedland~\cite{friedland2012}                                       \\
+		$m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$     & ten Berge~\cite{tenberge2000b}                                       \\
+		$m \times n \times p$ ($n(m-1) < p < mn$)         & $p$          & ten Berge, Kiers~\cite{tenberge1999}; ten Berge~\cite{tenberge2000b} \\
+		$m \times n \times p$ ($p \ge mn$)                & $mn$         & ten Berge, Kiers~\cite{tenberge1999}; ten
+		Berge~\cite{tenberge2000b}                                                                                                              \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 
 \subsection*{Dipendenza dal campo base}
 Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
@@ -792,67 +864,6 @@ Introduciamo un lemma di supporto:
 	Ripetendo l'argomento per gli altri unfoldings si ha la tesi.
 \end{proof}
 
-Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una risposta generale (a
-differenza del
-caso matriciale) a domande del tipo:
-\begin{enumerate}
-	\item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
-	\item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
-\end{enumerate}
-
-\section{Rango tipico}
-\label{sec:rango_tipico}
-
-\todo{rewrite and verify}
-Mentre per le matrici il rango generico è unico e coincide con il massimo rango possibile, per i tensori di ordine superiore a due — in particolare sul campo reale $\mathbb{R}$ — possono coesistere più ranghi tipici. Un rango si dice tipico se l'insieme dei tensori che lo possiedono ha misura di Lebesgue strettamente positiva (ovvero se si presenta con probabilità non nulla quando si generano le entrate del tensore secondo una distribuzione di probabilità continua).
-
-Sul campo complesso $\mathbb{C}$, il rango tipico (o generico) è sempre unico. Ad esempio, per tensori di formato $2 \times 2 \times 2$, il rango generico complesso è $2$. Tuttavia, sul campo reale $\mathbb{R}$, un tensore di formato $2 \times 2 \times 2$ può avere rango reale tipico pari a $2$ o $3$.
-
-Per studiare empiricamente questo comportamento, abbiamo implementato un esperimento numerico in Python. Per ciascuno dei quattro formati analizzati ($2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$), abbiamo generato campioni di tensori casuali con entrate estratte indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato determinando il minimo valore di $r$ per cui l'algoritmo Alternating Least Squares (ALS) converge a un errore relativo inferiore a $10^{-5}$. Per evitare minimi locali, ogni esecuzione dell'algoritmo è stata ripetuta con 15 inizializzazioni casuali indipendenti.
-
-La distribuzione empirica dei ranghi (riportata in Figura~\ref{fig:typical_ranks_dist}) mostra i seguenti risultati:
-\begin{itemize}
-	\item Per il formato $2 \times 2 \times 2$, circa il $70.5\%$--$74.0\%$ dei tensori presenta rango $2$, e il restante $26.0\%$--$29.5\%$ ha rango $3$.
-	\item Per il formato $3 \times 3 \times 2$, circa il $29.5\%$--$39.5\%$ dei tensori presenta rango $3$, e il $60.5\%$--$70.5\%$ ha rango $4$.
-	\item Per il formato $3 \times 3 \times 3$, il $100\%$ dei tensori ha rango $5$ per entrambe le distribuzioni, a conferma del fatto che $5$ è l'unico rango tipico reale per questa classe.
-	\item Per il formato $3 \times 3 \times 5$, circa il $91.0\%$--$94.0\%$ dei tensori presenta rango $6$, un'ulteriore quota del $4.0\%$--$7.0\%$ ha rango $7$, e una frazione minore ($2.0\%$) converge a rango $5$.
-\end{itemize}
-Si nota come la distribuzione delle entrate (normale o uniforme) non alteri l'insieme dei ranghi tipici e produca frequenze empiriche del tutto analoghe, in perfetto accordo con il fatto che la proprietà di tipicità è di natura topologico-misurabile (ovvero legata agli insiemi di misura di Lebesgue positiva).
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/typical_rank_distribution.pdf}
-	\caption{Distribuzione empirica dei ranghi per tensori casuali reali di formato $2 \times 2 \times 2$, $3 \times 3 \times 2$, $3 \times 3 \times 3$ e $3 \times 3 \times 5$ con entrate estratte da distribuzioni Normali $\mathcal{N}(0, 1)$ ed Uniformi $\mathcal{U}(-1, 1)$ (istogrammi affiancati).}
-	\label{fig:typical_ranks_dist}
-\end{figure}
-
-In ambito teorico, i ranghi tipici sul campo reale $\mathbb{R}$ sono stati caratterizzati per diverse famiglie di formati $m \times n \times p$ (assumendo senza perdita di generalità $2 \le m \le n \le p$). La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
-
-\begin{table}[htbp]
-	\centering
-	\small
-	\caption{Ranghi tipici noti sul campo reale $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (adattata da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
-	\label{tab:typical_ranks}
-	\begin{tabular}{lll}
-		\toprule
-		Formato ($m \times n \times p$)                   & Rango tipico & Fonte                                                                \\
-		\midrule
-		$2 \times n \times n$                             & $\{n, n+1\}$ & ten Berge, Kiers~\cite{tenberge1999}                                 \\
-		$3 \times 3 \times 3$                             & $5$          & ten Berge, Stegeman~\cite{tenberge2006}                              \\
-		$3 \times 3 \times 5$                             & $\{5, 6\}$   & ten Berge, Sidiropoulos, Rocci~\cite{tenberge2004}                   \\
-		$3 \times 4 \times 8$                             & $\{8, 9\}$   & Sumi et al.~\cite{sumi2013}                                          \\
-		$3 \times 5 \times 9$                             & $\{9, 10\}$  & Choulakian~\cite{choulakian2010}; ten Berge~\cite{tenberge2011}      \\
-		$4 \times 4 \times 12$                            & $\{12, 13\}$ & Friedland~\cite{friedland2012}                                       \\
-		$m \times n \times n(m-1)$ ($m > 2$, $n$ dispari) & $n(m-1)$     & ten Berge~\cite{tenberge2000b}                                       \\
-		$m \times n \times p$ ($n(m-1) < p < mn$)         & $p$          & ten Berge, Kiers~\cite{tenberge1999}; ten Berge~\cite{tenberge2000b} \\
-		$m \times n \times p$ ($p \ge mn$)                & $mn$         & ten Berge, Kiers~\cite{tenberge1999}; ten
-		Berge~\cite{tenberge2000b}                                                                                                              \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-\todo{change}
-Come si evince dalla Tabella~\ref{tab:typical_ranks}, per i tensori di formato $2 \times n \times n$ i ranghi tipici reali sono sempre la coppia $\{n, n+1\}$~\cite{tenberge1999}, coerentemente con i nostri risultati empirici sul caso $2 \times 2 \times 2$. Analogamente, per il formato $3 \times 3 \times 3$ l'unico rango tipico reale è $5$~\cite{tenberge2006}, in perfetto accordo con il $100\%$ di convergenza ottenuto nella nostra simulazione. Per formati del tipo $m \times n \times n(m-1)$ con $m > 2$, quando $n$ è dispari il rango tipico è unico e pari a $n(m-1)$~\cite{tenberge2000b}; se $n$ è pari, il valore esatto del rango tipico non è ancora del tutto noto, ed è congetturato essere la coppia $\{p, p+1\}$~\cite{BK25}.
 
 
 \section{Operazioni nel formato CP}
