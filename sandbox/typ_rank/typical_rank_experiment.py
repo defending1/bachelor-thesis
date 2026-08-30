@@ -99,19 +99,19 @@ def fit_cp(T, R, num_restarts=15, max_iter=300, tol=1e-9):
             
     return best_decomp, best_err
 
-def estimate_rank(T, max_rank=7, tolerance=1e-5, num_restarts=15):
+def estimate_rank(T, max_rank=7, tolerance=1e-5, num_restarts=15, max_iter=300):
     """
     Estimates the CP rank of tensor T by finding the smallest rank r
     for which the relative error is below the tolerance.
     """
     for r in range(1, max_rank + 1):
-        _, err = fit_cp(T, r, num_restarts=num_restarts)
+        _, err = fit_cp(T, r, num_restarts=num_restarts, max_iter=max_iter)
         if err < tolerance:
             return r
     return max_rank + 1
 
 def _eval_single(args):
-    dist_name, shape, max_rank, seed = args
+    dist_name, shape, max_rank, num_restarts, max_iter, seed = args
     np.random.seed(seed)
     if dist_name == "Normal":
         T = np.random.normal(size=shape)
@@ -119,7 +119,7 @@ def _eval_single(args):
         T = np.random.uniform(-1, 1, size=shape)
     else:
         raise ValueError(f"Unknown distribution {dist_name}")
-    return estimate_rank(T, max_rank=max_rank, tolerance=1e-5, num_restarts=15)
+    return estimate_rank(T, max_rank=max_rank, tolerance=1e-5, num_restarts=num_restarts, max_iter=max_iter)
 
 def run_experiment():
     base_seed = 42
@@ -130,10 +130,10 @@ def run_experiment():
     ]
     
     formats = [
-        {"shape": (2, 2, 2), "num_samples": 200, "max_rank": 4, "title": r"2 \times 2 \times 2"},
-        {"shape": (3, 3, 2), "num_samples": 200, "max_rank": 5, "title": r"3 \times 3 \times 2"},
-        {"shape": (3, 3, 3), "num_samples": 100, "max_rank": 6, "title": r"3 \times 3 \times 3"},
-        {"shape": (3, 3, 5), "num_samples": 100, "max_rank": 7, "title": r"3 \times 3 \times 5"}
+        {"shape": (2, 2, 2), "num_samples": 200, "max_rank": 4, "num_restarts": 15, "max_iter": 300, "title": r"2 \times 2 \times 2"},
+        {"shape": (3, 3, 2), "num_samples": 200, "max_rank": 5, "num_restarts": 15, "max_iter": 300, "title": r"3 \times 3 \times 2"},
+        {"shape": (3, 3, 3), "num_samples": 100, "max_rank": 6, "num_restarts": 20, "max_iter": 300, "title": r"3 \times 3 \times 3"},
+        {"shape": (3, 3, 5), "num_samples": 100, "max_rank": 7, "num_restarts": 120, "max_iter": 500, "title": r"3 \times 3 \times 5"}
     ]
     
     output_dir = os.path.dirname(os.path.abspath(__file__))
@@ -146,7 +146,7 @@ def run_experiment():
     else:
         print("Starting typical rank estimation experiment (2x4 grid)...")
         start_all = time.time()
-        
+        results = {}
         with ProcessPoolExecutor() as executor:
             for dist_idx, dist in enumerate(distributions):
                 dist_name = dist["name"]
@@ -156,10 +156,12 @@ def run_experiment():
                     shape_str = f"{shape[0]}x{shape[1]}x{shape[2]}"
                     num_samples = fmt["num_samples"]
                     max_rank = fmt["max_rank"]
-                    print(f"\nEvaluating {dist_name} distribution for format {shape} ({num_samples} samples)...")
+                    num_restarts = fmt.get("num_restarts", 15)
+                    max_iter = fmt.get("max_iter", 300)
+                    print(f"\nEvaluating {dist_name} distribution for format {shape} ({num_samples} samples, {num_restarts} restarts, {max_iter} max_iter)...")
                     
                     tasks = [
-                        (dist_name, shape, max_rank, base_seed + dist_idx * 10000 + fmt_idx * 1000 + i)
+                        (dist_name, shape, max_rank, num_restarts, max_iter, base_seed + dist_idx * 10000 + fmt_idx * 1000 + i)
                         for i in range(num_samples)
                     ]
                     

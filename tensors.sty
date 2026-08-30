@@ -220,12 +220,7 @@
 
 % Tensor outer product - Note that must use "\protect\topp" inside captions 
 \let\mathtop\topp
-\newcommand{\topp}{\mathbin{\mathchoice
-		{\vcenter{\hbox{\scaleobj{0.75}{\varbigcirc}}}}
-		{\vcenter{\hbox{\scaleobj{0.75}{\varbigcirc}}}}
-		{\vcenter{\hbox{\scaleobj{0.6}{\varbigcirc}}}}
-		{\vcenter{\hbox{\scaleobj{0.5}{\varbigcirc}}}}
-	}}
+\newcommand{\topp}{\otimes}
 \newcommand{\bigtopp}{\mathop{\vphantom{\sum}\mathchoice
 		{\vcenter{\hbox{\scaleobj{1.5}{\varbigcirc}}}}
 		{\vcenter{\hbox{\scaleobj{1.1}{\varbigcirc}}}}
@@ -234,7 +229,7 @@
 	}}
 
 % Matrix Kronecker Product 
-\newcommand{\krn}{\mathbin{\otimes}}
+\newcommand{\krn}{\mathbin{\boxtimes}}
 \newcommand{\bigkrn}{\mathop{\bigotimes}}
 
 % Matrix Khatri-Rao Product
@@ -435,13 +430,13 @@
 }
 
 \NewDocumentCommand{\sdom}{O{k} O{n} O{d} g}{%
-	[#2_{1}] %
-	\otimes \cdots
-	\otimes [#2_{#1-1}] %
-	\IfValueT{#4}{\otimes [#4]} %
-	\otimes [#2_{#1+1}] %
-	\otimes \cdots
-	\otimes [#2_{#3}] %
+	\underline{#2}_{1} %
+	\times  \cdots
+	\times  \underline{#2}_{#1-1} %
+	\IfValueT{#4}{\times \underline{#4}} %
+	\times  \underline{#2}_{#1+1} %
+	\times  \cdots
+	\times  \underline{#2}_{#3} %
 }
 
 
@@ -538,5 +533,3 @@
 \NewDocumentCommand{\shad}{O{k} O{\shadgram} O{d} g}{%
 	\tttRSlist{#2}{\had}{\BooleanTrue}{#3}{#1}{#4}%
 }
-
-
