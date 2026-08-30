@@ -2,36 +2,36 @@
 \ProvidesClass{mimosis}[2017/08/01 Minimal modern thesis class]
 
 \PassOptionsToPackage{
-  DIV  = 10,    % TODO: Make configurable
-  BCOR = 10mm,  % TODO: Make configurable
+	DIV  = 10,    % TODO: Make configurable
+	BCOR = 10mm,  % TODO: Make configurable
 }{typearea}
 
 \PassOptionsToPackage{leqno}{amsmath}
 
 \LoadClass[a4paper,
-           twoside,
-           11pt,
-           leqno,
-           cleardoublepage=empty,
-           numbers=noenddot,
-           titlepage,
-           toc=bibliography,
-           toc=index,]{scrbook}
+	twoside,
+	11pt,
+	leqno,
+	cleardoublepage=empty,
+	numbers=noenddot,
+	titlepage,
+	toc=bibliography,
+	toc=index,]{scrbook}
 
 \RequirePackage{iftex}
 \newif\ifxetexorluatex\xetexorluatexfalse
 \ifxetex
-  \xetexorluatextrue
+	\xetexorluatextrue
 \fi
 \ifluatex
-  \xetexorluatextrue
+	\xetexorluatextrue
 \fi
 
 \ifxetexorluatex
-  \RequirePackage{fontspec}
+	\RequirePackage{fontspec}
 \else
-  \RequirePackage[T1]{fontenc}
-  \RequirePackage[utf8]{inputenc}
+	\RequirePackage[T1]{fontenc}
+	\RequirePackage[utf8]{inputenc}
 \fi
 
 % Makes it possible to switch between different languages in the text
@@ -64,8 +64,8 @@
 \usepackage{tikz}
 \RequirePackage{graphicx}
 \graphicspath{%
-  {Figures/}
-  {./}
+	{Figures/}
+		{./}
 }
 
 % Suppress warnings about page groups in PDFs. This is not justified
@@ -74,7 +74,7 @@
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname pdfsuppresswarningpagegroup\endcsname\relax
 \else
-  \pdfsuppresswarningpagegroup=1\relax
+	\pdfsuppresswarningpagegroup=1\relax
 \fi
 
 \RequirePackage{subcaption}
@@ -88,45 +88,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[%
-  acronym,
-  nogroupskip,
-  nopostdot,
-  nonumberlist,
-  toc,
-  ]{glossaries}
+	acronym,
+	nogroupskip,
+	nopostdot,
+	nonumberlist,
+	toc,
+]{glossaries}
 
 % New style that prevents line-breaks between the full description and
 % the acronym. Furthermore, it ensures that the acronym is always
 % printed in an upright font.
 \newacronymstyle{long-short-mimosis}
 {%
-  \GlsUseAcrEntryDispStyle{long-short}%
+	\GlsUseAcrEntryDispStyle{long-short}%
 }%
 {%
-  \GlsUseAcrStyleDefs{long-short}%
-  \renewcommand*{\genacrfullformat}[2]{%
-    \glsentrylong{##1}##2~\textup{(\firstacronymfont{\glsentryshort{##1}})}%
-  }%
-  \renewcommand*{\Genacrfullformat}[2]{%
-    \Glsentrylong{##1}##2~\textup{(\firstacronymfont{\glsentryshort{##1}})}%
-  }%
-  \renewcommand*{\genplacrfullformat}[2]{%
-    \glsentrylongpl{##1}##2~\textup{(\firstacronymfont{\glsentryshortpl{##1}})}%
-  }%
-  \renewcommand*{\Genplacrfullformat}[2]{%
-    \Glsentrylongpl{##1}##2~\textup{(\firstacronymfont{\Glsentryshortpl{##1}})}%
-  }%
+	\GlsUseAcrStyleDefs{long-short}%
+	\renewcommand*{\genacrfullformat}[2]{%
+		\glsentrylong{##1}##2~\textup{(\firstacronymfont{\glsentryshort{##1}})}%
+	}%
+	\renewcommand*{\Genacrfullformat}[2]{%
+		\Glsentrylong{##1}##2~\textup{(\firstacronymfont{\glsentryshort{##1}})}%
+	}%
+	\renewcommand*{\genplacrfullformat}[2]{%
+		\glsentrylongpl{##1}##2~\textup{(\firstacronymfont{\glsentryshortpl{##1}})}%
+	}%
+	\renewcommand*{\Genplacrfullformat}[2]{%
+		\Glsentrylongpl{##1}##2~\textup{(\firstacronymfont{\Glsentryshortpl{##1}})}%
+	}%
 }
 
 % A new glossary style that based on the long style of the glossaries
 % package. It ensures that descriptions and entries are aligned.
 \newglossarystyle{long-mimosis}{%
-  \setglossarystyle{long}
+	\setglossarystyle{long}
 
-  \renewcommand{\glossentry}[2]{%
-    \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
-    \glossentrydesc{##1}\glspostdescription\space ##2\tabularnewline
-  }%
+	\renewcommand{\glossentry}[2]{%
+		\glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
+		\glossentrydesc{##1}\glspostdescription\space ##2\tabularnewline
+	}%
 }
 
 % Constrain the description width to enforce breaks.
@@ -218,6 +218,7 @@
 
 % Common operators used in the thesis
 \newcommand{\rk}{\bm{R}}
+\newcommand{\multirk}{\bm{R}_{\text{multilin}}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Id}{Id}
 \DeclareMathOperator{\nnz}{nnz}
@@ -276,5 +277,5 @@
 
 % Large number for chapter
 \renewcommand*{\chapterformat}{%
-  \fontsize{50}{55}\selectfont\thechapter\autodot\enskip
+	\fontsize{50}{55}\selectfont\thechapter\autodot\enskip
 }

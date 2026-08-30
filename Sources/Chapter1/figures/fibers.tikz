@@ -1,0 +1,227 @@
+\providecommand{\Tn}[1]{\mathcal{#1}}
+\providecommand{\Mx}[1]{\mathbf{#1}}
+
+% --- Depth Color Palettes for (a) and (b) ---
+% Depth k=1 (Red Palette)
+\definecolor{redCol1}{HTML}{F9D1D1}
+\definecolor{redCol2}{HTML}{F4A3A4}
+\definecolor{redCol3}{HTML}{EE7576}
+\definecolor{redCol4}{HTML}{E94749}
+\definecolor{redCol5}{HTML}{E4191B}
+
+\definecolor{redRow1}{HTML}{FADADA}
+\definecolor{redRow2}{HTML}{F6B3B4}
+\definecolor{redRow3}{HTML}{F18C8D}
+\definecolor{redRow4}{HTML}{ED6769}
+\definecolor{redRow5}{HTML}{E84042}
+\definecolor{redRow6}{HTML}{E4191B}
+
+% Depth k=2 (Blue Palette)
+\definecolor{blueCol1}{HTML}{E4EEF5}
+\definecolor{blueCol2}{HTML}{C7DDEC}
+\definecolor{blueCol3}{HTML}{8FBBD9}
+\definecolor{blueCol4}{HTML}{5799C6}
+\definecolor{blueCol5}{HTML}{377EB8}
+
+\definecolor{blueRow1}{HTML}{DFEAF3}
+\definecolor{blueRow2}{HTML}{C7DDEC}
+\definecolor{blueRow3}{HTML}{8FBBD9}
+\definecolor{blueRow4}{HTML}{74ABD0}
+\definecolor{blueRow5}{HTML}{5799C6}
+\definecolor{blueRow6}{HTML}{377EB8}
+
+% Depth k=3 (Green Palette)
+\definecolor{greenCol1}{HTML}{DEEFDD}
+\definecolor{greenCol2}{HTML}{C4E4C3}
+\definecolor{greenCol3}{HTML}{78C073}
+\definecolor{greenCol4}{HTML}{55B04F}
+\definecolor{greenCol5}{HTML}{4CAE4A}
+
+\definecolor{greenRow1}{HTML}{E2F2E2}
+\definecolor{greenRow2}{HTML}{C4E4C3}
+\definecolor{greenRow3}{HTML}{98CF95}
+\definecolor{greenRow4}{HTML}{78C073}
+\definecolor{greenRow5}{HTML}{55B04F}
+\definecolor{greenRow6}{HTML}{4CAE4A}
+
+% Depth k=4 (Purple Palette)
+\definecolor{purpleCol1}{HTML}{EEE2F0}
+\definecolor{purpleCol2}{HTML}{DDC4E0}
+\definecolor{purpleCol3}{HTML}{C098C8}
+\definecolor{purpleCol4}{HTML}{A96CB2}
+\definecolor{purpleCol5}{HTML}{984DA3}
+
+\definecolor{purpleRow1}{HTML}{EEE2F0}
+\definecolor{purpleRow2}{HTML}{DDC4E0}
+\definecolor{purpleRow3}{HTML}{C098C8}
+\definecolor{purpleRow4}{HTML}{B280BA}
+\definecolor{purpleRow5}{HTML}{A96CB2}
+\definecolor{purpleRow6}{HTML}{984DA3}
+
+% Subfigure (c): Tube Fibers Column Colors (Top & Bottom Cell Gradients)
+\definecolor{tubeCol1Top}{HTML}{F6B3B4}
+\definecolor{tubeCol1Bot}{HTML}{E4191B}
+\definecolor{tubeCol2Top}{HTML}{BDD4E7}
+\definecolor{tubeCol2Bot}{HTML}{377EB8}
+\definecolor{tubeCol3Top}{HTML}{C4E4C3}
+\definecolor{tubeCol3Bot}{HTML}{4CAE4A}
+\definecolor{tubeCol4Top}{HTML}{DDC4E0}
+\definecolor{tubeCol4Bot}{HTML}{984DA3}
+\definecolor{tubeCol5Top}{HTML}{FFD4AA}
+\definecolor{tubeCol5Bot}{HTML}{FF7F00}
+
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+
+	% =========================================================
+	% (a) COLUMN FIBERS x_{:jk}
+	% k=1 Red, k=2 Blue, k=3 Green, k=4 Purple
+	% =========================================================
+	\begin{scope}[shift={(0,0)}]
+		\pgfmathsetmacro{\w}{2.0}
+		\pgfmathsetmacro{\h}{2.6}
+		\pgfmathsetmacro{\dx}{0.75}
+		\pgfmathsetmacro{\dy}{0.75}
+		\pgfmathsetmacro{\numCols}{5}
+		\pgfmathsetmacro{\numDepth}{4}
+		\pgfmathsetmacro{\colW}{\w / \numCols}
+		\pgfmathsetmacro{\stepX}{\dx / \numDepth}
+		\pgfmathsetmacro{\stepY}{\dy / \numDepth}
+
+		% Draw Top face: 5 columns x 4 depth cells grid
+		% k=1: Red, k=2: Blue, k=3: Green, k=4: Purple
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+
+				% Depth k=1 (Red)
+				\fill[redCol\j!95!white, draw=black, thin] (\xL + 0*\stepX, \h + 0*\stepY) -- (\xL + 1*\stepX, \h + 1*\stepY) -- (\xR + 1*\stepX, \h + 1*\stepY) -- (\xR + 0*\stepX, \h + 0*\stepY) -- cycle;
+				% Depth k=2 (Blue)
+				\fill[blueCol\j!95!white, draw=black, thin] (\xL + 1*\stepX, \h + 1*\stepY) -- (\xL + 2*\stepX, \h + 2*\stepY) -- (\xR + 2*\stepX, \h + 2*\stepY) -- (\xR + 1*\stepX, \h + 1*\stepY) -- cycle;
+				% Depth k=3 (Green)
+				\fill[greenCol\j!95!white, draw=black, thin] (\xL + 2*\stepX, \h + 2*\stepY) -- (\xL + 3*\stepX, \h + 3*\stepY) -- (\xR + 3*\stepX, \h + 3*\stepY) -- (\xR + 2*\stepX, \h + 2*\stepY) -- cycle;
+				% Depth k=4 (Purple)
+				\fill[purpleCol\j!95!white, draw=black, thin] (\xL + 3*\stepX, \h + 3*\stepY) -- (\xL + 4*\stepX, \h + 4*\stepY) -- (\xR + 4*\stepX, \h + 4*\stepY) -- (\xR + 3*\stepX, \h + 3*\stepY) -- cycle;
+			}
+
+		% Draw Front face (5 vertical column fibers for k=1: Red)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+				\edef\frontColor{redCol\j}
+
+				\fill[\frontColor, draw=black, thin] (\xL, 0) rectangle (\xR, \h);
+			}
+
+		% Draw Right Side face (4 depth strips for column 5: k=1 Red, k=2 Blue, k=3 Green, k=4 Purple)
+		\fill[redCol5!85!black, draw=black, thin] (\w + 0*\stepX, 0*\stepY) -- (\w + 1*\stepX, 1*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- (\w + 0*\stepX, \h + 0*\stepY) -- cycle;
+		\fill[blueCol5!85!black, draw=black, thin] (\w + 1*\stepX, 1*\stepY) -- (\w + 2*\stepX, 2*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- cycle;
+		\fill[greenCol5!85!black, draw=black, thin] (\w + 2*\stepX, 2*\stepY) -- (\w + 3*\stepX, 3*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- cycle;
+		\fill[purpleCol5!85!black, draw=black, thin] (\w + 3*\stepX, 3*\stepY) -- (\w + 4*\stepX, 4*\stepY) -- (\w + 4*\stepX, \h + 4*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- cycle;
+
+		% Label below
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(a)} Column fibers, $T_{:jk}$.};
+	\end{scope}
+
+	% =========================================================
+	% (b) ROW FIBERS x_{i:k}
+	% k=1 Red, k=2 Blue, k=3 Green, k=4 Purple
+	% =========================================================
+	\begin{scope}[shift={(5.2,0)}]
+		\pgfmathsetmacro{\w}{2.0}
+		\pgfmathsetmacro{\h}{2.6}
+		\pgfmathsetmacro{\dx}{0.75}
+		\pgfmathsetmacro{\dy}{0.75}
+		\pgfmathsetmacro{\numRows}{6}
+		\pgfmathsetmacro{\numDepth}{4}
+		\pgfmathsetmacro{\rowH}{\h / \numRows}
+		\pgfmathsetmacro{\stepX}{\dx / \numDepth}
+		\pgfmathsetmacro{\stepY}{\dy / \numDepth}
+
+		% Draw Top face (4 depth strips for Row 1: k=1 Red, k=2 Blue, k=3 Green, k=4 Purple)
+		\fill[redRow1!95!white, draw=black, thin] (0*\stepX, \h + 0*\stepY) -- (1*\stepX, \h + 1*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- (\w + 0*\stepX, \h + 0*\stepY) -- cycle;
+		\fill[blueRow1!95!white, draw=black, thin] (1*\stepX, \h + 1*\stepY) -- (2*\stepX, \h + 2*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- cycle;
+		\fill[greenRow1!95!white, draw=black, thin] (2*\stepX, \h + 2*\stepY) -- (3*\stepX, \h + 3*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- cycle;
+		\fill[purpleRow1!95!white, draw=black, thin] (3*\stepX, \h + 3*\stepY) -- (4*\stepX, \h + 4*\stepY) -- (\w + 4*\stepX, \h + 4*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- cycle;
+
+		% Draw Front face (6 horizontal row fibers for k=1: Red gradient top-to-bottom)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+				\edef\fillColor{redRow\i}
+
+				\fill[\fillColor, draw=black, thin] (0, \yLower) rectangle (\w, \yUpper);
+			}
+
+		% Draw Right Side face: 6 rows x 4 depth cells grid
+		% k=1 Red, k=2 Blue, k=3 Green, k=4 Purple (each row i uses row i color in that palette)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+
+				% k=1 Red
+				\fill[redRow\i!85!black, draw=black, thin] (\w + 0*\stepX, \yLower + 0*\stepY) -- (\w + 1*\stepX, \yLower + 1*\stepY) -- (\w + 1*\stepX, \yUpper + 1*\stepY) -- (\w + 0*\stepX, \yUpper + 0*\stepY) -- cycle;
+				% k=2 Blue
+				\fill[blueRow\i!85!black, draw=black, thin] (\w + 1*\stepX, \yLower + 1*\stepY) -- (\w + 2*\stepX, \yLower + 2*\stepY) -- (\w + 2*\stepX, \yUpper + 2*\stepY) -- (\w + 1*\stepX, \yUpper + 1*\stepY) -- cycle;
+				% k=3 Green
+				\fill[greenRow\i!85!black, draw=black, thin] (\w + 2*\stepX, \yLower + 2*\stepY) -- (\w + 3*\stepX, \yLower + 3*\stepY) -- (\w + 3*\stepX, \yUpper + 3*\stepY) -- (\w + 2*\stepX, \yUpper + 2*\stepY) -- cycle;
+				% k=4 Purple
+				\fill[purpleRow\i!85!black, draw=black, thin] (\w + 3*\stepX, \yLower + 3*\stepY) -- (\w + 4*\stepX, \yLower + 4*\stepY) -- (\w + 4*\stepX, \yUpper + 4*\stepY) -- (\w + 3*\stepX, \yUpper + 3*\stepY) -- cycle;
+			}
+
+		% Label below
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(b)} Row fibers, $T_{i:k}$.};
+	\end{scope}
+
+	% =========================================================
+	% (c) TUBE FIBERS x_{ij:} (6x5 grid on front face)
+	% =========================================================
+	\begin{scope}[shift={(10.4,0)}]
+		\pgfmathsetmacro{\w}{2.0}
+		\pgfmathsetmacro{\h}{2.6}
+		\pgfmathsetmacro{\dx}{0.75}
+		\pgfmathsetmacro{\dy}{0.75}
+		\pgfmathsetmacro{\numCols}{5}
+		\pgfmathsetmacro{\numRows}{6}
+		\pgfmathsetmacro{\colW}{\w / \numCols}
+		\pgfmathsetmacro{\rowH}{\h / \numRows}
+
+		% Draw Top face (5 depth bands for each column)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+				\edef\topColor{tubeCol\j Top}
+
+				\fill[\topColor, draw=black, thin] (\xL, \h) -- (\xL + \dx, \h + \dy) -- (\xR + \dx, \h + \dy) -- (\xR, \h) -- cycle;
+			}
+
+		% Draw Front face (6x5 grid of cells with vertical gradients per column)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+
+				\foreach \i in {1,...,6} {
+						\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+						\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+						\pgfmathsetmacro{\t}{(\i - 1) / 5.0 * 100}
+
+						\edef\topC{tubeCol\j Top}
+						\edef\botC{tubeCol\j Bot}
+
+						\fill[\botC!\t!\topC, draw=black, thin] (\xL, \yLower) rectangle (\xR, \yUpper);
+					}
+			}
+
+		% Draw Right Side face (6 horizontal strips for column 5)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+				\pgfmathsetmacro{\t}{(\i - 1) / 5.0 * 100}
+
+				\fill[tubeCol5Bot!\t!tubeCol5Top!85!black, draw=black, thin] (\w, \yLower) -- (\w + \dx, \yLower + \dy) -- (\w + \dx, \yUpper + \dy) -- (\w, \yUpper) -- cycle;
+			}
+
+		% Label below
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(c)} Tube fibers, $T_{ij:}$.};
+	\end{scope}
+
+\end{tikzpicture}

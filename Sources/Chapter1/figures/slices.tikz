@@ -1,0 +1,139 @@
+\providecommand{\Tn}[1]{\mathcal{#1}}
+\providecommand{\Mx}[1]{\mathbf{#1}}
+
+% --- Exact HTML Hex Color Definitions from slices.png ---
+% Red Horizontal Gradient (10 layers)
+\definecolor{redSlice1}{HTML}{FCEAEA}
+\definecolor{redSlice2}{HTML}{F9D3D3}
+\definecolor{redSlice3}{HTML}{F6BCBD}
+\definecolor{redSlice4}{HTML}{F4A5A6}
+\definecolor{redSlice5}{HTML}{F18C8D}
+\definecolor{redSlice6}{HTML}{EE7779}
+\definecolor{redSlice7}{HTML}{EB6062}
+\definecolor{redSlice8}{HTML}{E84A4B}
+\definecolor{redSlice9}{HTML}{E63334}
+\definecolor{redSlice10}{HTML}{E3191B}
+
+% Blue Lateral Gradient (8 layers)
+\definecolor{blueSlice1}{HTML}{E4EEF5}
+\definecolor{blueSlice2}{HTML}{C7DDEC}
+\definecolor{blueSlice3}{HTML}{ACCDE3}
+\definecolor{blueSlice4}{HTML}{8FBBD9}
+\definecolor{blueSlice5}{HTML}{74ABD0}
+\definecolor{blueSlice6}{HTML}{5799C6}
+\definecolor{blueSlice7}{HTML}{3C89BD}
+\definecolor{blueSlice8}{HTML}{1F78B4}
+
+% Green Frontal Gradient (6 layers)
+\definecolor{greenSlice1}{HTML}{DEEFDD}
+\definecolor{greenSlice2}{HTML}{B2DF8A}
+\definecolor{greenSlice3}{HTML}{78C073}
+\definecolor{greenSlice4}{HTML}{55B04F}
+\definecolor{greenSlice5}{HTML}{33A02C}
+\definecolor{greenSlice6}{HTML}{1E601A}
+
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+
+	% =========================================================
+	% (a) HORIZONTAL SLICES X(i,:,:) - Red Gradient (10 layers)
+	% =========================================================
+	\begin{scope}[shift={(0,0)}]
+		\pgfmathsetmacro{\w}{2.0}
+		\pgfmathsetmacro{\h}{2.6}
+		\pgfmathsetmacro{\dx}{0.75}
+		\pgfmathsetmacro{\dy}{0.75}
+		\pgfmathsetmacro{\numSlices}{10}
+		\pgfmathsetmacro{\layerH}{\h / \numSlices}
+
+		% Top face of the whole tensor (drawn for the top-most slice i=1)
+		\pgfmathsetmacro{\topY}{\h}
+		\fill[redSlice1, draw=black, thin] (0, \topY) -- (\dx, \topY + \dy) -- (\w + \dx, \topY + \dy) -- (\w, \topY) -- cycle;
+
+		% Draw 10 horizontal slice slabs from top (i=1) to bottom (i=10)
+		\foreach \i in {1,...,10} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \layerH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \layerH}
+
+				\edef\fillColor{redSlice\i}
+
+				% Front face of layer i
+				\fill[\fillColor, draw=black, thin] (0, \yLower) rectangle (\w, \yUpper);
+
+				% Right side face of layer i
+				\fill[\fillColor!85!black, draw=black, thin] (\w, \yLower) -- (\w + \dx, \yLower + \dy) -- (\w + \dx, \yUpper + \dy) -- (\w, \yUpper) -- cycle;
+			}
+
+		% Label below
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(a)} Horizontal slices, $T_{i, :, :}$.};
+	\end{scope}
+
+	% =========================================================
+	% (b) LATERAL SLICES X(:,j,:) - Blue Gradient (8 layers)
+	% =========================================================
+	\begin{scope}[shift={(5.2,0)}]
+		\pgfmathsetmacro{\w}{2.0}
+		\pgfmathsetmacro{\h}{2.6}
+		\pgfmathsetmacro{\dx}{0.75}
+		\pgfmathsetmacro{\dy}{0.75}
+		\pgfmathsetmacro{\numSlices}{8}
+		\pgfmathsetmacro{\layerW}{\w / \numSlices}
+
+		% Draw 8 lateral slice slabs from left (j=1) to right (j=8)
+		\foreach \j in {1,...,8} {
+				\pgfmathsetmacro{\xLeft}{(\j - 1) * \layerW}
+				\pgfmathsetmacro{\xRight}{\j * \layerW}
+
+				\edef\fillColor{blueSlice\j}
+
+				% Front face of slab j
+				\fill[\fillColor, draw=black, thin] (\xLeft, 0) rectangle (\xRight, \h);
+
+				% Top face of slab j
+				\fill[\fillColor!90!white, draw=black, thin] (\xLeft, \h) -- (\xLeft + \dx, \h + \dy) -- (\xRight + \dx, \h + \dy) -- (\xRight, \h) -- cycle;
+			}
+
+		% Rightmost side face (for j=8)
+		\fill[blueSlice8!85!black, draw=black, thin] (\w, 0) -- (\w + \dx, \dy) -- (\w + \dx, \h + \dy) -- (\w, \h) -- cycle;
+
+		% Label below
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(b)} Lateral slices, $T_{:, j, :}$.};
+	\end{scope}
+
+	% =========================================================
+	% (c) FRONTAL SLICES X(:,:,k) - Green Gradient (6 layers)
+	% =========================================================
+	\begin{scope}[shift={(10.4,0)}]
+		\pgfmathsetmacro{\w}{2.0}
+		\pgfmathsetmacro{\h}{2.6}
+		\pgfmathsetmacro{\dx}{0.75}
+		\pgfmathsetmacro{\dy}{0.75}
+		\pgfmathsetmacro{\numSlices}{6}
+		\pgfmathsetmacro{\stepX}{\dx / \numSlices}
+		\pgfmathsetmacro{\stepY}{\dy / \numSlices}
+
+		% Draw 6 frontal slice slabs from BACK (k=6) to FRONT (k=1)
+		\foreach \k in {6,5,4,3,2,1} {
+				\pgfmathsetmacro{\offsetX}{(\k - 1) * \stepX}
+				\pgfmathsetmacro{\offsetY}{(\k - 1) * \stepY}
+				\pgfmathsetmacro{\nextX}{\k * \stepX}
+				\pgfmathsetmacro{\nextY}{\k * \stepY}
+
+				\edef\fillColor{greenSlice\k}
+
+				% Top face strip for layer k
+				\fill[\fillColor!90!white, draw=black, thin] (0 + \offsetX, \h + \offsetY) -- (0 + \nextX, \h + \nextY) -- (\w + \nextX, \h + \nextY) -- (\w + \offsetX, \h + \offsetY) -- cycle;
+
+				% Right side face strip for layer k
+				\fill[\fillColor!85!black, draw=black, thin] (\w + \offsetX, 0 + \offsetY) -- (\w + \nextX, 0 + \nextY) -- (\w + \nextX, \h + \nextY) -- (\w + \offsetX, \h + \offsetY) -- cycle;
+
+				% Front face (for k=1)
+				\ifnum\k=1
+					\fill[\fillColor, draw=black, thin] (0, 0) rectangle (\w, \h);
+				\fi
+			}
+
+		% Label below
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(c)} Frontal slices, $T_{:, :, k}$.};
+	\end{scope}
+
+\end{tikzpicture}

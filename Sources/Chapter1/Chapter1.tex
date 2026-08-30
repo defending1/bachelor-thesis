@@ -411,18 +411,26 @@ numerosi ostacoli \todo{ref to ostacoli}.
 \begin{definition}[Tensor slice]
 	Dato $ T \in \Rmsiz $ chiamiamo \emph{slice (o fetta)} di $ T $ ogni matrice ottenuta da $
 		T $ fissando tutti gli indici tranne due. Le slices ottenute fissando gli ultimi $ d-2 $ indici sono dette frontal slices.
-	Nel caso $ d=3 $ si identificano tutte le possibili slices:
-	\missingfigure{horizontal lateral, frontal slices}
+	Nel caso $ d=3 $ si identificano tutte le possibili slices (Figura~\ref{fig:tensor_slices}):
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/slices.pdf}
+		\caption{Slices di un tensore di ordine 3: fette orizzontali $X_{i::}$ (mode-1), laterali $X_{:j:}$ (mode-2) e frontali $X_{::k}$ (mode-3).}
+		\label{fig:tensor_slices}
+	\end{figure}
 \end{definition}
 
 \begin{definition}[Mode-$k$ fiber]
 	Dato un tensore $ T \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
 	tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k $-esimo lo chiamiamo
-	\emph{mode-$k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come
-	\todo{finire!!}
-	\missingfigure{column, row, tube fibers}
+	\emph{mode-$k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come fibre colonna $x_{:jk}$ (mode-1), fibre riga $x_{i:k}$ (mode-2) e fibre tubo $x_{ij:}$ (mode-3), come illustrato in Figura~\ref{fig:tensor_fibers}.
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/fibers.pdf}
+		\caption{Fibre di un tensore di ordine 3: fibre colonna $x_{:jk}$ (mode-1), riga $x_{i:k}$ (mode-2) e tubo $x_{ij:}$ (mode-3).}
+		\label{fig:tensor_fibers}
+	\end{figure}
 \end{definition}
-\todo{Definizione fibre}
 
 In molte situazioni risulta comodo disporre gli elementi di un tensore in una matrice. Uno dei modi
 per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
@@ -731,12 +739,8 @@ Selezionando alcuni formati, abbiamo generato dei tensori casuali con entrate es
 indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
 distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
 usando l'algoritmo ALS interrompendo una volta raggiunto un errore relativo inferiore a
-$10^{-5}$. Per evitare minimi locali, ogni esecuzione dell'algoritmo è stata
-ripetuta con alcuni riavvii.
-La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
-distribuzione delle entrate (normale o uniforme) non alteri l'insieme dei ranghi tipici e produca
-frequenze empiriche analoghe.\todo{non chiaro perché $ 3\times 3\times 5 $ produca anche tensori di
-	rango $ 7 $}
+$10^{-5}$. La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
+distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi tipici e produce frequenze empiriche analoghe.
 
 \begin{figure}[htbp]
 	\centering
@@ -789,7 +793,7 @@ falso. Consideriamo il seguente esempio:
 
 \section{Il teorema del rango}
 
-Data l'infattibilità del problema del rango, possiamo dare una stima del rango con la seguente
+Data la complessità del problema del rango possiamo stimarlo rango con la seguente
 proposizione, dalla quale intuiamo che non sarà semplice trovare stime del rango di un
 tensore---queste spesso coinvolgono tecniche algebrico-combinatoriche avanzate. Vedremo alcuni esempi di
 queste stime nella Sezione~\ref{sec:exp_estimates}.
