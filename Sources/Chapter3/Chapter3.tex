@@ -8,7 +8,7 @@ alcuni fondamenti teorici per calcolare la complessità del prodotto tra matrici
 prodotto come una mappa bilineare, e quindi come un tensore. Osserveremo che il rango della forma
 bilineare dà il numero di moltiplicazioni di un algoritmo, e viceversa. In questo contesto,
 introdurremo gli \emph{algoritmi di moltiplicazione veloce}, cioè gli algoritmi di moltiplicazione matriciale che
-impiegano un asintoticamente numero minore di operazioni aritmetiche rispetto all'algoritmo
+impiegano asintoticamente un numero minore di operazioni aritmetiche rispetto all'algoritmo
 classico, ottenendo un esponente di complessità asintotica minore di $ 3 $ per le matrici quadrate.
 Presenteremo alcuni algoritmi di moltiplicazione veloci esatti e approssimati, e concluderemo
 discutendo dell'errore algoritmico.
@@ -81,7 +81,8 @@ In forma tensoriale,
 \end{remark}
 
 \begin{definition}[Tensore strutturale]
-	L'unico tensore $ T \in U^* \otimes V^* \otimes W$ associato alla mappa bilineare $ \varphi : U
+	L'unico tensore $ T \in U^* \otimes V^* \otimes W$\todo{decidere se lasciare scritto lo spazio
+		così (in caso introdurlo prima)} associato alla mappa bilineare $ \varphi : U
 		\times V \to W $ è detto \emph{tensore strutturale} di $ \varphi $.
 \end{definition}
 
@@ -94,128 +95,6 @@ In forma tensoriale,
 	creerà ambiguità. Più avanti questa notazione sarà giustificata dalla
 	Proposizione~\ref{prop:iso_bil_tensor}.
 \end{remark}
-
-
-
-
-\section{L'esponente della moltiplicazione tra matrici}
-
-In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità, per
-calcolare costi computazionali anche su campi infiniti, e semplicficare il calcolo dei costi eliminando
-branching (e.g. \texttt{if-then-else} o \texttt{while}).
-\begin{definition}[Circuito aritmetico]
-	Un \emph{circuito aritmetico} $ \Gamma $ su $ \K $ è un grafo diretto, aciclico, finito con
-	vertici di grado entrante $ 0 $ o $ 2 $ ed esattamente un vertice di grado uscente $ 0 $. I vertici di grado
-	entrante $ 0 $ sono etichettati con gli elementi di $ \K \cup \{x_1, \ldots, x_{n}\}  $ e sono detti
-	\emph{inputs}. Quelli di grado entrante $ 2 $ sono etichettati con $ + $ oppure $ * $ e sono chiamati
-	\emph{gates}. Se il grado uscente di un vertice $ v $ è $ 0 $, allora $ v $ è chiamato un
-	\emph{output gate}. La dimensione di $ \Gamma $ è il numero di archi.
-\end{definition}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.5\textwidth, keepaspectratio]{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
-	\caption{Esempio di circuito aritmetico per il polinomio $\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$.}
-	\label{fig:algebraic_circuit_example}
-\end{figure}
-
-\todo{specifichiamo a che spazio appartengono i risultati intermedi?}
-
-\begin{definition}[Funzione costo]
-	Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione
-	finita. Definiamo la \emph{funzione costo} associata a un circuito aritmetico $ \Gamma $ come
-	\begin{equation*}
-		\begin{aligned}
-			C_{\Gamma}(\varphi)              & \defeq \text{ numero di moltiplicazioni per calcolare } \varphi
-			\text{ sul circuito }\Gamma \text{, oppure}                                                                    \\
-			C_{\Gamma}^{\text{tot}}(\varphi) & \defeq \text{ numero di addizioni e moltiplicazioni per calcolare } \varphi
-			\text{ sul circuito }\Gamma.
-		\end{aligned}
-	\end{equation*}
-\end{definition}
-Denotiamo con $ \mathcal{C}_{\varphi}$ come l'insieme dei circuiti aritmetici $ \Gamma $ che calcolano $ \varphi $.
-\begin{definition}[Funzione di complessità aritmetica]
-	\label{def:LtotL}
-	Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione finita.
-	Definiamo
-	\begin{equation*}
-		\begin{aligned}
-			L(\varphi)              & \defeq \inf_{\Gamma \in \mathcal{C}_{\varphi}} \{ C_\Gamma(\varphi)\}              &  & \text{ la
-			\emph{complessità moltiplicativa di} $ \varphi$, e}                                                                         \\
-			L^{\text{tot}}(\varphi) & \defeq \inf_{\Gamma \in \mathcal{C}_{\varphi}} \{ C_\Gamma^{\text{tot}}(\varphi)\} &  & \text{ la
-				\emph{complessità totale di} $ \varphi $.}
-		\end{aligned}
-	\end{equation*}
-\end{definition}
-\begin{remark}
-	In altre parole, $ L(\varphi) $ è il minimo numero di moltiplicazioni non scalari
-	sufficienti a calcolare $ \varphi $, anche dette \emph{active multiplications}. In maniera analoga, $ L^{\text{tot}} $ è il minimo numero di
-	moltiplicazioni non scalari e di addizioni sufficienti a calcolare $
-		\varphi $.
-\end{remark}
-Consideriamo la forma bilineare $ \varphi = \algob{n} $ data
-dall'Equazione~\ref{eq:matmul_component}.
-Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
-		n}$, denotiamo con
-\begin{equation}
-	\label{eq:def_Mn}
-	M_{\K}(n) \defeq L^{\text{tot}} \left( \algob{n} \right) =  L^{\text{tot}} \left( \left\{
-	\sum_{k=1}^n a_{ik}b_{kj} \; \middle| \; i,j \in \{1, \ldots, n\} \right\} \right)
-\end{equation}
-il numero totale di moltiplicazioni aritmetiche sufficienti a calcolare la moltiplicazione di due
-matrici $ n\times n $. Determinare una formula per $ M_{\K}(n) $ è lontano dagli strumenti attualmente
-disponibili. Invece, il problema di approssimare la crescita asintotica della funzione $ n \mapsto
-	M_{\K}(n) $ è fattibile; definiamo
-
-\begin{definition}
-	\label{def:exponent_matmul}
-	L'\emph{esponente $ \omega_{\K} $ di una moltiplicazione matriciale} è il numero
-	\begin{equation*}
-		\begin{aligned}
-			\omega_{\K} \defeq \inf_{n\in \N}\{\tau \in \R \mid & \text{ la moltiplicazione tra due matrici in }
-			\K^{n\times n}                                                                                       \\ & \text{ ha costo } o(n^\tau) \text{ operazioni aritmetiche} \}.
-		\end{aligned}
-	\end{equation*}
-	In altre parole, $ \omega_{\K} = \inf_{n \in \N} \{\tau \in \R \mid M_{\K}(n) = o(n^\tau)\}  $.
-\end{definition}
-
-\begin{remark}
-	Dalla notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Dato che tratteremo solo $ \K \in \{\R, \C\}  $, spesso
-	scriveremo $ \omega $ per $ \omega_{\K} $.
-\end{remark}
-
-\begin{theorem}[Schönhage~\cite{sch81}]
-	L'esponente della moltiplicazione tra matrici è invariante rispetto alle estensioni scalari: se $
-		\K \subset \mathbb{L} $ è un'estensione di campo, allora
-	\begin{equation*}
-		\omega_{\K} = \omega_{\mathbb{L}}
-	\end{equation*}
-\end{theorem}
-
-
-Osserviamo che $ M_{\K}(n) \le n^2(2n - 1) $. Siccome il costo computazionale dev'essere almeno pari al numero di entrate della matrice, vale  $ M_{\K}(n) \ge n^2 $, da
-cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
-nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo della moltiplicazioni possa essere
-asintoticamente pari a quello
-delle moltiplicazioni.
-L'algoritmo naive ha $ \omega = 3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371177 $~\cite{alman2026}. Dopo Strassen,
-nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
-\cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
-	\omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
-pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione è scesa
-molto lentamente, fino a scendere sotto $ \omega < 2.372 $ solo recentemente \cite{wil11,gall14,stothers2010complexity, alman2024}.
-Tuttavia, l'avvento dell'Intelligenza Artificiale sta dando un nuovo impulso a questa ricerca (si veda ad esempio
-AlphaTensor~\cite{fawzi2022discovering}); di recente (agosto 2026) l'utilizzo di strumenti di IA
-come AlphaEvolve ha stabilito il nuovo record di $ \omega \le 2.371177 $~\cite{alman2026}.
-Sottolineiamo che da un punto di vista pratico, non è detto che le stime ottimali si traducano in algoritmi più veloci
-o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presenteremo, risulta migliore di algoritmi con esponente più basso in molte situazioni~\cite{dalberto2023strassensmatrixmultiplicationalgorithm}.
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
-	\caption{Miglioramenti del limite superiore dell'esponente della moltiplicazione matriciale $\omega$ dal 1969 ad oggi. La linea tratteggiata rappresenta il limite superiore $\omega \le 3$.}
-	\label{fig:matrix_mult_timeline}
-\end{figure}
-
 
 \section{Decomposizione low-rank di forme bilineari}
 
@@ -310,24 +189,6 @@ algoritmo tramite un tensore.
 
 \end{remark}
 
-La seguente proposizione lega la misura di complessità con il rango di una forma bilineare.
-\begin{proposition}[Strassen, si veda~\cite{burgisser2013algebraic}, Capitolo 14]
-	\todo{in realtà è un corollario semplice di un teorema formulato da Strassen, che ho deciso di
-		attribuire a Strassen (non aveva nome)}
-
-	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali di dimensione finita, e $ \varphi : U\times V \to  W $ una
-	mappa bilineare. Allora
-	\begin{equation*}
-		L(\varphi) = \text{Lunghezza della più breve bilinear computation per } \varphi.
-	\end{equation*}
-\end{proposition}
-\begin{remark}
-	Da questa proposizione segue direttamente che
-	\begin{equation}
-		\label{eq:LandRank_estimate}
-		L(\varphi) \le \rk(\varphi) \le 2L(\varphi).
-	\end{equation}
-\end{remark}
 
 
 
@@ -362,25 +223,163 @@ Dove abbiamo posto $ s_l \defeq  s_{l}(A) \defeq  u_l^\top \Vec(A)$, $ t_l \defe
 Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{m,n,p} $; spesso nella pratica $ m,n,p $ sono piu piccoli delle matrici da moltiplicare; in questo caso è possibile dividerle a blocchi e applicare
 l'algoritmo in maniera ricorsiva. Nella prossima sezione giustificheremo meglio questa procedura.
 
+
+
+
+
+
+\section{L'esponente della moltiplicazione tra matrici}
+
+In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità, per
+calcolare costi computazionali anche su campi infiniti, e semplificare il calcolo dei costi eliminando
+branching (e.g. \texttt{if-then-else} o \texttt{while}).
+\begin{definition}[Circuito aritmetico]
+	Un \emph{circuito aritmetico} $ \Gamma $ su $ \K $ è un grafo diretto, aciclico, finito con
+	vertici di grado entrante $ 0 $ o $ 2 $ ed esattamente un vertice di grado uscente $ 0 $. I vertici di grado
+	entrante $ 0 $ sono etichettati con gli elementi di $ \K \cup \{x_1, \ldots, x_{n}\}  $ e sono detti
+	\emph{inputs}. Quelli di grado entrante $ 2 $ sono etichettati con $ + $ oppure $ * $ e sono chiamati
+	\emph{gates}. Se il grado uscente di un vertice $ v $ è $ 0 $, allora $ v $ è chiamato un
+	\emph{output gate}. La dimensione di $ \Gamma $ è il numero di archi.
+\end{definition}
+
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.6\textwidth, keepaspectratio]{Sources/Chapter3/figures/circuit.pdf}
-	\caption{Circuito aritmetico per la moltiplicazione di matrici $2 \times 2$.}
-	\label{fig:arithmetic_circuit_222}
+	\includegraphics[width=0.5\textwidth, keepaspectratio]{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
+	\caption{Esempio di circuito aritmetico per il polinomio $\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$.}
+	\label{fig:algebraic_circuit_example}
+\end{figure}
+
+\todo{specifichiamo a che spazio appartengono i risultati intermedi?}
+
+\begin{definition}[Funzione costo]
+	Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione
+	finita. Definiamo la \emph{funzione costo} associata a un circuito aritmetico $ \Gamma $ come
+	\begin{equation*}
+		\begin{aligned}
+			C_{\Gamma}(\varphi)              & \defeq \text{ numero di moltiplicazioni per calcolare } \varphi
+			\text{ sul circuito }\Gamma \text{, oppure}                                                                    \\
+			C_{\Gamma}^{\text{tot}}(\varphi) & \defeq \text{ numero di addizioni e moltiplicazioni per calcolare } \varphi
+			\text{ sul circuito }\Gamma.
+		\end{aligned}
+	\end{equation*}
+\end{definition}
+Denotiamo con $ \mathcal{C}_{\varphi}$ come l'insieme dei circuiti aritmetici $ \Gamma $ che calcolano $ \varphi $.
+\begin{definition}[Funzione di complessità aritmetica]
+	\label{def:LtotL}
+	Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione finita.
+	Definiamo
+	\begin{equation*}
+		\begin{aligned}
+			L(\varphi)              & \defeq \inf_{\Gamma \in \mathcal{C}_{\varphi}} \{ C_\Gamma(\varphi)\}              &  & \text{ la
+			\emph{complessità moltiplicativa di} $ \varphi$, e}                                                                         \\
+			L^{\text{tot}}(\varphi) & \defeq \inf_{\Gamma \in \mathcal{C}_{\varphi}} \{ C_\Gamma^{\text{tot}}(\varphi)\} &  & \text{ la
+				\emph{complessità totale di} $ \varphi $.}
+		\end{aligned}
+	\end{equation*}
+\end{definition}
+\begin{remark}
+	In altre parole, $ L(\varphi) $ è il minimo numero di moltiplicazioni non scalari
+	sufficienti a calcolare $ \varphi $, anche dette \emph{active multiplications}. In maniera analoga, $ L^{\text{tot}} $ è il minimo numero di
+	moltiplicazioni non scalari e di addizioni sufficienti a calcolare $
+		\varphi $.
+\end{remark}
+Consideriamo la forma bilineare $ \varphi = \algob{n} $ data
+dall'Equazione~\ref{eq:matmul_component}.
+Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
+		n}$, denotiamo con
+\begin{equation}
+	\label{eq:def_Mn}
+	M_{\K}(n) \defeq L^{\text{tot}} \left( \algob{n} \right) =  L^{\text{tot}} \left( \left\{
+	\sum_{k=1}^n a_{ik}b_{kj} \; \middle| \; i,j \in \{1, \ldots, n\} \right\} \right)
+\end{equation}
+il numero totale di moltiplicazioni aritmetiche sufficienti a calcolare la moltiplicazione di due
+matrici $ n\times n $. Determinare una formula per $ M_{\K}(n) $ è lontano dagli strumenti attualmente
+disponibili. Invece, il problema di approssimare la crescita asintotica della funzione $ n \mapsto
+	M_{\K}(n) $ è fattibile; definiamo
+
+\begin{definition}
+	\label{def:exponent_matmul}
+	L'\emph{esponente $ \omega_{\K} $ di una moltiplicazione matriciale} è il numero
+	\begin{equation*}
+		\begin{aligned}
+			\omega_{\K} \defeq \inf_{n\in \N}\{\tau \in \R \mid & \text{ la moltiplicazione tra due matrici in }
+			\K^{n\times n}                                                                                       \\ & \text{ ha costo } o(n^\tau) \text{ operazioni aritmetiche} \}.
+		\end{aligned}
+	\end{equation*}
+	In altre parole, $ \omega_{\K} = \inf_{n \in \N} \{\tau \in \R \mid M_{\K}(n) = o(n^\tau)\}  $.
+\end{definition}
+
+\begin{remark}
+	La notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Dato che tratteremo solo $ \K \in \{\R, \C\}  $, spesso
+	scriveremo $ \omega $ per $ \omega_{\K} $.
+\end{remark}
+
+\begin{theorem}[Schönhage~\cite{sch81}]
+	L'esponente della moltiplicazione tra matrici è invariante rispetto alle estensioni scalari: se $
+		\K \subset \mathbb{L} $ è un'estensione di campo, allora
+	\begin{equation*}
+		\omega_{\K} = \omega_{\mathbb{L}}
+	\end{equation*}
+\end{theorem}
+
+\subsection*{Stimare l'esponente}
+
+Un modo elementare di trovare una nuova stima su $ \omega $ è trovare una scrittura più breve della
+forma bilineare (o del tensore). La seguente proposizione ci fornisce una prima stima della misura di complessità con il rango di una forma bilineare.
+\begin{proposition}[Strassen, si veda~\cite{burgisser2013algebraic}, Capitolo 14]
+	\todo{in realtà è un corollario semplice di un teorema formulato da Strassen, che ho deciso di
+		attribuire a Strassen (non aveva nome)}
+
+	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali di dimensione finita, e $ \varphi : U\times V \to  W $ una
+	mappa bilineare. Allora
+	\begin{equation*}
+		L(\varphi) = \text{Lunghezza della più breve bilinear computation per } \varphi.
+	\end{equation*}
+\end{proposition}
+\begin{remark}
+	Da questa proposizione segue direttamente che
+	\begin{equation}
+		\label{eq:LandRank_estimate}
+		L(\varphi) \le \rk(\varphi) \le 2L(\varphi).
+	\end{equation}
+\end{remark}
+
+Osserviamo che $ M_{\K}(n) \le n^2(2n - 1) $. Siccome il costo computazionale dev'essere almeno pari al numero di entrate della matrice, vale  $ M_{\K}(n) \ge n^2 $, da
+cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
+nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo delle moltiplicazioni possa essere
+asintoticamente pari a quello
+delle addizioni.
+L'algoritmo naive ha $ \omega = 3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371177 $~\cite{alman2026}. Dopo Strassen,
+nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
+\cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
+	\omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
+pensare che nel 1990 si sarebbe trovato il bound. Dopo tale miglioramento, l'approssimazione è scesa
+molto lentamente, fino a scendere sotto $ \omega < 2.372 $ solo recentemente \cite{wil11,gall14,stothers2010complexity, alman2024}.
+Tuttavia, l'avvento dell'Intelligenza Artificiale sta dando un nuovo impulso a questa ricerca (si veda ad esempio
+AlphaTensor~\cite{fawzi2022discovering}); di recente (agosto 2026) l'utilizzo di strumenti di IA
+come AlphaEvolve ha stabilito il nuovo record di $ \omega \le 2.371177 $~\cite{alman2026}.
+Sottolineiamo che da un punto di vista pratico, non è detto che le stime ottimali si traducano in algoritmi più veloci
+o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presenteremo, risulta migliore di algoritmi con esponente più basso in molte situazioni~\cite{dalberto2023strassensmatrixmultiplicationalgorithm}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
+	\caption{Miglioramenti del limite superiore dell'esponente della moltiplicazione matriciale $\omega$ dal 1969 ad oggi. La linea tratteggiata rappresenta il limite superiore $\omega \le 3$.}
+	\label{fig:matrix_mult_timeline}
 \end{figure}
 
 
-
-
+\section{Il rango come misura della complessità}
 
 \subsection*{Stimare la complessità nel caso generale}
 
-Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come il prodotto
-di matrici $ n\times n $ sull'algebra delle matrici $ n^{i-1}\times
+Precedentemente abbiamo introdotto gli algoritmi di moltiplicazione dal caso base e.g. $ \algob{n}
+$, senza giustificare come cambia la complessità quando l'algoritmo viene eseguito ricorsivamente.
+Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come il prodotto di matrici $ n\times n $ sull'algebra delle matrici $ n^{i-1}\times
 	n^{i-1} $, suddividendole in blocchi. Questo dice anche che, se $
 	\rk(\algob{n}) \le r $, allora $ \rk(\algob{n^i}) \le
 	r^i$; infatti, combinando le prossime Proposizioni~\ref{prop:bil_map_product}
-e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorfismo, troviamo
+e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorfismo,
+troviamo\todo{spiegare cosa significa fare $ \angb{n}^{\otimes i} $}
 \begin{equation*}
 	\rk(\algob{n^i}) = \rk(\algob{n}^{\otimes i}) \le \rk(\algob{n})^i \le r^i.
 \end{equation*}
@@ -409,8 +408,9 @@ da $ r $, in quanto
 	\end{aligned}
 \end{equation*}
 Riassumendo, $ \rk(\algob{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
-applicando l'Equazione~\ref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $. Ad esempio, per
-l'algoritmo di Strassen (che introdurremo a breve) avremo che $ r = 7, n_0 = 2 $, da cui $ \omega \le \log_{2} 7 < 2.81 $. Abbiamo
+applicando l'Equazione~\ref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $. Questa stima
+si rivelerà utile per calcolare la complessità degli algoritmi veloci, evitando senza dover passare per il Master Theorem~\cite{cormen2022introduction}.
+Abbiamo
 dimostrato la seguente:
 \begin{proposition}
 	\label{prop:omega_rk_estimate}
@@ -474,11 +474,21 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 	\end{equation*}
 \end{proof}
 
-\section{Il rango come misura della complessità}
 
-% La condizione trovata nell'Equazione~\ref{eq:omega_as_rank} è anche necessaria \todo{check}. 
-La prossima proposizione risponde al problema inverso problema inverso: dato un intero positivo $ r $, è possibile
-trovare un algoritmo con $ r $ moltiplicazioni?
+\subsection*{Il teorema di Strassen}
+Dato un algoritmo con $ r $ moltiplicazioni, possiamo costruire la sua bilinear computation (e
+rappresentarla con il suo circuito aritmetico), e poi dedurre che il rango del tensore è $ r $.
+Viceversa, se troviamo un tensore di rango $ r $ (o in generale se conosciamo solo $ r $), esiste un
+algoritmo con $ r $ moltiplicazioni? La prossima proposizione risponde a questa domanda.
+
+\todo{può andare bene qui questa figura o la mettiamo dopo?}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\textwidth, keepaspectratio]{Sources/Chapter3/figures/circuit.pdf}
+	\caption{Circuito aritmetico per la moltiplicazione di matrici $2 \times 2$.}
+	\label{fig:arithmetic_circuit_222}
+\end{figure}
+
 
 \todo{non capisco come sia collegata alla prop~\ref{prop:omega_rk_estimate}}
 \begin{theorem}[Strassen~\cite{strassen69}, vedi anche \cite{burgisser2013algebraic} §15.1]
@@ -627,6 +637,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		M(n^i) = O(r^i).
 	\end{equation}
 	\todo{non chiaro se anche l'equazione sopra garantisca monotonia}
+	\todo{capire se questo passaggio è corretto}
 	Dalla proposizione~\ref{prop:rk_monotony} segue che $M$ è una successione monotona, per
 	ogni $ h \in \N \setminus \{0\}  $,
 	\begin{equation*}
@@ -723,20 +734,21 @@ Proviamo a scriverlo in forma tensoriale. La sua bilinear computation è
 \begin{equation*}
 	C = \sum_{i=1}^8 m_{i}w_{i},
 \end{equation*}
-a noi resta solo da assegnare i termini $ w_{i} $. Una regola per farlo è questa: guardiamo quali
-termini $ m_{r} $ formano le entrate $ c_{ij} $, e impostiamo $ w_{r} $ uguale al valore $ c_{ij} $
-dove si trova il rispettivo $ m_{r} $ (se fossero presenti più copie di un certo $ m_{r} $, i $
-	w_{r} $ sarebbero combinazione lineare dei termini $ c_{ij} $). Nel caso di $ c_{11} $ ad esempio, sono presenti $
-	m_1 $ e $ m_2 $, quindi $ w_1 =w_2 = c_{11} $. Procedendo in questo modo per gli altri termini troviamo,
+a noi resta solo da assegnare i termini $ w_{i} $, che in questo caso saranno matrici. Fissiamo la
+base standard $ \{E_{11}, E_{12}, E_{21}, E_{22}\}  $ dello spazio delle matrici $ 2\times 2 $. Scriviamo
+
 \begin{equation*}
 	\begin{aligned}
-		w_1 & = w_2 = c_{11}, \qquad w_5 = w_6 = c_{12}, \\
-		w_3 & = w_4 = c_{21}, \qquad w_7 = w_8 = c_{22}.
+		C & = c_{11}E_{11} + c_{12}E_{12} + c_{21}E_{21} + c_{22}E_{22}                  \\
+		  & = (m_1 + m_2)E_{11} + (m_3 +m_4)E_{12} + (m_5+m_6)E_{21} + (m_7 + m_8)E_{22} \\
+		  & = \sum_{i=1}^8 m_{i}w_{i},
 	\end{aligned}
 \end{equation*}
+dove i termini $ w_{i} $ sono determinati dalla scrittura sopra.
 
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
-	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$ e scrivere il tensore struttrale di $
+	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$\todo{si veda anche
+	l'osservazione provvisoria sotto} e scrivere il tensore struttrale di $
 	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}):
 \begin{equation}
 	\label{eq:tensor_222}
@@ -760,9 +772,7 @@ Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo map
 \todo{non mi convince molto}
 Osserviamo che questo caso base dà luogo a un algoritmo ricorsivo per $ n > 2 $. Ripercorrendo il
 ragionamento dell'Equazione~\todo{mst} del Teorema di Strassen, troviamo che $ M(n) = O(n^{\log_{2}
-			8}) = O(n^3)$. Aggiungiamo che, in letteratura a volte si usa un risultato chiamato Master
-Theorem~\cite{cormen2022introduction} per dare
-queste stime asintotiche.
+			8}) = O(n^3)$.
 
 Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici $ 2\times 2 $
 (probabilmente anche l'unico conosciuto). Nel 1969
@@ -792,19 +802,37 @@ stessa struttura a blocchi $ \algob{2} $.
 		c_{21} & = m_2 + m_4                   & c_{22} & = m_1 - m_2 + m_3 + m_6
 	\end{aligned}
 \end{equation}
-Dall'equazione sopra possiamo scrivere i termini $ w_{r} $ come combinazione lineare dei $ c_{ij} $
-dati raccogliendo i termini $ m_{r} $. In altre parole,
+
+Nella base canonica, la matrice $ C $ si scrive come
 \begin{equation*}
 	\begin{aligned}
-		w_1 & = c_{11} + c_{22}  \\
-		w_2 & = c_{21} - c_{22}  \\
-		w_3 & = c_{12} + c_{22}  \\
-		w_4 & = c_{11} + c_{21}  \\
-		w_5 & = -c_{11} + c_{12} \\
-		w_6 & = c_{22}           \\
-		w_7 & = c_{11}.
+		C & = c_{11}E_{11} + c_{12}E_{12} + c_{21}E_{21} + c_{22}E_{22}            \\
+		  & = (m_1 +m_4-m_5 +m_7)E_{11} + (m_3+m_5)E_{12}                          \\
+		  & + (m_2 + m_4)E_{21} + (m_1 - m_2 + m_3
+		+m_6)E_{22}                                                                \\
+		  & = m_1(E_{11} + E_{22}) + m_2(E_{21} - E_{22}) + m_3(E_{12} + E_{22})   \\
+		  & + m_4(E_{11} + E_{21}) + m_5(-E_{11} + E_{12}) + m_6E_{22} + m_7E_{11} \\
+		  & = \sum_{r=1}^7 m_{r}w_{r}.
 	\end{aligned}
 \end{equation*}
+
+\begin{remark}[OSSERVAZIONE PROVVISORIA]
+	Per far tornare la scrittura del tensore, inizialmente pensavo di dover assegnare i termini $ w_{i}
+	$ in questo modo, ignorando il fatto che fossero matrici
+
+	\begin{equation*}
+		\begin{aligned}
+			w_1 & = c_{11} + c_{22}  \\
+			w_2 & = c_{21} - c_{22}  \\
+			w_3 & = c_{12} + c_{22}  \\
+			w_4 & = c_{11} + c_{21}  \\
+			w_5 & = -c_{11} + c_{12} \\
+			w_6 & = c_{22}           \\
+			w_7 & = c_{11}.
+		\end{aligned}
+	\end{equation*}
+
+\end{remark}
 Possiamo anche calcolare gli $ m_{r} $:
 \begin{equation*}
 	\begin{aligned}
@@ -831,8 +859,6 @@ Mettendo insieme troviamo,
 \end{equation*}
 
 Che in forma tensoriale diventa
-\todo{non chiaro passaggio con forma trilineare, cioè ottengo la bilinear computation con $ tr(ABC^{\top}) $}
-
 \begin{equation*}
 	\begin{aligned}
 		\algob{2} & = (a_{11} + a_{22}) \otimes (b_{11} + b_{22}) \otimes (c_{11} + c_{22}) \\
@@ -926,6 +952,7 @@ L'espressione del tensore che stavano cercando era il seguente tensore di rango 
 dove \todo{qui $ z_1^2 $ con $ z_2^1 $ è scambiato rispetto alla source, controlla di nuovo}
 
 \todo{correggi errore di copiatura nella III}
+\todo{qui decidi se usare notazione $ a_{ij} $ o $ a_j^i $, in caso uniforma con il capitolo}
 \begin{equation*}
 	\begin{aligned}
 		(I)   & = (a_2^1 + ta_1^1) \otimes (b_2^1 + tb_2^2 \otimes c_2^1)                                   \\

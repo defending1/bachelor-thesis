@@ -121,7 +121,16 @@ def _eval_single(args):
         raise ValueError(f"Unknown distribution {dist_name}")
     return estimate_rank(T, max_rank=max_rank, tolerance=1e-5, num_restarts=num_restarts, max_iter=max_iter)
 
-def run_experiment():
+def run_experiment(force_recompute=None):
+    """
+    Executes the typical rank estimation experiment across specified tensor formats.
+
+    Parameters:
+    -----------
+    force_recompute : set or list, optional
+        Set of format strings (e.g. {'2x2x2', '3x3x2'}) to re-evaluate even if
+        cached results exist in experiment_results.json.
+    """
     base_seed = 42
     
     distributions = [
@@ -130,8 +139,8 @@ def run_experiment():
     ]
     
     formats = [
-        {"shape": (2, 2, 2), "num_samples": 200, "max_rank": 4, "num_restarts": 15, "max_iter": 300, "title": r"2 \times 2 \times 2"},
-        {"shape": (3, 3, 2), "num_samples": 200, "max_rank": 5, "num_restarts": 15, "max_iter": 300, "title": r"3 \times 3 \times 2"},
+        {"shape": (2, 2, 2), "num_samples": 200, "max_rank": 4, "num_restarts": 120, "max_iter": 500, "title": r"2 \times 2 \times 2"},
+        {"shape": (3, 3, 2), "num_samples": 200, "max_rank": 5, "num_restarts": 120, "max_iter": 500, "title": r"3 \times 3 \times 2"},
         {"shape": (3, 3, 3), "num_samples": 100, "max_rank": 6, "num_restarts": 20, "max_iter": 300, "title": r"3 \times 3 \times 3"},
         {"shape": (3, 3, 5), "num_samples": 100, "max_rank": 7, "num_restarts": 120, "max_iter": 500, "title": r"3 \times 3 \times 5"}
     ]
@@ -139,43 +148,52 @@ def run_experiment():
     output_dir = os.path.dirname(os.path.abspath(__file__))
     json_path = os.path.join(output_dir, "experiment_results.json")
     
+    results = {}
     if os.path.exists(json_path):
         print(f"Loading cached results from {json_path}...")
         with open(json_path, "r") as f:
             results = json.load(f)
-    else:
-        print("Starting typical rank estimation experiment (2x4 grid)...")
-        start_all = time.time()
-        results = {}
-        with ProcessPoolExecutor() as executor:
-            for dist_idx, dist in enumerate(distributions):
-                dist_name = dist["name"]
+
+    if force_recompute is None:
+        force_recompute = {"2x2x2", "3x3x2"}
+
+    print("Starting typical rank estimation experiment...")
+    start_all = time.time()
+    
+    with ProcessPoolExecutor() as executor:
+        for dist_idx, dist in enumerate(distributions):
+            dist_name = dist["name"]
+            if dist_name not in results:
                 results[dist_name] = {}
-                for fmt_idx, fmt in enumerate(formats):
-                    shape = fmt["shape"]
-                    shape_str = f"{shape[0]}x{shape[1]}x{shape[2]}"
-                    num_samples = fmt["num_samples"]
-                    max_rank = fmt["max_rank"]
-                    num_restarts = fmt.get("num_restarts", 15)
-                    max_iter = fmt.get("max_iter", 300)
-                    print(f"\nEvaluating {dist_name} distribution for format {shape} ({num_samples} samples, {num_restarts} restarts, {max_iter} max_iter)...")
-                    
-                    tasks = [
-                        (dist_name, shape, max_rank, num_restarts, max_iter, base_seed + dist_idx * 10000 + fmt_idx * 1000 + i)
-                        for i in range(num_samples)
-                    ]
-                    
-                    t0 = time.time()
-                    ranks = list(executor.map(_eval_single, tasks))
-                    t1 = time.time()
-                    print(f"Finished {dist_name} format {shape} in {t1 - t0:.2f} seconds.")
-                    results[dist_name][shape_str] = ranks
+            for fmt_idx, fmt in enumerate(formats):
+                shape = fmt["shape"]
+                shape_str = f"{shape[0]}x{shape[1]}x{shape[2]}"
+                if shape_str in results[dist_name] and shape_str not in force_recompute:
+                    print(f"Skipping {dist_name} format {shape_str} (using cached results).")
+                    continue
 
-        total_time = time.time() - start_all
-        print(f"\nAll evaluations finished in {total_time:.2f} seconds.")
+                num_samples = fmt["num_samples"]
+                max_rank = fmt["max_rank"]
+                num_restarts = fmt.get("num_restarts", 15)
+                max_iter = fmt.get("max_iter", 300)
+                print(f"\nEvaluating {dist_name} distribution for format {shape} ({num_samples} samples, {num_restarts} restarts, {max_iter} max_iter)...")
+                
+                tasks = [
+                    (dist_name, shape, max_rank, num_restarts, max_iter, base_seed + dist_idx * 10000 + fmt_idx * 1000 + i)
+                    for i in range(num_samples)
+                ]
+                
+                t0 = time.time()
+                ranks = list(executor.map(_eval_single, tasks))
+                t1 = time.time()
+                print(f"Finished {dist_name} format {shape} in {t1 - t0:.2f} seconds.")
+                results[dist_name][shape_str] = ranks
 
-        with open(json_path, "w") as f:
-            json.dump(results, f, indent=2)
+    total_time = time.time() - start_all
+    print(f"\nEvaluations finished in {total_time:.2f} seconds.")
+
+    with open(json_path, "w") as f:
+        json.dump(results, f, indent=2)
 
     plot_from_results(results, distributions, formats, output_dir)
 
