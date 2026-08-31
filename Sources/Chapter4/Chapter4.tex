@@ -112,7 +112,7 @@ minimizza \emph{l'errore relativo}, che per un tensore a tre indici $ T $ è def
 \end{equation*}
 
 
-\section{Cocktail party problem}
+\section{Blind deconvolution di segnali DS-CMDA}
 
 Un problema centrale nel signal processing è il \emph{problema del cocktail party}, dove un insieme
 di persone si trova in una stanza a parlare. Ci sono diversi ricevitori impostati che registrano le
@@ -121,7 +121,6 @@ persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione
 è noto nell'analisi di segnali come \emph{blind deconvolution}, dove si possono vedere le persone
 come ``sorgenti'' e i ricevitori come ``antenne''. Lo studiamo nella prossima sezione.
 
-\section{Blind deconvolution di segnali DS-CMDA}
 
 Nella comunicazione wireless il modello di segnali \emph{direct-sequence code-division multiple
 	access} (DS-CDMA). Senza entrare nel dettaglio del funzionamento, dei segnali (e.g. provenienti da
@@ -140,8 +139,8 @@ in~\cite{sidiropoulos2000blind,de2008blind,landsberg2011tensors}, con una breve 
 
 Consideriamo uno scenario dove ci sono $ R $ sorgenti
 dei segnali (anche detti \emph{utenti}), e ognuno trasmette $ K $ simboli in un messaggio; diciamo
-che l'utente $ r $-esimo vuole inviare un vettore $ \bm{s}_{r} = \left( s_{1r}, \ldots, s_{Kr}
-	\right) $ dove le entrate possono essere pensati come numeri complessi in qualche intervallo di
+che l'utente $ r $-esimo vuole inviare un vettore $ s_{r} = \left[ s_{1r}, \ldots, s_{Kr}
+		\right]  $ dove le entrate possono essere pensati come numeri complessi in qualche intervallo di
 valori fissato. Ci sono $ I $ antenne che ricevono i segnali.
 Quando i segnali arrivano all'$ i $-esima antenna, il segnale è stato soggetto a distorsione
 nell'intensità e fase (anche detta \emph{fading/gain}), quindi ciò che viene ricevuto dall'antenna $
@@ -152,41 +151,88 @@ In questo scenario si riceve un tensore $ T \in \C^{I \times K} $ di rango $ R $
 \begin{equation*}
 	T_{ik} = \sum_{r=1}^R a_{ir}s_{kr}.
 \end{equation*}
-L'obiettivo sarebbe recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r \le R $ da questo tensore
+L'obiettivo sarebbe recuperare i segnali $ s_{r} $, per $ 1\le r \le R $ da questo tensore
 (matrice) decomponendole come matrici di rango uno. Sfortunatamente, questa decomposizione non è mai
 unica quando $ R > 1 $. La soluzione è introdurre dei ``codici'' per ``diffondere'' il segnale che
 ogni utente invia per ottenere un tensore a tre indici che avrà generalmente una decomposizione
 unica. Tale spreading è comune nelle telecomunicazioni, e.g. della ridondanza è introdotta per
 compensare gli errori causati dalla corruzione dei segnali durante la trasmissione.
 
-\begin{remark}[Acronimi ICI e ISI]
+\begin{definition}[Acronimi ICI e ISI]
 
 	L'\emph{Interchip interference} (ICI) occorre quando il segnale segue diverse strade per raggiungere
 	l'antenna (e.g. rimbalzando contro edifici o colline).
 	L'\emph{Intersignal interference} (ISI) occorre quando il ritardo di tempo dato dalle diverse strade
-	prese dal segnale, fa arrivare, ad esempio $ s_{kr} $ allo stesso tempo di $ s_{k+1,r} $
+	prese dal segnale, fa arrivare, ad esempio $ s_{k,r} $ allo stesso tempo di $ s_{k+1,r} $
 
-\end{remark}
+\end{definition}
 \subsection*{Decomposizione CP in assenza di ICI e ISI}
 
 Assumiamo che la trasmissione avvenga in linea d'aria---ovvero i segnali viaggiano direttamente da
 sorgente all'antenna.
 
-Presentiamo il modello dati senza rumore e memoria per DS-CDMA multiutente come segue: $ \bm{s}_{r}
-$ e $ a_{ir} $ sono come sopra, ma l'$ r $-esimo utente invece di trasmettere $ \bm{s}_{r} $,
+Presentiamo il modello dati senza rumore e memoria per DS-CDMA multiutente come segue: $ s_{r}
+$ e $ a_{ir} $ sono come sopra, ma l'$ r $-esimo utente invece di trasmettere $ s_{r} $,
 introduce una ridondanza in termini di codice, chiamata \emph{spreading sequence} che è fissata per
-ogni utente, diciamo $ \bm{c}_{r} = \left( c_{1r}, \ldots, c_{Jr} \right) $. Il simbolo $ s_{kr} $ è
+ogni utente, diciamo $ c_{r} = \left[ c_{1r}, \ldots, c_{Jr} \right] $. Il simbolo $ s_{kr} $ è
 trasmesso su molteplici frequenze; come risultato, vengono trasmesse simultaneamente $ J $ quantità
-$ \left( s_{kr}c_{1r}, \ldots, s_{kr}c_{Jr} \right) $, chiamate \emph{chips} al tempo $ k $. La
+$ \left[ s_{kr}c_{1r}, \ldots, s_{kr}c_{Jr} \right] $, chiamate \emph{chips} al tempo $ k $. La
 trasmissione totale sopra $ JK $ unità di tempo dell'utente $ r $-esimo sono le $ JK $ chips $
 	c_{jr}s_{kr} $, $ 1 \le j \le J $, $ 1\le k \le K $ (qui $ J $ è anche detto \emph{spreading gain}).
 L'antenna $ i $-esima riceve le $ KJ $ quantità $ \sum_{r} a_{ir}c_{jr}s_{kr} $, per $ 1 \le j \le J
 $, $ 1 \le k \le K $, dove, come sopra, $ a_{ir} $ sono i fading/gain tra l'utente $ r $ e l'antenna
-$ i $. In totale, viene ricevuto un tensore $ T \in \C^{I \times J\times K} $ di rango $ R $ con
-\begin{equation*}
+$ i $. In totale, viene ricevuto un tensore $ T \in \C^{I \times J\times K} $ di rango $ R $
+scrivibile in componenti come
+\begin{equation}
+	\label{eq:blindec_cp_components}
 	T_{ijk} = \sum_{r=1}^R a_{ir}c_{jr}s_{kr},
+\end{equation}
+o in generale,
+\begin{equation*}
+	T = \sum_{r=1}^R a_{r} \otimes c_{r} \otimes s_{r}.
 \end{equation*}
-e l'obiettivo è recuperare i segnali $ \bm{s}_{r} $, per $ 1\le r\le R $ da questo tensore. Per il
-Teorema di Kruskal~\ref{thm:kruskal3d} questa decomposizione è unica se le componenti $ \bm{a}_{r} $, $
-	\bm{c}_{r} $ e $ \bm{s}_{r} $ sono ``abbastanza'' indipendenti\todo{landsberg dice se il tensore è
-	abbastanza generale, che vuol dire?} e $ r $ è sufficiente piccolo.
+In altre parole, $ T = \dsqr{S,C,A} $. L'obiettivo è recuperare i segnali $ s_{r} $, per $ 1\le r\le
+	R $ da questo tensore, cioè la matrice $ S $. Per farlo abbiamo bisogno che la scrittura sia
+essenzialmente unica. Per il Teorema di Kruskal~\ref{thm:kruskal3d} questa decomposizione è unica se
+\begin{equation*}
+	\krk{A} + \krk{B} + \krk{C} \ge 2(R+1).
+\end{equation*}
+Per costruzione~\cite{de2008blind} le matrici $ A $ e $ C $ sono di $ k $-rango pieno con probabilità $ 1
+$, mentre se i simboli trasmessi $ s_{Kr} $ appartengono ad un alfabeto finito, c'è possibilità che
+$ S $ non sia di $ k $-rango pieno---c'è una possibilità che le sequenze di utenti diversi possano essere
+uguali, ma questo è poco probabile per dataset più grandi. Quindi nella pratica assumiamo che $ S $
+sia di $ k $-rango pieno. Questo significa che il numero di utenti che possono essere processati
+simultaneamente si può considerare limitato come
+\begin{equation*}
+	\min \{I,R\} + \min \{J,R\} + \min \{K,R\} \ge 2(R+1).
+\end{equation*}
+
+Il recupero di $ T $ avviene con l'algoritmo ALS, fissando le matrici $ A,C $ e facendo variare la
+matrice $ S $, minimizzando la funzione
+\begin{equation*}
+	\| T - \sum_{r = 1}^R s_{r} \otimes c_{r} \otimes a_{r} \|^2 = \sum_{i,j,k}\abs{t_{ijk} -
+		\sum_{r=1}^R s_{ir}c_{jr}a_{kr}}^2.
+\end{equation*}
+
+\subsection*{Esperimento con matrici generate casualmente}
+
+Generiamo un tensore $ T $ scritto come nell'equazione sopra e cerchiamo un tensore approssimante $
+	\hat{T}$ che minimizza $ \| T - \hat{T} \|^2 $.
+Consideriamo le seguenti matrici:
+\begin{itemize}
+	\item $ S \in \{-1, 1\}^{K\times R}  $, dove per ogni $ r \in \{1, \ldots, R\}  $, le entrate di
+	      $ s_{r} $ sono estratte indipendentemente con probabilità uniforme $ \frac{1}{2} $.
+	\item $ C \in \{-1,+1\} ^{J \times R} $ è costruita selezionando $ R $ colonne distinte dalla
+	      matrice ortogonale di Walsh-Hadamard $ H_{j} \in \{-1, 1\}^{J\times J}  $, dove $ J $ è una
+	      potenza di $ 2 $. Le colonne di $ C $ sono ortogonali:
+	      \begin{equation*}
+		      c_{r}^{\top}c_{m} = \begin{cases}
+			      J & \text{se } r=m,      \\
+			      0 & \text{se } r \neq m.
+		      \end{cases}
+	      \end{equation*}
+	\item $ A \in \C^{I \times R}  $ ha come elementi una variabile aleatoria gaussiana
+	      complessa a media nulla $ a_{ir} = x_{ir}+\I y_{ir} $, dove $ x_{ir},y_{ir} \sim
+		      \mathcal{N}(0, \frac{1}{2}) $ sono variabili aleatorie reali indipendenti e identicamente
+	      distribuite.
+\end{itemize}
