@@ -1,8 +1,8 @@
 """
-CLI runner script to generate and save DS-CDMA synthetic datasets.
+CLI runner script to generate and save real DS-CDMA synthetic datasets.
 
 Usage:
-    python run_generator.py --sources 3 --antennas 2 --spreading 16 --symbols 100 --out dataset.npz
+    python run_generator.py --sources 3 --antennas 4 --spreading 16 --symbols 100 --out dataset.npz
 """
 
 import argparse
@@ -15,13 +15,14 @@ from exporter import save_dataset, load_dataset
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate exact rank-R DS-CDMA tensor dataset for CP decomposition experiments."
+        description="Generate exact rank-R DS-CDMA real tensor dataset for CP decomposition experiments."
     )
     parser.add_argument("-r", "--sources", type=int, default=3, help="Number of sources/users (R)")
-    parser.add_argument("-i", "--antennas", type=int, default=2, help="Number of receiver antennas (I)")
+    parser.add_argument("-i", "--antennas", type=int, default=4, help="Number of receiver antennas (I)")
     parser.add_argument("-j", "--spreading", type=int, default=16, help="Spreading factor / Walsh code length (J)")
-    parser.add_argument("-k", "--symbols", type=int, default=100, help="Number of transmitted symbols (K)")
+    parser.add_argument("-k", "--symbols", type=int, default=100, help="Number of transmitted real signals (K)")
     parser.add_argument("-s", "--seed", type=int, default=42, help="Random seed")
+    parser.add_argument("--area", type=float, default=100.0, help="2D area side length")
     parser.add_argument("-o", "--out", type=str, default="dscdma_dataset.npz", help="Output .npz file path")
 
     args = parser.parse_args()
@@ -31,15 +32,17 @@ def main() -> None:
         num_antennas=args.antennas,
         spreading_gain=args.spreading,
         num_symbols=args.symbols,
-        seed=args.seed
+        area_side=args.area,
+        seed=args.seed,
     )
 
-    print("Generating DS-CDMA Dataset with parameters:")
-    print(f"  R (Sources):  {config.num_sources}")
-    print(f"  I (Antennas): {config.num_antennas}")
-    print(f"  J (Chips):    {config.spreading_gain}")
-    print(f"  K (Symbols):  {config.num_symbols}")
-    print(f"  Seed:         {config.seed}")
+    print("Generating DS-CDMA Spatial Real Dataset with parameters:")
+    print(f"  R (Sources):    {config.num_sources}")
+    print(f"  I (Antennas):   {config.num_antennas}")
+    print(f"  J (Chips):      {config.spreading_gain}")
+    print(f"  K (Signals):    {config.num_symbols}")
+    print(f"  2D Area Side:   {config.area_side}")
+    print(f"  Seed:           {config.seed}")
 
     generator = DSCDMADatasetGenerator(config)
     data = generator.generate()

@@ -1,51 +1,32 @@
 """
-Spreading code generation module using Walsh-Hadamard matrices.
+Spreading code generation module for DS-CDMA systems.
 
-This module provides functions to construct orthogonal spreading matrices C for DS-CDMA
-without external dependencies beyond NumPy.
+Generates random binary spreading matrix C of shape (J, R) with entries in {-1.0, +1.0}.
 """
 
 import numpy as np
 
 
-def _hadamard_matrix(n: int) -> np.ndarray:
+def generate_spreading_codes(
+    spreading_gain: int,
+    num_sources: int,
+    rng: np.random.Generator,
+) -> np.ndarray:
     """
-    Constructs a Sylvester-type Hadamard matrix of order n using pure NumPy.
+    Generates a J x R matrix C containing random binary spreading sequences in {-1.0, +1.0}.
 
     Args:
-        n (int): Order of Hadamard matrix (must be a power of 2).
-
-    Returns:
-        np.ndarray: Hadamard matrix of shape (n, n) with values in {-1.0, +1.0}.
-    """
-    H = np.array([[1.0]], dtype=np.float64)
-    while H.shape[0] < n:
-        H = np.block([[H, H], [H, -H]])
-    return H
-
-
-def generate_walsh_codes(spreading_gain: int, num_sources: int) -> np.ndarray:
-    """
-    Generates a J x R matrix C containing orthogonal Walsh-Hadamard spreading sequences.
-
-    Args:
-        spreading_gain (int): Spreading factor (J). Must be a power of 2.
+        spreading_gain (int): Spreading factor / chip length (J).
         num_sources (int): Number of active sources/users (R).
+        rng (np.random.Generator): NumPy random number generator instance.
 
     Returns:
-        np.ndarray: Matrix C of shape (J, R) with entries in {-1, +1}.
-
-    Raises:
-        ValueError: If J is not a power of 2 or if R > J.
+        np.ndarray: Real matrix C of shape (J, R) with entries in {-1.0, +1.0}.
     """
-    if spreading_gain <= 0 or (spreading_gain & (spreading_gain - 1)) != 0:
-        raise ValueError(f"Spreading gain J must be a power of 2, got {spreading_gain}")
-    if num_sources > spreading_gain:
-        raise ValueError(f"Number of sources R ({num_sources}) cannot exceed J ({spreading_gain})")
+    if spreading_gain <= 0:
+        raise ValueError(f"Spreading gain J must be > 0, got {spreading_gain}")
+    if num_sources <= 0:
+        raise ValueError(f"Number of sources R must be > 0, got {num_sources}")
 
-    # Generate full Hadamard matrix of size J x J
-    full_hadamard = _hadamard_matrix(spreading_gain)
-
-    # Select the first R columns as spreading sequences
-    spreading_matrix = full_hadamard[:, :num_sources]
-    return spreading_matrix
+    codes = rng.choice([-1.0, 1.0], size=(spreading_gain, num_sources))
+    return codes

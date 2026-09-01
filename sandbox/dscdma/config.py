@@ -1,5 +1,5 @@
 """
-Configuration module for the DS-CDMA noiseless and memoryless simulation framework.
+Configuration module for the DS-CDMA simulation framework.
 """
 
 from dataclasses import dataclass
@@ -14,8 +14,10 @@ class SimConfig:
     Attributes:
         num_sources (int): Number of sources/users (R).
         num_antennas (int): Number of receiver antennas (I).
-        spreading_gain (int): Length of spreading code per symbol (J). Must be a power of 2 for Hadamard.
-        num_symbols (int): Number of transmitted BPSK symbols per user (K).
+        spreading_gain (int): Length of spreading code per symbol (J).
+        num_symbols (int): Number of transmitted real symbols per user (K).
+        area_side (float): Side length of 2D bounding area [0, area_side]^2 for positions.
+        min_dist (float): Minimum distance lower bound to avoid numerical instability.
         seed (Optional[int]): Random seed for reproducibility.
     """
 
@@ -23,6 +25,8 @@ class SimConfig:
     num_antennas: int = 2  # I
     spreading_gain: int = 16  # J
     num_symbols: int = 100  # K
+    area_side: float = 100.0
+    min_dist: float = 0.1
     seed: Optional[int] = 42
 
     def validate(self) -> None:
@@ -30,22 +34,17 @@ class SimConfig:
         Validates the configuration parameters.
 
         Raises:
-            ValueError: If parameters are non-positive or if spreading_gain is not a power of 2.
+            ValueError: If parameters are invalid.
         """
         if self.num_sources <= 0:
             raise ValueError(f"num_sources (R) must be > 0, got {self.num_sources}")
         if self.num_antennas <= 0:
             raise ValueError(f"num_antennas (I) must be > 0, got {self.num_antennas}")
+        if self.spreading_gain <= 0:
+            raise ValueError(f"spreading_gain (J) must be > 0, got {self.spreading_gain}")
         if self.num_symbols <= 0:
             raise ValueError(f"num_symbols (K) must be > 0, got {self.num_symbols}")
-        if (
-            self.spreading_gain <= 0
-            or (self.spreading_gain & (self.spreading_gain - 1)) != 0
-        ):
-            raise ValueError(
-                f"spreading_gain (J) must be a power of 2, got {self.spreading_gain}"
-            )
-        if self.num_sources > self.spreading_gain:
-            raise ValueError(
-                f"num_sources (R={self.num_sources}) cannot exceed spreading_gain (J={self.spreading_gain}) for Hadamard codes"
-            )
+        if self.area_side <= 0:
+            raise ValueError(f"area_side must be > 0, got {self.area_side}")
+        if self.min_dist <= 0:
+            raise ValueError(f"min_dist must be > 0, got {self.min_dist}")
