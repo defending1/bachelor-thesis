@@ -617,6 +617,8 @@ caso matriciale) a domande del tipo:
 	\item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
 	\item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
 \end{enumerate}
+Per capire il motivo, discutiamo alcune caratteristiche dei tensori che rendono complesso il ``problema del
+rango''.
 
 \subsection*{Border rank}
 Nel caso delle matrici, una successione di matrici di rango $ r $ converge sempre a una matrice di
@@ -684,6 +686,7 @@ Il border rank ammette anche la seguente interpretazione geometrica:
 
 
 \subsection*{Costo computazionale}
+\label{sec:computing_rank}
 Calcolare il costo di una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
 solo; il problema di trovare un tensore approssimante di un certo rango è computazionalmente
 difficile. In altre parole, la miglior approssimazione di rango $ r $ è data da dei vettori $ x_{i}
@@ -707,6 +710,17 @@ teorema di Eckart-Young-Mirsky~\cite{eckart1936approximation}: se
 approssimazione di rango $ r $ è data dai primi $ r $ termini della somma.
 Sfortunatamente, generalizzare questo risultato in più dimensioni è
 ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposednessbest}.
+
+Nella pratica esistono diverse euristiche per calcolare il rango. Una di queste è scegliere come rango il più piccolo $ r $ che minimizza l'errore
+relativo rispetto al rango $ r-1 $. Per un tensore a $ 3 $ indici, l'\emph{errore relativo} è
+definito in questo modo:
+\begin{equation}
+	\varepsilon_{\text{rel}} = \frac{\| T - \dsqr{A,B,C} \|}{\|T\|} = \frac{\left(\sum_{i,j,k}\left( t_{ijk} -
+		\sum_{l=1}^r a_{il}b_{jl}c_{kl}\right)^2 \right)^{\frac{1}{2}}}{\left( \sum_{i,j,k}
+		t_{ijk}
+		\right)^{\frac{1}{2}}}.
+\end{equation}
+
 
 \subsection*{Rango tipico}
 \label{sec:rango_tipico}
@@ -734,11 +748,11 @@ gaussiane).
 Mentre per le matrici il rango tipico è unico e coincide con il massimo rango possibile, per i
 tensori di ordine superiore a due. In particolare su $\mathbb{R}$ possono coesistere
 più ranghi tipici, mentre su $\mathbb{C}$ il rango tipico è sempre unico. La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
-Per studiare empiricamente questo comportamento, abbiamo implementato un esperimento numerico.
+Per verificare questi risultati, abbiamo implementato un esperimento numerico.
 Selezionando alcuni formati, abbiamo generato dei tensori casuali con entrate estratte
 indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
 distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
-usando l'algoritmo ALS interrompendo una volta raggiunto un errore relativo inferiore a
+usando l'algoritmo ALS\todo{ref} interrompendo una volta raggiunto un errore relativo inferiore a
 $10^{-5}$. La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
 distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi tipici e produce frequenze empiriche analoghe.
 
@@ -889,7 +903,29 @@ Introduciamo un lemma di supporto:
 	\end{equation*}
 \end{proof}
 
+\section{Ricostruzione del tensore in formato denso}
+
+In alcune situazioni è utile scrivere il tensore fattorizzato in modo esplicito, ad esempio per
+valutare l'errore di approssimazione o generare numericamente un tensore. Un modo conveniente
+di farlo è il seguente. Data una fattorizzazione $ T = \dsqr{A,B,C} \in \R^{m\times n\times p} $ di
+rango $ r $,
+dato che $ \vec(T) = \left( C \krp B \krp A \right)\bm{1}_{r} $, saremmo tentati di formare la matrice $ C
+	\krp B \krp A $ e moltiplicarla per il vettore di tutti uni $ \bm{1}_{r} $, ma questa matrice ha più
+entrate del risultato finale. L'approccio vincente è considerare $ \Tm{T}{1} = A \left( C \krp B
+	\right)^{\top} $, ovvero
+\begin{equation*}
+	\begin{cases}
+		R = C \krp B,  \\
+		Y = AR^{\top}, \\
+		T = \reshape(T, m \times n\times p).
+	\end{cases}
+\end{equation*}
+Il risultato intermedio $ R \in \R^{np \times r} $ ha costo $ O(npr) $, mentre formare $ Y $ costa $
+	O(mnpr) $. Dato che l'unfolding è sul modo uno, non abbiamo bisogno di permutazioni.
+
+
 \section{Calcolo della fattorizzazione CP}
+\label{sec:computing_cp}
 
 Trattiamo il problema di trovare la migliore approssimazione con rango $ r $ di un dato tensore.
 Studiamo il caso $ d = 3 $.
@@ -899,9 +935,9 @@ problema ai minimi quadrati
 \begin{equation}
 	\min_{A,B,C}\| T - \dsqr{A,B,C}\|^2.
 \end{equation}
-Tale problema puoò essere mal posto per quanto detto sul border rank. Inoltre si tratta di un
-problema non convesso (esistono molti minimi locali \todo{why?}) e dato che ogni tensore ha
-rappresentazioni CP multiple.
+Tale problema può essere mal posto per quanto detto sul border rank. Inoltre si tratta di un
+problema non convesso (esistono molti minimi locali); inoltre un tensore può avere
+fattorizzazioni CP multiple.
 
 \subsubsection{Alternating least-squares}
 

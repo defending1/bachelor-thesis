@@ -9,62 +9,75 @@
 \begin{tikzpicture}[
   >=Stealth,
   thick,
-  source/.style={
-    circle,
-    draw=sourceColor,
-    fill=sourceBg,
-    line width=1.2pt,
-    minimum size=10mm,
-    font=\bfseries\small,
-    text=sourceColor!90!black
+  stickman/.pic={
+    % Head
+    \draw[fill=., draw=., line width=1.2pt] (0, 0.45) circle [radius=0.15];
+    % Torso
+    \draw[line width=1.2pt] (0, 0.3) -- (0, -0.05);
+    % Arms
+    \draw[line width=1.2pt] (-0.2, 0.18) -- (0.2, 0.18);
+    % Legs
+    \draw[line width=1.2pt] (0, -0.05) -- (-0.16, -0.38);
+    \draw[line width=1.2pt] (0, -0.05) -- (0.16, -0.38);
   },
-  antenna/.style={
-    rectangle,
-    rounded corners=4pt,
-    draw=antennaColor,
-    fill=antennaBg,
-    line width=1.2pt,
-    minimum size=10mm,
-    inner sep=4pt,
-    font=\bfseries\small,
-    text=antennaColor!90!black,
-    align=center
+  stickwoman/.pic={
+    % Head
+    \draw[fill=., draw=., line width=1.2pt] (0, 0.45) circle [radius=0.15];
+    % Torso / Dress
+    \draw[fill=., draw=., line width=1.2pt] (0, 0.3) -- (-0.2, -0.05) -- (0.2, -0.05) -- cycle;
+    % Arms
+    \draw[line width=1.2pt] (-0.2, 0.18) -- (0.2, 0.18);
+    % Legs
+    \draw[line width=1.2pt] (-0.08, -0.05) -- (-0.12, -0.38);
+    \draw[line width=1.2pt] (0.08, -0.05) -- (0.12, -0.38);
+  },
+  antenna/.pic={
+    % Base tower structure (triangular mast)
+    \draw[fill=antennaBg, draw=antennaColor, line width=1.2pt] (-0.2, -0.5) -- (0, 0.5) -- (0.2, -0.5) -- cycle;
+    % Crossbars
+    \draw[draw=antennaColor, line width=0.9pt] (-0.14, -0.2) -- (0.14, -0.2);
+    \draw[draw=antennaColor, line width=0.9pt] (-0.08, 0.15) -- (0.08, 0.15);
+    % Top antenna mast tip
+    \draw[draw=antennaColor, line width=1.4pt] (0, 0.5) -- (0, 0.8);
+    \fill[antennaColor] (0, 0.8) circle [radius=0.05];
+    % Signal arcs at top
+    \draw[draw=antennaColor!80, line width=1.0pt] (0.08, 0.72) arc (-30:30:0.16);
+    \draw[draw=antennaColor!80, line width=1.0pt] (0.14, 0.66) arc (-30:30:0.28);
+    \draw[draw=antennaColor!80, line width=1.0pt] (-0.08, 0.72) arc (210:150:0.16);
+    \draw[draw=antennaColor!80, line width=1.0pt] (-0.14, 0.66) arc (210:150:0.28);
   },
   signalLine1/.style={->, draw=edgeBlue!80, line width=1.1pt},
   signalLine2/.style={->, draw=edgeGreen!80, line width=1.1pt},
-  signalLine3/.style={->, draw=edgePurple!80, line width=1.1pt},
-  annot/.style={font=\small, color=gray!80!black}
+  signalLine3/.style={->, draw=edgePurple!80, line width=1.1pt}
 ]
 
-  % --- LEFT COLUMN: SOURCES (R = 3) ---
-  \node[source] (s1) at (0, 2.2) {$s_1$};
-  \node[source] (s2) at (0, 0.0) {$s_2$};
-  \node[source] (s3) at (0, -2.2) {$s_3$};
+  % --- USER POSITIONS (stickmen in 2D plane) ---
+  \coordinate (u1) at (-3.8, 1.8);
+  \coordinate (u2) at (-3.2, -1.8);
+  \coordinate (u3) at (3.6, 0.2);
 
-  % Labels for sources
-  \node[left=6pt of s1, font=\small\bfseries, color=sourceColor!90!black] {Source 1};
-  \node[left=6pt of s2, font=\small\bfseries, color=sourceColor!90!black] {Source 2};
-  \node[left=6pt of s3, font=\small\bfseries, color=sourceColor!90!black] {Source 3};
+  \pic[edgeBlue!80] at (u1) {stickman};
+  \pic[edgeGreen!80] at (u2) {stickman};
+  \pic[edgePurple!80] at (u3) {stickwoman};
 
-  % --- RIGHT COLUMN: ANTENNAE (I = 2) ---
-  \node[antenna] (a1) at (5.5, 1.2) {Antenna 1\\$\boldsymbol{x}_1$};
-  \node[antenna] (a2) at (5.5, -1.2) {Antenna 2\\$\boldsymbol{x}_2$};
+  % --- ANTENNA POSITIONS (antennae in 2D plane) ---
+  \coordinate (a1) at (-0.5, 1.2);
+  \coordinate (a2) at (0.5, -1.2);
 
-  % Labels for antennae
-  \node[right=6pt of a1, font=\small\bfseries, color=antennaColor!90!black] {Receiver 1};
-  \node[right=6pt of a2, font=\small\bfseries, color=antennaColor!90!black] {Receiver 2};
+  \pic at (a1) {antenna};
+  \pic at (a2) {antenna};
 
-  % --- SIGNAL TRANSMISSION EDGES (COMPLETE BIPARTITE K_{3,2}) ---
-  % From s1
-  \draw[signalLine1] (s1) -- (a1);
-  \draw[signalLine1] (s1) -- (a2);
+  % --- SIGNAL TRANSMISSION EDGES ---
+  % From User 1 (u1)
+  \draw[signalLine1] ($(u1)+(0.25, 0.1)$) -- ($(a1)+(-0.35, 0.2)$);
+  \draw[signalLine1] ($(u1)+(0.25, -0.1)$) -- ($(a2)+(-0.35, 0.3)$);
 
-  % From s2
-  \draw[signalLine2] (s2) -- (a1);
-  \draw[signalLine2] (s2) -- (a2);
+  % From User 2 (u2)
+  \draw[signalLine2] ($(u2)+(0.25, 0.2)$) -- ($(a1)+(-0.35, -0.3)$);
+  \draw[signalLine2] ($(u2)+(0.25, 0.0)$) -- ($(a2)+(-0.35, -0.2)$);
 
-  % From s3
-  \draw[signalLine3] (s3) -- (a1);
-  \draw[signalLine3] (s3) -- (a2);
+  % From User 3 (u3, to the right of antennae)
+  \draw[signalLine3] ($(u3)+(-0.25, 0.2)$) -- ($(a1)+(0.35, 0.1)$);
+  \draw[signalLine3] ($(u3)+(-0.25, -0.1)$) -- ($(a2)+(0.35, 0.1)$);
 
 \end{tikzpicture}
