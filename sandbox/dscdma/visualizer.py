@@ -51,21 +51,36 @@ def draw_stickman(
     # 2. Stickman Figure
     head_radius = size * 0.20
     head_center = (x, y + size * 0.65)
-    head = Circle(head_center, head_radius, facecolor=color, edgecolor="black", linewidth=0.8, zorder=6)
+    head = Circle(
+        head_center,
+        head_radius,
+        facecolor=color,
+        edgecolor="black",
+        linewidth=0.8,
+        zorder=6,
+    )
     ax.add_patch(head)
 
     # Torso, Arms, and Legs
     verts = [
-        (x, y + size * 0.43), (x, y + size * 0.1),  # Torso
-        (x - size * 0.28, y + size * 0.30), (x + size * 0.28, y + size * 0.30),  # Arms
-        (x, y + size * 0.1), (x - size * 0.22, y - size * 0.25),  # Left Leg
-        (x, y + size * 0.1), (x + size * 0.22, y - size * 0.25),  # Right Leg
+        (x, y + size * 0.43),
+        (x, y + size * 0.1),  # Torso
+        (x - size * 0.28, y + size * 0.30),
+        (x + size * 0.28, y + size * 0.30),  # Arms
+        (x, y + size * 0.1),
+        (x - size * 0.22, y - size * 0.25),  # Left Leg
+        (x, y + size * 0.1),
+        (x + size * 0.22, y - size * 0.25),  # Right Leg
     ]
     codes = [
-        MPath.MOVETO, MPath.LINETO,
-        MPath.MOVETO, MPath.LINETO,
-        MPath.MOVETO, MPath.LINETO,
-        MPath.MOVETO, MPath.LINETO,
+        MPath.MOVETO,
+        MPath.LINETO,
+        MPath.MOVETO,
+        MPath.LINETO,
+        MPath.MOVETO,
+        MPath.LINETO,
+        MPath.MOVETO,
+        MPath.LINETO,
     ]
     path = MPath(verts, codes)
     patch = PathPatch(path, edgecolor=color, linewidth=2.0, zorder=6)
@@ -95,7 +110,9 @@ def estimate_antenna_positions(
     best_antenna_pos_est = np.zeros((I, 2), dtype=np.float64)
 
     # Evaluate column permutations if R is small (<= 8) to map columns to users
-    permutations = list(itertools.permutations(range(R))) if R <= 8 else [tuple(range(R))]
+    permutations = (
+        list(itertools.permutations(range(R))) if R <= 8 else [tuple(range(R))]
+    )
 
     for perm in permutations:
         u_perm = user_pos[list(perm), :]
@@ -126,7 +143,7 @@ def plot_antenna_and_radii(
     antenna_pos_true: np.ndarray,
     A_est: np.ndarray,
     antenna_pos_est: Optional[np.ndarray] = None,
-    title: str = "DS-CDMA User & Antenna Positions with Distance Circles",
+    title: str = "User & Antenna Positions Recover using CP ALS",
     save_path: Optional[str] = None,
     show: bool = False,
 ) -> Tuple[plt.Figure, plt.Axes]:
@@ -174,7 +191,7 @@ def plot_antenna_and_radii(
                 linestyle="--",
                 linewidth=1.2,
                 alpha=0.6,
-                label=f"Rec Ant {i+1} Circles" if r == 0 else None,
+                label=f"Rec Ant {i + 1} Circles" if r == 0 else None,
             )
             ax.add_patch(circle)
 
@@ -189,7 +206,7 @@ def plot_antenna_and_radii(
             label="Users" if r == 0 else None,
         )
         ax.annotate(
-            f"  U{r+1}",
+            f"  U{r + 1}",
             (user_pos[r, 0], user_pos[r, 1] + 3.4),
             fontsize=10,
             fontweight="bold",
@@ -211,7 +228,7 @@ def plot_antenna_and_radii(
     )
     for i in range(I):
         ax.annotate(
-            f"  A{i+1} (True)",
+            f"  A{i + 1} (True)",
             (antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
             fontsize=9,
             color="crimson",
@@ -232,7 +249,7 @@ def plot_antenna_and_radii(
             label="Recovered Antennae" if i == 0 else None,
         )
         ax.annotate(
-            f"  A{i+1} (Rec)",
+            f"  A{i + 1} (Rec)",
             (antenna_pos_est[i, 0], antenna_pos_est[i, 1]),
             fontsize=9,
             fontweight="bold",
@@ -252,9 +269,11 @@ def plot_antenna_and_radii(
 
     if save_path:
         out_file = Path(save_path)
+        if out_file.suffix.lower() != ".pdf":
+            out_file = out_file.with_suffix(".pdf")
         out_file.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(out_file, dpi=300, bbox_inches="tight")
-        print(f"Saved figure to: {out_file.resolve()}")
+        fig.savefig(out_file, format="pdf", bbox_inches="tight")
+        print(f"Saved figure in PDF mode to: {out_file.resolve()}")
 
     if show:
         plt.show()

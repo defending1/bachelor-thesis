@@ -86,8 +86,6 @@ def solve_cp_als(
 
     if restore_physical_scale:
         J, K = tensor.shape[1], tensor.shape[2]
-        if weights is not None:
-            A_est = A_est * weights[np.newaxis, :]
         norm_C = np.linalg.norm(C_est, axis=0, keepdims=True)
         norm_S = np.linalg.norm(S_est, axis=0, keepdims=True)
         norm_C = np.maximum(norm_C, 1e-12)

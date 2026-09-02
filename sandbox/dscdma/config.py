@@ -27,7 +27,7 @@ class SimConfig:
     num_symbols: int = 100  # K
     area_side: float = 100.0
     min_dist: float = 0.1
-    seed: Optional[int] = 42
+    seed: Optional[int] = None
 
     def validate(self) -> None:
         """
