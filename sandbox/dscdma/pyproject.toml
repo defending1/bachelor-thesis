@@ -5,6 +5,7 @@ description = "DS-CDMA 3D Tensor Synthesis and CP-ALS Factor Recovery"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "matplotlib>=3.10.9",
     "numpy>=1.24.0",
     "scipy>=1.10.0",
     "tensorly>=0.8.1",
