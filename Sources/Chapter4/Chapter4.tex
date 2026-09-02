@@ -5,14 +5,14 @@
 
 \todo{why eccitation-emission matrices hanno rango 1?}
 
-\section{Fluorescenza spettroscopica}
+\section{Spettroscopia fluorescente}
 
-La \emph{fluorescenza spettroscopica} è una tecnica di analisi che usa la luce per identificare
-sostanze chimiche per capirne la composizione. A grandi linee si divide in tre passaggi, illustrati
-nella Figura~\ref{fig:spectroscopy}: \emph{eccitazione}: si proietta un fascio di luce sul campione;
-\emph{transizione}: l'energia assorbita dalle particelle del campione le spinge in uno stato di eccitazione;
-\emph{emissione}: le molecole perdono una parte dell'energia sotto forma di luce, di
-colore diverso da quello orignale a seconda della sostanza e dell'energia dispersa.
+Nella \emph{spettroscopia fluorescente}, un campione chimico è eccitato (e.g. tramite una luce), e
+la luce che viene emessa viene misurata a diverse lunghezze d'onda, risultando in una matrice di
+\emph{eccitazione-emissione} (EEM) di intensità fluorescenti (si veda Figura~\ref{fig:spectroscopy}). Quando i dati EEM vengono raccolti da
+diversi campioni, otteniamo un tensore a tre indici. Questi dati si possono utilizzare nella chimica
+analitica per stimare le concentrazioni e gli spettri dei composti chimici a
+partire da più miscele.
 
 \begin{figure}[htbp]
 	\centering
@@ -21,9 +21,7 @@ colore diverso da quello orignale a seconda della sostanza e dell'energia disper
 	\label{fig:spectroscopy}
 \end{figure}
 
-\todo{Principali references: \cite{smilde2004multi}\S 10.2, for descriptions:
-	\cite{landsberg2011tensors, BK25}}
-Vengono dati $ I $ campioni di soluzioni chimiche, ognuno dei quali contiene diverse sostanze
+Nel dettaglio, vengono dati $ I $ campioni di soluzioni chimiche, ognuno dei quali contiene diverse sostanze
 diluite in diverse concentrazioni. Il primo obiettivo è determinare il numero $ r $ delle diverse
 sostanze presenti.
 Il dataset che analizziamo~\cite{kolda2021eem,acar2014structure} è composto da una serie di esperimenti riportati
@@ -34,6 +32,9 @@ sono tre sostanze chimiche disciolte nelle soluzioni:
 	\item \emph{Tryptophan-Glycine} (Trp-Gly) - peptide,
 	\item \emph{Phenylalanine} (Phe) - amino acid.
 \end{itemize}
+Segnaliamo che i dati sono stati preprocessati dagli autori per riempire i dati mancanti e
+sostituire le entrate negative, come spiegato in~\cite{kolda2021eem}.
+
 Ogni campione, diciamo il numero $ i $-esimo è
 successivamente eccitato da una luce in $ J $ diverse lunghezze d'onda. Per ogni lunghezza d'onda di
 eccitazione, viene misurato lo spettro emesso. Diciamo che l'intensità della luce fluorescente
@@ -58,7 +59,8 @@ ogni $ f $ rappresenti una sostanza.
 
 Il dataset analizzato contiene le misurazioni di matrici di eccitazione-emissione (EEM) per 18
 campioni, ognuno dei quali consiste in una miscela dei tre composti chimici sopra (Val-Tyr-Val,
-Trp-Gly e Phe). I dati sono organizzati in un tensore tridimensionale di dimensioni $18 \times 251
+Trp-Gly e Phe). I dati sono organizzati in un tensore tridimensionale di dimensioni $ I \times  J
+	\times K = 18 \times 251
 	\times 21$, corrispondenti rispettivamente ai campioni, alle lunghezze d'onda di emissione (da 250 a
 500 nm) e alle lunghezze d'onda di eccitazione (da 210 a 310 nm). Una rappresentazione
 tridimensionale del tensore è mostrata in figura~\ref{fig:piled_tensor}, mentre alcune sezioni di
@@ -66,22 +68,29 @@ matrici di eccitazione-emissione sono visualizzate in figura~\ref{fig:x_slices}.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.75\textwidth]{Sources/Chapter4/figures/piled_tensor.pdf}
+	\includegraphics[width=0.85\textwidth]{Sources/Chapter4/figures/piled_tensor.pdf}
 	\caption{Rappresentazione tridimensionale del tensore EEM di dimensioni $18 \times 251 \times 21$.}
 	\label{fig:piled_tensor}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{Sources/Chapter4/figures/X-slices.pdf}
-	\caption{Visualizzazione di alcune matrici di eccitazione-emissione (EEM) per diversi campioni.}
+	\includegraphics[width=0.60\textwidth]{Sources/Chapter4/figures/X-slices.pdf}
+	\caption{Profili d'intensità di emissione-eccitazione del tensore EEM. I profili corrispondono
+		alle fette orizzontali del tensore, ordinate dall'alto ($ T_{1,:,:} $) al basso ($ T_{18,:,:} $)
+		Visualizzazione di alcune matrici di eccitazione-emissione (EEM) per diversi campioni. Ogni
+		profilo è etichettato a destra con le concentrazioni dei tre composti chimici
+		(Val-Tyr-Val/Trp-Gly/Phe). Ogni profilo copre $ 21 $ lunghezze d'onda d'eccitazione $ (210,215, \ldots., 310
+			\text{ nm}) $ da $ 251 $ lunghezze d'onda di emissione $ (250,251, \ldots, 500 \text{nm}). $}
 	\label{fig:x_slices}
 \end{figure}
 
 
 Cerchiamo una fattorizzazione approssimata di $ \hat{T} $ con le tecniche descritte nella \S~\ref{sec:computing_cp}. Fissata una
-tolleranza $ \varepsilon $ piccola applichiamo il procedimento
-dell'Algoritmo~\ref{alg:tensor_approx}, ripetendo. La ricerca di $ \hat{T} $ viene ripetuta attraverso una serie di restarts per evitare minimi locali. Nell'articolo originale~\cite{smilde2004multi} vengono anche esclusi i tensori che non sono
+tolleranza $ \varepsilon $ piccola, applichiamo il procedimento
+dell'Algoritmo~\ref{alg:tensor_approx}. La ricerca di $ \hat{T} $ viene ripetuta attraverso una
+serie di restarts per evitare minimi locali, al termine dei quali viene restituito il tensore che
+minimizza l'errore relativo $ \varepsilon_{\text{rel}} $. Nell'articolo originale~\cite{smilde2004multi} vengono anche esclusi i tensori che non sono
 ragionevoli da un punto di vista fisico per rimuovere valori di $ r $ troppo piccoli. Per i nostri scopi ci limitiamo a imporre che le quantità fisiche coinvolte (concentrazioni, intensità di emissione ed eccitazione) siano non negative, per cui si scartano le decomposizioni che presentano fattori negativi.
 
 \begin{algorithm}[htbp]
@@ -99,7 +108,9 @@ ragionevoli da un punto di vista fisico per rimuovere valori di $ r $ troppo pic
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\textwidth]{Sources/Chapter4/figures/eem_cp_error_vs_rank.pdf}
-	\caption{Errore relativo di ricostruzione al variare del rango della decomposizione CP. Il rango ottimale selezionato è $R^* = 3$, corrispondente al superamento della tolleranza target $\varepsilon = 0.05$.}
+	\caption{Errore relativo al variare del rango della decomposizione approssimante. Il rango
+		ottimale selezionato è $r = 3$, corrispondente al superamento della tolleranza target
+		$\varepsilon = 0.05$. Osserviamo che la precisione non varia di molto all'aumentare di $ r $.}
 	\label{fig:eem_cp_error_vs_rank}
 \end{figure}
 
@@ -110,7 +121,14 @@ sarà unica grazie al Teorema di Kruskal~\ref{thm:kruskal3d}. Quindi, decomponen
 possiamo recuperare la concentrazione
 di ognuna delle $ r $ sostanze in ogni soluzione, determinando i vettori $ a_{f} $ così come lo
 spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
-La figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le concentrazioni reali delle tre sostanze.
+La figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le concentrazioni reali
+delle tre sostanze, arrestando CP ALS quando la differenza dell'errore relativo tra due iterazioni
+susseguenti è minore di $ 10^{-4} $. Nel grafico sono tracciati i fattori $ a_{f},b_{f},c_{f} $ della decomposizione
+CP, dove ogni riga $ f  = 1,2,3 $ rappresenta una sostanza diversa (scritta in sottoimpressione). Ad
+esempio, la componente $ a_1 $ sono le barre blu nella prima sottofigura in alto a sinistra, dove
+notiamo che i primi due fattori di $ a_{1} $ sono nulli, che significa che la componente non è
+presente nei primi due campioni. Nella colonna centrale in alto denotiamo le componenti individuali di $ b_1
+$, che sono $ 256 $, con dei punti. Il terzo fattore $ c_1 $ è rappresentato nella figura in alto a destra.
 
 
 \begin{figure}[htbp]
@@ -120,6 +138,7 @@ La figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le c
 	\label{fig:eem_model}
 \end{figure}
 
+\pagebreak
 
 \section{Blind deconvolution di segnali}
 
