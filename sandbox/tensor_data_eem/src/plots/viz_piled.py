@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Affine2D
 import numpy as np
 from pathlib import Path
 
 from plots.colormaps import parula_map
-from plots.utils import setup_plot_style, get_wavelength_ranges
+from plots.utils import setup_plot_style
 from cp.decomposition import load_eem_data
 
 def visualize_eem_piled(mat_path: Path = Path("EEM18.mat"),
@@ -11,149 +12,130 @@ def visualize_eem_piled(mat_path: Path = Path("EEM18.mat"),
                          output_png: Path = Path("piled_tensor.png"),
                          step: int = 14):
     """
-    Generate a publication-quality 3D piled representation of the EEM tensor,
-    matching the textbook style.
+    Generate a publication-quality piled 3D-oblique representation of the EEM tensor,
+    matching textbook figure 1.7 (eem.png), extended horizontally.
     """
     # Configure plotting style
     setup_plot_style()
 
     # Load data using central CP utility
     data = load_eem_data(mat_path)
-    X = data['X']
-    mode_ranges = data['mode_ranges']
+    X = data['X'] # Shape: (18, 251, 21)
 
-    # Get wavelength ranges
-    em_range, ex_range = get_wavelength_ranges(mode_ranges)
-    sample_range = np.arange(1, 19)
-
-    fig = plt.figure(figsize=(10, 4.5))
-    ax = fig.add_subplot(111, projection='3d')
-    fig.subplots_adjust(left=-0.03, right=1.03, bottom=-0.03, top=1.03)
-
-    # Hide default axis ticks, plane, background, and grid
-    ax.set_axis_off()
+    n_samples, n_emissions, n_excitations = X.shape
 
     # Choose slice indices
-    slice_indices = np.arange(0, len(em_range), step)
+    slice_indices = np.arange(0, n_emissions, step)
+    if slice_indices[-1] != n_emissions - 1:
+        slice_indices = np.append(slice_indices, n_emissions - 1)
+
     print(f"Generating piled tensor visualization: {len(slice_indices)} slices with step {step}")
 
     vmax = np.max(X)
     vmin = np.min(X)
 
-    # Grid for the slices (YY is excitations, ZZ is samples)
-    YY, ZZ = np.meshgrid(ex_range, sample_range)
+    # Setup 2D canvas with equal aspect ratio for precise oblique geometry (extended horizontally)
+    fig, ax = plt.subplots(figsize=(15.5, 3.6), dpi=300)
+    ax.set_aspect('equal')
+    ax.axis('off')
 
-    # Draw slices
+    # Oblique projection geometry matching eem.png (extended horizontal width W = 18.0)
+    W = 18.0       # Horizontal width (251 emissions) - extended horizontally
+    H = 1.6        # Vertical height (18 samples)
+    D = 1.05       # Oblique depth (21 excitations)
+    theta = np.radians(38.0) # Angle of depth vector
+    cos_t = np.cos(theta)
+    sin_t = np.sin(theta)
+    dx = D * cos_t
+    dy = D * sin_t
+
+    # 1. Outer faces of main cuboid
+    top_poly = plt.Polygon([[0, H], [W, H], [W + dx, H + dy], [dx, H + dy]],
+                           facecolor='#8e92e3', alpha=0.35, edgecolor='none', zorder=1)
+    bot_poly = plt.Polygon([[0, 0], [W, 0], [W + dx, dy], [dx, dy]],
+                           facecolor='#8a8de0', alpha=0.30, edgecolor='none', zorder=1)
+    back_poly = plt.Polygon([[dx, dy], [W + dx, dy], [W + dx, H + dy], [dx, H + dy]],
+                            facecolor='#261c6b', alpha=0.20, edgecolor='none', zorder=1)
+
+    ax.add_patch(bot_poly)
+    ax.add_patch(top_poly)
+    ax.add_patch(back_poly)
+
+    # 2. Draw lateral slices back-to-front (left to right)
     for idx in slice_indices:
-        em_val = em_range[idx]
+        u_xk = idx / float(n_emissions - 1)
         slice_data = X[:, idx, :]  # Shape: (18, 21)
 
-        # Normalize slice data to [0, 1] relative to the overall tensor maximum
-        norm_data = (slice_data - vmin) / (vmax - vmin)
-        colors = parula_map(norm_data)
+        # Power-law normalization to enhance visibility of spectral peaks (matching MATLAB / textbook)
+        norm_val = np.clip((slice_data - vmin) / (vmax - vmin), 0, 1)
+        norm_display = norm_val ** 0.6
 
-        # Apply non-linear opacity mapping for depth clarity (more visible slices)
-        base_alpha = 0.22
-        colors[..., 3] = base_alpha + (0.90 - base_alpha) * (norm_data ** 1.2)
+        # Map colors with parula
+        colors = parula_map(norm_display)
 
-        XX = np.full_like(YY, em_val)
+        # Opacity mapping: background slices alpha ~ 0.75, signal peaks ~ 0.95
+        alpha = 0.75 + 0.20 * (norm_display ** 0.8)
+        colors[..., 3] = alpha
 
-        # Plot 3D surface representing the lateral slice panel
-        ax.plot_surface(XX, YY, ZZ, facecolors=colors, shade=False,
-                        rstride=1, cstride=1, antialiased=True,
-                        edgecolor='none', linewidth=0)
+        x_f = u_xk * W
 
-        # Draw a subtle violet outline around the panel
-        bx = [em_val, em_val, em_val, em_val, em_val]
-        by = [ex_range[0], ex_range[-1], ex_range[-1], ex_range[0], ex_range[0]]
-        bz = [sample_range[0], sample_range[0], sample_range[-1], sample_range[-1], sample_range[0]]
-        ax.plot3D(bx, by, bz, color='#3b0066', alpha=0.3, linewidth=0.6)
+        # 2D affine transform matrix mapping slice rectangle to oblique parallelogram
+        tr_matrix = np.array([
+            [cos_t, 0.0, x_f],
+            [sin_t, 1.0, 0.0],
+            [0.0,   0.0, 1.0]
+        ])
+        tr = Affine2D(tr_matrix) + ax.transData
 
-    # Bounding box limits
-    x_min, x_max = em_range[0], em_range[-1]
-    y_min, y_max = ex_range[0], ex_range[-1]
-    z_min, z_max = sample_range[0], sample_range[-1]
+        ax.imshow(colors, extent=(0, D, 0, H), origin='lower',
+                  transform=tr, interpolation='nearest', aspect='auto', zorder=2)
 
-    corners = {
-        '000': (x_min, y_min, z_min),
-        '100': (x_max, y_min, z_min),
-        '110': (x_max, y_max, z_min),
-        '010': (x_min, y_max, z_min),
-        '001': (x_min, y_min, z_max),
-        '101': (x_max, y_min, z_max),
-        '111': (x_max, y_max, z_max),
-        '011': (x_min, y_max, z_max)
-    }
+        # Crisp black outline around slice frame
+        slice_poly = plt.Polygon([[x_f, 0], [x_f, H], [x_f + dx, H + dy], [x_f + dx, dy]],
+                                 facecolor='none', edgecolor='black', linewidth=1.2, zorder=3)
+        ax.add_patch(slice_poly)
 
-    edges = [
-        ('000', '100'), ('100', '110'), ('110', '010'), ('010', '000'), # bottom face
-        ('001', '101'), ('101', '111'), ('111', '011'), ('011', '001'), # top face
-        ('000', '001'), ('100', '101'), ('110', '111'), ('010', '011')  # vertical edges
-    ]
+    # 3. Main cuboid outer wireframe
+    # Front face
+    ax.plot([0, W, W, 0, 0], [0, 0, H, H, 0], color='black', linewidth=1.8, zorder=5)
+    # Back face
+    ax.plot([dx, W+dx, W+dx, dx, dx], [dy, dy, H+dy, H+dy, dy], color='black', linewidth=1.8, zorder=5)
+    # Connecting edges
+    ax.plot([0, dx], [0, dy], color='black', linewidth=1.8, zorder=5)
+    ax.plot([W, W+dx], [0, dy], color='black', linewidth=1.8, zorder=5)
+    ax.plot([0, dx], [H, H+dy], color='black', linewidth=1.8, zorder=5)
+    ax.plot([W, W+dx], [H, H+dy], color='black', linewidth=1.8, zorder=5)
 
-    # Draw the main bounding box wireframe
-    for start, end in edges:
-        p1 = corners[start]
-        p2 = corners[end]
-        ax.plot3D([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]],
-                  color='#2c0a4d', alpha=0.8, linewidth=1.5)
+    # 4. Axis labels & arrows matching eem.png
+    # Left: 18 samples (vertical line pointing down)
+    arrow_x = -0.4
+    ax.annotate('', xy=(arrow_x, 0), xytext=(arrow_x, H),
+                arrowprops=dict(arrowstyle='->', color='#333333', lw=1.2))
+    ax.text(arrow_x - 0.25, H / 2, '18 samples', rotation=90, ha='right', va='center',
+            fontsize=11, color='#333333', fontfamily='sans-serif')
 
-    # Configure explicit axis limits to prevent clipping of labels and arrows
-    ax.set_xlim([228, 555])
-    ax.set_ylim([198, 320])
-    ax.set_zlim([-1.0, 19])
+    # Bottom: 251 emissions (horizontal line with right arrow)
+    arrow_y = -0.4
+    ax.annotate('', xy=(W, arrow_y), xytext=(0, arrow_y),
+                arrowprops=dict(arrowstyle='->', color='#333333', lw=1.2))
+    ax.text(W / 2, arrow_y - 0.35, '251 emissions', ha='center', va='top',
+            fontsize=11, color='#333333', fontfamily='sans-serif')
 
-    # Draw custom arrows and labels for axes
-    # 1. 18 samples (vertical, pointing downwards)
-    arrow_x = x_min - 3
-    arrow_y = y_min - 2
-    ax.plot3D([arrow_x, arrow_x], [arrow_y, arrow_y], [z_max, z_min], color='black', linewidth=1.0)
-    # Downward arrowhead
-    dz = 0.6
-    dx = 2.5
-    ax.plot3D([arrow_x, arrow_x - dx], [arrow_y, arrow_y], [z_min, z_min + dz], color='black', linewidth=1.0)
-    ax.plot3D([arrow_x, arrow_x + dx], [arrow_y, arrow_y], [z_min, z_min + dz], color='black', linewidth=1.0)
-    ax.text(arrow_x - 3, arrow_y, (z_max + z_min)/2, "18 samples",
-            color='black', fontsize=8, ha='right', va='center', fontfamily='sans-serif', zdir='z')
+    # Right: 21 excitations (slanted line parallel to depth, label tilted at +50 degrees)
+    start_p = (W + 0.25, -0.05)
+    end_p = (W + dx + 0.25, dy - 0.05)
+    ax.annotate('', xy=end_p, xytext=start_p,
+                arrowprops=dict(arrowstyle='->', color='#333333', lw=1.2))
 
-    # 2. 251 emissions (horizontal, spanning the bottom front edge)
-    arrow_z = z_min - 0.4
-    arrow_y2 = y_min - 2
-    ax.plot3D([x_min, x_max], [arrow_y2, arrow_y2], [arrow_z, arrow_z], color='black', linewidth=1.0)
-    # Double-headed arrowheads
-    dx_head = 6
-    dy_head = 2
-    # Left head
-    ax.plot3D([x_min, x_min + dx_head], [arrow_y2, arrow_y2 - dy_head], [arrow_z, arrow_z], color='black', linewidth=1.0)
-    ax.plot3D([x_min, x_min + dx_head], [arrow_y2, arrow_y2 + dy_head], [arrow_z, arrow_z], color='black', linewidth=1.0)
-    # Right head
-    ax.plot3D([x_max, x_max - dx_head], [arrow_y2, arrow_y2 - dy_head], [arrow_z, arrow_z], color='black', linewidth=1.0)
-    ax.plot3D([x_max, x_max - dx_head], [arrow_y2, arrow_y2 + dy_head], [arrow_z, arrow_z], color='black', linewidth=1.0)
-    ax.text((float(x_min) + float(x_max))/2, arrow_y2 - 2, arrow_z - 0.1, "251 emissions",
-            color='black', fontsize=8, ha='center', va='top', fontfamily='sans-serif', zdir='x')
+    ax.text(W + dx * 0.25 + 0.275, dy * 0.25 - 0.07, '21 excitations', rotation=50.0,
+            ha='left', va='top', fontsize=11, color='#333333', fontfamily='sans-serif')
 
-    # 3. 21 excitations (diagonal, along bottom right edge, pointing away)
-    arrow_x3 = x_max + 3
-    arrow_z3 = z_min - 0.3
-    ax.plot3D([arrow_x3, arrow_x3], [y_min, y_max], [arrow_z3, arrow_z3], color='black', linewidth=1.0)
-    # Arrowhead pointing away (towards y_max) - branch in Z for 3D projection rendering
-    dy_head3 = 4
-    dz_head3 = 0.3
-    ax.plot3D([arrow_x3, arrow_x3], [y_max, y_max - dy_head3], [arrow_z3, arrow_z3 + dz_head3], color='black', linewidth=1.0)
-    ax.plot3D([arrow_x3, arrow_x3], [y_max, y_max - dy_head3], [arrow_z3, arrow_z3 - dz_head3], color='black', linewidth=1.0)
-    ax.text(arrow_x3 + 3, (float(y_min) + float(y_max))/2, arrow_z3, "21 excitations",
-            color='black', fontsize=8, ha='left', va='center', fontfamily='sans-serif', zdir='y')
-
-    # Perspective parameters to match textbook figure 1.7 (X-axis horizontal)
-    ax.view_init(elev=10, azim=-70)
-    # Zoom in by reducing camera distance to remove empty 3D space
-    ax.dist = 2.8
-
-    # Box aspect ratio to represent standard physical dimensions (wider than tall/deep)
-    ax.set_box_aspect((3.0, 0.7, 0.9))
+    ax.set_xlim(-1.2, W + dx + 2.5)
+    ax.set_ylim(-1.1, H + dy + 0.2)
 
     # Save outputs
     output_pdf.parent.mkdir(parents=True, exist_ok=True)
+    output_png.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(output_pdf, format='pdf', bbox_inches='tight', dpi=300)
     plt.savefig(output_png, format='png', bbox_inches='tight', dpi=300)
     plt.close()

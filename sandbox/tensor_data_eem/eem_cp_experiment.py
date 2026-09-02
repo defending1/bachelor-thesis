@@ -3,7 +3,7 @@
 Fluorescence Spectroscopy (EEM) CP Decomposition Rank Selection Experiment.
 
 Loads the Excitation-Emission Matrix (EEM) dataset and fits CP tensor
-decompositions of increasing rank R until a relative reconstruction error
+decompositions of increasing rank r until a relative reconstruction error
 <= target_error is reached. Uses the refactored 'src' modules.
 
 Usage via uv:
@@ -25,7 +25,7 @@ from cp.decomposition import run_experiment
 from plots.utils import setup_plot_style, get_wavelength_ranges
 
 
-def plot_results(results: dict, output_dir: Path):
+def plot_results(results: dict, output_dir: Path, sandbox_dir: Path = None):
     """Generate and save plots for rank vs error and factor components using shared styles."""
     setup_plot_style()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -34,16 +34,15 @@ def plot_results(results: dict, output_dir: Path):
     ranks = [h["rank"] for h in history]
     errors = [h["relative_error"] for h in history]
     errors_pct = [err * 100.0 for err in errors]
-    fits = [h["fit_percentage"] for h in history]
     target_err = results["target_error"]
     final_rank = results["final_rank"]
     final_err = results["final_error"]
 
-    # 1. Plot Error & Fit vs Rank
+    # 1. Plot Error vs Rank
     fig, ax1 = plt.subplots(figsize=(8, 5))
 
     color_err = "#d62728"
-    ax1.set_xlabel("CP Rank ($R$)", fontsize=12, fontweight="bold")
+    ax1.set_xlabel("Rank (r)", fontsize=12, fontweight="bold")
     ax1.set_ylabel(
         r"Relative Error ($\|T - \hat{T}\| / \|T\|$, %)",
         color=color_err,
@@ -85,39 +84,36 @@ def plot_results(results: dict, output_dir: Path):
         color="gray",
         linestyle=":",
         linewidth=1.5,
-        label=f"Final Rank ($R^*={final_rank}$)",
+        label=f"Final Rank ($r={final_rank}$)",
     )
     ax1.set_xticks(ranks)
     ax1.tick_params(axis="y", labelcolor=color_err)
     ax1.grid(True, linestyle=":", alpha=0.6)
     ax1.set_ylim([0, max(errors_pct) + 8])  # Headroom for annotations
 
-    ax2 = ax1.twinx()
-    color_fit = "#1f77b4"
-    ax2.set_ylabel(
-        "Fit Percentage (%)", color=color_fit, fontsize=12, fontweight="bold"
-    )
-    line2 = ax2.plot(
-        ranks, fits, "s--", color=color_fit, linewidth=2, markersize=6, label="Fit %"
-    )
-    ax2.tick_params(axis="y", labelcolor=color_fit)
-
     # Combine legends
-    lines = line1 + [line_target, line_final] + line2
+    lines = line1 + [line_target, line_final]
     labels = [l.get_label() for l in lines]
-    ax1.legend(lines, labels, loc="center right", framealpha=0.9)
+    ax1.legend(lines, labels, loc="upper right", framealpha=0.9)
 
     plt.title(
-        f"EEM CP Decomposition: Error vs Rank (Final $R^*={final_rank}$, $\\epsilon^*={final_err * 100.0:.2f}\\%$)",
+        f"EEM CP Decomposition: Error vs Rank (Final $r={final_rank}$)",
         fontsize=13,
         fontweight="bold",
         pad=15,
     )
     plt.tight_layout()
+    
     error_plot_path_png = output_dir / "eem_cp_error_vs_rank.png"
     error_plot_path_pdf = output_dir / "eem_cp_error_vs_rank.pdf"
     plt.savefig(error_plot_path_png, dpi=300)
     plt.savefig(error_plot_path_pdf, format="pdf")
+    
+    if sandbox_dir:
+        sandbox_dir.mkdir(parents=True, exist_ok=True)
+        plt.savefig(sandbox_dir / "eem_cp_error_vs_rank.png", dpi=300)
+        plt.savefig(sandbox_dir / "eem_cp_error_vs_rank.pdf", format="pdf")
+
     plt.close()
     print(f"Saved plot: {error_plot_path_png}")
     print(f"Saved plot: {error_plot_path_pdf}")
@@ -159,7 +155,7 @@ def plot_results(results: dict, output_dir: Path):
     axes[2].legend()
 
     plt.suptitle(
-        f"CP Factor Components at Rank $R^*={final_rank}$",
+        f"CP Factor Components at Rank $r={final_rank}$",
         fontsize=14,
         fontweight="bold",
     )
@@ -192,7 +188,7 @@ def main():
         "-r",
         type=int,
         default=5,
-        help="Maximum rank R to test (default: 5)",
+        help="Maximum rank r to test (default: 5)",
     )
     parser.add_argument(
         "--n-restarts",
@@ -229,7 +225,7 @@ def main():
         n_iter_max=args.n_iter_max,
     )
 
-    plot_results(results, args.plot_dir)
+    plot_results(results, args.plot_dir, sandbox_dir=script_dir)
 
     # Save JSON summary (without numpy arrays)
     summary_data = {
