@@ -21,10 +21,6 @@ def generate_spatial_channel(
     """
     Generates a real channel gain matrix A based on 2D Euclidean distances.
 
-    1. Antenna positions p_i ~ Uniform([0, area_side]^2) for i = 1..I
-    2. User positions p_r ~ Uniform([0, area_side]^2) for r = 1..R
-    3. Distance matrix D where d_ir = max(||p_i - p_r||_2, min_dist)
-    4. Channel matrix A where a_ir = Re(1 / d_ir) = 1 / d_ir
 
     Args:
         num_antennas (int): Number of receiver antennas (I).
@@ -39,17 +35,19 @@ def generate_spatial_channel(
             - antenna_pos: Antenna coordinates of shape (I, 2)
             - user_pos: User coordinates of shape (R, 2)
     """
+    # Antenna positions p_i ~ Uniform([0, area_side]^2) for i = 1..I
     antenna_pos = rng.uniform(0.0, area_side, size=(num_antennas, 2))
+
+    # User positions p_r ~ Uniform([0, area_side]^2) for r = 1..R
     user_pos = rng.uniform(0.0, area_side, size=(num_sources, 2))
 
     # Compute Euclidean distance matrix D of shape (I, R)
-    # diff: (I, 1, 2) - (1, R, 2) -> (I, R, 2)
     diff = antenna_pos[:, np.newaxis, :] - user_pos[np.newaxis, :, :]
     distances = np.linalg.norm(diff, axis=2)
 
     # Apply lower bound threshold to avoid division by zero
     distances = np.maximum(distances, min_dist)
 
-    # Channel gain: Real part of 1 / distance (since distance is real scalar > 0, 1/d is real)
+    # Channel gain: Real part of 1 / distance
     A = 1.0 / distances
     return A, antenna_pos, user_pos

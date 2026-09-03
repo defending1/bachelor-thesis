@@ -8,9 +8,9 @@ using spatial 2D channel matrix A, random binary codes C, and generic real signa
 from typing import Dict, Any
 import numpy as np
 
-from config import SimConfig
-from codes import generate_spreading_codes
-from channel import generate_spatial_channel
+from dscdma.config import SimConfig
+from dscdma.codes import generate_spreading_codes
+from dscdma.channel import generate_spatial_channel
 
 
 def tensor_reconstruct(A: np.ndarray, C: np.ndarray, S: np.ndarray) -> np.ndarray:

@@ -2,16 +2,9 @@
 Unit tests for DS-CDMA TensorLy CP-ALS factor decomposition and reconstruction error.
 """
 
-import sys
-from pathlib import Path
-import numpy as np
-import pytest
-
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from config import SimConfig
-from generator import DSCDMADatasetGenerator
-from cp_solver import solve_cp_als, relative_error
+from dscdma.config import SimConfig
+from dscdma.generator import DSCDMADatasetGenerator
+from dscdma.cp_solver import solve_cp_als, relative_error
 
 
 def test_solve_cp_als_reconstruction():

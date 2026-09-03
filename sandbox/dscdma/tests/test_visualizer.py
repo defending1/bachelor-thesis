@@ -4,12 +4,10 @@ Unit tests for DS-CDMA visualizer and antenna position estimation.
 
 from pathlib import Path
 import numpy as np
-import pytest
 
-from config import SimConfig
-from generator import DSCDMADatasetGenerator
-from cp_solver import solve_cp_als
-from visualizer import estimate_antenna_positions, plot_antenna_and_radii
+from dscdma.config import SimConfig
+from dscdma.generator import DSCDMADatasetGenerator
+from dscdma.plot import estimate_antenna_positions, plot_antenna_and_radii
 
 
 def test_estimate_antenna_positions():
