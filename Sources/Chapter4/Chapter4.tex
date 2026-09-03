@@ -4,6 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \todo{why eccitation-emission matrices hanno rango 1?}
+In questo capitolo esploreremo due applicazioni della decomposizione CP di un tensore a tre indici
+in due ambiti modellistici,
+dove avremo modo di applicare il Teorema di Kruskal~\ref{thm:kruskal3d} e l'algoritmo Alternating
+Least Squares. Nel primo esperimento il rango non sarà noto a priori e dovremo prima approssimarlo,
+per poi trovare una decomposizione. Nel secondo conosceremo il rango a priori\todo{improve}.
 
 \section{Spettroscopia fluorescente}
 
@@ -142,16 +147,17 @@ $, che sono $ 256 $, con dei punti. Il terzo fattore $ c_1 $ è rappresentato ne
 
 \section{Blind deconvolution di segnali}
 
-Un problema tipico dell'analisi di segnali è il \emph{problema del cocktail party}, dove un insieme
+Nel \emph{problema del cocktail party} un insieme
 di persone si trova in una stanza a parlare. Ci sono diversi ricevitori impostati che registrano le
 conversazioni: non singolarmente ma tutte insieme, sovrapposte. L'obiettivo è recuperare cosa ogni
-persona sta dicendo. Questo "unmixing" si può ottenere usando la decomposizione CP. Questo problema
+persona sta dicendo. Questo ``unmixing'' si può ottenere usando la decomposizione CP. Questo problema
 è noto nell'analisi di segnali come \emph{blind deconvolution}, utilizzata nel campo delle
 telecomunicazioni nel modello wireless \emph{direct-sequence code-division multiple
 	access} (DS-CDMA)~\cite{sidiropoulos2000blind,de2008blind,landsberg2011tensors} che riadattiamo in
-questa sezione insieme a una breve sperimentazione numerica.
+questa sezione.
 
-Per semplicità supponiamo che $ R $ utenti mandano dei messaggi a $ I $ antenne. I messaggi arrivano mischiati, e l'obiettivo è recuperare i segnali individuali.
+Per semplicità supponiamo che $ R $ utenti mandino dei messaggi a $ I $ antenne. I messaggi arrivano
+mischiati, e l'obiettivo è recuperare i segnali individuali e le posizioni di utenti e antenne.
 
 
 \begin{figure}[htbp]
@@ -174,10 +180,10 @@ In questo scenario si riceve un tensore $ T \in \C^{I \times K} $ di rango $ R $
 \end{equation*}
 L'obiettivo sarebbe recuperare i segnali $ s_{r} $, per $ 1\le r \le R $ da questo tensore
 (matrice) decomponendole come matrici di rango uno. Sfortunatamente, questa decomposizione non è mai
-unica quando $ R > 1 $. La soluzione è introdurre dei ``codici'' per ``diffondere'' il segnale che
+unica quando $ R > 1 $. Per aggirare il problema, vengono introdotti dei ``codici'' per ``diffondere'' il segnale che
 ogni utente invia per ottenere un tensore a tre indici che avrà generalmente una decomposizione
-unica. Tale spreading è comune nelle telecomunicazioni, e.g. della ridondanza è introdotta per
-compensare gli errori causati dalla corruzione dei segnali durante la trasmissione.
+unica.\footnote{Tale spreading è comune nelle telecomunicazioni, e.g. della ridondanza è introdotta per
+	compensare gli errori causati dalla corruzione dei segnali durante la trasmissione.}
 
 Facciamo le seguenti ipotesi sulla trasmissione dei segnali: la trasmissione avviene in linea
 d'aria, seguendo la strada più breve (secondo la distanza euclidea) senza incontrare ostacoli; i

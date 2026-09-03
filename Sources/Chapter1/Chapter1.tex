@@ -117,6 +117,7 @@ Questo ci permette di definire la seguente quantità fondamentale:
 
 Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 
+\todo{Sposta sotto ordinamento}
 \begin{definition}[Prodotto di Kroneker]
 	\label{def:krn}
 	Date due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{p \times q} $, il loro prodotto
@@ -133,6 +134,28 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
 
 \end{definition}
+\begin{remark}
+	\label{rmk:rk_krn_prod}
+	Dalla definizione di prodotto di Kroneker, segue che
+	\begin{equation*}
+		\rank(A \krn B) = \rank(A)\rank(B).
+	\end{equation*}
+	Un modo per dimostrarlo è considerare le decomposizioni ai valori singolari (SVD) di $ A = U
+		\Sigma V^* $ e $ B = U' \Sigma' V'^*$, e calcolare
+	\begin{equation*}
+		\begin{aligned}
+			A \krn B & = \left(U \Sigma V^*\right) \krn \left( U' \Sigma' V'^* \right)                   \\
+			         & = \left( U \krn U' \right)\left( \Sigma \krn \Sigma' \right) \left( V^* \krn V'^*
+			\right),
+		\end{aligned}
+	\end{equation*}
+	dove la seconda uguaglianza seque dalla proprietà $ (AC \krn BD) = (A \krn B)(C \krn D) $ del
+	prodotto di Kroneker. Siccome le matrici $ U,U' $ e $ V,V' $ sono ortogonali (e quindi
+	invertibili), anche $ U \krn U' $ e $ V^* \krn V'^*$ sono ortogonali. Quindi
+	\begin{equation*}
+		\rank(A \krn B) = \rank(\Sigma \krn \Sigma') = \rank(\Sigma)\rank(\Sigma') = \rank(A)\rank(B).
+	\end{equation*}
+\end{remark}
 \begin{remark}[Prodotto di Kroneker come vettorizzazione del prodotto tensore]
 	\label{rmk:krn_tensor}
 	Dati due vettori $ u \in \R^m $ e $ v \in \R^n $, il loro prodotto di Kroneker si può vedere come
@@ -476,9 +499,10 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 \end{figure}
 L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
 
-\begin{definition}[Multirank]
-	Il \emph{multilinear rank} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
-		(r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}  $.
+\begin{definition}[Rango multilineare]
+	Il \emph{rango multilineare} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
+		(r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}
+	$. Lo denotiamo con $ \multirk(T) $.
 \end{definition}
 
 
@@ -587,22 +611,6 @@ chiama.
 
 
 \todo{Esempio polinomio semisep + altro es}
-
-\begin{definition}[Prodotto Khatri-Rao]
-	Date due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times r} $, il loro \emph{prodotto
-		Khatri-Rao} è dato da
-	\begin{equation}
-		C = A \krp B = \left[ a_1 \krn b_1 \mid \ldots \mid a_r \krn b_r \right] \in \R^{(mn) \times r},
-	\end{equation}
-	dove $ a_j $ e $ b_j $ indicano la $ j-$esima colonna di $ A $ e $ B $, rispettivamente, e la matrice $ C $
-	si lascia scrivere in componenti come $ C_{k,l} = A_{i,l}B_{j,l} $, dove $ \L^*(i,j) = \L(j,i) = k $.
-\end{definition}
-
-\begin{remark}
-	Calcolare il prodotto di Khatri-Rao di due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times
-			r} $ ha un costo in memoria di $ O(mn
-		\cdot r) $.
-\end{remark}
 
 
 \section{Il problema del rango}
@@ -721,11 +729,52 @@ definito in questo modo:
 		\right)^{\frac{1}{2}}}.
 \end{equation}
 
+\subsection*{Rango massimo}
+
+Nel caso di una matrice $ m \times n $, il suo rango massimo è $ \min \{m,n\}  $. Per un tensore, il
+\emph{rango massimo} è definito come il massimo dei ranghi realizzabili per dei tensori $ T \in
+	\R^{n_1 \times \cdots \times n_{d}} $ di una certa taglia fissata. In altre parole,
+\begin{equation*}
+	\rk_{\text{max}}(\R^{n_1\times n_2 \times \cdots \times  n_{d}}) = \max \{ \rk(T) \mid T \in
+	\R^{n_1 \times n_2 \times \cdots \times n_{d}}\}.
+\end{equation*}
+Sfortunatamente, ad eccezione di alcuni casi speciali, i ranghi massimi per la maggior parte dei
+tensori di ordine superiore sono sconosciuti. I casi speciali in cui il rango massimo è noto sono elencati nella Tabella~\ref{tab:max_ranks}. Il primo risultato per tensori di dimensione $2 \times m \times n$ implica, ad esempio, che un tensore di taglia $2 \times 2 \times 2$ ha un rango massimo pari a $3$.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Ranghi massimi tensoriali noti. L'ordine delle dimensioni non modifica il rango, quindi le taglie sono ordinate dalla più piccola alla più grande (tratta da Ballard e Kolda~\cite[Tabella~16.1]{BK25}).}
+	\label{tab:max_ranks}
+	\begin{tabular}{lll}
+		\toprule
+		Taglia tensore                     & Rango massimo                           & Fonte                                            \\
+		\midrule
+		$2 \times m \times n \; (m \le n)$ & $m + \min \{ m, \lfloor n/2 \rfloor \}$ & JáJá~\cite{jaja1979}; Kruskal~\cite{kruskal1989} \\
+		$3 \times 3 \times 3$              & $5$                                     & Kruskal~\cite{kruskal1989}                       \\
+		$3 \times 7 \times 7$              & $8$                                     & Atkinson e Stephens~\cite{atkinson1979}          \\
+		$2 \times 4 \times 4$              & $6$                                     & ten Berge~\cite{tenberge2000b}                   \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+È inoltre possibile derivare un limite superiore debole per il rango massimo:
+\todo{se lasci verificalo}
+\begin{equation}
+	\label{eq:weak_upper_bound_max_rank}
+	\rk_{\text{max}}(\R^{n_1 \times n_2 \times \cdots \times n_d}) \le \min_k \prod_{\substack{\ell=1 \\ \ell \neq k}}^d n_\ell = \frac{\prod_{k=1}^d n_k}{\max_k n_k}.
+\end{equation}
+
+
 
 \subsection*{Rango tipico}
 \label{sec:rango_tipico}
 
-Mentre le matrici random hanno rango massimo con probabilità uno\todo{why?}, per un tensore di un
+Mentre le matrici random hanno rango massimo con probabilità uno\footnote{L'idea è presa una matrice
+	con entrate estratte da una distribuzione di probabilità continua, il
+	determinante è un polinomio le cui indeterminate sono le entrate della matrice. Il luogo di
+	zeri di questo polinomio ha misura di Lebesgue nulla, quindi integrando la densità di probabilità
+	sul luogo di zeri dà probabilità nulla. La tesi si ha passando al compolementare.}, per un tensore di un
 formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
 come \emph{rango tipico}.
 
@@ -791,17 +840,36 @@ distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi
 Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
 rango se visto come elemento di $ \R^{m\times n} $ o di $ \C^{m \times n} $, per i tensori questo è
 falso. Consideriamo il seguente esempio:
-\begin{example}[De Silva and Lim~\cite{desilva2008tensorrankillposednessbest}]
+\begin{example}[De Silva e Lim~\cite{desilva2008tensorrankillposednessbest}]
 	Scriviamo $ z_{k} = x_{k} + \I y_{k} $ e $ \overline{z}_k = x_{k} - \I y_{k} $, allora
 	\begin{equation}
 		\begin{aligned}
-			x_1 \topp x_2 \topp x_3 + x_1 \topp y_2 \topp y_3 - y_1 \topp x_2 \topp & y_3 + y_1 \topp y_2 \topp
-			x_3                                                                                                                                                                          \\
-			                                                                        & = \frac{1}{2}\left( \overline{z}_1 \topp z_2 \topp \overline{z}_3 + z_1 \topp \overline{z}_2 \topp
-			z_3\right)
+			 & \frac{1}{2}\left( \overline{z}_1 \topp z_2 \topp \overline{z}_3 + z_1 \topp \overline{z}_2 \topp
+			z_3\right)                                                                                          \\
+			 & = x_1 \topp x_2 \topp x_3 + x_1 \topp y_2 \topp y_3 - y_1 \topp x_2 \topp
+			y_3 + y_1 \topp y_2 \topp x_3.
 		\end{aligned}
 	\end{equation}
-	\todo{espandi conti e aggiungere considerazioni su svd da articolo}
+	Chiamando $ I = \overline{z}_{1} \otimes z_2 \otimes \overline{z}_3 $ e $ II = z_1 \otimes
+		\overline{z}_{2} \otimes z_3 $, usando la proprietà distributiva e la trilinearità del prodotto
+	tensore,
+	\begin{equation*}
+		\begin{aligned}
+			I  & = (x_1 - \I y_1) \otimes (x_2 + \I y_2) \otimes (x_3 - \I y_3)                              \\
+			   & = x_1 \otimes x_2 \otimes x_3 - \I x_1 \otimes x_2 \otimes y_3 + \I x_1 \otimes y_2 \otimes
+			x_3                                                                                              \\
+			   & + x_1 \otimes y_2 \otimes y_3 - \I y_1 \otimes x_2 \otimes x_3 - y_1 \otimes x_2 \otimes
+			y_3                                                                                              \\
+			   & + y_1 \otimes y_2 \otimes x_3 - \I y_1 \otimes y_2 \otimes y_3,                             \\
+			II & = (x_1 + \I y_1) \otimes (x_2 - \I y_2) \otimes (x_3 + \I y_3)                              \\
+			   & =x_1 \otimes x_2 \otimes x_3 + \I x_1 \otimes x_2 \otimes y_3 - \I x_1 \otimes y_2
+			\otimes x_3                                                                                      \\
+			   & + x_1 \otimes y_2 \otimes y_3 + \I y_1 \otimes x_2 \otimes x_3 - y_1 \otimes x_2 \otimes
+			y_3                                                                                              \\
+			   & + y_1 \otimes y_2 \otimes x_3 + \I y_1 \otimes y_2 \otimes y_3.
+		\end{aligned}
+	\end{equation*}
+	L'espressione sopra segue calcolando $ \frac{1}{2}(I + II) $.
 
 \end{example}
 
@@ -812,16 +880,53 @@ proposizione, dalla quale intuiamo che non sarà semplice trovare stime del rang
 tensore---queste spesso coinvolgono tecniche algebrico-combinatoriche avanzate. Vedremo alcuni esempi di
 queste stime nella Sezione~\ref{sec:exp_estimates}.
 
-\begin{proposition}[Teorema del rango]
-	\label{th:rank}
-	Sia $ T \in \Rmsiz! $ un tensore che ammette fattorizzazione $ T = \dsqr{U_1, \ldots,
-			U_d} $, e sia $ r_j = \rk(X_{(j)}) $ il rango dell'unfolding $ X_{(j)}, $ con $ j = 1, \ldots, d $. Allora vale che
+Definiamo un'operazione utile tra le colonne di due matrici, che sarà utile a dimostrare il
+risultato di questa sezione.
+\begin{definition}[Prodotto Khatri-Rao]
+	Date due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times r} $, il loro \emph{prodotto
+		Khatri-Rao} è dato da
 	\begin{equation}
-		\max_{j=1, \ldots, d}(r_j) \le \rk(T) \le \min_{j=1, \ldots, d}\left( \prod_{i \neq j}r_i \right)
+		C = A \krp B = \left[ a_1 \krn b_1 \mid \ldots \mid a_r \krn b_r \right] \in \R^{(mn) \times r},
 	\end{equation}
-\end{proposition}
-Introduciamo un lemma di supporto:
+	dove $ a_j $ e $ b_j $ indicano la $ j$-esima colonna di $ A $ e $ B $, rispettivamente, e la matrice $ C $
+	si lascia scrivere in componenti come $ C_{kl} = A_{il}B_{jl} $, dove $ \L^*(i,j) = \L(j,i) = k $.
+\end{definition}
+\begin{remark}
+	\label{rmk:krp_sub_krn}
+	Il prodotto $ A \krp B $ è sottomatrice di $ A \krn B $, in quanto una colonna $ k $-esima della
+	prima è del tipo $ a_{k} \krn b_{k} $, mentre per la seconda è $ \left[ a_{1k}B, \ldots, a_{mk}B
+			\right]^{\top} $; quindi possiamo ottenere la prima matrice selezionando alcune colonne della
+	seconda.
+\end{remark}
+\begin{remark}
+	\label{rmk:krp_as_span}
+	Data una fattorizzazione $ T = \dsqr{U_1, \ldots, U_{d}}$, il prodotto Khatri-Rao
+	\begin{equation*}
+		U_{d} \krp U_{d-1} \krp \cdots \krp U_1
+	\end{equation*}
+	ha come colonna $ r $-esima $ u^d_r \krn u^{d-1}_r \krn \cdots  \krn u^1_r$, in altre parole, è la
+	rappresentazione matriciale dell'insieme $ \left\{ u^d_r \krn u^{d-1}_r \krn \cdots  \krn u^1_r\right\}_{r=1,
+				\ldots, d} $ formato
+	dagli addendi della decomposizione $ \vec(T) = \sum_{r=1}^R u^d_r \krn u^{d-1}_r \krn \cdots  \krn u^1_r $.
+	In particolare, vale
+	\begin{equation*}
+		\begin{aligned}
+			\Vec({T}) & = \sum_{h=1}^r u_h^d \krn \cdots \krn u_h^1 = \left[ u_1^d
+			\krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots \krn u_r^1\right]^{\top}\mathbf{1}_r \\
+			          & = \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
+		\end{aligned}
+	\end{equation*}
+
+\end{remark}
+
+\begin{remark}
+	Calcolare il prodotto di Khatri-Rao di due matrici $ A \in \R^{m \times r} $ e $ B \in \R^{n \times
+			r} $ ha un costo in memoria di $ O(mn
+		r) $.
+\end{remark}
+
 \begin{lemma}
+	\label{lhm:krp_unfoldings}
 	Data una fattorizzazione $ T = \dsqr{U_1,\ldots, U_d} \in \Rmsiz!$, essa ha come unfoldings
 	\[
 		\Tm{T}{j} = U_j \left( U_d \krp U_{d-1} \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots U_1 \right)^{\top}
@@ -842,7 +947,18 @@ Introduciamo un lemma di supporto:
 	\end{equation*}
 \end{proof}
 
-\begin{proof}[Dimostrazione del teorema del rango]
+
+
+
+\begin{proposition}[Teorema del rango]
+	\label{th:rank}
+	Sia $ T \in \Rmsiz! $ un tensore che ammette fattorizzazione $ T = \dsqr{U_1, \ldots,
+			U_d} $, e sia $ r_j = \rk(X_{(j)}) $ il rango dell'unfolding $ X_{(j)}, $ con $ j = 1, \ldots, d $. Allora vale che
+	\begin{equation}
+		\max_{j=1, \ldots, d}(r_j) \le \rk(T) \le \min_{j=1, \ldots, d}\left( \prod_{i \neq j}r_i \right)
+	\end{equation}
+\end{proposition}
+\begin{proof}
 	La minorazione segue direttamente dalla scrittura delle
 	??
 	Mostriamo la maggiorazione, assumendo senza perdita di generalità che $ \rk(T) \le
@@ -853,13 +969,13 @@ Introduciamo un lemma di supporto:
 	\end{equation}
 	Allora l'insieme
 	\[
-		\{u_k^d \krn \cdots \krn u_k^2\}
-	\] è formato da vettori linearmente indipendenti, per ogni $ k = 1,\ldots,r $. Se così non fosse,
+		\left\{u_k^d \krn \cdots \krn u_k^2\right\}_{k = 1, \ldots, r}
+	\] è formato da vettori linearmente indipendenti. Se così non fosse,
 	esisterebbe un indice $ k_0 $, che possiamo supporre $ k_0 = 1 $ a meno di riordinamento degli
 	indici $ k $, tale per cui
 	\begin{equation}
-		u_{1}^d \krn \cdots \krn u_{1}^2 = \sum_{h = 2}^r c_h(u_h^d \krn \cdots \krn u_h^2)
-		.\end{equation}
+		u_{1}^d \krn \cdots \krn u_{1}^2 = \sum_{h = 2}^r c_h(u_h^d \krn \cdots \krn u_h^2),
+	\end{equation}
 	che sostituita nella Equazione~\ref{eq:vec_rk_krn} porta alla seguente decomposizione:
 	\begin{equation*}
 		\begin{aligned}
@@ -870,38 +986,27 @@ Introduciamo un lemma di supporto:
 		\end{aligned},
 	\end{equation*}
 	che ha rango $ r-1 $, contraddicendo la minimalità di $ r $.
-	Quindi per il lemma (! missing) avremmo che
+	Dal Lemma~\ref{lhm:krp_unfoldings} possiamo scrivere
 	\[
-		\Tm{T}{1} = U_1 \left( U_d \krp \cdots \krp U_2 \right)^{\top},
-	\] dove $ \rk \left(U_d \krp \cdots U_2 \right) =r $.
-	Siccome $ U_d \krp \cdots \krp U_r $ è sottomatrice di $ U_d \krn \cdots \krn U_2 $, abbiamo dal
-	lemma sul rango del krp (missing) che
+		\Tm{T}{1} = U_1 \left( U_d \krp \cdots \krp U_2 \right)^{\top}.
+	\] Dalla lineare indipendenza appena dimostrata, e
+	dall'Osservazione~\ref{rmk:krp_as_span} segue che $ \rk \left(U_d \krp \cdots \krp U_2 \right) =r $.
+	Applicando l'Osservazione~\ref{rmk:krp_sub_krn} a più fattori, $ U_d \krp \cdots \krp U_r $ è
+	sottomatrice di $ U_d \krn \cdots \krn U_2 $. Siccome il rango del prodotto di Kroneker è
+	moltiplicativo (Osservazione~\ref{rmk:rk_krn_prod}) troviamo
 	\begin{equation*}
-		r \le \rk \left(U_d \krn \cdots \krn U_2 \right) = r_2 \cdots r_d.
+		r \le \rank \left(U_d \krn \cdots \krn U_2 \right) = r_2 \cdots r_d.
 	\end{equation*}
 	Ripetendo l'argomento per gli altri unfoldings si ha la tesi.
 \end{proof}
 
+\begin{remark}
+	Una conseguenza immediata di questo teorema è che $ T $ ha rango uno se e solo se $ \multirk(T) =
+		1$, cioè se e solo se $ \rk(\Tm{T}{j}) = 1 $ per ogni $ j $.
+	In generale vale che, se $ \rk(T) = r $, allora $ \multirk(T) \le r $, ma non il viceversa.
 
+\end{remark}
 
-\section{Operazioni nel formato CP}
-
-\todo{Se serve, versione per unfoldings generalizzati}
-\begin{lemma}
-	Dato un tensore $ T = \dsqr{U_1,\ldots,U_d} $, vale $ \Vec(T) = \left( U_d \krp U_{d-1}
-		\krp \ldots \krp U_1 \right) \mathbf{1}_r$, dove $ \mathbf{1}_r = \left[ 1, \ldots, 1
-			\right]^{\top} $.
-\end{lemma}
-\begin{proof}
-	Segue dall'identità
-	\begin{equation*}
-		\begin{aligned}
-			\Vec({T}) & = \sum_{h=1}^r u_h^d \krn \cdots \krn u_h^1 = \left[ u_1^d
-			\krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots \krn u_r^1\right]^{\top}\mathbf{1}_r \\
-			          & = \left( U_d \krp U_{d-1} \krp \cdots \krp U_1 \right) \mathbf{1}_r.
-		\end{aligned}
-	\end{equation*}
-\end{proof}
 
 \section{Ricostruzione del tensore in formato denso}
 
