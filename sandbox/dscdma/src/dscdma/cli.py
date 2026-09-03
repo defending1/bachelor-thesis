@@ -168,7 +168,7 @@ def run_plot_cli(args_list: Optional[list] = None) -> None:
     antenna_pos_true = data["antenna_pos"]
 
     print(">>> Solving CP-ALS decomposition...")
-    (A_est, _, _), rec_err = solve_cp_als(
+    (A_est, _, S_est), rec_err = solve_cp_als(
         T_true,
         rank=config.num_sources,
         n_iter_max=2000,
@@ -178,12 +178,16 @@ def run_plot_cli(args_list: Optional[list] = None) -> None:
     )
     print(f"  Relative Tensor Reconstruction Error: {rec_err:.6e}")
 
-    antenna_pos_est = estimate_antenna_positions(user_pos, A_est)
+    antenna_pos_est, user_pos_est = estimate_antenna_positions(S_est, A_est, config.area_side)
 
     print("\n>>> POSITIONS:")
-    print("  User Positions:")
+    print("  True User Positions:")
     for r in range(config.num_sources):
         print(f"    U{r + 1}: ({user_pos[r, 0]:.2f}, {user_pos[r, 1]:.2f})")
+
+    print("  Recovered User Positions (Extracted from S_est):")
+    for r in range(config.num_sources):
+        print(f"    U{r + 1}_rec: ({user_pos_est[r, 0]:.2f}, {user_pos_est[r, 1]:.2f})")
 
     print("  True Antenna Positions:")
     for i in range(config.num_antennas):
@@ -198,10 +202,12 @@ def run_plot_cli(args_list: Optional[list] = None) -> None:
         user_pos=user_pos,
         antenna_pos_true=antenna_pos_true,
         A_est=A_est,
+        S_est=S_est,
         antenna_pos_est=antenna_pos_est,
         title=title,
         save_path=str(output_path),
         show=False,
+        area_side=config.area_side,
     )
 
     print("\n" + "=" * 70)
