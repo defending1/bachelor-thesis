@@ -23,12 +23,12 @@
   gutter: 16pt,
   [
     === Colonna Sinistra
-    - Contenuto colonna 1
-    - Altri punti
+- Contenuto colonna 1
+- Altri punti
   ],
   [
     === Colonna Destra
-    - Contenuto colonna 2
-    - Altri punti
+- Contenuto colonna 2
+- Altri punti
   ]
 )
