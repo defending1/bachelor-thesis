@@ -57,8 +57,7 @@ class SimConfig:
     def from_toml(cls, path: Optional[Union[str, Path]] = None) -> "SimConfig":
         """
         Loads configuration from a .toml file.
-        If path is None, checks 'config.toml' in current directory,
-        falling back to package default 'config.toml'.
+        If path is None, defaults to package configuration 'experiments/dscdma/config.toml'.
         """
         target_path: Optional[Path] = None
 
@@ -67,11 +66,8 @@ class SimConfig:
             if not target_path.exists():
                 raise FileNotFoundError(f"Config file not found at: {target_path.resolve()}")
         else:
-            cwd_config = Path("config.toml")
             pkg_config = Path(__file__).parent / "config.toml"
-            if cwd_config.exists():
-                target_path = cwd_config
-            elif pkg_config.exists():
+            if pkg_config.exists():
                 target_path = pkg_config
             else:
                 config = cls()

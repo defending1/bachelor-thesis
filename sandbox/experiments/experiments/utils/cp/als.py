@@ -41,11 +41,11 @@ def solve_cp_als(
     best_rec_err = float("inf")
     best_factors = None
 
-    base_seed = random_state if random_state is not None else 42
+    base_seed = random_state
 
     for run_idx in range(max(1, n_restarts)):
         init_mode = "svd" if run_idx == 0 else "random"
-        seed = base_seed + run_idx if init_mode == "random" else base_seed
+        seed = (base_seed + run_idx) if (base_seed is not None and init_mode == "random") else base_seed
 
         try:
             cp_tensor = parafac(
@@ -118,11 +118,11 @@ def solve_nonnegative_cp_als(
     best_cp = None
     best_time = 0.0
 
-    base_seed = random_state if random_state is not None else 42
+    base_seed = random_state
 
     for trial in range(max(1, n_restarts)):
         start_t = time.time()
-        seed = base_seed + trial * 100
+        seed = (base_seed + trial * 100) if base_seed is not None else None
 
         cp_tensor = non_negative_parafac(
             tensor,

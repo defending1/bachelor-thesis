@@ -7,7 +7,7 @@ spreading_gain = 16       # Spreading factor / Walsh code length (J)
 num_symbols = 100         # Number of transmitted real symbols per user (K)
 area_side = 100.0         # 2D area side length
 min_dist = 0.1            # Minimum distance lower bound
-seed = 42                 # Random seed (integer or null / "none")
+seed = "none"                 # Random seed (integer or null / "none")
 
 dataset_output = "dscdma_dataset.npz"              # Dataset output path
 plot_output = "antenna_localization_plot.pdf"     # Localization plot output path
