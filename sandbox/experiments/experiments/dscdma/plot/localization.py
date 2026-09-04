@@ -206,7 +206,16 @@ def plot_antenna_and_radii(
             zorder=7,
         )
 
-    ax.set_aspect("equal", adjustable="datalim")
+    # Calculate tight bounding box around fixed antennas and true/extracted users
+    all_x = np.concatenate([antenna_pos_true[:, 0], user_pos[:, 0], user_pos_est[:, 0]])
+    all_y = np.concatenate([antenna_pos_true[:, 1], user_pos[:, 1], user_pos_est[:, 1]])
+
+    margin_x = max(6.0, (all_x.max() - all_x.min()) * 0.15)
+    margin_y = max(6.0, (all_y.max() - all_y.min()) * 0.15)
+
+    ax.set_xlim(all_x.min() - margin_x, all_x.max() + margin_x)
+    ax.set_ylim(all_y.min() - margin_y, all_y.max() + margin_y)
+    ax.set_aspect("equal", adjustable="box")
     ax.grid(True, linestyle=":", alpha=0.4)
 
     # Remove tick marks and numerical axis coordinates
@@ -227,6 +236,7 @@ def plot_antenna_and_radii(
         fontsize=10,
     )
     plt.tight_layout()
+
 
 
     if save_path:
