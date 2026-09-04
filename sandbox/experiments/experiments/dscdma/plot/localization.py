@@ -111,6 +111,9 @@ def plot_antenna_and_radii(
 
     fig, ax = plt.subplots(figsize=(10, 8))
 
+
+
+
     # Distinct palette for antennas and their circles (distinct from lightblue user and orange recovered user)
     antenna_palette = [
         "crimson",
@@ -224,3 +227,8 @@ def plot_antenna_and_radii(
         plt.show()
 
     return fig, ax
+
+
+
+
+

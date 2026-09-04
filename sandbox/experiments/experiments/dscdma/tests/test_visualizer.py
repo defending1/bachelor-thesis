@@ -11,6 +11,10 @@ from experiments.dscdma.cp_solver import solve_cp_als
 from experiments.dscdma.plot import extract_user_positions_from_A, plot_antenna_and_radii
 
 
+
+
+
+
 def test_pure_payload_S_and_antenna_matrix_P():
     config = SimConfig(num_sources=3, num_antennas=4, spreading_gain=16, num_symbols=50, seed=42)
     generator = DSCDMADatasetGenerator(config)
@@ -83,3 +87,8 @@ def test_plot_antenna_and_radii(tmp_path: Path):
 
     assert output_file.exists()
     assert output_file.stat().st_size > 0
+
+
+
+
+
