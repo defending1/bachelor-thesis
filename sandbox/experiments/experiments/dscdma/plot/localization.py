@@ -207,13 +207,27 @@ def plot_antenna_and_radii(
         )
 
     ax.set_aspect("equal", adjustable="datalim")
-    ax.grid(True, linestyle=":", alpha=0.6)
-    ax.set_xlabel("X Coordinate", fontsize=11)
-    ax.set_ylabel("Y Coordinate", fontsize=11)
+    ax.grid(True, linestyle=":", alpha=0.4)
+
+    # Remove tick marks and numerical axis coordinates
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+
     ax.set_title(title, fontsize=13, fontweight="bold", pad=12)
 
-    ax.legend(loc="upper right", framealpha=0.9)
+    # Place legend outside the plot area at the bottom center
+    ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.04),
+        ncol=3,
+        frameon=True,
+        framealpha=0.95,
+        fontsize=10,
+    )
     plt.tight_layout()
+
 
     if save_path:
         out_file = Path(save_path)
