@@ -2,7 +2,6 @@
 Visualization module for DS-CDMA spatial positions and antenna-centered radius circles.
 """
 
-import itertools
 from pathlib import Path
 from typing import Optional, Tuple
 import matplotlib.pyplot as plt
@@ -13,71 +12,76 @@ from scipy.optimize import least_squares
 from experiments.dscdma.plot.stickman import draw_stickman
 
 
-def extract_user_positions(
-    S_est: np.ndarray,
+def extract_user_positions_from_A(
     A_est: np.ndarray,
-    area_side: float = 100.0,
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-    K, R = S_est.shape
-    S_corr = S_est.copy()
-    A_corr = A_est.copy()
-
-    user_pos_est = np.zeros((R, 2), dtype=np.float64)
-
-    for r in range(R):
-        x_raw = S_corr[0, r]
-        y_raw = S_corr[1, r]
-
-        if x_raw < -1e-6 or y_raw < -1e-6:
-            S_corr[:, r] = -S_corr[:, r]
-            A_corr[:, r] = -A_corr[:, r]
-
-        x_val = max(S_corr[0, r], 0.0) * area_side
-        y_val = max(S_corr[1, r], 0.0) * area_side
-        user_pos_est[r] = [x_val, y_val]
-
-    return user_pos_est, S_corr, A_corr
-
-
-def estimate_antenna_positions(
-    S_est: np.ndarray,
-    A_est: np.ndarray,
+    antenna_pos: np.ndarray,
     area_side: float = 100.0,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    user_pos_est, S_corr, A_corr = extract_user_positions(S_est, A_est, area_side)
-    I, R = A_corr.shape
+    """
+    Extracts 2D user positions by solving non-linear least squares trilateration
+    for each column of channel factor A_est against known fixed antenna positions matrix P (antenna_pos).
 
-    radii = 1.0 / np.abs(A_corr)
+    Formulation:
+        For column r of A_est (shape I, R):
+            |a_{i, r}| ~ c_r / ||antenna_pos[i] - u_r||_2
 
-    best_total_cost = float("inf")
-    best_antenna_pos_est = np.zeros((I, 2), dtype=np.float64)
+        We solve for u_r = (x_r, y_r) in R^2 and scalar gain c_r > 0:
+            min_{u_r, c_r} sum_{i=1}^I (|a_{i, r}| - c_r / ||p_i - u_r||_2)^2
 
-    permutations = (
-        list(itertools.permutations(range(R))) if R <= 8 else [tuple(range(R))]
-    )
+    Args:
+        A_est (np.ndarray): Channel gain factor matrix of shape (I, R).
+        antenna_pos (np.ndarray): Fixed antenna coordinates matrix P of shape (I, 2).
+        area_side (float): Bounding side length of 2D region. Default 100.0.
 
-    for perm in permutations:
-        u_perm = user_pos_est[list(perm), :]
-        init_pos = np.mean(u_perm, axis=0)
-        pos_est = np.zeros((I, 2), dtype=np.float64)
-        total_cost = 0.0
+    Returns:
+        Tuple[np.ndarray, np.ndarray]:
+            - user_pos_est: Estimated user positions matrix of shape (R, 2).
+            - scale_factors: Estimated scalar gain factors c of shape (R,).
+    """
+    I, R = A_est.shape
+    user_pos_est = np.zeros((R, 2), dtype=np.float64)
+    scale_factors = np.zeros(R, dtype=np.float64)
 
-        for i in range(I):
-            r_target = radii[i, :]
+    # Multi-start initial candidates to avoid local minima in non-linear least squares
+    grid = np.linspace(0.2 * area_side, 0.8 * area_side, 3)
+    grid_pts = np.array(np.meshgrid(grid, grid)).T.reshape(-1, 2)
+    candidate_inits = np.vstack([np.mean(antenna_pos, axis=0)[np.newaxis, :], antenna_pos, grid_pts])
 
-            def residuals(p: np.ndarray) -> np.ndarray:
-                dists = np.linalg.norm(u_perm - p, axis=1)
-                return dists - r_target
+    for r in range(R):
+        a_col = np.abs(A_est[:, r])
 
-            res = least_squares(residuals, init_pos)
-            pos_est[i] = res.x
-            total_cost += float(res.cost)
+        best_cost = float("inf")
+        best_pos = np.mean(antenna_pos, axis=0)
+        best_c = 1.0
 
-        if total_cost < best_total_cost:
-            best_total_cost = total_cost
-            best_antenna_pos_est = pos_est
+        for init_pos in candidate_inits:
+            init_dists = np.linalg.norm(antenna_pos - init_pos, axis=1)
+            init_c = float(np.median(a_col * np.maximum(init_dists, 0.1)))
+            theta_0 = np.array([init_pos[0], init_pos[1], max(init_c, 1e-3)], dtype=np.float64)
 
-    return best_antenna_pos_est, user_pos_est
+            def residuals(theta: np.ndarray) -> np.ndarray:
+                pos = theta[:2]
+                c = max(theta[2], 1e-6)
+                dists = np.linalg.norm(antenna_pos - pos, axis=1)
+                dists = np.maximum(dists, 1e-4)
+                expected_a = c / dists
+                return a_col - expected_a
+
+            res = least_squares(
+                residuals,
+                theta_0,
+                bounds=([0.0, 0.0, 1e-6], [area_side * 2.0, area_side * 2.0, np.inf]),
+            )
+
+            if res.cost < best_cost:
+                best_cost = float(res.cost)
+                best_pos = res.x[:2]
+                best_c = float(res.x[2])
+
+        user_pos_est[r] = best_pos
+        scale_factors[r] = best_c
+
+    return user_pos_est, scale_factors
 
 
 def plot_antenna_and_radii(
@@ -85,53 +89,66 @@ def plot_antenna_and_radii(
     antenna_pos_true: np.ndarray,
     A_est: np.ndarray,
     S_est: Optional[np.ndarray] = None,
-    antenna_pos_est: Optional[np.ndarray] = None,
-    title: str = "User & Antenna Positions Recovery using CP-ALS",
+    title: str = "User Position Recovery via Fixed Antenna Trilateration",
     save_path: Optional[str] = None,
     show: bool = False,
     area_side: float = 100.0,
+    **kwargs,
 ) -> Tuple[plt.Figure, plt.Axes]:
+    """
+    Plots true/extracted user positions and antenna distance circles around fixed known antennas matrix P.
+    """
     I, R = A_est.shape
 
-    if S_est is None:
-        S_est = np.zeros((2, R), dtype=np.float64)
-        S_est[0, :] = user_pos[:, 0] / area_side
-        S_est[1, :] = user_pos[:, 1] / area_side
+    user_pos_est, scale_factors = extract_user_positions_from_A(
+        A_est, antenna_pos_true, area_side=area_side
+    )
 
-    user_pos_est, _, A_corr = extract_user_positions(S_est, A_est, area_side)
-
-    if antenna_pos_est is None:
-        antenna_pos_est, _ = estimate_antenna_positions(S_est, A_est, area_side)
-
-    radii_est = 1.0 / np.abs(A_corr)
+    radii_est = np.zeros((I, R), dtype=np.float64)
+    for r in range(R):
+        c_r = scale_factors[r]
+        radii_est[:, r] = c_r / np.maximum(np.abs(A_est[:, r]), 1e-6)
 
     fig, ax = plt.subplots(figsize=(10, 8))
-    colors = plt.cm.tab10(np.linspace(0, 1, max(I, 10)))
 
+    # Distinct palette for antennas and their circles (distinct from lightblue user and orange recovered user)
+    antenna_palette = [
+        "crimson",
+        "purple",
+        "forestgreen",
+        "saddlebrown",
+        "mediumvioletred",
+        "teal",
+        "darkolivegreen",
+        "deeppink",
+    ]
+
+    # Draw distance circles centered at fixed known antenna positions
     for i in range(I):
-        c_est = antenna_pos_est[i]
-        ant_color = colors[i % len(colors)]
+        c_ant = antenna_pos_true[i]
+        ant_color = antenna_palette[i % len(antenna_palette)]
         for r in range(R):
             radius = radii_est[i, r]
             circle = Circle(
-                xy=(c_est[0], c_est[1]),
+                xy=(c_ant[0], c_ant[1]),
                 radius=radius,
                 fill=False,
                 edgecolor=ant_color,
                 linestyle="--",
                 linewidth=1.2,
                 alpha=0.6,
-                label=f"Rec Ant {i + 1} Circles" if r == 0 else None,
+                label=f"Ant {i + 1} Circles" if r == 0 else None,
             )
             ax.add_patch(circle)
 
+    # Draw true users in lightblue / royalblue
     for r in range(R):
         draw_stickman(
             ax,
             user_pos[r, 0],
             user_pos[r, 1],
             size=4.0,
-            color="royalblue",
+            color="deepskyblue",
             label="True Users" if r == 0 else None,
         )
         ax.annotate(
@@ -139,69 +156,51 @@ def plot_antenna_and_radii(
             (user_pos[r, 0], user_pos[r, 1] + 3.4),
             fontsize=10,
             fontweight="bold",
-            color="navy",
+            color="dodgerblue",
             zorder=7,
         )
 
-        if S_est is not None:
-            ax.scatter(
-                user_pos_est[r, 0],
-                user_pos_est[r, 1],
-                color="darkorange",
-                marker="o",
-                s=100,
-                edgecolors="black",
-                zorder=7,
-                label="Recovered Users (from S)" if r == 0 else None,
-            )
-            ax.annotate(
-                f"  U{r + 1} (Rec)",
-                (user_pos_est[r, 0], user_pos_est[r, 1] - 2.5),
-                fontsize=9,
-                color="darkorange",
-                fontweight="bold",
-                zorder=8,
-            )
-
-    ax.scatter(
-        antenna_pos_true[:, 0],
-        antenna_pos_true[:, 1],
-        c="crimson",
-        marker="^",
-        s=120,
-        edgecolors="black",
-        linewidths=1.0,
-        zorder=5,
-        label="True Antennae",
-    )
-    for i in range(I):
-        ax.annotate(
-            f"  A{i + 1} (True)",
-            (antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
-            fontsize=9,
-            color="crimson",
-            zorder=6,
-        )
-
-    for i in range(I):
-        ant_color = colors[i % len(colors)]
+        # Draw recovered users in orange
         ax.scatter(
-            antenna_pos_est[i, 0],
-            antenna_pos_est[i, 1],
-            color=ant_color,
-            marker="x",
-            s=140,
-            linewidths=2.5,
+            user_pos_est[r, 0],
+            user_pos_est[r, 1],
+            color="darkorange",
+            marker="o",
+            s=100,
+            edgecolors="black",
             zorder=7,
-            label="Recovered Antennae" if i == 0 else None,
+            label="Extracted Users (from A)" if r == 0 else None,
         )
         ax.annotate(
-            f"  A{i + 1} (Rec)",
-            (antenna_pos_est[i, 0], antenna_pos_est[i, 1]),
+            f"  U{r + 1} (Rec)",
+            (user_pos_est[r, 0], user_pos_est[r, 1] - 2.5),
+            fontsize=9,
+            color="darkorange",
+            fontweight="bold",
+            zorder=8,
+        )
+
+    # Plot fixed known antenna locations matrix P using distinct colors matching their respective circles
+    for i in range(I):
+        ant_color = antenna_palette[i % len(antenna_palette)]
+        ax.scatter(
+            antenna_pos_true[i, 0],
+            antenna_pos_true[i, 1],
+            color=ant_color,
+            marker="^",
+            s=130,
+            edgecolors="black",
+            linewidths=1.0,
+            zorder=6,
+            label="Fixed Antennas (P)" if i == 0 else None,
+        )
+        ax.annotate(
+            f"  A{i + 1}",
+            (antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
             fontsize=9,
             fontweight="bold",
             color=ant_color,
-            zorder=8,
+            zorder=7,
         )
 
     ax.set_aspect("equal", adjustable="datalim")

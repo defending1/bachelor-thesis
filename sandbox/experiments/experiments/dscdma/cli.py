@@ -11,7 +11,7 @@ from experiments.dscdma.config import SimConfig
 from experiments.dscdma.generator import DSCDMADatasetGenerator
 from experiments.dscdma.cp_solver import solve_cp_als
 from experiments.dscdma.exporter import save_dataset, load_dataset
-from experiments.dscdma.plot import estimate_antenna_positions, plot_antenna_and_radii
+from experiments.dscdma.plot import plot_antenna_and_radii
 
 
 def print_sim_banner(
@@ -112,17 +112,12 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
     )
     print(f"  Relative Tensor Reconstruction Error: {rec_err:.6e}")
 
-    antenna_pos_est, user_pos_est = estimate_antenna_positions(
-        S_est, A_est, config.area_side
-    )
-
     title = f"Antenna & User Scatter Plot with Distance Circles (R={config.num_sources}, I={config.num_antennas})"
     plot_antenna_and_radii(
         user_pos=user_pos,
         antenna_pos_true=antenna_pos_true,
         A_est=A_est,
         S_est=S_est,
-        antenna_pos_est=antenna_pos_est,
         title=title,
         save_path=str(output_path),
         show=False,
