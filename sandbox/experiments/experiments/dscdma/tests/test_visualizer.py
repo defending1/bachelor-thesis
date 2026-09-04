@@ -1,5 +1,5 @@
 """
-Unit tests for DS-CDMA visualizer, user position extraction from S, and antenna position estimation.
+Unit tests for DS-CDMA pure payload S matrix, antenna positions matrix P, and visualization.
 """
 
 from pathlib import Path
@@ -8,49 +8,25 @@ import numpy as np
 from experiments.dscdma.config import SimConfig
 from experiments.dscdma.generator import DSCDMADatasetGenerator
 from experiments.dscdma.cp_solver import solve_cp_als
-from experiments.dscdma.plot import extract_user_positions, estimate_antenna_positions, plot_antenna_and_radii
+from experiments.dscdma.plot import plot_antenna_and_radii
 
 
-def test_extract_user_positions_from_S():
-    config = SimConfig(num_sources=3, num_antennas=4, seed=42)
+def test_pure_payload_S_and_antenna_matrix_P():
+    config = SimConfig(num_sources=3, num_antennas=4, spreading_gain=16, num_symbols=50, seed=42)
     generator = DSCDMADatasetGenerator(config)
     data = generator.generate()
 
-    user_pos_true = data["user_pos"]
     S_true = data["S_true"]
-    A_true = data["A_true"]
+    antenna_pos = data["antenna_pos"]
 
-    user_pos_est, _, _ = extract_user_positions(S_true, A_true, area_side=config.area_side)
-    np.testing.assert_allclose(user_pos_est, user_pos_true, atol=1e-5)
+    # Verify S_true shape and that columns are pure symbols (norm ~ sqrt(K))
+    assert S_true.shape == (50, 3)
+    for r in range(3):
+        col_norm = float(np.linalg.norm(S_true[:, r]))
+        np.testing.assert_allclose(col_norm, np.sqrt(50), rtol=1e-5)
 
-
-def test_estimate_antenna_positions_from_S_and_A():
-    config = SimConfig(num_sources=3, num_antennas=4, seed=42)
-    generator = DSCDMADatasetGenerator(config)
-    data = generator.generate()
-
-    antenna_pos_true = data["antenna_pos"]
-    S_true = data["S_true"]
-    A_true = data["A_true"]
-
-    antenna_pos_est, user_pos_est = estimate_antenna_positions(S_true, A_true, area_side=config.area_side)
-
-    np.testing.assert_allclose(user_pos_est, data["user_pos"], atol=1e-4)
-    np.testing.assert_allclose(antenna_pos_est, antenna_pos_true, atol=1e-4)
-
-
-def test_estimate_antenna_positions_after_cp_als():
-    config = SimConfig(num_sources=3, num_antennas=4, seed=42)
-    generator = DSCDMADatasetGenerator(config)
-    data = generator.generate()
-
-    (A_est, _, S_est), rec_err = solve_cp_als(data["tensor"], rank=3, random_state=42, restore_physical_scale=True)
-    assert rec_err < 1e-4
-
-    antenna_pos_est, user_pos_est = estimate_antenna_positions(S_est, A_est, area_side=config.area_side)
-
-    np.testing.assert_allclose(user_pos_est, data["user_pos"], atol=1e-2)
-    np.testing.assert_allclose(antenna_pos_est, data["antenna_pos"], atol=1e-1)
+    # Verify antenna_pos matrix P shape (I, 2)
+    assert antenna_pos.shape == (4, 2)
 
 
 def test_plot_antenna_and_radii(tmp_path: Path):
@@ -64,6 +40,7 @@ def test_plot_antenna_and_radii(tmp_path: Path):
         antenna_pos_true=data["antenna_pos"],
         A_est=data["A_true"],
         S_est=data["S_true"],
+        antenna_pos_est=data["antenna_pos"],
         save_path=str(output_file),
         show=False,
     )

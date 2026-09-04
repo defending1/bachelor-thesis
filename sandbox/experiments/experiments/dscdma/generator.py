@@ -53,34 +53,18 @@ class DSCDMADatasetGenerator:
         self.config = config
         self.rng = np.random.default_rng(config.seed)
 
-    def generate_signals(self, user_pos: np.ndarray) -> np.ndarray:
+    def generate_signals(self) -> np.ndarray:
         """
-        Generates real signals S of shape (K, R) with embedded 2D user coordinates in rows 0 and 1.
+        Generates real signals S of shape (K, R) with pure symbol payload data across all K rows.
         """
         K = self.config.num_symbols
         R = self.config.num_sources
-        area = self.config.area_side
 
-        signals = np.zeros((K, R), dtype=np.float64)
-
+        signals = self.rng.normal(0.0, 1.0, size=(K, R))
         for r in range(R):
-            x_norm = user_pos[r, 0] / area
-            y_norm = user_pos[r, 1] / area
-            signals[0, r] = x_norm
-            signals[1, r] = y_norm
-
-            if K > 2:
-                payload = self.rng.normal(0.0, 1.0, size=(K - 2,))
-                pos_energy = x_norm**2 + y_norm**2
-                target_payload_energy = max(float(K) - pos_energy, 1e-6)
-                current_payload_norm = float(np.linalg.norm(payload))
-                if current_payload_norm > 1e-12:
-                    payload = payload * (np.sqrt(target_payload_energy) / current_payload_norm)
-                signals[2:, r] = payload
-            else:
-                col_norm = float(np.linalg.norm(signals[:, r]))
-                if col_norm > 1e-12:
-                    signals[:, r] = signals[:, r] * (np.sqrt(K) / col_norm)
+            col_norm = float(np.linalg.norm(signals[:, r]))
+            if col_norm > 1e-12:
+                signals[:, r] = signals[:, r] * (np.sqrt(K) / col_norm)
 
         return signals
 
@@ -99,7 +83,7 @@ class DSCDMADatasetGenerator:
             self.rng,
         )
 
-        S_true = self.generate_signals(user_pos)
+        S_true = self.generate_signals()
         tensor = tensor_reconstruct(A_true, C_true, S_true)
 
         return {
