@@ -18,12 +18,18 @@ import scienceplots
 
 from experiments.utils.cp import solve_cp_als
 
-plt.style.use(['science', 'grid'])
+plt.style.use(["science", "grid"])
 
 script_dir = Path(__file__).parent
 
 
-def fit_cp(T: np.ndarray, R: int, num_restarts: int = 15, max_iter: int = 300, tol: float = 1e-9):
+def fit_cp(
+    T: np.ndarray,
+    R: int,
+    num_restarts: int = 15,
+    max_iter: int = 300,
+    tol: float = 1e-9,
+):
     """
     Fits a CP decomposition of rank R with multiple restarts using TensorLy CP-ALS.
     """
@@ -38,13 +44,21 @@ def fit_cp(T: np.ndarray, R: int, num_restarts: int = 15, max_iter: int = 300, t
     return factors, rec_err
 
 
-def estimate_rank(T: np.ndarray, max_rank: int = 7, tolerance: float = 1e-5, num_restarts: int = 15, max_iter: int = 300) -> int:
+def estimate_rank(
+    T: np.ndarray,
+    max_rank: int = 7,
+    tolerance: float = 1e-5,
+    num_restarts: int = 15,
+    max_iter: int = 300,
+) -> int:
     """
     Estimates the CP rank of tensor T by finding the smallest rank r
     for which relative reconstruction error is below the tolerance.
     """
     for r in range(1, max_rank + 1):
-        _, err = fit_cp(T, r, num_restarts=num_restarts, max_iter=max_iter, tol=tolerance)
+        _, err = fit_cp(
+            T, r, num_restarts=num_restarts, max_iter=max_iter, tol=tolerance
+        )
         if err < tolerance:
             return r
     return max_rank + 1
@@ -59,7 +73,13 @@ def _eval_single(args):
         T = np.random.uniform(-1, 1, size=shape)
     else:
         raise ValueError(f"Unknown distribution {dist_name}")
-    return estimate_rank(T, max_rank=max_rank, tolerance=1e-5, num_restarts=num_restarts, max_iter=max_iter)
+    return estimate_rank(
+        T,
+        max_rank=max_rank,
+        tolerance=1e-5,
+        num_restarts=num_restarts,
+        max_iter=max_iter,
+    )
 
 
 def run_experiment(force_recompute=None):
@@ -70,14 +90,42 @@ def run_experiment(force_recompute=None):
 
     distributions = [
         {"name": "Normal", "label": r"Normal $\mathcal{N}(0, 1)$"},
-        {"name": "Uniform", "label": r"Uniform $\mathcal{U}(-1, 1)$"}
+        {"name": "Uniform", "label": r"Uniform $\mathcal{U}(-1, 1)$"},
     ]
 
     formats = [
-        {"shape": (2, 2, 2), "num_samples": 200, "max_rank": 4, "num_restarts": 120, "max_iter": 500, "title": r"2 \times 2 \times 2"},
-        {"shape": (3, 3, 2), "num_samples": 200, "max_rank": 5, "num_restarts": 120, "max_iter": 500, "title": r"3 \times 3 \times 2"},
-        {"shape": (3, 3, 3), "num_samples": 100, "max_rank": 6, "num_restarts": 20, "max_iter": 300, "title": r"3 \times 3 \times 3"},
-        {"shape": (3, 3, 5), "num_samples": 100, "max_rank": 7, "num_restarts": 120, "max_iter": 500, "title": r"3 \times 3 \times 5"}
+        {
+            "shape": (2, 2, 2),
+            "num_samples": 200,
+            "max_rank": 4,
+            "num_restarts": 120,
+            "max_iter": 500,
+            "title": r"2 \times 2 \times 2",
+        },
+        {
+            "shape": (3, 3, 2),
+            "num_samples": 200,
+            "max_rank": 5,
+            "num_restarts": 120,
+            "max_iter": 500,
+            "title": r"3 \times 3 \times 2",
+        },
+        {
+            "shape": (3, 3, 3),
+            "num_samples": 200,
+            "max_rank": 6,
+            "num_restarts": 120,
+            "max_iter": 500,
+            "title": r"3 \times 3 \times 3",
+        },
+        {
+            "shape": (3, 3, 5),
+            "num_samples": 200,
+            "max_rank": 7,
+            "num_restarts": 120,
+            "max_iter": 500,
+            "title": r"3 \times 3 \times 5",
+        },
     ]
 
     output_dir = script_dir
@@ -104,17 +152,28 @@ def run_experiment(force_recompute=None):
                 shape = fmt["shape"]
                 shape_str = f"{shape[0]}x{shape[1]}x{shape[2]}"
                 if shape_str in results[dist_name] and shape_str not in force_recompute:
-                    print(f"Skipping {dist_name} format {shape_str} (using cached results).")
+                    print(
+                        f"Skipping {dist_name} format {shape_str} (using cached results)."
+                    )
                     continue
 
                 num_samples = fmt["num_samples"]
                 max_rank = fmt["max_rank"]
                 num_restarts = fmt.get("num_restarts", 15)
                 max_iter = fmt.get("max_iter", 300)
-                print(f"\nEvaluating {dist_name} distribution for format {shape} ({num_samples} samples, {num_restarts} restarts, {max_iter} max_iter)...")
+                print(
+                    f"\nEvaluating {dist_name} distribution for format {shape} ({num_samples} samples, {num_restarts} restarts, {max_iter} max_iter)..."
+                )
 
                 tasks = [
-                    (dist_name, shape, max_rank, num_restarts, max_iter, base_seed + dist_idx * 10000 + fmt_idx * 1000 + i)
+                    (
+                        dist_name,
+                        shape,
+                        max_rank,
+                        num_restarts,
+                        max_iter,
+                        base_seed + dist_idx * 10000 + fmt_idx * 1000 + i,
+                    )
                     for i in range(num_samples)
                 ]
 
@@ -134,28 +193,29 @@ def run_experiment(force_recompute=None):
 
 
 def plot_from_results(results, distributions, formats, output_dir):
-    plt.rcParams.update({
-        'font.family': 'serif',
-        'font.serif': ['Computer Modern Roman', 'DejaVu Serif', 'Times New Roman', 'serif'],
-        'text.usetex': False,
-        'mathtext.fontset': 'cm',
-        'axes.labelsize': 10.5,
-        'axes.titlesize': 10.5,
-        'xtick.labelsize': 9.5,
-        'ytick.labelsize': 9.5,
-        'figure.titlesize': 11
-    })
+    plt.rcParams.update(
+        {
+            "font.family": "serif",
+            "font.serif": [
+                "Computer Modern Roman",
+                "DejaVu Serif",
+                "Times New Roman",
+                "serif",
+            ],
+            "text.usetex": False,
+            "mathtext.fontset": "cm",
+            "axes.labelsize": 10.5,
+            "axes.titlesize": 10.5,
+            "xtick.labelsize": 9.5,
+            "ytick.labelsize": 9.5,
+            "figure.titlesize": 11,
+        }
+    )
 
     fig, axes = plt.subplots(1, 4, figsize=(9.6, 2.9), sharey=True)
 
-    colors = {
-        "Normal": "#2B5C8F",
-        "Uniform": "#D96B27"
-    }
-    edge_colors = {
-        "Normal": "#1A3B5C",
-        "Uniform": "#8C4113"
-    }
+    colors = {"Normal": "#2B5C8F", "Uniform": "#D96B27"}
+    edge_colors = {"Normal": "#1A3B5C", "Uniform": "#8C4113"}
 
     bar_width = 0.36
 
@@ -175,8 +235,10 @@ def plot_from_results(results, distributions, formats, output_dir):
 
         all_ranks = sorted(list(set(u_norm) | set(u_unif)))
 
-        ax.grid(False, axis='x')
-        ax.grid(True, axis='y', linestyle='--', alpha=0.35, color='#CBD5E1', linewidth=0.7)
+        ax.grid(False, axis="x")
+        ax.grid(
+            True, axis="y", linestyle="--", alpha=0.35, color="#CBD5E1", linewidth=0.7
+        )
         ax.set_axisbelow(True)
 
         for r in all_ranks:
@@ -185,41 +247,65 @@ def plot_from_results(results, distributions, formats, output_dir):
 
             if f_n > 0:
                 ax.bar(
-                    r - bar_width/2, f_n, width=bar_width,
-                    color=colors["Normal"], edgecolor=edge_colors["Normal"],
-                    linewidth=0.8, alpha=0.92, zorder=3
+                    r - bar_width / 2,
+                    f_n,
+                    width=bar_width,
+                    color=colors["Normal"],
+                    edgecolor=edge_colors["Normal"],
+                    linewidth=0.8,
+                    alpha=0.92,
+                    zorder=3,
                 )
 
             if f_u > 0:
                 ax.bar(
-                    r + bar_width/2, f_u, width=bar_width,
-                    color=colors["Uniform"], edgecolor=edge_colors["Uniform"],
-                    linewidth=0.8, alpha=0.92, zorder=3
+                    r + bar_width / 2,
+                    f_u,
+                    width=bar_width,
+                    color=colors["Uniform"],
+                    edgecolor=edge_colors["Uniform"],
+                    linewidth=0.8,
+                    alpha=0.92,
+                    zorder=3,
                 )
 
             if f_n == 100 and f_u == 100:
                 ax.annotate(
-                    "100%", xy=(r, 100),
-                    xytext=(0, 3), textcoords="offset points",
-                    ha='center', va='bottom', fontsize=8,
-                    color='#1E293B'
+                    "100%",
+                    xy=(r, 100),
+                    xytext=(0, 3),
+                    textcoords="offset points",
+                    ha="center",
+                    va="bottom",
+                    fontsize=8,
+                    color="#1E293B",
                 )
             else:
                 if f_n > 0:
                     lbl_n = f"{f_n:.1f}%"
                     ax.annotate(
-                        lbl_n, xy=(r - bar_width/2, f_n),
-                        xytext=(-1, 2), textcoords="offset points",
-                        ha='center', va='bottom', fontsize=7.2,
-                        color='#1E293B', rotation=25
+                        lbl_n,
+                        xy=(r - bar_width / 2, f_n),
+                        xytext=(-1, 2),
+                        textcoords="offset points",
+                        ha="center",
+                        va="bottom",
+                        fontsize=7.2,
+                        color="#1E293B",
+                        rotation=25,
                     )
                 if f_u > 0:
                     lbl_u = f"{f_u:.1f}%"
                     ax.annotate(
-                        lbl_u, xy=(r + bar_width/2, f_u),
-                        xytext=(1, 2), textcoords="offset points",
-                        ha='center', va='bottom', fontsize=7.2,
-                        color='#1E293B', rotation=25
+                        lbl_u,
+                        xy=(r + bar_width / 2, f_u),
+                        xytext=(1, 2),
+                        textcoords="offset points",
+                        ha="center",
+                        va="bottom",
+                        fontsize=7.2,
+                        color="#1E293B",
+                        rotation=25,
                     )
 
         ax.set_title(rf"Format ${fmt['title']}$", fontsize=10.5, pad=8)
@@ -232,42 +318,68 @@ def plot_from_results(results, distributions, formats, output_dir):
 
         ax.set_ylim(0, 118)
 
-        show_y_ticks = (col_idx == 0)
-        ax.tick_params(axis='x', which='both', top=False, bottom=True, labelsize=9.5, length=3.5, width=0.8)
-        ax.tick_params(axis='y', which='both', left=show_y_ticks, right=False, labelsize=9.5, length=3.5, width=0.8)
+        show_y_ticks = col_idx == 0
+        ax.tick_params(
+            axis="x",
+            which="both",
+            top=False,
+            bottom=True,
+            labelsize=9.5,
+            length=3.5,
+            width=0.8,
+        )
+        ax.tick_params(
+            axis="y",
+            which="both",
+            left=show_y_ticks,
+            right=False,
+            labelsize=9.5,
+            length=3.5,
+            width=0.8,
+        )
 
         if not show_y_ticks:
-            ax.spines['left'].set_visible(False)
+            ax.spines["left"].set_visible(False)
         else:
-            ax.spines['left'].set_linewidth(0.8)
+            ax.spines["left"].set_linewidth(0.8)
 
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['bottom'].set_linewidth(0.8)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["bottom"].set_linewidth(0.8)
 
     axes[0].set_ylabel(r"Empirical Frequency (%)", fontsize=10.5, labelpad=6)
-    fig.text(0.5, 0.01, r"Tensor Rank ($r$)", ha='center', va='center', fontsize=10.5)
+    fig.text(0.5, 0.01, r"Tensor Rank ($r$)", ha="center", va="center", fontsize=10.5)
 
     legend_elements = [
-        Patch(facecolor=colors["Normal"], edgecolor=edge_colors["Normal"], label=r"Normal $\mathcal{N}(0,1)$"),
-        Patch(facecolor=colors["Uniform"], edgecolor=edge_colors["Uniform"], label=r"Uniform $\mathcal{U}(-1,1)$")
+        Patch(
+            facecolor=colors["Normal"],
+            edgecolor=edge_colors["Normal"],
+            label=r"Normal $\mathcal{N}(0,1)$",
+        ),
+        Patch(
+            facecolor=colors["Uniform"],
+            edgecolor=edge_colors["Uniform"],
+            label=r"Uniform $\mathcal{U}(-1,1)$",
+        ),
     ]
     fig.legend(
         handles=legend_elements,
-        loc='upper center',
+        loc="upper center",
         bbox_to_anchor=(0.5, 1.05),
         ncol=2,
         frameon=False,
-        fontsize=9.5
+        fontsize=9.5,
     )
 
     plt.tight_layout(rect=[0.01, 0.08, 0.99, 0.95])
 
-    thesis_fig_dir = script_dir.parent.parent.parent / "Sources" / "Chapter1" / "figures"
+    thesis_fig_dir = (
+        script_dir.parent.parent.parent / "Sources" / "Chapter1" / "figures"
+    )
     thesis_fig_dir.mkdir(parents=True, exist_ok=True)
     thesis_pdf = thesis_fig_dir / "typical_rank_distribution.pdf"
 
-    plt.savefig(thesis_pdf, bbox_inches='tight', dpi=300)
+    plt.savefig(thesis_pdf, bbox_inches="tight", dpi=300)
     print(f"\nSuccess! Publication quality plot saved directly to {thesis_pdf}")
 
 

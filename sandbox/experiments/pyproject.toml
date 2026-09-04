@@ -19,7 +19,6 @@ dev = [
 
 [project.scripts]
 dscdma-generator = "experiments.dscdma.cli:run_generator_cli"
-dscdma-solver = "experiments.dscdma.cli:run_solver_cli"
 dscdma-plot = "experiments.dscdma.cli:run_plot_cli"
 eem-experiment = "experiments.tensor_data_eem.eem_cp_experiment:main"
 typical-rank-experiment = "experiments.typical_rank.typical_rank_experiment:main"

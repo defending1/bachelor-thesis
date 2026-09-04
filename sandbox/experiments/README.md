@@ -16,7 +16,9 @@ Run tests or execution commands using `uv`:
 ```bash
 uv sync
 uv run pytest
-uv run dscdma-solver --help
+uv run dscdma-generator [config.toml]
+uv run dscdma-plot [config.toml]
 uv run eem-experiment
 uv run typical-rank-experiment
 ```
+
