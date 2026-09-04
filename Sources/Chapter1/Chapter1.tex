@@ -8,7 +8,7 @@
 
 In questo elaborato lavoriamo in $ \K \in \{\R, \C\}  $, e denotiamo gli spazi vettoriali, che
 assumeremo sempre finiti, con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
-lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Se $ v_1,\ldots,v_p \in V$,
+lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Dati dei vettori $ v_1,\ldots,v_p \in V$, l'insieme
 $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^* = \{ f : V \to \K \mid f \text{ lineare} \} $ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
 	\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
 dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
@@ -51,6 +51,14 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to \K $.
 \begin{remark}
 	Per la ragione sopra, spesso chiameremo tensore anche l'oggetto sopra scrivendo
 	semplicemente $ T \in \Rmsiz $.
+\end{remark}
+\begin{remark}
+	Dato $ T \in A \otimes B \otimes C $, possiamo sempre passare da un tensore nello spazio $ A
+		\otimes B \otimes C $ a un tensore in $ \R^{\bm{a} \times \bm{b} \times \bm{c}} $ così: fissate
+	delle basi $ \{e_{i}\}, \{g_{j}\}, \{h_{k}\}    $ di $ A, B, C $ rispettivamente, possiamo
+	scrivere $ T = \sum_{ijk} T_{ijk} e_{i} \otimes g_{j} \otimes h_{k} $. Al variare degli indici, $
+		T_{ijk} $ descrive un array tridimensionale (``a forma di parallelepipedo'') in $ \R^{\bm{a}
+			\times \bm{b} \times \bm{c}} $, che chiamiamo ancora $ T $.
 \end{remark}
 \begin{remark}
 	Siccome per ogni spazio vettoriale $ V $, vale $ V \otimes \K \simeq V $, un tensore $ T \in \K^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
