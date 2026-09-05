@@ -2,26 +2,30 @@
 \chapter*{Introduzione}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+I tensori sono oggetti che modellano molti esperimenti in un numero disparato di aree scientifiche.
+Decomporli in oggetti più facili da analizzare
+Studieremo la \emph{canonical polyadic decomposition}, nota anche come PARAFAC, per ``parallel factor
+analysis'', CANDECOMP, per ``canonical decomposition'', e
+CP \emph{decomposition}, il quale nome potrebbe o come acronimo della combinazione di CANDECOMP e
+PARAFAC.
+
 
 Le decomposizioni di tensori occorrono in numerose aree scientifiche. Alcune di queste sono:
+nell'ambito medico della psicometria è stata impiegata per studiare gli impulsi celebrali [311,
+		71, 158], in particolare nel trovare l'area del cervello di un paziente in cui è in atto una crisi
+epilettica, o la diagnosi e gestione di ictus.; sempre nella medicina,
+nell'interpretare la immagini di risonanze magnetiche (MRI); vedi ad esempio e relative
+reference.
+Nella geofisica, ad esempio l'interpretazione di data magnetotellurica per strutture
+regionali a una e due dimensioni, ad esempio in \ldots e le reference all'interno (wtf?).
+Nell'analisi numerica.\emph{si può ridurre allo studio di funzioni semiseparabili?} Grazie alla convergenza delle serie di Fourier nello spazio delle
+funzioni $ f : \R^n \to \R $ misurabili secondo la norma euclidea $ L^2(\R^n) $, si
+ha $ L^2(\R^n) =
+	L^2(\R) \otimes \cdots \otimes L^2(\R) $, e spesso vengono approssimate funzioni di $ n $
+variabili da una somma finita di prodotti di funzioni in una variabile, generalizzando la
+separazione di variabili. Si veda \ldots
 
-\begin{enumerate}
-	\item Nella psicometria, dove è stata impiegata per valutare l'intelligenza e alcune
-	      caratteristiche personali. Alcuni dei primi lavori in quest'area includono [311, 71, 158].
-	\item Nella geofisica; ad esempio l'interpretazione di data magnetotellurica per strutture
-	      regionali a una e due dimensioni, ad esempio in \ldots e le reference all'interno.
-	\item Nell'interpretare la immagini di risonanze magnetiche (MRI); vedi ad esempio e relative
-	      reference. Un utilizzo pratico è trovare l'area del cervello in cui è in atto una crisi
-	      epilettica in un paziente. Un altro impeiego è la diagnosi e gestione di ictus.
-	\item Nel data mininig.
-	\item Nell'analisi numerica. Grazie alla convergenza delle serie di Fourier nello spazio delle
-	      funzioni $ f : \R^n \to \R $ misurabili secondo la norma euclidea $ L^2(\R^n) $, si
-	      ha $ L^2(\R^n) =
-		      L^2(\R) \otimes \cdots \otimes L^2(\R) $, e spesso vengono approssimate funzioni di $ n $
-	      variabili da una somma finita di prodotti di funzioni in una variabile, generalizzando la
-	      separazione di variabili. Si veda \ldots
-\end{enumerate}
-
+\todo{source, add reference}
 • In geophysics; for example the interpretation of magnetotelluric
 data for one-dimensional and two-dimensional regional structures;
 see, e.g., [335] and the references therein.
@@ -30,20 +34,22 @@ see, e.g., [335] and the references therein.
 location in the brain that is causing epileptic seizures in a patient.
 Another is the diagnosis and management of strokes.
 
-La decomposizione di tensori viene chiamata con nomi diversi come PARAFAC, per ``parallel factor
-analysis'', \emph{canonical polyadic decomposition}, CANDECOMP, per ``canonical decomposition'', e
-CP \emph{decomposition}, che è stata suggerita da P.Comon e che potrebbe essere interpretata come
-abbreviazione di \emph{canonical polyadic}, o come acronimo della combinazione di CANDECOMP e
-PARAFAC, o come le iniziali dell'autore che le ha suggerite.
+Questo elaborato si sviluppa con la seguente struttura:
 
-Nel capitolo 1, introdurremo i
+Nel capitolo 1, introdurremo i tensori e i relativi spazi. Definiremo la fattorizzazione CP e del
+relativi metodi di calcolo. Discuteremo alcune loro caratteristiche
+fondamentali che li differenziano dalle matrici.
 
-Nel capitolo 2 dimostreremo il Teorema di Kruskal, che afferma l'unicità della scrittura della fattorizzazione CP di un tensore sotto opportune ipotesi.
+Nel capitolo 2 dimostreremo il Teorema di Kruskal, che afferma l'unicità della scrittura della
+fattorizzazione CP di un tensore sotto opportune ipotesi, discutendo alcuni casi di non unicità.
 
 Nel capitolo 3 sposteremo il focus allo studio della complessità della moltiplicazione matriciale,
-studiando gli \emph{algortmi di moltiplicazione veloci}, formulandolo attraverso la fattorizzazione CP.
+studiando gli \emph{algortmi di moltiplicazione veloci} dal punto di vista della decomposizione
+CP.
 
-Nel capitolo 4 presenteremo alcune applicazioni.
+Nel capitolo 4 presenteremo alcune applicazioni modellistiche della CP, presentando due esperimenti
+numerici: il recupero della concentrazione di sostanze chimiche in un composto (\emph{spettroscopia
+	fluorescente}) e l'analisi di segnali (\emph{cocktail party problem}).
 
 Le principali fonti di questo lavoro sono TENSORB e LANDSBERG1,2.
 

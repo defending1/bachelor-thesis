@@ -74,7 +74,7 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to \K $.
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
 
 \begin{remark}
-	L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R- $spazio vettoriale, dotato del prodotto
+	L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R $-spazio vettoriale, dotato del prodotto
 	scalare euclideo, con le operazioni
 	\begin{itemize}
 		\item Addizione: $(T_1 + T_2)(\miwc!) = T_1(\miwc!) + T_2(\miwc!)$.
@@ -396,14 +396,17 @@ numerosi ostacoli \todo{ref to ostacoli}.
 \end{remark}
 
 \begin{remark}[Canonical Polyadic Decomposition (CP)]
-	In letteratura spesso la CP viene
-	definita in coordinate $ \Rmsiz $ tramite delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
+	La decomposizione CP in $ \Rmsiz $ è data da delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
 			\ldots \mid u_r^t\right]\in \R^{n_t \times r} $ tali per cui
 	\begin{equation*}
 		T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
 		\otimes u_r^d \in \Rmsiz.
 	\end{equation*}
 	In tal caso, scriveremo $ T = \dsqr{U_1, \ldots, U_d} $.
+\end{remark}
+\begin{remark}
+	Possiamo riferirci alla CP sia come decomposizine (data dalla somma dei termini di rango uno)
+	oppure come fattorizzazione (data dai fattori $ U_1, \ldots, U_{d} $).
 \end{remark}
 
 \begin{remark}
@@ -493,6 +496,7 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 	\end{equation*}
 	Pensando la terza dimensione nel verso entrante al foglio, possiamo riassumere i passaggi svolti
 	per fattorizzare $ T $, dove è stata applicata più volte la definizione di prodotto tensore:
+	\todo{c'è un typo!}
 	\begin{center}
 		\includegraphics[width=0.65\textwidth, keepaspectratio]{./Sources/Chapter1/figures/cp_example.pdf}
 	\end{center}
@@ -507,6 +511,7 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 \end{figure}
 L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
 
+\todo{anche def landsberg}
 \begin{definition}[Rango multilineare]
 	Il \emph{rango multilineare} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
 		(r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}
@@ -662,7 +667,7 @@ ha risvolti interessanti che vedremo nella \S~\ref{sec:APA}.
 	\end{equation}
 	che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
 	Vediamo che $ \lim_{\varepsilon \to 0} T_\varepsilon = T $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
-	Espandendo i termini dell'Equazione \ref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
+	Espandendo i termini dell'Equazione \eqref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
 	\begin{equation}
 		\begin{aligned}
 			\Tn{y}_\varepsilon & =  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
@@ -809,7 +814,8 @@ Per verificare questi risultati, abbiamo implementato un esperimento numerico.
 Selezionando alcuni formati, abbiamo generato dei tensori casuali con entrate estratte
 indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
 distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
-usando l'algoritmo ALS\todo{ref} interrompendo una volta raggiunto un errore relativo inferiore a
+usando l'algoritmo ALS\todo{ref} su un campione di $ 200 $ tensori, facendo $ 120 $ restarts e un
+numero massimo di $ 500 $ iterazioni, interrompendo una volta raggiunto un errore relativo inferiore a
 $10^{-5}$. La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
 distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi tipici e produce frequenze empiriche analoghe.
 
@@ -961,14 +967,14 @@ risultato di questa sezione.
 \begin{proposition}[Teorema del rango]
 	\label{th:rank}
 	Sia $ T \in \Rmsiz! $ un tensore che ammette fattorizzazione $ T = \dsqr{U_1, \ldots,
-			U_d} $, e sia $ r_j = \rk(X_{(j)}) $ il rango dell'unfolding $ X_{(j)}, $ con $ j = 1, \ldots, d $. Allora vale che
+			U_d} $, e sia $ r_j = \rank(\Tm{T}{j}) $ il rango dell'unfolding $ \Tm{T}{j} $ con $ j = 1, \ldots, d $. Allora vale che
 	\begin{equation}
 		\max_{j=1, \ldots, d}(r_j) \le \rk(T) \le \min_{j=1, \ldots, d}\left( \prod_{i \neq j}r_i \right)
 	\end{equation}
 \end{proposition}
 \begin{proof}
-	La minorazione segue direttamente dalla scrittura delle
-	??
+	Fissato $ r = \rk(T) $, la minorazione segue direttamente dal fatto che ogni unfolding $ \Tm{T}{j}
+	$ è una matrice di taglia $ n_{j} \times r  $.
 	Mostriamo la maggiorazione, assumendo senza perdita di generalità che $ \rk(T) \le
 		\prod_{i=2}^d r_i $. Consideriamo la vettorizzazione
 	\begin{equation}
@@ -984,13 +990,13 @@ risultato di questa sezione.
 	\begin{equation}
 		u_{1}^d \krn \cdots \krn u_{1}^2 = \sum_{h = 2}^r c_h(u_h^d \krn \cdots \krn u_h^2),
 	\end{equation}
-	che sostituita nella Equazione~\ref{eq:vec_rk_krn} porta alla seguente decomposizione:
+	che sostituita nella Equazione~\eqref{eq:vec_rk_krn} porta alla seguente decomposizione:
 	\begin{equation*}
 		\begin{aligned}
 			\Vec(T) & = \sum_{k=2}^r u_k^d \krn \cdots \krn u_k^2 \krn u_k^1 + \left(\sum_{k=2}^r c_k
-			(u_k^d \krn \cdots \krn u_k^2) \right) \krn u_1^1                                         \\
-			        & = \sum_{k=2}^r (u_k^d \krn \cdots \krn u_k^2)
-			\krn (u_k^1 + c_k u_1^1)
+			\left(u_k^d \krn \cdots \krn u_k^2\right) \right) \krn u_1^1                              \\
+			        & = \sum_{k=2}^r \left(u_k^d \krn \cdots \krn u_k^2\right)
+			\krn \left(u_k^1 + c_k u_1^1\right)
 		\end{aligned},
 	\end{equation*}
 	che ha rango $ r-1 $, contraddicendo la minimalità di $ r $.
@@ -1011,7 +1017,8 @@ risultato di questa sezione.
 \begin{remark}
 	Una conseguenza immediata di questo teorema è che $ T $ ha rango uno se e solo se $ \multirk(T) =
 		1$, cioè se e solo se $ \rk(\Tm{T}{j}) = 1 $ per ogni $ j $.
-	In generale vale che, se $ \rk(T) = r $, allora $ \multirk(T) \le r $, ma non il viceversa.
+	In generale vale che, se $ \rk(T) = r $, allora $ \multirk(T) \le r $, ma non il
+	viceversa.\todo{ho cercato un esempio non è semplice verificare}
 
 \end{remark}
 
@@ -1074,3 +1081,16 @@ $ C \krp B $ è full-rank possiamo risolvere con la fattorizzazione di Cholesky 
 	AZ = \Tm{T}{1}(C\krp B)= M
 \end{equation}
 \todo{vEdi fogli per calcolo costo}
+
+
+\begin{algorithm}[htbp]
+	\caption{Schema dell'algoritmo ALS.}
+	\label{alg:ALS}
+	\begin{algorithmic}[1]
+		\Repeat
+		\State $ A \gets \arg \min_{A} \| T - \dsqr{A,B,C} \|^2 $
+		\State $ B \gets \arg \min_{B} \| T - \dsqr{A,B,C} \|^2 $
+		\State $ C \gets \arg \min_{C} \| T - \dsqr{A,B,C} \|^2 $
+		\Until{Not converged}
+	\end{algorithmic}
+\end{algorithm}
