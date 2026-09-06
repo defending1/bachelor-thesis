@@ -1,4 +1,6 @@
+#import "@preview/theorion:0.6.0": *
 #import "@preview/touying:0.6.1": *
+#import "@preview/dashy-todo:0.1.3": todo
 #import themes.simple: *
 
 
@@ -7,10 +9,21 @@
   footer: [],
 )
 
+#show: show-theorion
+#set text(lang: "it")
+
+
+#let krank(A) = $bold(k)_#A$
+#let proj(n, K) = $bb(P)^#n (#K) $
 
 == Indice
 
+#definition[Euclid's Theorem][
+  There are infinitely many prime numbers.
+] <thm:euclid>
+
 == Notazione
+
 
 == La fattorizzazione CP
 
@@ -30,11 +43,26 @@ funziona per le matrici ma non per i tensori
 
 = Il teorema di Kruskal
 
-Bla bla bla
+== Essenziale unicità
+
+#definition[Essenziale unicità][
+  hi
+]<def:essunq>
 
 == k-rango
 
+#definition[$k$-rango][
+  Dato un sottoinsieme di punti $cal(S) subset bb(P)$, il #emph[$k$-rango] è il massimo intero
+  positivo $r$ tale che i punti di $cal(S)$ sono in posizione generale.
+]
+Lo indichiamo con $ krank(cal(S)) .$
+
+#todo[Qui fare gli show con esempi punti, piano]
+
+
+
 == Enunciato
+
 
 
 == Applicazioni (omini e spettroscopia)

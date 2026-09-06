@@ -112,9 +112,10 @@ In più dimensioni, presi $ a_{1} \in \R^{n_1}, \ldots, a_{n} \in \R^{n_n} $, il
 	T = a^{(1)} \topp a^{(2)} \topp \cdots \topp a^{(d)} \in \Rmsiz
 \end{equation}
 tale che la sua scrittura in componenti è
-\[
+\begin{equation}
+	\label{eq:rk1_components}
 	T_{\miwc} = a_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)}
-	.\]
+\end{equation}
 
 Questo ci permette di definire la seguente quantità fondamentale:
 \begin{definition}[Rango di un tensore]
@@ -192,7 +193,7 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 			(\miwc)          & \mapsto 1 + s_1 (i_1-1) + \ldots + s_d(i_d-1) = 1 + \sum_{j=1}^d s_j(i_j - 1),
 		\end{aligned}
 	\end{equation*}
-	dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j- $esimi} e sono definiti come $ s_1=1 $ e
+	dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j $-esimi} e sono definiti come $ s_1=1 $ e
 	$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j \in [d-1] $.
 	L'inversa di $ \L $ è data dalla mappa
 	\begin{equation*}
@@ -209,28 +210,37 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 
 
 \begin{proof}[Buona definizione]
-	Segue direttamente dalla definizione di $ \L $ e dalle proprietà del modulo, infatti,
+	Segue direttamente dalla definizione di $ \L $ e dalle proprietà del modulo. Infatti, detto $
+		\alpha = \L(\miwc) $, vale che
+	\begin{equation*}
+		\L^{-1}(\alpha) = (\miwc),
+	\end{equation*}
+	in quanto
 	\[
 		\begin{aligned}
-			\L^{-1}(\L(\miwc)) & = \L^{-1}(1 + s_1(i_1-1)) + \ldots + s_d(i_d-1))                          \\
-			                   & = \left( 1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1) \mod(n_1s_1)}{s_1}
-			\right\rfloor, \ldots,   1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1)
-			\mod(n_ds_d)}{s_d} \right\rfloor \right)                                                       \\
-			                   & = \left( 1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_1}(i_j-1) \mod(n_1s_1)
-			\right\rfloor, \ldots,   1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_d}(i_j-1)
-			\mod(n_ds_d) \right\rfloor \right)                                                             \\
-			                   & = \left( \miwc \right),
+			(\L^{-1}(\alpha))_{h}
+			 & = 1+ \left\lfloor \frac{\sum_{i=1}^d s_j(i_j-1) \pmod{n_hs_h}}{s_h}
+			\right\rfloor                                                          \\
+			 & = 1+ \left\lfloor \sum_{i=1}^d \frac{s_j}{s_1}(i_j-1) \pmod{n_hs_h}
+			\right\rfloor                                                          \\
+			 & = i_{h}
 		\end{aligned}
 	\]
-	dove nell'ultimo passaggio abbiamo usato che $ s_j = \prod_{k=1}^d n_k$ e il fatto che $
+	dove nell'ultimo passaggio abbiamo usato che $ s_j = n_1 n_2\cdots n_{j}$ e il fatto che $
 		\left\lfloor x \right\rfloor = 0 $ per ogni $ x \in [0,1) $.
-	Viceversa,
+	Viceversa, chiamato $ \beta \defeq \L^{-1}(l) $, dove
+	\begin{equation*}
+		\beta_{h} = 1 + \left\lfloor \frac{ (l-1)\pmod{n_hs_h}}{s_h}\right\rfloor
+	\end{equation*}
+	dimostriamo che
+	\begin{equation*}
+		\L(\beta) = l.
+	\end{equation*}
+	in quanto
 	\[
 		\begin{aligned}
-			\L(\L^{-1}(l)) & = \L\left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
-			\left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor\right) =                                          \\
-			               & =1 + s_1\left(\left\lfloor \frac{(l-1) \mod(n_1s_1)}{s_1} \right\rfloor \right) + \ldots +
-			s_d\left(\left\lfloor \frac{(l-1) \mod(n_ds_d)}{s_d} \right\rfloor\right)
+			\L(\beta) & = \L\left(\beta_1, \ldots, \beta_{d}\right) =                                                   \\
+			          & =1 + \sum_{h = 1}^d s_1\left(\left\lfloor \frac{(l-1) \pmod{n_hs_h}}{s_h} \right\rfloor \right)
 		\end{aligned}
 	\]
 	\todo{FINIRE}
@@ -437,7 +447,7 @@ numerosi ostacoli \todo{ref to ostacoli}.
 \end{remark}
 
 
-\section{Verso l'unicità}
+\section{Slices, fibers e unfoldings}
 \todo{Cambiare}
 
 
@@ -474,9 +484,20 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 			\prod_{j\neq k}n_j} $ le cui colonne sono mode-$ k $ fibers ordinate seguendo l'ordine naturale
 	su $ \sdom $. In particolare si ha
 	\[
-		T(i,j) = T(\siwc{i}) \text{, con } j = \L(\siwc)
+		(\Tm{T}{k})_{i,j} = T_{\siwc{i}} \text{, con } j = \L(\siwc)
 		.\]
 \end{definition}
+\begin{remark}
+	Possiamo pensare all'unfolding nel modo $ k $ come a rimappare l'indice $ i_{k} $ sulle righe e
+	l'indice $ (i_1, \ldots, i_{k-1}, i_{k+1}, \ldots, i_{d}) $ sulle colonne.
+\end{remark}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/fibers_unfolding.pdf}
+	\caption{Fibre e matricizzazioni nei tre modi per un tensore del terzo ordine.}
+	\label{fig:fibers_unfolding}
+\end{figure}
 
 \begin{example}[De Lathauwer~\cite{lieven2006}]
 	Consideriamo il tensore $ T $ di taglia $ 2\times 2\times 2 $ definito da
@@ -502,11 +523,10 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 	\end{center}
 \end{example}
 
-
-\begin{figure}[ht]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/unfoldings.pdf}
-	\caption{Schema delle matricizzazioni di un tensore.}
+	\caption{Schema delle matricizzazioni e vettorizzazione di un tensore.}
 	\label{fig:unfoldings}
 \end{figure}
 L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
@@ -534,24 +554,56 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 		j_d) $ tali che $ \L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
 		j_d; \msiz!)$.
 \end{definition}
+\begin{remark}
+	Un reshape ha costo nullo perché non si spostano celle di memoria, ma si eseguono solo operazioni
+	di indici. Questa proprietà vale in particolare per tutte le strutture dati (vettori, matrici,
+	tensori) $ \tilde{T} $ tali che $ \vec(\tilde{T}) = \vec(T) $.
+\end{remark}
+\begin{remark}
+	L'unfolding sul primo modo ha costo nullo, in quanto $ \Tm{T}{1} = \reshape(T, n_1 \times
+		\prod_{j=2}^d n_{j}) $, cioè
+	\begin{equation*}
+		\Tm{T}{1} = \left[\begin{array}{c|c|c}
+				T_{:, \ldots, :,1} & \dots & T_{:, \ldots, :, n_{d}}
+			\end{array}\right] \in \R^{n_1 \times
+			\prod_{j=2}^d n_{j}}.
+	\end{equation*}
+\end{remark}
+\begin{remark}
+	Per $ k>1 $, formare l'unfolding $ \Tm{T}{k} $ ha un costo non banale, in particolare $
+		\vec(\Tm{T}{k}) \neq \vec(T) $.
 
-\begin{lemma}[Legame tra il prodotto esterno e il prodotto di Kroneker]
+	Se $ k=d $, l'unfolding $ \Tm{T}{d} = \begin{bmatrix} \vec(T_{:, \ldots, :, 1})^{\top} \\  \vdots
+			\\ \vec(T_{:, \ldots, :, n_{d}})^{\top}\end{bmatrix}  $, e in particolare vale $
+		\vec(\Tm{T}{d}^{\top}) = \vec(T)$. Quindi calcolare la trasposta dell'ultimo unfolding
+	non costa nulla.
+\end{remark}
+
+\begin{lemma}[Vettorizzazione e unfolding di un tensore di rango uno]
+	\label{lhm:vec_unf_rk1}
 	Dato un tensore $ T = v^1 \topp \cdots \topp v^d $, allora
 	\begin{enumerate}[label=(\roman*)]
-		\item $\Vec(T) = v^d \krn \cdots \krn v^1$
+		\item $\Vec(T) = v^d \krn \cdots \krn v^1$.
 		\item $ \Tm{T}{k} = v^k\left( v^d \krn \cdots \krn v^{k-1} \krn v^{k+1} \krn \cdots
-			      \krn v^1 \right)^{\top}$
-		\item $\Tm{T}{\mathcal{R} \times \mathcal{C}} = (v^{r_\delta} \krn \cdots \krn
-			      v^{r_1})(v^{c_{d-\delta}} \krn \cdots \krn v^{c_1})^{\top}$, dove $\mathcal{R} =\left\{ r_1, \ldots,
-			      r_\delta \right\} $ e $ \mathcal{C} = \left\{ c_1, \ldots, c_{d-\delta}
-			      \right\} $.
+			      \krn v^1 \right)^{\top}$.
 	\end{enumerate}
 	In particolare, tutte le matricizzazioni di un prodotto esterno hanno rango 1.
 \end{lemma}
 \begin{proof}
 	La $ (i) $ segue applicando più volte l'Osservazione~\ref{rmk:krn_tensor}. Dimostriamo la $ (ii)
-	$:
-	\todo{scrivere}
+	$. Per definizione di tensore di rango uno~\eqref{eq:rk1_components} la scrittura in componenti di $ T $ è
+	\begin{equation*}
+		T_{i_1, \ldots, i_{d}} = v^1_{i_1} \cdots v^d_{i_{d}} = v^k_{i_{k}} \left( \prod_{\substack{m=1
+				\\ m\neq k}}^d v^m_{i_{m}}\right).
+	\end{equation*}
+	Preso $ u = v^d \krn \cdots \krn v^{k+1} \krn v^{k-1} \krn \cdots \krn v^1 $, osserviamo che la
+	sua componente $ j $-esima è il prodotto fra parentesi, ovvero $ u_{j} =\left( \prod_{\substack{m=1
+				\\ m\neq k}}^d v^m_{i_{m}}\right) $. A questo punto, per definizione di unfolding abbiamo
+	$ \left( \Tm{T}{k} \right)_{i_{k},j} = v^k_{i_{k}}u_{j}$, da cui
+	\begin{equation*}
+		\Tm{T}{k} = v^k u^{\top} = v^k \left( v^d \krn \cdots \krn v^{k+1} \krn v^{k-1} \krn \cdots \krn
+		v^1 \right)^{\top}.
+	\end{equation*}
 \end{proof}
 
 In molte situazioni è utile moltiplicare un tensore con una matrice, ma purtroppo le dimensioni non
@@ -566,61 +618,6 @@ chiama.
 		.\]
 	In componenti, $ Y_{\siwc{\alpha}} = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_k} $.
 \end{definition}
-
-\begin{lemma}
-	Siano $ \Mx{A} \in \K^{m \times n} $, $ \Mx{B} \in \K^{m \times n}$ ed $ \Mx{X} \in \K^{n \times m}$. Allora
-	\begin{equation*}
-		\Vec({\Mx{A}\Mx{X}\Mx{B}}) = (B^{\top} \krn A)\Vec(X)
-	\end{equation*}
-\end{lemma}
-\begin{proof}
-	Scrivendo $ B = [b_1, \ldots, b_n] $ ed $ X = [x_1, \ldots, x_n] $, la $ k- $esima colonna di $
-		AXB $ è
-	\begin{equation*}
-		\begin{aligned}
-			(AXB)_{:,k} & = AXb_k = A \sum_{i=1}^m x_i b_{i,k} = \left[ b_{1,k}A ,\ldots, b_{n,k}A \right]
-			\begin{bmatrix} x_1 \\ \vdots \\ x_m \end{bmatrix} = ([b_{1,k}, \ldots, b_{m,k}] \krn A)
-			\Vec(X).
-		\end{aligned}
-	\end{equation*}
-	Impilando insieme le colonne otteniamo che
-	\begin{equation*}
-		\Vec(AXB) = \begin{bmatrix} (AXB)_{:,1} \\(AXB)_{:,2}\\ \vdots \\ (AXB)_{:,n} \end{bmatrix} =
-		\begin{bmatrix} b_1^{\top} \krn A \\ b_2^{\top} \krn A \\ \vdots \\ b_n^{\top} \krn A
-		\end{bmatrix} \Vec(X) = (B^{\top} \krn A)\Vec(X).
-	\end{equation*}
-\end{proof}
-
-\begin{proposition}
-	Dato un tensore $ T \in \Rmsiz* $ e delle matrici $ U \in \R^{m_1 \times n_1} $, $ V \in
-		\R^{m_1 \times n_2} $ e $ W \in \R^{m_3 \times n_3} $. Sono fatti equivalenti:
-	\begin{enumerate}[label=(\roman*)]
-		\item $Y = T \ttm[1] U \ttm[2] V \ttm[3] W \in \Rmsiz*[m]$.
-		\item $\Vec(Y) = (W \krn V \krn U) \cdot \Vec(T)$.
-		\item $\Tm{Y}{1} = U\Tm{T}{1}(W \krn V)^{\top}$.
-		\item $ \Tm{Y}{2} = V\Tm{T}{2}(W \krn U)^{\top} $.
-		\item $\Tm{Y}{3} = W\Tm{T}{3}(V \krn U)^{\top}$.
-	\end{enumerate}
-\end{proposition}
-\begin{proof}
-	\begin{description}
-		\item[$(1) \iff (2)$] Mostriamo che $\Vec(T \ttm[1] U) = (I \krn I \krn U)
-			      \Vec(T)$.
-		\item[$(2) \iff (4)$] Conversely, assume statement 2 holds. Thus...
-	\end{description}
-\end{proof}
-
-\begin{proposition}
-	Siano $ \Mx{A} \in \R^{m \times p} $ e $ \Mx{B} \in \R^{n \times q} $. Allora,
-	\[
-		\Mx{A} \krn \Mx{B} = \Mx{P}(\Mx{B} \krn \Mx{A})\Mx{Q}^{\top},
-		.\]
-	dove $ \Mx{P} $ e $ \Mx{Q} $ sono matrici di permutazione $ (m,n)- $ e $ (p,q)- $ perfect shuffle, rispettivamente.
-\end{proposition}
-\begin{proof}
-	\todo{ADD}
-
-\end{proof}
 
 
 \todo{Esempio polinomio semisep + altro es}
@@ -736,6 +733,7 @@ Nella pratica esistono diverse euristiche per calcolare il rango. Una di queste 
 relativo rispetto al rango $ r-1 $. Per un tensore a $ 3 $ indici, l'\emph{errore relativo} è
 definito in questo modo:
 \begin{equation}
+	\label{eq:rel_error}
 	\varepsilon_{\text{rel}} = \frac{\| T - \dsqr{A,B,C} \|}{\|T\|} = \frac{\left(\sum_{i,j,k}\left( t_{ijk} -
 		\sum_{l=1}^r a_{il}b_{jl}c_{kl}\right)^2 \right)^{\frac{1}{2}}}{\left( \sum_{i,j,k}
 		t_{ijk}
@@ -948,18 +946,22 @@ risultato di questa sezione.
 \end{lemma}
 \begin{proof}
 	Scrivendo le matricizzazioni di $ T = \sum_{h=1}^r u_h^1 \topp \cdots \topp u_h^d $, dove i vettori $ u_1^j,
-		\ldots, u_r^j $ rappresentano le colonne della matrice $ U_j $, troviamo che \todo{primo passsagio
-		non chiaro}
+		\ldots, u_r^j $ rappresentano le colonne della matrice $ U_j $, troviamo che
 	\begin{equation*}
 		\begin{aligned}
 			\Tm{T}{j} & = \sum_{h=1}^r u_h^j \left( u_h^d \krn \cdots \krn u_h^{j+1} \krn u_h^{j-1} \krn
-			\cdots \krn u_h^1 \right)^{\top}                                                                       \\
+			\cdots \krn u_h^1 \right)^{\top}                                                             \\
 			          & = U_j \begin{bmatrix} u_1^d \krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots
-				                  \krn u_r^1\end{bmatrix}^{\top}             \\
-			          & = U_j \left( U_d \krp \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1 \right)^{\top}
+				                  \krn u_r^1\end{bmatrix}^{\top}   \\
+			          & = U_j \left( U_d \krp \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1
+			\right)^{\top},
 		\end{aligned}
 	\end{equation*}
+	dove nel primo passaggio abbiamo applicato la Proposizione~\ref{lhm:vec_unf_rk1} su ogni addendo di rango uno.
 \end{proof}
+\begin{example}
+	Se $ T = \dsqr{A,B,C} $, allora segue che $ \Tm{T}{1} = A \left( C \krp B \right)^{\top} $.
+\end{example}
 
 
 
@@ -1026,18 +1028,18 @@ risultato di questa sezione.
 \section{Ricostruzione del tensore in formato denso}
 
 In alcune situazioni è utile scrivere il tensore fattorizzato in modo esplicito, ad esempio per
-valutare l'errore di approssimazione o generare numericamente un tensore. Un modo conveniente
+valutare l'errore di approssimazione~\eqref{eq:rel_error} o generare numericamente un tensore. Un modo conveniente
 di farlo è il seguente. Data una fattorizzazione $ T = \dsqr{A,B,C} \in \R^{m\times n\times p} $ di
 rango $ r $,
 dato che $ \vec(T) = \left( C \krp B \krp A \right)\bm{1}_{r} $, saremmo tentati di formare la matrice $ C
 	\krp B \krp A $ e moltiplicarla per il vettore di tutti uni $ \bm{1}_{r} $, ma questa matrice ha più
 entrate del risultato finale. L'approccio vincente è considerare $ \Tm{T}{1} = A \left( C \krp B
-	\right)^{\top} $, ovvero
+	\right)^{\top} $ dato dalla Proposizione~\ref{lhm:krp_unfoldings}, e studiare il sistema
 \begin{equation*}
 	\begin{cases}
 		R = C \krp B,  \\
 		Y = AR^{\top}, \\
-		T = \reshape(T, m \times n\times p).
+		T = \reshape(Y, m \times n\times p).
 	\end{cases}
 \end{equation*}
 Il risultato intermedio $ R \in \R^{np \times r} $ ha costo $ O(npr) $, mentre formare $ Y $ costa $
@@ -1048,49 +1050,117 @@ Il risultato intermedio $ R \in \R^{np \times r} $ ha costo $ O(npr) $, mentre f
 \label{sec:computing_cp}
 
 Trattiamo il problema di trovare la migliore approssimazione con rango $ r $ di un dato tensore.
-Studiamo il caso $ d = 3 $.
+Studiamo il caso $ d = 3 $ per semplicità di notazione.
 Dato $ T \in \R ^ {m \times n \times p} $ cerchiamo una fattorizzazione $ \dsqr{A, B, C} $ con
 $ A \in \R^{m \times r}, B \in \R^{n\times r} $ e $ C \in \R^{p \times r} $ cercando di risolvere il
 problema ai minimi quadrati
 \begin{equation}
+	\tag{$\mathcal{P}$}
+	\label{eq:least_square_tensor}
 	\min_{A,B,C}\| T - \dsqr{A,B,C}\|^2.
 \end{equation}
 Tale problema può essere mal posto per quanto detto sul border rank. Inoltre si tratta di un
 problema non convesso (esistono molti minimi locali); inoltre un tensore può avere
 fattorizzazioni CP multiple.
 
+\begin{definition}[Prodotto di Hadamard]
+	Date due matrici $ A,B \in \R^{m\times n} $, il loro \emph{prodotto di Hadamard} è il loro
+	prodotto elemento per elemento, e si indica con la matrice $ C = A \had B $ con entrate $ C_{ij} =
+		a_{ij}b_{ij} $.
+\end{definition}
+\begin{lemma}
+	\label{lhm:had_krp}
+	Date delle matrici $ A \in \R^{m\times r}, B \in \R^{n \times r}, C \in \R^{m\times s}, D \in
+		\R^{n\times s} $, vale
+	\begin{equation*}
+		\left( A \krp B \right)^{\top} \left( C \krp D \right) = (
+		A^{\top}C ) \had ( B^{\top}D ).
+	\end{equation*}
+\end{lemma}
+\begin{proof}
+	Basta osservare che la matrice
+	\todo{array ticker brackets []}
+	\begin{equation*}
+		\begin{aligned}
+			(A \krp B)^{\top}(C \krp D) =
+			\begin{bmatrix} a_1^{\top} \krn b_1^{\top} \\ \vdots \\
+				a_{r}^{\top} \krn b_{r}^{\top}
+			\end{bmatrix} \left[\begin{array}{c|c|c}
+					                    c_1 \krn d_{1} & \dots & c_{s} \krn d_{s}
+				                    \end{array}\right].
+		\end{aligned}
+	\end{equation*}
+	ha come entrata $ (i,j) $ l'elemento $ (a_{i}^{\top}c_{j})(b_{i}^{\top}d_{j}) $, che corrisponde
+	all'entrata $ (i,j) $ di $ (A^{\top}C ) \had ( B^{\top}D ) $.
+\end{proof}
+
+
+
 \subsubsection{Alternating least-squares}
 
-Considero
-\[
+Nonostante la funzione obbiettivo dell'Equazione~$\eqref{eq:least_square_tensor}$ non sia convessa,
+essa è convessa nelle singole variabili. Ovvero, fissando $ B $ e $ C $, ottimizzare solo su $ A $
+significa risolvere un problema ai minimi quadrati lineare
+\begin{equation}
+	\label{eq:lsq_matrix}
 	\| T - \dsqr{A,B,C}\|^2 = \| \Tm{T}{1} - A(C \krp B)^{\top}\|_F^2 = \| (C \krp B)A^{\top} -
-	\Tm{T}{1}^{\top}\|_F^2
-	,\]
-ovvero un problema lineare ai minimi quadrati dove l'incognita è una matrice $ A $.
+	\Tm{T}{1}^{\top}\|_F^2,
+\end{equation}
+dove l'incognita è una matrice. Nel primo
+passaggio abbiamo applicato la Proposizione~\ref{lhm:krp_unfoldings} per ridurci a un problema ai
+minimi quadrati matriciale.
 La soluzione può essere espressa \todo{why?} in termini delle equazioni normali
 \[
 	(C \krp B)^{\top}(C \krp B)A^T = (C \krp B)^{\top}\Tm{T}{1}^{\top}
 	,\]
-se e solo se, usando il lemma \todo{lemma KRP HADamard}
-\[
-	(C^{\top}C \had B^{\top}B)A^{\top} = (C \krp B)^{\top}\Tm{T}{1}^{\top}
-	.\]
-La matrice $ Z = \R^{r\times r} $ è semidefinita positiva, e quando è positiva definita (accade se
-$ C \krp B $ è full-rank possiamo risolvere con la fattorizzazione di Cholesky il sistema)
+se e solo se, usando il Lemma~\ref{lhm:had_krp}
 \begin{equation}
-	AZ = \Tm{T}{1}(C\krp B)= M
+	\label{eq:als_pseudoinverse_eq}
+	(C^{\top}C \had B^{\top}B)A^{\top} = (C \krp B)^{\top}\Tm{T}{1}^{\top}
 \end{equation}
-\todo{vEdi fogli per calcolo costo}
+Sia $ Z \defeq C^{\top}C \had B^{\top}B \in \R^{r\times r} $. Osserviamo che calcolare $ Z $ ha costo $
+	O((n+p)r^2) $. Inoltre $ Z $ è semidefinita positiva\todo{motiva}, e quando $ C
+	\krp B$ è full-rank è positiva definita: in tal caso possiamo risolvere con la fattorizzazione di Cholesky il sistema
+\begin{equation}
+	AZ = \Tm{T}{1}(C\krp B)= M,
+\end{equation}
+con costo $ O(r^2m + r^3) $ \todo{verifica}
 
+L'idea dell'algoritmo ALS è di minimizzare ciclicamente la funzione obiettivo
+dell'Equazione~\eqref{eq:lsq_matrix}, prima al variare di $ A $, poi $ B $ e poi $ C $. Ognuno dei problemi dati dall'Equazione ha costo $
+	O(mnpr) $\todo{verificare (aggiungerebbe un paragrafetto)}. Riassumiamo questo schema
+nell'Algoritmo~\ref{alg:ALS}, dove in ogni passaggio riscaliamo la fattorizzazione CP come $
+	\dsqr{AD_{A}, BD_{B}, CD_{C}} $ con delle
+matrici tali che $ D_{A}D_{B}D_{C} = I_{r} $ per riscalare le colonne dei due fattori fissati in
+modo che abbiano norma unitaria.
 
 \begin{algorithm}[htbp]
 	\caption{Schema dell'algoritmo ALS.}
 	\label{alg:ALS}
 	\begin{algorithmic}[1]
+		\Require Tensore $ T $ di rango $ r $, tolleranza $ \varepsilon $.
+		\State Generiamo $ B $ e $ C $ in modo casuale.
+		\State Normalizziamo le colonne di $ B $.
 		\Repeat
-		\State $ A \gets \arg \min_{A} \| T - \dsqr{A,B,C} \|^2 $
-		\State $ B \gets \arg \min_{B} \| T - \dsqr{A,B,C} \|^2 $
-		\State $ C \gets \arg \min_{C} \| T - \dsqr{A,B,C} \|^2 $
-		\Until{Not converged}
+		\State Normalizziamo le colonne di $ C $.
+		\State $ A \gets \arg \min_{A} \| T - \dsqr{A,B,C} \|^2 $.
+		\State Normalizziamo le colonne di $ A $.
+		\State $ B \gets \arg \min_{B} \| T - \dsqr{A,B,C} \|^2 $.
+		\State Normalizziamo le colonne di $ B $.
+		\State $ C \gets \arg \min_{C} \| T - \dsqr{A,B,C} \|^2 $.
+		\Until{$ \frac{\| T - \dsqr{A,B,C} \|}{\|T\|} > \varepsilon $.}
 	\end{algorithmic}
 \end{algorithm}
+
+\begin{remark}
+	Dato che in genere non si sa il valore ottimo del problema~$\eqref{eq:least_square_tensor}$,
+	arrestiamo l'algortmo quando sta ``stagnando'', ovvero quando l'errore relativo fra due iterazioni
+	successive diminuisce meno di un dato fattore.
+\end{remark}
+
+\begin{remark}
+	Nel caso di $ T $ matrice, il fattore $ C = I $ e nel caso $ T $ ha rango $ r=1 $, l'algoritmo diventa il
+	metodo delle potenze, in quanto l'Equazione~\eqref{eq:als_pseudoinverse_eq} degenera in $ a \gets
+		T \frac{b}{\|b\|^2}$ e $ b \gets T^{\top}\frac{a}{\|a\|^2} $, mentre per $ T $ di rango $ r > 1 $ diventa il metodo dei
+	sottospazi: $ A \gets TB(B^{\top}B)^{-1} $ e $ B \gets T^{\top}A(A^{\top}A)^{-1} $.
+\end{remark}

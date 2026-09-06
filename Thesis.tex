@@ -1,4 +1,4 @@
-\documentclass{mimosis}
+\documentclass[draft]{mimosis}
 
 \usepackage{metalogo}
 
@@ -131,6 +131,9 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
 \newcommand{\K}{\mathbb{K}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
@@ -180,7 +183,7 @@
 
 \mainmatter
 
-% \include{Sources/Introduction}
+\include{Sources/Introduction}
 \include{Sources/Chapter1/Chapter1}
 %\include{Sources/Chapter2/Chapter2}
 %\include{Sources/Chapter3/Chapter3}

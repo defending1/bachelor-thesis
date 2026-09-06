@@ -1,0 +1,353 @@
+\providecommand{\Tn}[1]{\mathcal{#1}}
+\providecommand{\Mx}[1]{\mathbf{#1}}
+
+% Label color (bold dark red for (a), (b), etc.)
+\definecolor{labelRed}{HTML}{A6192E}
+
+% --- Color Palettes (Shade 1 = darkest, Shade 5/6 = lightest) ---
+
+% Red Palette (5 shades for Mode-1 j=1..5)
+\definecolor{red1}{HTML}{E4191B}
+\definecolor{red2}{HTML}{E94749}
+\definecolor{red3}{HTML}{EE7576}
+\definecolor{red4}{HTML}{F4A3A4}
+\definecolor{red5}{HTML}{F9D1D1}
+
+% Blue Palette (5 shades for Mode-1 k=2; 6 shades for Mode-3 j=1)
+\definecolor{blue5_1}{HTML}{377EB8}
+\definecolor{blue5_2}{HTML}{5799C6}
+\definecolor{blue5_3}{HTML}{8FBBD9}
+\definecolor{blue5_4}{HTML}{C7DDEC}
+\definecolor{blue5_5}{HTML}{E4EEF5}
+
+\definecolor{blue6_1}{HTML}{377EB8}
+\definecolor{blue6_2}{HTML}{5799C6}
+\definecolor{blue6_3}{HTML}{74ABD0}
+\definecolor{blue6_4}{HTML}{8FBBD9}
+\definecolor{blue6_5}{HTML}{C7DDEC}
+\definecolor{blue6_6}{HTML}{DFEAF3}
+
+% Green Palette (5 shades for Mode-1 k=3; 6 shades for Mode-3 j=2)
+\definecolor{green5_1}{HTML}{4CAE4A}
+\definecolor{green5_2}{HTML}{55B04F}
+\definecolor{green5_3}{HTML}{78C073}
+\definecolor{green5_4}{HTML}{C4E4C3}
+\definecolor{green5_5}{HTML}{DEEFDD}
+
+\definecolor{green6_1}{HTML}{4CAE4A}
+\definecolor{green6_2}{HTML}{55B04F}
+\definecolor{green6_3}{HTML}{78C073}
+\definecolor{green6_4}{HTML}{98CF95}
+\definecolor{green6_5}{HTML}{C4E4C3}
+\definecolor{green6_6}{HTML}{E2F2E2}
+
+% Purple Palette (5 shades for Mode-1 k=4; 6 shades for Mode-2 k=1, Mode-3 j=3)
+\definecolor{purple5_1}{HTML}{984DA3}
+\definecolor{purple5_2}{HTML}{A96CB2}
+\definecolor{purple5_3}{HTML}{C098C8}
+\definecolor{purple5_4}{HTML}{DDC4E0}
+\definecolor{purple5_5}{HTML}{EEE2F0}
+
+\definecolor{purple6_1}{HTML}{984DA3}
+\definecolor{purple6_2}{HTML}{A96CB2}
+\definecolor{purple6_3}{HTML}{B280BA}
+\definecolor{purple6_4}{HTML}{C098C8}
+\definecolor{purple6_5}{HTML}{DDC4E0}
+\definecolor{purple6_6}{HTML}{EEE2F0}
+
+% Orange Palette (6 shades for Mode-2 k=2, Mode-3 j=4)
+\definecolor{orange6_1}{HTML}{FF7F00}
+\definecolor{orange6_2}{HTML}{FF9933}
+\definecolor{orange6_3}{HTML}{FFAA55}
+\definecolor{orange6_4}{HTML}{FFBB77}
+\definecolor{orange6_5}{HTML}{FFCC99}
+\definecolor{orange6_6}{HTML}{FFE5CC}
+
+% Grey Palette (6 shades for Mode-2 k=3, Mode-3 j=5)
+\definecolor{grey6_1}{HTML}{777777}
+\definecolor{grey6_2}{HTML}{888888}
+\definecolor{grey6_3}{HTML}{999999}
+\definecolor{grey6_4}{HTML}{BBBBBB}
+\definecolor{grey6_5}{HTML}{DDDDDD}
+\definecolor{grey6_6}{HTML}{EEEEEE}
+
+% Brown Palette (6 shades for Mode-2 k=4)
+\definecolor{brown6_1}{HTML}{A65628}
+\definecolor{brown6_2}{HTML}{B86B39}
+\definecolor{brown6_3}{HTML}{CB8657}
+\definecolor{brown6_4}{HTML}{DDA47B}
+\definecolor{brown6_5}{HTML}{E8C4A9}
+\definecolor{brown6_6}{HTML}{F4E2D5}
+
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+
+	% Cube dimensions (w = h = 2.1 for true cubic shape)
+	\pgfmathsetmacro{\w}{2.1}
+	\pgfmathsetmacro{\h}{2.1}
+	\pgfmathsetmacro{\dx}{0.65}
+	\pgfmathsetmacro{\dy}{0.65}
+	\pgfmathsetmacro{\numCols}{5}
+	\pgfmathsetmacro{\numRows}{6}
+	\pgfmathsetmacro{\numDepth}{4}
+	\pgfmathsetmacro{\colW}{\w / \numCols}
+	\pgfmathsetmacro{\rowH}{\h / \numRows}
+	\pgfmathsetmacro{\stepX}{\dx / \numDepth}
+	\pgfmathsetmacro{\stepY}{\dy / \numDepth}
+
+	% Unfolding matrix parameters:
+	% Shared column width applied to all modes (matching column width of first tensor: cw = colW)
+	\pgfmathsetmacro{\cw}{\colW}
+
+	% Base start X position of third unfolding (Mode 3, 30 columns)
+	\pgfmathsetmacro{\unfoldXBase}{3.8}
+	\pgfmathsetmacro{\xCenter}{\unfoldXBase + 15 * \cw}
+
+	% Start X positions for each unfolding to align centers with the 3rd unfolding center
+	\pgfmathsetmacro{\unfoldXOne}{\xCenter - 10 * \cw}  % 20 columns -> 10 * cw from center
+	\pgfmathsetmacro{\unfoldXTwo}{\xCenter - 12 * \cw}  % 24 columns -> 12 * cw from center
+	\pgfmathsetmacro{\unfoldXThree}{\unfoldXBase}       % 30 columns -> 15 * cw from center
+
+	% 3D Tensor y-center position: yCenter = (h + dy) / 2
+	\pgfmathsetmacro{\yCenter}{(\h + \dy) / 2.0}
+
+	% Mode heights (Mode 1 tallest = 2.1 cm, Mode 2 smaller = 1.75 cm, Mode 3 smallest = 1.4 cm)
+	\pgfmathsetmacro{\uhOne}{2.10}
+	\pgfmathsetmacro{\uhTwo}{1.75}
+	\pgfmathsetmacro{\uhThree}{1.40}
+
+	% =========================================================
+	% ROW 1: (a) Mode-1 fibers & (b) Mode-1 unfolding
+	% =========================================================
+	\begin{scope}[shift={(0, 8.2)}]
+		% (a) Mode-1 fibers (Cube)
+		% Top face
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+
+				\fill[red\j!95!white, draw=black, thin] (\xL + 0*\stepX, \h + 0*\stepY) -- (\xL + 1*\stepX, \h + 1*\stepY) -- (\xR + 1*\stepX, \h + 1*\stepY) -- (\xR + 0*\stepX, \h + 0*\stepY) -- cycle;
+				\fill[blue5_\j!95!white, draw=black, thin] (\xL + 1*\stepX, \h + 1*\stepY) -- (\xL + 2*\stepX, \h + 2*\stepY) -- (\xR + 2*\stepX, \h + 2*\stepY) -- (\xR + 1*\stepX, \h + 1*\stepY) -- cycle;
+				\fill[green5_\j!95!white, draw=black, thin] (\xL + 2*\stepX, \h + 2*\stepY) -- (\xL + 3*\stepX, \h + 3*\stepY) -- (\xR + 3*\stepX, \h + 3*\stepY) -- (\xR + 2*\stepX, \h + 2*\stepY) -- cycle;
+				\fill[purple5_\j!95!white, draw=black, thin] (\xL + 3*\stepX, \h + 3*\stepY) -- (\xL + 4*\stepX, \h + 4*\stepY) -- (\xR + 4*\stepX, \h + 4*\stepY) -- (\xR + 3*\stepX, \h + 3*\stepY) -- cycle;
+			}
+
+		% Front face (5 vertical column fibers for k=1: Red)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+				\fill[red\j, draw=black, thin] (\xL, 0) rectangle (\xR, \h);
+			}
+
+		% Right side face
+		\fill[red5!85!black, draw=black, thin] (\w + 0*\stepX, 0*\stepY) -- (\w + 1*\stepX, 1*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- (\w + 0*\stepX, \h + 0*\stepY) -- cycle;
+		\fill[blue5_5!85!black, draw=black, thin] (\w + 1*\stepX, 1*\stepY) -- (\w + 2*\stepX, 2*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- cycle;
+		\fill[green5_5!85!black, draw=black, thin] (\w + 2*\stepX, 2*\stepY) -- (\w + 3*\stepX, 3*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- cycle;
+		\fill[purple5_5!85!black, draw=black, thin] (\w + 3*\stepX, 3*\stepY) -- (\w + 4*\stepX, 4*\stepY) -- (\w + 4*\stepX, \h + 4*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- cycle;
+
+		% Subfigure Label (a)
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {\textbf{\color{labelRed}(a)} Mode-1 fibers.};
+
+		% (b) Mode-1 unfolding (20 columns, centered at xCenter)
+		\pgfmathsetmacro{\uy}{\yCenter - \uhOne / 2.0}
+		\pgfmathsetmacro{\unfoldW}{20 * \cw}
+
+		% Block 1: Red (k=1)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\c}{\j}
+				\pgfmathsetmacro{\xL}{\unfoldXOne + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXOne + \c * \cw}
+				\fill[red\j, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhOne);
+			}
+		% Block 2: Blue (k=2)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\c}{5 + \j}
+				\pgfmathsetmacro{\xL}{\unfoldXOne + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXOne + \c * \cw}
+				\fill[blue5_\j, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhOne);
+			}
+		% Block 3: Green (k=3)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\c}{10 + \j}
+				\pgfmathsetmacro{\xL}{\unfoldXOne + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXOne + \c * \cw}
+				\fill[green5_\j, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhOne);
+			}
+		% Block 4: Purple (k=4)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\c}{15 + \j}
+				\pgfmathsetmacro{\xL}{\unfoldXOne + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXOne + \c * \cw}
+				\fill[purple5_\j, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhOne);
+			}
+
+		\draw[draw=black, line width=0.5pt] (\unfoldXOne, \uy) rectangle (\unfoldXOne + \unfoldW, \uy + \uhOne);
+
+		% Subfigure Label (b) centered at xCenter
+		\node[anchor=north, align=center] at (\xCenter, -0.35) {\textbf{\color{labelRed}(b)} Mode-1 unfolding.};
+	\end{scope}
+
+	% =========================================================
+	% ROW 2: (c) Mode-2 fibers & (d) Mode-2 unfolding
+	% =========================================================
+	\begin{scope}[shift={(0, 4.1)}]
+		% (c) Mode-2 fibers (Cube)
+		% Top face (4 depth strips for Row 1: k=1 Purple, k=2 Orange, k=3 Grey, k=4 Brown)
+		\fill[purple6_1!95!white, draw=black, thin] (0*\stepX, \h + 0*\stepY) -- (1*\stepX, \h + 1*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- (\w + 0*\stepX, \h + 0*\stepY) -- cycle;
+		\fill[orange6_1!95!white, draw=black, thin] (1*\stepX, \h + 1*\stepY) -- (2*\stepX, \h + 2*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- (\w + 1*\stepX, \h + 1*\stepY) -- cycle;
+		\fill[grey6_1!95!white, draw=black, thin] (2*\stepX, \h + 2*\stepY) -- (3*\stepX, \h + 3*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- (\w + 2*\stepX, \h + 2*\stepY) -- cycle;
+		\fill[brown6_1!95!white, draw=black, thin] (3*\stepX, \h + 3*\stepY) -- (4*\stepX, \h + 4*\stepY) -- (\w + 4*\stepX, \h + 4*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- cycle;
+
+		% Front face (6 horizontal row fibers for k=1: Purple gradient top to bottom)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+				\fill[purple6_\i, draw=black, thin] (0, \yLower) rectangle (\w, \yUpper);
+			}
+
+		% Right side face: 6 rows x 4 depth cells grid
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+
+				\fill[purple6_\i!85!black, draw=black, thin] (\w + 0*\stepX, \yLower + 0*\stepY) -- (\w + 1*\stepX, \yLower + 1*\stepY) -- (\w + 1*\stepX, \yUpper + 1*\stepY) -- (\w + 0*\stepX, \yUpper + 0*\stepY) -- cycle;
+				\fill[orange6_\i!85!black, draw=black, thin] (\w + 1*\stepX, \yLower + 1*\stepY) -- (\w + 2*\stepX, \yLower + 2*\stepY) -- (\w + 2*\stepX, \yUpper + 2*\stepY) -- (\w + 1*\stepX, \yUpper + 1*\stepY) -- cycle;
+				\fill[grey6_\i!85!black, draw=black, thin] (\w + 2*\stepX, \yLower + 2*\stepY) -- (\w + 3*\stepX, \yLower + 3*\stepY) -- (\w + 3*\stepX, \yUpper + 3*\stepY) -- (\w + 2*\stepX, \yUpper + 2*\stepY) -- cycle;
+				\fill[brown6_\i!85!black, draw=black, thin] (\w + 3*\stepX, \yLower + 3*\stepY) -- (\w + 4*\stepX, \yLower + 4*\stepY) -- (\w + 4*\stepX, \yUpper + 4*\stepY) -- (\w + 3*\stepX, \yUpper + 3*\stepY) -- cycle;
+			}
+
+		% Subfigure Label (c)
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {\textbf{\color{labelRed}(c)} Mode-2 fibers.};
+
+		% (d) Mode-2 unfolding (24 columns, centered at xCenter)
+		\pgfmathsetmacro{\uy}{\yCenter - \uhTwo / 2.0}
+		\pgfmathsetmacro{\unfoldW}{24 * \cw}
+
+		% Block 1: Purple (k=1)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{\i}
+				\pgfmathsetmacro{\xL}{\unfoldXTwo + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXTwo + \c * \cw}
+				\fill[purple6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhTwo);
+			}
+		% Block 2: Orange (k=2)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{6 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXTwo + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXTwo + \c * \cw}
+				\fill[orange6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhTwo);
+			}
+		% Block 3: Grey (k=3)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{12 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXTwo + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXTwo + \c * \cw}
+				\fill[grey6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhTwo);
+			}
+		% Block 4: Brown (k=4)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{18 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXTwo + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXTwo + \c * \cw}
+				\fill[brown6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhTwo);
+			}
+
+		\draw[draw=black, line width=0.5pt] (\unfoldXTwo, \uy) rectangle (\unfoldXTwo + \unfoldW, \uy + \uhTwo);
+
+		% Subfigure Label (d) centered at xCenter
+		\node[anchor=north, align=center] at (\xCenter, -0.35) {\textbf{\color{labelRed}(d)} Mode-2 unfolding.};
+	\end{scope}
+
+	% =========================================================
+	% ROW 3: (e) Mode-3 fibers & (f) Mode-3 unfolding
+	% =========================================================
+	\begin{scope}[shift={(0, 0.0)}]
+		% (e) Mode-3 fibers (Cube)
+		% Top face (5 column bands: j=1 Blue, j=2 Green, j=3 Purple, j=4 Orange, j=5 Grey)
+		\foreach \j in {1,...,5} {
+				\pgfmathsetmacro{\xL}{(\j - 1) * \colW}
+				\pgfmathsetmacro{\xR}{\j * \colW}
+
+				\ifnum\j=1 \def\topC{blue6_1}\fi
+				\ifnum\j=2 \def\topC{green6_1}\fi
+				\ifnum\j=3 \def\topC{purple6_1}\fi
+				\ifnum\j=4 \def\topC{orange6_1}\fi
+				\ifnum\j=5 \def\topC{grey6_1}\fi
+
+				\fill[\topC!95!white, draw=black, thin] (\xL, \h) -- (\xL + \dx, \h + \dy) -- (\xR + \dx, \h + \dy) -- (\xR, \h) -- cycle;
+			}
+
+		% Front face (6x5 grid of cells with vertical gradients per column)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+
+				% Column 1: Blue
+				\fill[blue6_\i, draw=black, thin] (0*\colW, \yLower) rectangle (1*\colW, \yUpper);
+				% Column 2: Green
+				\fill[green6_\i, draw=black, thin] (1*\colW, \yLower) rectangle (2*\colW, \yUpper);
+				% Column 3: Purple
+				\fill[purple6_\i, draw=black, thin] (2*\colW, \yLower) rectangle (3*\colW, \yUpper);
+				% Column 4: Orange
+				\fill[orange6_\i, draw=black, thin] (3*\colW, \yLower) rectangle (4*\colW, \yUpper);
+				% Column 5: Grey
+				\fill[grey6_\i, draw=black, thin] (4*\colW, \yLower) rectangle (5*\colW, \yUpper);
+			}
+
+		% Right side face (6 horizontal strips for column 5: Grey gradient top to bottom)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\yUpper}{\h - (\i - 1) * \rowH}
+				\pgfmathsetmacro{\yLower}{\h - \i * \rowH}
+
+				\fill[grey6_\i!85!black, draw=black, thin] (\w, \yLower) -- (\w + \dx, \yLower + \dy) -- (\w + \dx, \yUpper + \dy) -- (\w, \yUpper) -- cycle;
+			}
+
+		% Subfigure Label (e)
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {\textbf{\color{labelRed}(e)} Mode-3 fibers.};
+
+		% (f) Mode-3 unfolding (30 columns, centered at xCenter)
+		\pgfmathsetmacro{\uy}{\yCenter - \uhThree / 2.0}
+		\pgfmathsetmacro{\unfoldW}{30 * \cw}
+
+		% Block 1: Blue (j=1)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{\i}
+				\pgfmathsetmacro{\xL}{\unfoldXThree + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXThree + \c * \cw}
+				\fill[blue6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhThree);
+			}
+		% Block 2: Green (j=2)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{6 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXThree + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXThree + \c * \cw}
+				\fill[green6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhThree);
+			}
+		% Block 3: Purple (j=3)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{12 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXThree + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXThree + \c * \cw}
+				\fill[purple6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhThree);
+			}
+		% Block 4: Orange (j=4)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{18 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXThree + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXThree + \c * \cw}
+				\fill[orange6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhThree);
+			}
+		% Block 5: Grey (j=5)
+		\foreach \i in {1,...,6} {
+				\pgfmathsetmacro{\c}{24 + \i}
+				\pgfmathsetmacro{\xL}{\unfoldXThree + (\c - 1) * \cw}
+				\pgfmathsetmacro{\xR}{\unfoldXThree + \c * \cw}
+				\fill[grey6_\i, draw=black, thin] (\xL, \uy) rectangle (\xR, \uy + \uhThree);
+			}
+
+		\draw[draw=black, line width=0.5pt] (\unfoldXThree, \uy) rectangle (\unfoldXThree + \unfoldW, \uy + \uhThree);
+
+		% Subfigure Label (f) centered at xCenter
+		\node[anchor=north, align=center] at (\xCenter, -0.35) {\textbf{\color{labelRed}(f)} Mode-3 unfolding.};
+	\end{scope}
+
+\end{tikzpicture}
