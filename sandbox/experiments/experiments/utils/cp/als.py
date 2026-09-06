@@ -1,5 +1,5 @@
 """
-TensorLy-powered CP-ALS solvers (Standard and Non-Negative CP) with initialization restarts.
+TensorLy-powered CP-ALS solvers (Standard and Non-Negative CP) returning CP container instances.
 """
 
 import time
@@ -9,6 +9,7 @@ import tensorly as tl
 from tensorly.decomposition import parafac, non_negative_parafac
 
 from .metrics import relative_error
+from .CP import CP
 
 
 def solve_cp_als(
@@ -19,9 +20,10 @@ def solve_cp_als(
     random_state: Optional[int] = 42,
     restore_physical_scale: bool = False,
     n_restarts: int = 10,
-) -> Tuple[Tuple[np.ndarray, ...], float]:
+) -> CP:
     """
-    Decomposes a tensor into CP factor matrices using TensorLy CP-ALS with restarts.
+    Decomposes a tensor into CP factor matrices using TensorLy CP-ALS with restarts,
+    returning a CP object encapsulating factors and reconstruction error.
 
     Args:
         tensor (np.ndarray): Target tensor of shape (I, J, K, ...).
@@ -34,12 +36,12 @@ def solve_cp_als(
         n_restarts (int): Number of initialization restarts.
 
     Returns:
-        Tuple[Tuple[np.ndarray, ...], float]:
-            - Tuple of estimated factor matrices (A_est, B_est, C_est, ...)
-            - Relative reconstruction error ||T - T_rec||_F / ||T||_F
+        CP: Encapsulated CP factorization result.
     """
+    start_t = time.time()
     best_rec_err = float("inf")
     best_factors = None
+    best_weights = None
 
     base_seed = random_state
 
@@ -63,13 +65,15 @@ def solve_cp_als(
             if rec_err < best_rec_err:
                 best_rec_err = rec_err
                 best_factors = [f.copy() for f in factors]
+                best_weights = weights.copy() if weights is not None else None
         except Exception:
             continue
 
     if best_factors is None:
         raise RuntimeError("CP-ALS factorization failed for all restarts.")
 
-    factors = tuple(best_factors)
+    elapsed = time.time() - start_t
+    factors = list(best_factors)
 
     if restore_physical_scale and len(factors) == 3:
         A_est, C_est, S_est = factors[0], factors[1], factors[2]
@@ -83,9 +87,16 @@ def solve_cp_als(
         A_est = A_est * scale_factor
         C_est = (C_est / norm_C) * np.sqrt(J)
         S_est = (S_est / norm_S) * np.sqrt(K)
-        factors = (A_est, C_est, S_est)
+        factors = [A_est, C_est, S_est]
 
-    return factors, best_rec_err
+    return CP(
+        tensor=tensor,
+        rank=rank,
+        factors=factors,
+        weights=best_weights,
+        rec_error=best_rec_err,
+        runtime=elapsed,
+    )
 
 
 def solve_nonnegative_cp_als(
@@ -95,10 +106,10 @@ def solve_nonnegative_cp_als(
     tol: float = 1e-7,
     n_restarts: int = 5,
     random_state: Optional[int] = 42,
-) -> Tuple[Any, float, float]:
+) -> CP:
     """
     Fits non-negative CP decomposition of specified rank with multiple random restarts
-    using TensorLy's non_negative_parafac.
+    using TensorLy's non_negative_parafac, returning a CP object.
 
     Args:
         tensor (np.ndarray): Non-negative tensor X.
@@ -109,13 +120,11 @@ def solve_nonnegative_cp_als(
         random_state (Optional[int]): Base random seed.
 
     Returns:
-        Tuple[CPTensor, float, float]:
-            - Best CPTensor representation (weights, factors)
-            - Relative reconstruction error
-            - Elapsed runtime in seconds for best run
+        CP: Encapsulated non-negative CP factorization result.
     """
     best_error = float("inf")
-    best_cp = None
+    best_factors = None
+    best_weights = None
     best_time = 0.0
 
     base_seed = random_state
@@ -134,12 +143,21 @@ def solve_nonnegative_cp_als(
         )
 
         elapsed = time.time() - start_t
+        weights, factors = cp_tensor
         reconstruction = tl.cp_to_tensor(cp_tensor)
         rel_err = relative_error(tensor, reconstruction)
 
         if rel_err < best_error:
             best_error = rel_err
-            best_cp = cp_tensor
+            best_factors = [f.copy() for f in factors]
+            best_weights = weights.copy() if weights is not None else None
             best_time = elapsed
 
-    return best_cp, best_error, best_time
+    return CP(
+        tensor=tensor,
+        rank=rank,
+        factors=best_factors,
+        weights=best_weights,
+        rec_error=best_error,
+        runtime=best_time,
+    )

@@ -9,7 +9,8 @@ from typing import Optional, Dict, Any, Union
 
 from experiments.dscdma.config import SimConfig
 from experiments.dscdma.utils.generator import DSCDMADatasetGenerator
-from experiments.dscdma.solver import solve_cp_als, align_factors
+from experiments.dscdma.solver import align_factors
+from experiments.utils.cp import CP
 from experiments.dscdma.utils.exporter import save_dataset, load_dataset
 from experiments.dscdma.plot import plot_antenna_and_radii
 
@@ -102,27 +103,23 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
     antenna_pos_true = data["antenna_pos"]
 
     print(">>> Solving CP-ALS decomposition...")
-    (A_est, C_est, S_est), rec_err = solve_cp_als(
-        T_true,
-        rank=config.num_sources,
+    cp = CP(T_true, config.num_sources).compute(
         n_iter_max=2000,
         tol=1e-9,
         random_state=config.seed,
         restore_physical_scale=config.restore_physical_scale,
     )
-    print(f"  Relative Tensor Reconstruction Error: {rec_err:.6e}")
+    print(f"  Relative Tensor Reconstruction Error: {cp.rec_error:.6e}")
 
     print(">>> Aligning recovered factors with ground-truth channel...")
-    A_est, C_est, S_est, perm, signs = align_factors(
-        A_est, C_est, S_est, data["A_true"]
-    )
+    align_factors(cp, data["A_true"])
 
     title = f"Antenna & User Scatter Plot with Distance Circles (R={config.num_sources}, I={config.num_antennas})"
     plot_antenna_and_radii(
         user_pos=user_pos,
         antenna_pos_true=antenna_pos_true,
-        A_est=A_est,
-        S_est=S_est,
+        A_est=cp.A,
+        S_est=cp.S,
         title=title,
         save_path=str(output_path),
         show=False,

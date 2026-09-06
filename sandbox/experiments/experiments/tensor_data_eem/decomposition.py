@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import scipy.io as sio
 
-from experiments.utils.cp import solve_nonnegative_cp_als, align_components
+from experiments.utils.cp import CP, align_components
 
 
 def load_eem_data(mat_path: Path):
@@ -34,13 +34,12 @@ def load_eem_data(mat_path: Path):
 
 
 def fit_cp_with_restarts(X: np.ndarray, rank: int,
-                         n_iter_max: int = 1000, n_restarts: int = 5, tol: float = 1e-7):
+                         n_iter_max: int = 1000, n_restarts: int = 5, tol: float = 1e-7) -> CP:
     """
-    Fit non-negative CP decomposition of specified rank using central utils.cp solver.
+    Fit non-negative CP decomposition of specified rank using central CP class.
     """
-    return solve_nonnegative_cp_als(
-        tensor=X,
-        rank=rank,
+    return CP(X, rank).compute(
+        nonnegative=True,
         n_iter_max=n_iter_max,
         tol=tol,
         n_restarts=n_restarts,
@@ -71,11 +70,13 @@ def run_experiment(mat_path: Path, target_error: float, max_rank: int,
     best_cp_models = {}
 
     for rank in range(1, max_rank + 1):
-        cp_model, rel_error, elapsed = fit_cp_with_restarts(
+        cp_model = fit_cp_with_restarts(
             X, rank=rank,
             n_iter_max=n_iter_max, n_restarts=n_restarts
         )
 
+        rel_error = cp_model.rec_error
+        elapsed = cp_model.runtime
         fit_percentage = (1.0 - rel_error) * 100.0
         best_cp_models[rank] = cp_model
 

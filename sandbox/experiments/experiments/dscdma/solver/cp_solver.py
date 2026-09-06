@@ -2,11 +2,11 @@
 DS-CDMA Tensor Factorization using CP-ALS (TensorLy), Channel Matrix Matching, and Code Matching.
 """
 
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Union
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-from experiments.utils.cp import solve_cp_als, relative_error
+from experiments.utils.cp import CP, solve_cp_als, relative_error
 
 
 def align_factors_by_channel_matching(
@@ -114,16 +114,36 @@ def align_factors_by_code_matching(
 
 
 def align_factors(
-    A_est: np.ndarray,
-    C_est: np.ndarray,
-    S_est: np.ndarray,
-    A_true: np.ndarray,
+    A_est: Union[np.ndarray, CP],
+    C_est: Optional[np.ndarray] = None,
+    S_est: Optional[np.ndarray] = None,
+    A_true: Optional[np.ndarray] = None,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Aligns CP factor matrices (A_est, C_est, S_est) against ground-truth channel matrix A_true
     using channel matching, resolving column permutation and sign ambiguities.
+    Supports passing a CP instance as the first argument.
     """
-    return align_factors_by_channel_matching(A_est, C_est, S_est, A_true)
+    if isinstance(A_est, CP):
+        cp_obj = A_est
+        A_val = cp_obj.A
+        C_val = cp_obj.C
+        S_val = cp_obj.S
+        target_A_true = C_est if A_true is None else A_true
+    else:
+        A_val = A_est
+        C_val = C_est
+        S_val = S_est
+        target_A_true = A_true
+
+    A_aligned, C_aligned, S_aligned, perm, signs = align_factors_by_channel_matching(
+        A_val, C_val, S_val, target_A_true
+    )
+
+    if isinstance(A_est, CP):
+        A_est.factors = [A_aligned, C_aligned, S_aligned]
+
+    return A_aligned, C_aligned, S_aligned, perm, signs
 
 
 __all__ = [

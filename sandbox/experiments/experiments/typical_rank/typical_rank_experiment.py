@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 import scienceplots
 
-from experiments.utils.cp import solve_cp_als
+from experiments.utils.cp import CP
 
 plt.style.use(["science", "grid"])
 
@@ -33,15 +33,13 @@ def fit_cp(
     """
     Fits a CP decomposition of rank R with multiple restarts using TensorLy CP-ALS.
     """
-    factors, rec_err = solve_cp_als(
-        tensor=T,
-        rank=R,
+    cp = CP(T, R).compute(
         n_iter_max=max_iter,
         tol=tol,
         n_restarts=num_restarts,
         restore_physical_scale=False,
     )
-    return factors, rec_err
+    return cp.factors, cp.rec_error
 
 
 def estimate_rank(

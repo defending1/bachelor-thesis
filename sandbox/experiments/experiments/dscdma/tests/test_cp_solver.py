@@ -96,3 +96,20 @@ def test_align_factors_by_code_matching():
     assert len(perm) == 3
     assert set(perm) == {0, 1, 2}
 
+
+def test_cp_class_compute():
+    from experiments.utils.cp import CP
+    config = SimConfig(num_sources=3, num_antennas=4, spreading_gain=16, num_symbols=100, seed=42)
+    generator = DSCDMADatasetGenerator(config)
+    data = generator.generate()
+
+    cp = CP(data["tensor"], rank=3).compute(n_iter_max=2000, tol=1e-9, random_state=42)
+    assert cp.A is not None
+    assert cp.B is not None
+    assert cp.C is not None
+    assert cp.rec_error < 1e-4
+    assert len(cp.factors) == 3
+
+    reconstructed_tensor = cp.reconstruct()
+    assert reconstructed_tensor.shape == data["tensor"].shape
+

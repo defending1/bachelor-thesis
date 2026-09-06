@@ -11,33 +11,14 @@ import numpy as np
 from experiments.dscdma.config import SimConfig
 from experiments.dscdma.solver.codes import generate_spreading_codes
 from experiments.dscdma.solver.channel import generate_spatial_channel
+from experiments.utils.cp import CP
 
 
 def tensor_reconstruct(A: np.ndarray, C: np.ndarray, S: np.ndarray) -> np.ndarray:
     """
-    Constructs dense 3D tensor T from factor matrices A, C, S.
-
-    Formulation:
-        R_mat = Khatri-Rao(S, C) of shape (K * J, R)
-        Y = A @ R_mat.T          of shape (I, K * J) -> Unfolding T_{(1)}
-        T = reshape(Y)           of shape (I, J, K)
-
-    Args:
-        A: Channel gain matrix of shape (I, R)
-        C: Spreading code matrix of shape (J, R)
-        S: Transmitted signal matrix of shape (K, R)
-
-    Returns:
-        np.ndarray: Real 3D tensor of shape (I, J, K)
+    Constructs dense 3D tensor T from factor matrices A, C, S using CP.reconstruct().
     """
-    I, R = A.shape
-    J = C.shape[0]
-    K = S.shape[0]
-
-    R_mat = np.einsum('kr,jr->kjr', S, C).reshape(K * J, R)
-    Y = A @ R_mat.T
-    tensor = Y.reshape(I, K, J).transpose(0, 2, 1)
-    return tensor
+    return CP(factors=[A, C, S]).reconstruct()
 
 
 class DSCDMADatasetGenerator:
@@ -84,7 +65,8 @@ class DSCDMADatasetGenerator:
         )
 
         S_true = self.generate_signals()
-        tensor = tensor_reconstruct(A_true, C_true, S_true)
+        cp = CP(rank=self.config.num_sources, factors=[A_true, C_true, S_true])
+        tensor = cp.reconstruct()
 
         return {
             'tensor': tensor,
