@@ -113,9 +113,23 @@ def align_factors_by_code_matching(
     return A_aligned, C_aligned, S_aligned, perm, signs
 
 
+def align_factors(
+    A_est: np.ndarray,
+    C_est: np.ndarray,
+    S_est: np.ndarray,
+    A_true: np.ndarray,
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Aligns CP factor matrices (A_est, C_est, S_est) against ground-truth channel matrix A_true
+    using channel matching, resolving column permutation and sign ambiguities.
+    """
+    return align_factors_by_channel_matching(A_est, C_est, S_est, A_true)
+
+
 __all__ = [
     "solve_cp_als",
     "relative_error",
     "align_factors_by_channel_matching",
     "align_factors_by_code_matching",
+    "align_factors",
 ]

@@ -9,8 +9,8 @@ from typing import Dict, Any
 import numpy as np
 
 from experiments.dscdma.config import SimConfig
-from experiments.dscdma.codes import generate_spreading_codes
-from experiments.dscdma.channel import generate_spatial_channel
+from experiments.dscdma.solver.codes import generate_spreading_codes
+from experiments.dscdma.solver.channel import generate_spatial_channel
 
 
 def tensor_reconstruct(A: np.ndarray, C: np.ndarray, S: np.ndarray) -> np.ndarray:

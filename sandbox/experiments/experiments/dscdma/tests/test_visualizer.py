@@ -6,8 +6,8 @@ from pathlib import Path
 import numpy as np
 
 from experiments.dscdma.config import SimConfig
-from experiments.dscdma.generator import DSCDMADatasetGenerator
-from experiments.dscdma.cp_solver import solve_cp_als
+from experiments.dscdma.utils.generator import DSCDMADatasetGenerator
+from experiments.dscdma.solver.cp_solver import solve_cp_als
 from experiments.dscdma.plot import extract_user_positions_from_A, plot_antenna_and_radii
 
 

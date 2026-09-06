@@ -5,8 +5,8 @@ Unit test suite for exact rank-R real DS-CDMA spatial tensor generation.
 import numpy as np
 
 from experiments.dscdma.config import SimConfig
-from experiments.dscdma.generator import DSCDMADatasetGenerator
-from experiments.dscdma.exporter import save_dataset, load_dataset
+from experiments.dscdma.utils.generator import DSCDMADatasetGenerator
+from experiments.dscdma.utils.exporter import save_dataset, load_dataset
 
 
 def test_tensor_shape_and_dtypes():

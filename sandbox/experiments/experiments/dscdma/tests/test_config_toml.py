@@ -9,8 +9,8 @@ from experiments.dscdma.cli import run_generator_cli, run_plot_cli
 
 def test_sim_config_defaults_and_toml(tmp_path):
     config = SimConfig.from_toml()
-    assert config.num_sources == 3
-    assert config.num_antennas == 4
+    assert config.num_sources == 4
+    assert config.num_antennas == 5
     assert config.spreading_gain == 16
     assert config.num_symbols == 100
 

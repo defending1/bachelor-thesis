@@ -4,8 +4,8 @@ Unit tests for DS-CDMA TensorLy CP-ALS factor decomposition and reconstruction e
 
 import numpy as np
 from experiments.dscdma.config import SimConfig
-from experiments.dscdma.generator import DSCDMADatasetGenerator
-from experiments.dscdma.cp_solver import (
+from experiments.dscdma.utils.generator import DSCDMADatasetGenerator
+from experiments.dscdma.solver.cp_solver import (
     solve_cp_als,
     relative_error,
     align_factors_by_channel_matching,
