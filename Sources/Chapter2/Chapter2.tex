@@ -2,14 +2,14 @@
 \chapter{Unicità della fattorizzazione CP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Convenzioni}  
+\section{Convenzioni}
 
 Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
-\colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
-\pi(v) $. Poniamo $ \pi(\faktor{V \setminus \{0\}}{\sim}) \eqdef
-\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
+	\colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
+	\pi(v) $. Poniamo $ \pi(\faktor{V \setminus \{0\}}{\sim}) \eqdef
+	\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
 Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
-\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $ \todo{Landsberg aggiunge algebrico}, il
+	\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $ \todo{Landsberg aggiunge algebrico}, il
 suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
 sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
 Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
@@ -18,86 +18,86 @@ gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $.
 \section{Essenziale unicità}
 
 Data una matrice $ M \in \C^{n\times n} $ di rango $ r $, possiamo scriverla come somma di matrici di rango uno come
-  \begin{equation*}
-    M = a_1 \otimes b_1 + \ldots + a_{r} \otimes b_{r} = \begin{bmatrix} a_1 & \cdots & a_{r}
-      \end{bmatrix} \begin{bmatrix} b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top}.
-  \end{equation*}
+\begin{equation*}
+	M = a_1 \otimes b_1 + \ldots + a_{r} \otimes b_{r} = \begin{bmatrix} a_1 & \cdots & a_{r}
+	\end{bmatrix} \begin{bmatrix} b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top}.
+\end{equation*}
 Questa decomposizione non è mai unica a meno che $ r =1 $, in quanto
-  \begin{equation*}
-    M = AB^{\top} = APP^{-1}B^{\top} = (AP)(BP^{-T})^{\top},
-  \end{equation*}
-  dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
-  \GL{n}{\C} $ contiene infiniti elementi, esistono infinite decomposizioni per $ M $.
+\begin{equation*}
+	M = AB^{\top} = APP^{-1}B^{\top} = (AP)(BP^{-T})^{\top},
+\end{equation*}
+dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
+	\GL{n}{\C} $ contiene infiniti elementi, esistono infinite decomposizioni per $ M $.
 Sorprendentemente, per i tensori è possibile ottenere l'unicità, sotto opportune ipotesi
 d'indipendenza delle componenti. Ma cosa intendiamo per unicità e indipendenza?
 
 Possiamo definire l'unicità nel caso $ 3 $-dimensionale così: dato un tensore
 \begin{equation*}
-  T = a_1 \otimes b_1 \otimes c_1 + \cdots + a_{r} \otimes b_{r} \otimes c_{r} \in A \otimes B
-  \otimes C,
+	T = a_1 \otimes b_1 \otimes c_1 + \cdots + a_{r} \otimes b_{r} \otimes c_{r} \in A \otimes B
+	\otimes C,
 \end{equation*}
 sotto opportune ipotesi $ T $ differisce da un'altra fattorizzazione CP a meno di permutazione dei tensori
 elementari e
 riscalamento dei fattori. Più precisamente:
 esistono degli scalari $ \alpha_1, \ldots, \alpha_{r}$, $\beta_1, \ldots, \beta_{r}$, $\gamma_1, \ldots,
-\gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $, ed
+	\gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $, ed
 esiste una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
 \begin{equation*}
-  T = \alpha_1 a_{\sigma(1)} \otimes \beta_1 b_{\sigma(1)} \otimes \gamma_{1} c_{\sigma(1)} +
-  \cdots + \alpha_r a_{\sigma(r)} \otimes \beta_r b_{\sigma(r)} \otimes \gamma_{r} c_{\sigma(r)}.
+	T = \alpha_1 a_{\sigma(1)} \otimes \beta_1 b_{\sigma(1)} \otimes \gamma_{1} c_{\sigma(1)} +
+	\cdots + \alpha_r a_{\sigma(r)} \otimes \beta_r b_{\sigma(r)} \otimes \gamma_{r} c_{\sigma(r)}.
 \end{equation*}
 Diamo una definizione più generale.
 
 \begin{definition}[Essenziale unicità]
-  Una fattorizzazione CP di rango $ r $ di un tensore $ T \in A_1 \otimes \cdots \otimes A_{d} $,
-  \begin{equation*}
-    T = u_1^1 \otimes \cdots \otimes u_1^d + \cdots + u_{r}^1 \otimes \cdots \otimes u_{r}^d
-  \end{equation*}
-  è \emph{essenzialmente unica} se differisce a meno di permutazioni dei tensori di rango uno e di scalari il cui prodotto fa uno.
-  Formalmente, se esistono degli scalari $ \lambda_{1}^{(t)}, \ldots, \lambda_{r}^{(t)} $ con $ t
-  \in \{1, \ldots, d\} $ tali che $ \lambda_{j}^{(1)}\lambda_{j}^{(2)} \cdots \lambda_{j}^{(d)} = 1 $ per ogni $
-  j \in \{1, \ldots, r\}  $, ed esiste una permutaione $ \sigma \in \mathfrak{S}_{r} $ tale che
-  \begin{equation*}
-    T = \lambda_{1}^{(1)}u_{\sigma(1)}^{1} \otimes \cdots \lambda_{1}^{(d)}u_{\sigma(1)}^{d} +
-    \cdots + \lambda_{r}^{(1)}u_{\sigma(r)}^{1} \otimes \cdots \otimes
-    \lambda_{r}^{(d)}u_{\sigma(r)}^{d}.
-  \end{equation*}
+	Una fattorizzazione CP di rango $ r $ di un tensore $ T \in A_1 \otimes \cdots \otimes A_{d} $,
+	\begin{equation*}
+		T = u_1^1 \otimes \cdots \otimes u_1^d + \cdots + u_{r}^1 \otimes \cdots \otimes u_{r}^d
+	\end{equation*}
+	è \emph{essenzialmente unica} se differisce a meno di permutazioni dei tensori di rango uno e di scalari il cui prodotto fa uno.
+	Formalmente, se esistono degli scalari $ \lambda_{1}^{(t)}, \ldots, \lambda_{r}^{(t)} $ con $ t
+		\in \{1, \ldots, d\} $ tali che $ \lambda_{j}^{(1)}\lambda_{j}^{(2)} \cdots \lambda_{j}^{(d)} = 1 $ per ogni $
+		j \in \{1, \ldots, r\}  $, ed esiste una permutaione $ \sigma \in \mathfrak{S}_{r} $ tale che
+	\begin{equation*}
+		T = \lambda_{1}^{(1)}u_{\sigma(1)}^{1} \otimes \cdots \lambda_{1}^{(d)}u_{\sigma(1)}^{d} +
+		\cdots + \lambda_{r}^{(1)}u_{\sigma(r)}^{1} \otimes \cdots \otimes
+		\lambda_{r}^{(d)}u_{\sigma(r)}^{d}.
+	\end{equation*}
 \end{definition}
 Notiamo che il tensore permutato appartiene ancora allo spazio di partenza. In realtà, la formulazione originale in coordinate è la seguente.
 \begin{definition}[Essenziale unicità]
-  Una fattorizzazione CP di rango $ r $ di un tensore $ T = \dsqr{U_1, \ldots, U_d}$ è
-  essenzialmente unica se, per ogni altra fattorizzazione $ T = \dsqr{\tilde{U}_1,
-  \ldots, \tilde{U}_d}$ di rango $ r $, esiste una matrice di permutazione $ P \in \R^{r \times r} $
-  e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
-  I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
+	Una fattorizzazione CP di rango $ r $ di un tensore $ T = \dsqr{U_1, \ldots, U_d}$ è
+	essenzialmente unica se, per ogni altra fattorizzazione $ T = \dsqr{\tilde{U}_1,
+			\ldots, \tilde{U}_d}$ di rango $ r $, esiste una matrice di permutazione $ P \in \R^{r \times r} $
+	e delle matrici diagonali $ D_1, \ldots, D_d \in \R^{r \times r} $ che soddisfano $ D_1 D_2 \cdots D_d =
+		I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
 \end{definition}
 \begin{remark}
-È facile vedere che questa definizione è una specializzazione di quella generale. Nel caso $ 3
-$-dimensionale, ad esempio scriviamo in coordinate
-\begin{equation*}
-   A = \left[\begin{array}{c|c|c}
-      a_1 & \dots & a_r
-    \end{array}\right],\qquad
-   B = \left[\begin{array}{c|c|c}
-      b_1 & \dots & b_r
-    \end{array}\right],\qquad
-   C = \left[\begin{array}{c|c|c}
-      c_1 & \dots & c_r
-    \end{array}\right].
-\end{equation*}
-Rappresentiamo $ \sigma \in \mathfrak{S}_{r} $ tramite una matrice $ P^{-1} $ di permutazione, e dette
-\begin{equation*}
-  D_{A}^{-1} \defeq \diag(\alpha_1, \ldots, \alpha_{r}), \qquad D_{B}^{-1} \defeq \diag(\beta_1, \ldots,
-  \beta_{r}), \qquad D_{C}^{-1} \defeq \diag(\gamma_1, \ldots, \gamma_{r}),
-\end{equation*}
-possiamo prendere
-\begin{equation*}
-  \tilde{A} \defeq A P^{-1}D_{A}^{-1} = \left[\begin{array}{c|c|c}
-      \alpha_1 a_{\sigma(1)} & \dots & \alpha_{r} a_{\sigma(r)}
-    \end{array}\right],
-\end{equation*}
-e definire in maniera analoga $ \tilde{B} \defeq BP^{-1}D_{B}^{-1}$ e $ \tilde{C} \defeq
-CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la definizione.
+	È facile vedere che questa definizione è una specializzazione di quella generale. Nel caso $ 3
+	$-dimensionale, ad esempio scriviamo in coordinate
+	\begin{equation*}
+		A = \left[\begin{array}{c|c|c}
+				a_1 & \dots & a_r
+			\end{array}\right],\qquad
+		B = \left[\begin{array}{c|c|c}
+				b_1 & \dots & b_r
+			\end{array}\right],\qquad
+		C = \left[\begin{array}{c|c|c}
+				c_1 & \dots & c_r
+			\end{array}\right].
+	\end{equation*}
+	Rappresentiamo $ \sigma \in \mathfrak{S}_{r} $ tramite una matrice $ P^{-1} $ di permutazione, e dette
+	\begin{equation*}
+		D_{A}^{-1} \defeq \diag(\alpha_1, \ldots, \alpha_{r}), \qquad D_{B}^{-1} \defeq \diag(\beta_1, \ldots,
+		\beta_{r}), \qquad D_{C}^{-1} \defeq \diag(\gamma_1, \ldots, \gamma_{r}),
+	\end{equation*}
+	possiamo prendere
+	\begin{equation*}
+		\tilde{A} \defeq A P^{-1}D_{A}^{-1} = \left[\begin{array}{c|c|c}
+				\alpha_1 a_{\sigma(1)} & \dots & \alpha_{r} a_{\sigma(r)}
+			\end{array}\right],
+	\end{equation*}
+	e definire in maniera analoga $ \tilde{B} \defeq BP^{-1}D_{B}^{-1}$ e $ \tilde{C} \defeq
+		CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la definizione.
 \end{remark}
 
 
@@ -106,585 +106,587 @@ CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la d
 
 Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scrittura
 \begin{equation}
-  \label{eq:tens_full}
-T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
-,\end{equation}
+	\label{eq:tens_full}
+	T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
+	,\end{equation}
 è essenzialmente unica, sotto opportune condizioni.
 
 \begin{remark}[Una fattorizzazione non unica]
-Quindi una condizione semplice per l'unicità è che $ T $
-  non possa essere ricondotto a una somma di matrici di rango uno. Consideriamo ad esempio
-\begin{equation*}
-  \begin{aligned}
-    T &= a_1 \otimes b_1\otimes c_1  + a_1 \otimes b_2 \otimes c_2 + a_3 \otimes b_3 \otimes c_3 +
-    \ldots + a_r \otimes b_r \otimes c_r\\
-      &= a_1 \otimes (b_1\otimes c_1 + b_2 \otimes c_2) + a_3 \otimes b_3 \otimes c_3 + \cdots +
-      a_{r} \otimes b_{r} \otimes c_{r},
-  \end{aligned}
-\end{equation*}
-dove ognuno degli insiemi $ \{a_i\}, \{b_j\}   $ e $ \{c_k\}  $ è formato da elementi
-  linearmente indipendenti. Questa scrittura non è unica a causa del termine
-\begin{equation*}
-a_1 \otimes (b_1\otimes c_1 + b_2 \otimes c_2)
-\end{equation*}
+	Quindi una condizione semplice per l'unicità è che $ T $
+	non possa essere ricondotto a una somma di matrici di rango uno. Consideriamo ad esempio
+	\begin{equation*}
+		\begin{aligned}
+			T & = a_1 \otimes b_1\otimes c_1  + a_1 \otimes b_2 \otimes c_2 + a_3 \otimes b_3 \otimes c_3 +
+			\ldots + a_r \otimes b_r \otimes c_r                                                            \\
+			  & = a_1 \otimes (b_1\otimes c_1 + b_2 \otimes c_2) + a_3 \otimes b_3 \otimes c_3 + \cdots +
+			a_{r} \otimes b_{r} \otimes c_{r},
+		\end{aligned}
+	\end{equation*}
+	dove ognuno degli insiemi $ \{a_i\}, \{b_j\}   $ e $ \{c_k\}  $ è formato da elementi
+	linearmente indipendenti. Questa scrittura non è unica a causa del termine
+	\begin{equation*}
+		a_1 \otimes (b_1\otimes c_1 + b_2 \otimes c_2)
+	\end{equation*}
 \end{remark}
 
-Inoltre, se consideriamo per l'Equazione~\ref{eq:tens_full} gli insiemi $ \s_A = \{[a_i]\} \subset
-  \PP A$, $
-  \s_B = \{[b_i]\} \subset \PP B  $ e $ \s_C = \{[c_i]\} \subset \PP C$, allora l'unicità implica che
-  siano formati da $ r $ punti distinti.
+Inoltre, se consideriamo per l'Equazione~\eqref{eq:tens_full} gli insiemi $ \s_A = \{[a_i]\} \subset
+	\PP A$, $
+	\s_B = \{[b_i]\} \subset \PP B  $ e $ \s_C = \{[c_i]\} \subset \PP C$, allora l'unicità implica che
+siano formati da $ r $ punti distinti.
 
 \begin{definition}[Posizione generale]
-  Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
-  Diciamo che i punti di $ \s  $ sono in $ 2 $-posizione generale se nessuna coppia di punti
-  coincide; sono in $ 3 $-posizione generale se nessuna terna di punti giace su una retta, e in
-  generale, diremo che sono in \emph{$ r $-posizione generale} se nessuna $ r $-upla giace su un
-  sottospazio proiettivo di dimensione $ r-2 $ (talvolta detto $ (r-2) $-piano). 
+	Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
+	Diciamo che i punti di $ \s  $ sono in $ 2 $-posizione generale se nessuna coppia di punti
+	coincide; sono in $ 3 $-posizione generale se nessuna terna di punti giace su una retta, e in
+	generale, diremo che sono in \emph{$ r $-posizione generale} se nessuna $ r $-upla giace su un
+	sottospazio proiettivo di dimensione $ r-2 $ (talvolta detto $ (r-2) $-piano).
 \end{definition}
 \begin{definition}[Kruskal rank]
-  Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
-  sono in $ r $-posizione generale.
+	Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
+	sono in $ r $-posizione generale.
 \end{definition}
 \begin{remark}
-  Fissata una base per $ W $ tale per cui i punti di $ \s $ possono essere scritti come colonne di
-  una matrice $ M $ (è ben definito a meno di riscalamento), allora $ \krk{\s} $ è il massimo intero
-  positivo $ r $ tale per cui ogni sottoinsieme di $ r $ colonne di vettori di $ M $ è linearmente
-  indipendente. Questa era la definizione originale di Kruskal.
+	Fissata una base per $ W $ tale per cui i punti di $ \s $ possono essere scritti come colonne di
+	una matrice $ M $ (è ben definito a meno di riscalamento), allora $ \krk{\s} $ è il massimo intero
+	positivo $ r $ tale per cui ogni sottoinsieme di $ r $ colonne di $ M $ sono vettori linearmente
+	indipendenti. Questa era la definizione originale di Kruskal.
 \end{remark}
 
 \begin{remark}
-  Dalla definizione segue che $ \krk{A} \le \rank(A) \le \min \{m, n\} $ per ogni matrice $ A \in \R^{m \times n} $. In
-  particolare, se $ A $ è full-rank, $ \krk{A} = \rank(A) $; se invece $ A $ ha due colonne linearmente
-  dipendenti, $ \krk{A} \le 1 $.
+	Dalla definizione segue che $ \krk{A} \le \rank(A) \le \min \{m, n\} $ per ogni matrice $ A \in \R^{m \times n} $. In
+	particolare, se $ A $ è full-rank, $ \krk{A} = \rank(A) $; se invece $ A $ ha due colonne linearmente
+	dipendenti, $ \krk{A} \le 1 $.
 \end{remark}
 
 Possiamo enunciare il Teorema di Kruskal.
 \begin{theorem}[Kruskal~\cite{KRUSKAL197795}]
-  \label{thm:kruskal3d}
-  Sia $ T \in A \otimes B \otimes C $ che ammette decomposizione $ T = \sum_{i = 1}^r u_i
-  \otimes v_i \otimes w_i$. Siano $ \s_A = \{[u_i]\}, \s_B = \{[v_i]\}  $ e $ \s_C = \{[w_i]\}  $.
-  Se vale
-  \begin{equation}
-  \label{eq:kr3}
-    r \le  \frac{1}{2} (\krk{\s_A} + \krk{\s_B} + \krk{\s_C}) - 1,
-  \end{equation}
-  allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+	\label{thm:kruskal3d}
+	Sia $ T \in A \otimes B \otimes C $ che ammette decomposizione $ T = \sum_{i = 1}^r u_i
+		\otimes v_i \otimes w_i$. Siano $ \s_A = \{[u_i]\}, \s_B = \{[v_i]\}  $ e $ \s_C = \{[w_i]\}  $.
+	Se vale
+	\begin{equation}
+		\label{eq:kr3}
+		r \le  \frac{1}{2} (\krk{\s_A} + \krk{\s_B} + \krk{\s_C}) - 1,
+	\end{equation}
+	allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
 
 \begin{remark}
-Osserviamo che nel caso delle matrici l'unicità è verificata solo per $ r = 1 $ (in quanto $ T = u
-  \otimes v \in A \otimes B $) ma le ipotesi del teorema non sono rispettate perché $ \s_{A} =
-  \{[u]\}, \s_{B} = \{[v]\}  $ e i due insiemi hanno $ k $-rango uno, e varrebbe
-  \begin{equation*}
-    \krk{\s_{A}} + \krk{\s_{B}} = 1 + 1 = 2 \ge 2r + 2 - 1 = 2 + 2 - 1 = 3.
-  \end{equation*}
+	Osserviamo che nel caso delle matrici l'unicità è verificata solo per $ r = 1 $ (in quanto $ T = u
+		\otimes v \in A \otimes B $) ma le ipotesi del teorema non sono rispettate perché $ \s_{A} =
+		\{[u]\}, \s_{B} = \{[v]\}  $ e i due insiemi hanno $ k $-rango uno, e varrebbe
+	\begin{equation*}
+		\krk{\s_{A}} + \krk{\s_{B}} = 1 + 1 = 2 \ge 2r + 2 - 1 = 2 + 2 - 1 = 3.
+	\end{equation*}
 \end{remark}
 
-    Più in generale vale il seguente teorema:
-    \begin{theorem}[\cite{sidiropoulos2000uniqueness}]
-      Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
-  \sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se 
-  \begin{equation}
-     \sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + n - 1,
-  \end{equation}
-  allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+Più in generale vale il seguente teorema:
+\begin{theorem}[\cite{sidiropoulos2000uniqueness}]
+	Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
+		\sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se
+	\begin{equation}
+		\sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + n - 1,
+	\end{equation}
+	allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
 \begin{remark}
-  \label{rm:stima_krk}
-  Se vale l'Equazione~\ref{eq:kr3}, segue che $ \krk{\s_A},\krk{\s_B}, \krk{\s_C} \ge 2
-  $. Dimostriamolo per $ \s_{A} $, gli altri casi sono analoghi. L'Equazione~\ref{eq:kr3} si può riscrivere come
-  \begin{equation*}
-    2 + 2r \le \krk{\s_{A}} + \krk{\s_B} + \krk{\s_C}.
-  \end{equation*}
-  Siccome $ \krk{\s} $ è limitato dall'alto dalla cardinalità dell'insieme $ \s $, in questo caso
-  abbiamo $ \krk{\s_B},\krk{\s_C} \le r $, e applicando questa disequazione all'equazione sopra otteniamo,
-  \begin{equation*}
-    2 + 2r \le \krk{\s_{A}} + r + r,
-  \end{equation*}
-  cioè $ \krk{\s_A} \ge 2 $.
+	\label{rm:stima_krk}
+	Se vale l'Equazione~\eqref{eq:kr3}, segue che $ \krk{\s_A},\krk{\s_B}, \krk{\s_C} \ge 2
+	$. Dimostriamolo per $ \s_{A} $, gli altri casi sono analoghi. L'Equazione~\eqref{eq:kr3} si può riscrivere come
+	\begin{equation*}
+		2 + 2r \le \krk{\s_{A}} + \krk{\s_B} + \krk{\s_C}.
+	\end{equation*}
+	Siccome $ \krk{\s} $ è limitato dall'alto dalla cardinalità dell'insieme $ \s $, in questo caso
+	abbiamo $ \krk{\s_B},\krk{\s_C} \le r $, e applicando questa disequazione all'equazione sopra otteniamo,
+	\begin{equation*}
+		2 + 2r \le \krk{\s_{A}} + r + r,
+	\end{equation*}
+	cioè $ \krk{\s_A} \ge 2 $.
 \end{remark}
 \begin{remark}
-  \todo{lasciamo osservazione o lo scrivo come proposizione?}
-  Se $ \bm{a} = \bm{b} = \bm{c} $ e $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, quando $
-  r = \bm{a} $ l'espressione è unica.
-In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la condizione di unicità del teorema di Kruskal si
-  estende ad $ \bm{a} \le r \le \frac{1}{2}(\bm{a} + \bm{a} + \bm{a}) -1 = \frac{3}{2}\bm{a} - 1 $.
+	\todo{lasciamo osservazione o lo scrivo come proposizione?}
+	Se $ \bm{a} = \bm{b} = \bm{c} $ e $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, quando $
+		r = \bm{a} $ l'espressione è unica.
+	In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la condizione di unicità del teorema di Kruskal si
+	estende ad $ \bm{a} \le r \le \frac{1}{2}(\bm{a} + \bm{a} + \bm{a}) -1 = \frac{3}{2}\bm{a} - 1 $.
 
 \end{remark}
 \begin{proof}
-  \todo{migliorare la scrittura}
-  Se $ r = \bm{a} $, consideriamo la decomposizione
-  \begin{equation*}
-    T = a_1 \otimes b_1 \otimes c_1 + \cdots a_{a} \otimes b_{a} \otimes c_{a}
-  \end{equation*}
+	\todo{migliorare la scrittura}
+	Se $ r = \bm{a} $, consideriamo la decomposizione
+	\begin{equation*}
+		T = a_1 \otimes b_1 \otimes c_1 + \cdots a_{a} \otimes b_{a} \otimes c_{a}
+	\end{equation*}
 
-Contraiamo $ T $ lungo la terza componente, cioè per ogni funzionale $ \gamma_{j} \in C^* $
-  \begin{equation*}
-    \begin{aligned}
-      T(\gamma_{j}) = \sum_{i = 1}^{\bm{a}} \gamma_{j}(c_{i})a_{i} \otimes b_{i}
-                = UD_{j}V^T,
-    \end{aligned}
-  \end{equation*}
-  dove 
-  \begin{equation*}
-    U =  \left[\begin{array}{c|c|c}
-      a_1 & \dots & a_{\bm{a}}
-    \end{array}\right], \qquad
-    D_{j} = \diag(\gamma_{j}(c_1), \ldots, \gamma_{j}(c_{\bm{a}})), \qquad
-    V = \left[\begin{array}{c|c|c}
-      b_1 & \dots & b_{\bm{a}}
-    \end{array}\right].
-  \end{equation*}
-Consideriamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
-\begin{enumerate}[label=(\roman*)]
-  \item Per ogni $ j \in \{1,2\} $, $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i \in \{1, \ldots, \bm{a}\}   $, da
-    cui $ T(\gamma_{j}) $ è invertibile.
-  \item I rapporti $ \lambda_{i} = \frac{\gamma_1(c_{i})}{\gamma_2(c_{i})}$ sono a due a due
-    distinti.
-\end{enumerate}
-La (i) segue perché, fissato $ \gamma = \gamma_{j} $, siccome $ \{c_1, \ldots, c_{\bm{a}}\}  $ è una base per $ C $, nessuno dei vettori $
-c_{i} $ è nullo. Per ogni $ c_{i} $, consideriamo l'insieme dei funzionali che si annullano con $
-c_{i} $:
-\begin{equation*}
-  H_{i} = \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
-\end{equation*}
-che forma un iperpiano in $ C^* $. Siccome su un campo infinito, lo spazio $ C^* $ non è unione finita di
-sottospazi propri, possiamo trovare un $ \gamma \in C^* \setminus \bigcup_{i=1}^{\bm{a}} H_{i}$. Per
-questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
-Siccome $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, allora le matrici $ U,D_{j},V $
-sono invertibili, in particolare, anche $ T(\gamma_{j}) $ è invertibile, per ogni $ j \in \{1,2\} $.
-Da cui,
-\begin{equation*}
-  \begin{aligned}
-    T(\gamma_1)T(\gamma_2)^{-1} &= \left( UD_1V^T \right)\left( UD_2V^T \right)^{-1} =
-    UD_1V^TV^{-T}D_2^{-1}U^{-1} \\
-                                &= UD_1D_2^{-1}U^{-1},
-  \end{aligned}
-\end{equation*}
-in altre parole, $ T(\gamma_1)T(\gamma_2)^{-1} $ è diagonalizzabile, con autovettori, dati dalla
-matrice $ U $, univocamente determinati a meno di permutazione e riscalamento. Inoltre, i
-rapporti $ \frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} $ sono distinti: se fosse $
-\frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} = \frac{\gamma_1(c_{k})}{\gamma_{2}(c_{k})} $ per certi $
-i,k \in \{1, \ldots, \bm{a}\}  $, si avrebbe che
-\begin{equation*}
-  \gamma_1(c_i) \gamma_2(c_{k}) = \gamma_1(c_{k}) \gamma_2(c_{i}).
-\end{equation*}
-Sfruttando la linearità di $ \gamma_1 $, troviamo
-\begin{equation*}
-  \gamma_1 \left( c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \right) = 0.
-\end{equation*}
-Siccome $ \gamma_1 $ e $ \gamma_2 $ non si annullano sui vettori $ c_{i} $ e $ c_{k} $, allora $
-c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \not\in \gamma_{1}^\perp $, quindi necessariamente $
-c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, ma essendo $ c_{i} $ e $ c_{k} $ linearmente
-indipendenti, da cui le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, assurdo.
+	Contraiamo $ T $ lungo la terza componente, cioè per ogni funzionale $ \gamma_{j} \in C^* $
+	\begin{equation*}
+		\begin{aligned}
+			T(\gamma_{j}) = \sum_{i = 1}^{\bm{a}} \gamma_{j}(c_{i})a_{i} \otimes b_{i}
+			= UD_{j}V^T,
+		\end{aligned}
+	\end{equation*}
+	dove
+	\begin{equation*}
+		U =  \left[\begin{array}{c|c|c}
+				a_1 & \dots & a_{\bm{a}}
+			\end{array}\right], \qquad
+		D_{j} = \diag(\gamma_{j}(c_1), \ldots, \gamma_{j}(c_{\bm{a}})), \qquad
+		V = \left[\begin{array}{c|c|c}
+				b_1 & \dots & b_{\bm{a}}
+			\end{array}\right].
+	\end{equation*}
+	Consideriamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
+	\begin{enumerate}[label=(\roman*)]
+		\item Per ogni $ j \in \{1,2\} $, $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i \in \{1, \ldots, \bm{a}\}   $, da
+		      cui $ T(\gamma_{j}) $ è invertibile.
+		\item I rapporti $ \lambda_{i} = \frac{\gamma_1(c_{i})}{\gamma_2(c_{i})}$ sono a due a due
+		      distinti.
+	\end{enumerate}
+	La (i) segue perché, fissato $ \gamma = \gamma_{j} $, siccome $ \{c_1, \ldots, c_{\bm{a}}\}  $ è una base per $ C $, nessuno dei vettori $
+		c_{i} $ è nullo. Per ogni $ c_{i} $, consideriamo l'insieme dei funzionali che si annullano con $
+		c_{i} $:
+	\begin{equation*}
+		H_{i} = \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
+	\end{equation*}
+	che forma un iperpiano in $ C^* $. Siccome su un campo infinito, lo spazio $ C^* $ non è unione finita di
+	sottospazi propri, possiamo trovare un $ \gamma \in C^* \setminus \bigcup_{i=1}^{\bm{a}} H_{i}$. Per
+	questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
+	Siccome $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, allora le matrici $ U,D_{j},V $
+	sono invertibili, in particolare, anche $ T(\gamma_{j}) $ è invertibile, per ogni $ j \in \{1,2\} $.
+	Da cui,
+	\begin{equation*}
+		\begin{aligned}
+			T(\gamma_1)T(\gamma_2)^{-1} & = \left( UD_1V^T \right)\left( UD_2V^T \right)^{-1} =
+			UD_1V^TV^{-T}D_2^{-1}U^{-1}                                                         \\
+			                            & = UD_1D_2^{-1}U^{-1},
+		\end{aligned}
+	\end{equation*}
+	in altre parole, $ T(\gamma_1)T(\gamma_2)^{-1} $ è diagonalizzabile, con autovettori, dati dalla
+	matrice $ U $, univocamente determinati a meno di permutazione e riscalamento. Inoltre, i
+	rapporti $ \frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} $ sono distinti: se fosse $
+		\frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} = \frac{\gamma_1(c_{k})}{\gamma_{2}(c_{k})} $ per certi $
+		i,k \in \{1, \ldots, \bm{a}\}  $, si avrebbe che
+	\begin{equation*}
+		\gamma_1(c_i) \gamma_2(c_{k}) = \gamma_1(c_{k}) \gamma_2(c_{i}).
+	\end{equation*}
+	Sfruttando la linearità di $ \gamma_1 $, troviamo
+	\begin{equation*}
+		\gamma_1 \left( c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \right) = 0.
+	\end{equation*}
+	Siccome $ \gamma_1 $ e $ \gamma_2 $ non si annullano sui vettori $ c_{i} $ e $ c_{k} $, allora $
+		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \not\in \gamma_{1}^\perp $, quindi necessariamente $
+		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, ma essendo $ c_{i} $ e $ c_{k} $ linearmente
+	indipendenti, da cui le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, assurdo.
 
-Ripetendo questo
-ragionamento contraendo su $ A $ e poi su $ B $ otteniamo l'unicità.
+	Ripetendo questo
+	ragionamento contraendo su $ A $ e poi su $ B $ otteniamo l'unicità.
 \end{proof}
 
 
 Enunciamo il permutation lemma, dimostrato da Kruskal nell'articolo originale, e di centrale importanza nella dimostrazione del teorema.
 \begin{lemma}[Permutation lemma]
-  \label{lemma:perm}
-  Siano $ \s = \{p_1, \ldots, p_r\}  $ e $ \tilde{\s} = \{q_1, \ldots, q_r\} $ due insiemi di punti
-  in $ \PP W $ a due a due distinti (i.e. tali che $ \krk{S} \ge 2 $) e supponiamo che $
-  \angb{\tilde{\s}} = W $. Se ogni iperpiano $ H \subset \PP W $ che contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ è tale che $ \#(\s \cap H) \ge
-  \#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
+	\label{lemma:perm}
+	Siano $ \s = \{p_1, \ldots, p_r\}  $ e $ \tilde{\s} = \{q_1, \ldots, q_r\} $ due insiemi di punti
+	in $ \PP W $ a due a due distinti (i.e. tali che $ \krk{S} \ge 2 $) e supponiamo che $
+		\angb{\tilde{\s}} = W $. Se ogni iperpiano $ H \subset \PP W $ che contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ è tale che $ \#(\s \cap H) \ge
+		\#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
 \begin{remark}
-  \todo{ha senso rifrasare la versione originale in forma di enunciato?}
-  Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
-  e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale, ovvero che per ogni $ x
-  \in \R^{\bm{w}}$ tale $ \nnz(\tilde{M}^{\top}x)<  r - \rank(\tilde{M}) + 1$ hanno la proprietà che
-  $ \nnz(\tilde{M}x)\ge \nnz(M^{\top}x) $. Per vedere questa corrispondenza, bisogna pensare al
-  vettore $ x $ come un punto in $ W^* $ che dà un'equazione di $ H $, e gli elementi nulli del
-  vettore $ \tilde{M}^{\top} $ corrispondono alle colonne che fanno zero quando accopiate con $ x $,
-  cioè che soddisfano a un'equazione di $ H $, ovvero a punti contenuti in $ H $.
-  Inoltre, l'ipotesi $ \angb{S} = W $, che motiveremo meglio a breve, implica che $ \rank(\tilde{M})
-  = \bm{w}$\todo{perché serve nella proof originale?}.
+	\todo{ha senso rifrasare la versione originale in forma di enunciato?}
+	Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
+	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale, ovvero che per ogni $ x
+		\in \R^{\bm{w}}$ tale $ \nnz(\tilde{M}^{\top}x)<  r - \rank(\tilde{M}) + 1$ hanno la proprietà che
+	$ \nnz(\tilde{M}x)\ge \nnz(M^{\top}x) $. Per vedere questa corrispondenza, bisogna pensare al
+	vettore $ x $ come un punto in $ W^* $ che dà un'equazione di $ H $, e gli elementi nulli del
+	vettore $ \tilde{M}^{\top} $ corrispondono alle colonne che fanno zero quando accopiate con $ x $,
+	cioè che soddisfano a un'equazione di $ H $, ovvero a punti contenuti in $ H $.
+	Inoltre, l'ipotesi $ \angb{S} = W $, che motiveremo meglio a breve, implica che $ \rank(\tilde{M})
+		= \bm{w}$\todo{perché serve nella proof originale?}.
 \end{remark}
 
 
 \begin{definition}[Concise tensor]
-  Un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
-  sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots \otimes A_n $.
-  Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, n\}  $. Un tensore è detto
-  \emph{concise} se è $ i $-concise per ogni $ i $.
+	Un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
+	sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots \otimes A_n $.
+	Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, n\}  $. Un tensore è detto
+	\emph{concise} se è $ i $-concise per ogni $ i $.
 \end{definition}
 \begin{remark}
-  In altre parole $ T $ è concise se non è contenuto in nessun sottospazio proprio $ A_1' \otimes
-  A_2' \otimes \cdots \otimes A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.\todo{teniamo questa
-  come definizione?}
-  Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi locali
-  $ A_i $. 
+	In altre parole $ T $ è concise se non è contenuto in nessun sottospazio proprio $ A_1' \otimes
+		A_2' \otimes \cdots \otimes A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.\todo{teniamo questa
+		come definizione?}
+	Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi locali
+	$ A_i $.
 \end{remark}
 
 \begin{remark}
-Tale proprietà giocherà un ruolo chiave nella dimostrazione del Teorema di Kruskal, dove
-supporremo che $ \angb{\s_{A_{k}}} = A_{k} $; a questo scopo abbiamo indebolito il permutation lemma
-con l'ipotesi $ \angb{S} = W $. La prossima proposizione afferma che tale
-restrizione è ben posta, ed esclude casi banali dalla dimostrazione del teorema di Kruskal.
+	Tale proprietà giocherà un ruolo chiave nella dimostrazione del Teorema di Kruskal, dove
+	supporremo che $ \angb{\s_{A_{k}}} = A_{k} $; a questo scopo abbiamo indebolito il permutation lemma
+	con l'ipotesi $ \angb{S} = W $. La prossima proposizione afferma che tale
+	restrizione è ben posta, ed esclude casi banali dalla dimostrazione del teorema di Kruskal.
 \end{remark}
 
 \begin{proposition}[Tensori concise e rango]
-  \label{prop:conc_and_rank}
-  Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_n $ di rango $ r $. Diciamo che $ T \in
-  A_1' \otimes \cdots \otimes A_n'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
-  ogni espressione $ T = \sum_{i=1}^\rho u_{1i} \otimes \cdots \otimes u_{ni} $ con qualche $ u_{sj}
-  \notin A_s'$ ha $ \rho > r $.
+	\label{prop:conc_and_rank}
+	Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_n $ di rango $ r $. Diciamo che $ T \in
+		A_1' \otimes \cdots \otimes A_n'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
+	ogni espressione $ T = \sum_{i=1}^\rho u_{1i} \otimes \cdots \otimes u_{ni} $ con qualche $ u_{sj}
+		\notin A_s'$ ha $ \rho > r $.
 \end{proposition}
 \begin{remark}
-  In altre parole, se $ T $ non è concise, allora $ \rho > r $.
+	In altre parole, se $ T $ non è concise, allora $ \rho > r $.
 \end{remark}
 \begin{proof}
-  Scegliamo dei complementari $ A_t'' $ tali che $ A_t = A_t' \oplus A_t'' $. Assumiamo per assurdo che $ \rho =
-  r$ e scriviamo $ u_{tj} = u_{tj}' + u_{tj}'' $, dove $ u_{tj}' \in A_t' $ e $ u_{tj}'' \in A_t''
-  $. Allora
-  \begin{equation*}
-     T = \sum_{i=1}^\rho (u_{1i}' + u_{1i}'') \otimes \cdots \otimes (u_{ni}' + u_{ni}'') =
-     \sum_{i=1}^\rho u_{1i}' \otimes \cdots \otimes u_{ni}' + R,
-  \end{equation*}
-  dove $ R $ è il tensore che contiene i termini "misti" dati dai prodotti tra i fattori
-  $u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, appartenenti ai rispettivi 
-  sottospazi $ A_{s}' \otimes A_{t}''  $ e $ A_{s}'' \otimes A_{t}''$, cioè
-  \begin{equation}
-  R = \sum_{j=1}^\rho u_{1j}'' \otimes (u_{2j}' \otimes \cdots \otimes u_{nj}') + \ldots
-  + \sum_{j=1}^\rho u_{1j}'' \otimes \cdots \otimes u_{nj}''.
-  \end{equation}
-  Ma siccome $ T \in A_1' \otimes \cdots \otimes A_n'$, si deve avere che $ R = 0 $,
-  ovvero i termini di $ R $ si proiettano nel vettore nullo.
-  Assumiamo senza perdita di generalità che $ A_{1}' \subsetneq A_{1}$ sia propria, dunque $ u_{1j_0}'' \neq
-  0$ per un certo $ j_0 $. Osserviamo che in $ R $ è presente l'espressione $ \sum_{j=1}^r u_{1j}'' \otimes (u_{2j}' \otimes
-  \cdots \otimes u_{nj}') = 0$, ma tutti i temini $ u_{2j}' \otimes \cdots \otimes u_{nj}' $ sono
-  linearmente indipendenti nel sottospazio $ A_2' \otimes \cdots \otimes A_n' $ \todo{why?} (altrimenti $ T $ si
-  potrebbe scrivere con meno di $ r $ termini, che contraddirrebbe la minimalità di $ r
-  $\todo{potrebbe non bastare}). Allora gli $ u_{1j} $ sono tutti nulli, che è assurdo.
+	Scegliamo dei complementari $ A_t'' $ tali che $ A_t = A_t' \oplus A_t'' $. Assumiamo per assurdo che $ \rho =
+		r$ e scriviamo $ u_{tj} = u_{tj}' + u_{tj}'' $, dove $ u_{tj}' \in A_t' $ e $ u_{tj}'' \in A_t''
+	$. Allora
+	\begin{equation*}
+		T = \sum_{i=1}^\rho (u_{1i}' + u_{1i}'') \otimes \cdots \otimes (u_{ni}' + u_{ni}'') =
+		\sum_{i=1}^\rho u_{1i}' \otimes \cdots \otimes u_{ni}' + R,
+	\end{equation*}
+	dove $ R $ è il tensore che contiene i termini "misti" dati dai prodotti tra i fattori
+	$u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, appartenenti ai rispettivi
+	sottospazi $ A_{s}' \otimes A_{t}''  $ e $ A_{s}'' \otimes A_{t}''$, cioè
+	\begin{equation}
+		R = \sum_{j=1}^\rho u_{1j}'' \otimes (u_{2j}' \otimes \cdots \otimes u_{nj}') + \ldots
+		+ \sum_{j=1}^\rho u_{1j}'' \otimes \cdots \otimes u_{nj}''.
+	\end{equation}
+	Ma siccome $ T \in A_1' \otimes \cdots \otimes A_n'$, si deve avere che $ R = 0 $,
+	ovvero i termini di $ R $ si proiettano nel vettore nullo.
+	Assumiamo senza perdita di generalità che $ A_{1}' \subsetneq A_{1}$ sia propria, dunque $ u_{1j_0}'' \neq
+		0$ per un certo $ j_0 $. Osserviamo che in $ R $ è presente l'espressione $ \sum_{j=1}^r u_{1j}'' \otimes (u_{2j}' \otimes
+		\cdots \otimes u_{nj}') = 0$, ma tutti i temini $ u_{2j}' \otimes \cdots \otimes u_{nj}' $ sono
+	linearmente indipendenti nel sottospazio $ A_2' \otimes \cdots \otimes A_n' $ \todo{why?} (altrimenti $ T $ si
+	potrebbe scrivere con meno di $ r $ termini, che contraddirrebbe la minimalità di $ r
+	$\todo{potrebbe non bastare}). Allora gli $ u_{1j} $ sono tutti nulli, che è assurdo.
 \end{proof}
 Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato insiemistico
 \begin{lemma}
-  \label{lemma:set_diff_card}
-  Dati tre insiemi $ A,B $ e $ C $ di cardinalità finita tali che $ C \subseteq B $, si ha
-  \begin{equation*}
-    \#(A \cap (B \setminus C)) = \#(A \cap B) - \#(A \cap B \cap C).
-  \end{equation*}
+	\label{lemma:set_diff_card}
+	Dati tre insiemi $ A,B $ e $ C $ di cardinalità finita tali che $ C \subseteq B $, si ha
+	\begin{equation*}
+		\#(A \cap (B \setminus C)) = \#(A \cap B) - \#(A \cap B \cap C).
+	\end{equation*}
 \end{lemma}
 \begin{proof}
-  Sviluppando
-  \begin{equation*}
-    A \cap (B \setminus C) = A \cap (B \cap C^{\mathsf{c}}) = (A \cap B) \cap C^{\mathsf{c}} = (A
-    \cap B) \setminus C,
-  \end{equation*}
-  da cui 
-  \begin{equation*}
-   \#((A \cap B) \setminus C) = \#(A \cap B) - \#(A\cap B\cap C),
-  \end{equation*}
-  dove abbiamo usato che
-  $ \#(X \setminus Y) = \# X - \#(X \cap Y) $.
+	Sviluppando
+	\begin{equation*}
+		A \cap (B \setminus C) = A \cap (B \cap C^{\mathsf{c}}) = (A \cap B) \cap C^{\mathsf{c}} = (A
+		\cap B) \setminus C,
+	\end{equation*}
+	da cui
+	\begin{equation*}
+		\#((A \cap B) \setminus C) = \#(A \cap B) - \#(A\cap B\cap C),
+	\end{equation*}
+	dove abbiamo usato che
+	$ \#(X \setminus Y) = \# X - \#(X \cap Y) $.
 \end{proof}
 \begin{proof}[Dimostrazione del permutation lemma]
-  Osserviamo prima che sostituendo nell'ipotesi ‘‘iperpiani’’ con ‘‘punti’’, la tesi segue
-  immediatamente: per
-  ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
-  allora $ \s \cap \{P\} = \tilde{\s} \cap \{P\}  $, ovvero $ \s = \tilde{\s} $, poiché i punti di $ \s $ sono distinti. 
-  Consideriamo la seguente proprietà $ (\mathcal{P}_{k+1}) $: i $ (k+1)$-piani $ M $ che contengono almeno $ k+2 $ punti di $
-  \tilde{\s} $, soddisfano $ \#(\s \cap M) \ge \#(\tilde{\s} \cap M) $. Vediamo che lo stesso
-  vale per i $ k $-piani $(\mathcal{P}_{k})$. Una volta dimostrato ciò, sapendo per ipotesi che la proprietà sopra valga per gli
-  iperpiani (ovvero piani di dimensione $ \dim(\PP W) - 1 = \bm{w}-2 $), possiamo costrure una catena di
-  implicazioni dagli iperpiani fino ai punti, e ottenere la tesi: 
-  \todo{sto pensando a un modo di riscrivere questo}
-  \begin{equation*}
-    \mathcal{P}_{\bm{w}-2} \implies \mathcal{P}_{\bm{w}-3} \implies \mathcal{P}_{\bm{w}-4} \implies
-    \cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0} \implies \s = \tilde{\s},
-  \end{equation*}
-  dove la proprietà $ \mathcal{P}_{0} $ corrisponde a quella detta inizialmente per i punti.
+	Osserviamo prima che sostituendo nell'ipotesi ‘‘iperpiani’’ con ‘‘punti’’, la tesi segue
+	immediatamente: per
+	ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
+	allora $ \s \cap \{P\} = \tilde{\s} \cap \{P\}  $, ovvero $ \s = \tilde{\s} $, poiché i punti di $ \s $ sono distinti.
+	Consideriamo la seguente proprietà $ (\mathcal{P}_{k+1}) $: i $ (k+1)$-piani $ M $ che contengono almeno $ k+2 $ punti di $
+		\tilde{\s} $, soddisfano $ \#(\s \cap M) \ge \#(\tilde{\s} \cap M) $. Vediamo che lo stesso
+	vale per i $ k $-piani $(\mathcal{P}_{k})$. Una volta dimostrato ciò, sapendo per ipotesi che la proprietà sopra valga per gli
+	iperpiani (ovvero piani di dimensione $ \dim(\PP W) - 1 = \bm{w}-2 $), possiamo costrure una catena di
+	implicazioni dagli iperpiani fino ai punti, e ottenere la tesi:
+	\todo{sto pensando a un modo di riscrivere questo}
+	\begin{equation*}
+		\mathcal{P}_{\bm{w}-2} \implies \mathcal{P}_{\bm{w}-3} \implies \mathcal{P}_{\bm{w}-4} \implies
+		\cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0} \implies \s = \tilde{\s},
+	\end{equation*}
+	dove la proprietà $ \mathcal{P}_{0} $ corrisponde a quella detta inizialmente per i punti.
 
-  Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
-  punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
-  $ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $. È possibile costruire un tale
-  piano $ M_{\alpha} $ prendendo il sottospazio generato da $ L $ e un punto di $ \tilde{\s} $ non
-  appartenente a $ L $.
-  Osserviamo che $ \# \{M_{\alpha}\} \ge 2 $, cioè ci sono almeno due piani distinti contenenti $ L
-  $: se fosse $ \#\{M_{\alpha}\} =0 $, non esisterebbero punti di $ \tilde{\s} $ fuori da $ L $,
-  cioè $ S \subset L$, mentre se $ \# \{M_{\alpha}\} = 1  $, $ \tilde{\s} $ sarebbe contenuto
-  interamente nell'unico $ k $-piano $ M_{\alpha} $. In ogni caso, $ \tilde{\s} $ sarebbe contenuto in un sottospazio di dimensione al più $
-  \bm{w} - 2 $, ma ciò è impossibile perché $ \angb{\tilde{\s}} = W $, quindi $ \PP W $, che ha
-  dimensione $ \bm{w} -1 $, è generato
-  dai punti di $ \tilde{\s} $. Dalla costruzione segue inoltre che ogni
-  $(k+1)$-piano $ M_{\alpha} $ contiene almeno $ \mu + 1 \ge k+2 $
-  punti di $ \tilde{\s} $, quindi applicando l'ipotesi induttiva troviamo
-  \begin{equation}
-    \label{eq:malpha}
-    \#(\tilde{\s} \cap M_{\alpha}) \le \#(\s \cap M_{\alpha}).
-  \end{equation}
-  Osserviamo che
-   \begin{align}
-    \#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap (M_\alpha \setminus  L)) = r,
-    \label{eq:sum_proj1}\\
-    \#(\s \cap L) + \sum_\alpha \#(\s \cap (M_\alpha \setminus  L)) \le  r. \label{eq:sum_proj2}
-  \end{align}
-  La prima segue perché ogni punto di $ \tilde{\s} $ che non appartiene a $ L $ sta esattamente in
-  un piano $ M_{\alpha} $, mentre la seconda segue perché ogni punto di $ \s $ non in $ L $ sta in
-  al più un piano $ M_{\alpha} $.
-  \begin{figure}[ht]
-      \centering
-      \def\svgwidth{0.7\columnwidth}
-      \import{./Sources/Chapter2/figures/}{drawing.pdf_tex}
-      \caption{Interpretazione geometrica della costruzione nel caso $ k = 1 $ ($ L $ è una retta, e
-        gli $ M_{\alpha} $ sono piani). In questo caso $ L $ contiene
-      almeno $ \mu \ge k+1 = 2 $ punti di $ \tilde{\s} $, e $ M_{\alpha} $ contiene almeno $ \mu +
-    1 \ge k+2 = 3$ di $ \tilde{\s} $; per ipotesi induttiva, $ 3 \le \#(\tilde{\s} \cap M_{\alpha}) \le \#(\s
-  \cap M_{\alpha}) $. A priori i punti di $ \s $ potrebbero non intersecare $ L $, ma attraverso un
-conteggio troviamo che $ 2 \le \#(\tilde{S} \cap L) \le \#(\s \cap L) $.}
-  \end{figure}
-  Dal Lemma~\ref{lemma:set_diff_card} otteniamo l'identità (che vale anche per
-  $\tilde{\s} $),
-  \begin{equation*}
-   \#(\tilde{\s} \cap (M_{\alpha} \setminus L)) = \#(\tilde{\s} \cap M_{\alpha}) - \#(\tilde{\s} \cap
-   M_{\alpha} \cap L) = \#(\tilde{\s} \cap M_{\alpha}) - \#(\tilde{\s} \cap L),
-  \end{equation*}
-  dove nell'ultimo passaggio abbiamo il contenimento $ L \subseteq M_{\alpha} $. Sostituendola
-  nelle Equazioni~\ref{eq:sum_proj1} e~\ref{eq:sum_proj2} troviamo
-  \begin{equation*}
-    \begin{aligned}
-      (1 - \#\{M_{\alpha}\})\#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap M_{\alpha}) = r,
-      \\
-      (1 - \#\{M_{\alpha}\})\#(\s \cap L) + \sum_\alpha \#(\s \cap M_{\alpha}) \le  r.
-    \end{aligned}
-  \end{equation*}
-  Mettendole insieme e applicando l'Equazione~\ref{eq:malpha} otteniamo
-  \begin{equation*}
-    \begin{aligned}
-    (1 - \#\{M_{\alpha}\})\#(\s \cap L) + \sum_\alpha \#(\s \cap M_{\alpha}) &\le        
-    (1 - \#\{M_{\alpha}\})\#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap M_{\alpha})\\
-                                                                             &\le 
-    (1 - \#\{M_{\alpha}\})\#(\tilde{\s} \cap L) + \sum_\alpha \#(\s \cap M_{\alpha}),
-    \end{aligned}
-  \end{equation*}
-  semplificando le sommatorie, e usando che $ (1 - \#\{M_{\alpha}\}) < 0 $, troviamo
-\begin{equation*}
-  \#(\tilde{\s} \cap L) \le \#(\s \cap L).
-\end{equation*}
+	Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
+	punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
+	$ che contengono L e almeno $ \mu + 1 $ elementi di $ \tilde{\s} $. È possibile costruire un tale
+	piano $ M_{\alpha} $ prendendo il sottospazio generato da $ L $ e un punto di $ \tilde{\s} $ non
+	appartenente a $ L $.
+	Osserviamo che $ \# \{M_{\alpha}\} \ge 2 $, cioè ci sono almeno due piani distinti contenenti $ L
+	$: se fosse $ \#\{M_{\alpha}\} =0 $, non esisterebbero punti di $ \tilde{\s} $ fuori da $ L $,
+	cioè $ S \subset L$, mentre se $ \# \{M_{\alpha}\} = 1  $, $ \tilde{\s} $ sarebbe contenuto
+	interamente nell'unico $ k $-piano $ M_{\alpha} $. In ogni caso, $ \tilde{\s} $ sarebbe contenuto in un sottospazio di dimensione al più $
+		\bm{w} - 2 $, ma ciò è impossibile perché $ \angb{\tilde{\s}} = W $, quindi $ \PP W $, che ha
+	dimensione $ \bm{w} -1 $, è generato
+	dai punti di $ \tilde{\s} $. Dalla costruzione segue inoltre che ogni
+	$(k+1)$-piano $ M_{\alpha} $ contiene almeno $ \mu + 1 \ge k+2 $
+	punti di $ \tilde{\s} $, quindi applicando l'ipotesi induttiva troviamo
+	\begin{equation}
+		\label{eq:malpha}
+		\#(\tilde{\s} \cap M_{\alpha}) \le \#(\s \cap M_{\alpha}).
+	\end{equation}
+	Osserviamo che
+	\begin{align}
+		\#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap (M_\alpha \setminus  L)) = r,
+		\label{eq:sum_proj1} \\
+		\#(\s \cap L) + \sum_\alpha \#(\s \cap (M_\alpha \setminus  L)) \le  r. \label{eq:sum_proj2}
+	\end{align}
+	La prima segue perché ogni punto di $ \tilde{\s} $ che non appartiene a $ L $ sta esattamente in
+	un piano $ M_{\alpha} $, mentre la seconda segue perché ogni punto di $ \s $ non in $ L $ sta in
+	al più un piano $ M_{\alpha} $.
+	\begin{figure}[ht]
+		\centering
+		\def\svgwidth{0.7\columnwidth}
+		\import{./Sources/Chapter2/figures/}{drawing.pdf_tex}
+		\caption{Interpretazione geometrica della costruzione nel caso $ k = 1 $ ($ L $ è una retta, e
+			gli $ M_{\alpha} $ sono piani). In questo caso $ L $ contiene
+			almeno $ \mu \ge k+1 = 2 $ punti di $ \tilde{\s} $, e $ M_{\alpha} $ contiene almeno $ \mu +
+				1 \ge k+2 = 3$ di $ \tilde{\s} $; per ipotesi induttiva, $ 3 \le \#(\tilde{\s} \cap M_{\alpha}) \le \#(\s
+				\cap M_{\alpha}) $. A priori i punti di $ \s $ potrebbero non intersecare $ L $, ma attraverso un
+			conteggio troviamo che $ 2 \le \#(\tilde{S} \cap L) \le \#(\s \cap L) $.}
+	\end{figure}
+	Dal Lemma~\ref{lemma:set_diff_card} otteniamo l'identità (che vale anche per
+	$\tilde{\s} $),
+	\begin{equation*}
+		\#(\tilde{\s} \cap (M_{\alpha} \setminus L)) = \#(\tilde{\s} \cap M_{\alpha}) - \#(\tilde{\s} \cap
+		M_{\alpha} \cap L) = \#(\tilde{\s} \cap M_{\alpha}) - \#(\tilde{\s} \cap L),
+	\end{equation*}
+	dove nell'ultimo passaggio abbiamo il contenimento $ L \subseteq M_{\alpha} $. Sostituendola
+	nelle Equazioni~\eqref{eq:sum_proj1} e~\eqref{eq:sum_proj2} troviamo
+	\begin{equation*}
+		\begin{aligned}
+			(1 - \#\{M_{\alpha}\})\#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap M_{\alpha}) = r,
+			\\
+			(1 - \#\{M_{\alpha}\})\#(\s \cap L) + \sum_\alpha \#(\s \cap M_{\alpha}) \le  r.
+		\end{aligned}
+	\end{equation*}
+	Mettendole insieme e applicando l'Equazione~\eqref{eq:malpha} otteniamo
+	\begin{equation*}
+		\begin{aligned}
+			(1 - \#\{M_{\alpha}\})\#(\s \cap L) + \sum_\alpha \#(\s \cap M_{\alpha}) & \le
+			(1 - \#\{M_{\alpha}\})\#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap M_{\alpha}) \\
+			                                                                         & \le
+			(1 - \#\{M_{\alpha}\})\#(\tilde{\s} \cap L) + \sum_\alpha \#(\s \cap M_{\alpha}),
+		\end{aligned}
+	\end{equation*}
+	semplificando le sommatorie, e usando che $ (1 - \#\{M_{\alpha}\}) < 0 $, troviamo
+	\begin{equation*}
+		\#(\tilde{\s} \cap L) \le \#(\s \cap L).
+	\end{equation*}
 \end{proof}
 
 Introduciamo un ultimo lemma valido in generale:
 \begin{lemma}
-  \label{lhm:two_case_permuted_tensor}
-  Sia $ T \in A \otimes B $ un tensore di rango $ r $ che ammette due espressioni
-  $ T = a_1 \otimes b_1 + \cdots + a_r \otimes b_r $ e $ T = a_1 \otimes b_{\sigma(1)} + \cdots +
-  a_{r} \otimes b_{\sigma(r)}$, dove $ \sigma \in \mathfrak{S}_{r} $ è una permutazione. Allora $ \sigma = \Id $.
+	\label{lhm:two_case_permuted_tensor}
+	Sia $ T \in A \otimes B $ un tensore di rango $ r $ che ammette due espressioni
+	$ T = a_1 \otimes b_1 + \cdots + a_r \otimes b_r $ e $ T = a_1 \otimes b_{\sigma(1)} + \cdots +
+		a_{r} \otimes b_{\sigma(r)}$, dove $ \sigma \in \mathfrak{S}_{r} $ è una permutazione. Allora $ \sigma = \Id $.
 \end{lemma}
 \begin{proof}
-  Riscriviamo $ T $ come 
-\begin{equation*}
-  T = u_1 \otimes b_1 + \ldots + u_r \otimes b_r = u_1 \otimes b_{\sigma(1)} + \ldots + u_r \otimes
-  b_{\sigma(r)},
-\end{equation*}
-se e solo se 
-\begin{equation*}
-u_1 \otimes (b_{\sigma(1)} - b_1) + \ldots + u_r \otimes (b_{\sigma(r)}- b_r) = 0.
-\end{equation*}
-Da cui, $ b_{\sigma(j)} = b_j  $ per ogni $ j \in \{1, \ldots, r\}  $, allora $
-\sigma = \Id $.
+	Riscriviamo $ T $ come
+	\begin{equation*}
+		T = u_1 \otimes b_1 + \ldots + u_r \otimes b_r = u_1 \otimes b_{\sigma(1)} + \ldots + u_r \otimes
+		b_{\sigma(r)},
+	\end{equation*}
+	se e solo se
+	\begin{equation*}
+		u_1 \otimes (b_{\sigma(1)} - b_1) + \ldots + u_r \otimes (b_{\sigma(r)}- b_r) = 0.
+	\end{equation*}
+	Da cui, $ b_{\sigma(j)} = b_j  $ per ogni $ j \in \{1, \ldots, r\}  $, allora $
+		\sigma = \Id $.
 \end{proof}
 Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 
 \begin{proof}[Dimostrazione del Teorema di Kruskal]
-  Dalla Proposizione~\ref{prop:conc_and_rank} possiamo supporre che $ T $ sia conciso, ovvero che $
-A,B,C $ coincidano con i sottospazi generati da $ \tilde{\s}_{A},\tilde{\s}_{B},\tilde{\s}_{C} $, rispettivamente. Date
-  quindi due decomposizioni
-  \begin{equation}
-    \label{eq:not_tensor_uniq}
-   T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j = \sum_{j=1}^r \tilde{u}_j \otimes \tilde{v}_j
-  \otimes \tilde{w}_j   
-  \end{equation}
-  di lunghezza $ r $, con la prima decomposizione che soddisfa le ipotesi del teorema, vogliamo mostrare
-  che sono uguali. Notiamo che, quando l'unicità della decomposizione di
-  lunghezza $ r $ è verificata, il rango di $ T $ è $ r $; infatti, se sopra apparisse una decomposizione di lunghezza $ r-1 $, potremmo
-  ricostruirne una di lunghezza $ r $ rimpiazzando $ \tilde{u}_1 \otimes \tilde{v}_1 \otimes
-  \tilde{w}_1 $ con $ \frac{1}{2} \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 + \frac{1}{2}
-  \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 $. Mostriamo prima che $ \s_A = \tilde{\s}_A
-$, $ \s_B = \tilde{\s}_B$ e $ \s_C = \tilde{\s}_C $. Per simmetria basta mostrare l'ultima
-  affermazione, sfruttando il permutation lemma. Consideriamo un iperpiano $ H \subset \PP C $
-  tale che $ \#(\tilde{\s}_C \cap H) \ge \bm{c}-1 $, allora
-  \begin{equation}
-    \label{eq:stima_perm_lemma}
-     \#(\s_C \cap H) \ge \#(\tilde{\s}_C \cap H) ,
-  \end{equation}
-  le ipotesi sono garantite dall'Osservazione~\ref{rm:stima_krk} e dal fatto che $
-  \angb{\tilde{\s}_C} = C $. 
-Definiamo il numero $ S \defeq \#(\s_C \not\subset H) $ dei punti di $ \s_C $ non contenuti in $ H
-$, e scomponiamo 
-  \[
-  T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j =
-  \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma \otimes w_\sigma + \sum_{\mu = S+1}^r u_\mu \otimes v_\mu \otimes w_\mu
-  ,\] dove abbiamo riordinato gli indici $ j $ affinché i primi $ S $ dei $ [w_j] $ non stiano in $
-  H $. L'Equazione~\ref{eq:stima_perm_lemma} si può riformulare nel modo seguente
-\begin{equation*}
-  \#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S,
-\end{equation*}
-  sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
-  \cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Sia $ h \in \hat{H}^\perp $ non nullo. Valutando in $ h $ abbiamo 
-  \begin{equation*}
-  T(h) = \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) \in A \otimes B \simeq \R^{\bm{a} \times \bm{b}},
-  \end{equation*}
-  dove nessuno dei $ h(w_\sigma)
-  $ è nullo. In particolare,\todo{va giustificata?}
-  \begin{equation*}
-    \#(\tilde{\s}_C \not\subset H) \ge \rank(T(h)).
-  \end{equation*}
-  Rappresentando $ T(h) \in A \times B $ in $ \R^{\bm{a}\times \bm{b}} $ tramite il passaggio alle
-  coordinate, troviamo 
-  \begin{equation*}
-    T(h) = U_{S}DV^{*}_{S},
-  \end{equation*}
-  dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \R^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
-  | \cdots | v_{S}  \right] \in \R^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
-  di taglia $ S\times S $ ed
-  invertibile. Per la disuguaglianza di Sylvester\todo{serve ref? è risultato di algebra lineare},
-  \begin{equation*}
-    \begin{aligned}
-      \rank(T(h)) = \rank(U_{S}DV_{S}^*) &= \rank(U_{S}D) + \rank(V_{S}^*) - S \\
-                  &\ge \dim \angb{u_\sigma}_{\sigma = 1}^S + \dim \angb{v_\sigma}_{\sigma = 1}^S - S.
-    \end{aligned}
-  \end{equation*}
-  Per definizione di $ k $-rango, valgono $ \dim \angb{u_{\sigma}} \ge \min \{S, \krk{\s_A}\}  $ e
-  $ \dim \angb{v_\sigma} \ge \min \{S, \krk{S_B}\}  $. Mettendo insieme queste ultime stime,
-  \begin{equation}
-    \label{eq:krk_s_c_down}
-    \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  + \min \{S, \krk{\s_B}\} - S.
-  \end{equation}
-Questo concluderebbe se sapessimo che $ S \le \min \{\krk{\s_A}, \krk{\s_B}\}  $.
-Riscrivendo l'Equazione~\ref{eq:kr3} dell'ipotesi, troviamo
-\begin{equation}
-  \label{eq:krk_rewritten}
-  r - \krk{\s_C} + 1 \le \krk{\s_A} + \krk{\s_B} - r - 1.
-\end{equation}
-Siccome $ \#(\tilde{\s}_C \cap H) \ge \bm{c} - 1 $, dall'equazione sopra otteniamo
-\begin{equation}
-  \label{eq:krk_s_c_up}
-  \begin{aligned}
-    \#(\tilde{\s}_C \not\subset H) &= r - \#(\tilde{\s}_C \cap H)\\
-                                   &\le r - (c - 1) \\
-                                   &\le r - (\krk{\s_C} - 1) && \quad \text{ dato che } c-1 \ge
-                                   \krk{\s_C} -1, \\ 
-                                   &\le \krk{\s_A} + \krk{\s_B} - r - 1.
-  \end{aligned}
-\end{equation}
-\todo{quale equazione è meglio numerare qui sopra?}
-Mettendo insieme le stime trovate nell'Equazione~\ref{eq:krk_s_c_down} e~\ref{eq:krk_s_c_up}, troviamo
-\begin{equation}
-  \krk{\s_A} + \krk{\s_B} - r - 1 \ge \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  +
-  \min \{S, \krk{\s_B}\} - S.
-\end{equation}
-Se fosse $ S \gneq  \min \{\krk{\s_A}, \krk{\s_B}\}  $, avremmo
-\begin{equation*}
-  \krk{\s_A} + \krk{\s_B} - r -1 \gneq \krk{\s_A} + \krk{\s_B} - S
-\end{equation*}
-ovvero $  -r - 1 \gneq -S $ cioé $  r + 1 \lneq S $, assurdo. Quindi $ S \le \min \{\krk{\s_A},
-\krk{\s_B}\}  $, e dal
-permutation lemma segue l'uguaglianza $ \s_C = \tilde{\s}_C $.
+	Dalla Proposizione~\ref{prop:conc_and_rank} possiamo supporre che $ T $ sia conciso, ovvero che $
+		A,B,C $ coincidano con i sottospazi generati da $ \tilde{\s}_{A},\tilde{\s}_{B},\tilde{\s}_{C} $, rispettivamente. Date
+	quindi due decomposizioni
+	\begin{equation}
+		\label{eq:not_tensor_uniq}
+		T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j = \sum_{j=1}^r \tilde{u}_j \otimes \tilde{v}_j
+		\otimes \tilde{w}_j
+	\end{equation}
+	di lunghezza $ r $, con la prima decomposizione che soddisfa le ipotesi del teorema, vogliamo mostrare
+	che sono uguali. Notiamo che, quando l'unicità della decomposizione di
+	lunghezza $ r $ è verificata, il rango di $ T $ è $ r $; infatti, se sopra apparisse una decomposizione di lunghezza $ r-1 $, potremmo
+	ricostruirne una di lunghezza $ r $ rimpiazzando $ \tilde{u}_1 \otimes \tilde{v}_1 \otimes
+		\tilde{w}_1 $ con $ \frac{1}{2} \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 + \frac{1}{2}
+		\tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 $. Mostriamo prima che $ \s_A = \tilde{\s}_A
+	$, $ \s_B = \tilde{\s}_B$ e $ \s_C = \tilde{\s}_C $. Per simmetria basta mostrare l'ultima
+	affermazione, sfruttando il permutation lemma. Consideriamo un iperpiano $ H \subset \PP C $
+	tale che $ \#(\tilde{\s}_C \cap H) \ge \bm{c}-1 $, allora
+	\begin{equation}
+		\label{eq:stima_perm_lemma}
+		\#(\s_C \cap H) \ge \#(\tilde{\s}_C \cap H) ,
+	\end{equation}
+	le ipotesi sono garantite dall'Osservazione~\ref{rm:stima_krk} e dal fatto che $
+		\angb{\tilde{\s}_C} = C $.
+	Definiamo il numero $ S \defeq \#(\s_C \not\subset H) $ dei punti di $ \s_C $ non contenuti in $ H
+	$, e scomponiamo
+	\[
+		T = \sum_{j=1}^r u_j \otimes v_j \otimes w_j =
+		\sum_{\sigma=1}^S u_\sigma \otimes v_\sigma \otimes w_\sigma + \sum_{\mu = S+1}^r u_\mu \otimes v_\mu \otimes w_\mu
+		,\] dove abbiamo riordinato gli indici $ j $ affinché i primi $ S $ dei $ [w_j] $ non stiano in $
+		H $. L'Equazione~\eqref{eq:stima_perm_lemma} si può riformulare nel modo seguente
+	\begin{equation*}
+		\#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S,
+	\end{equation*}
+	sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
+		\cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Sia $ h \in \hat{H}^\perp $ non nullo. Valutando in $ h $ abbiamo
+	\begin{equation*}
+		T(h) = \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) \in A \otimes B \simeq \R^{\bm{a} \times \bm{b}},
+	\end{equation*}
+	dove nessuno dei $ h(w_\sigma)
+	$ è nullo. In particolare,\todo{va giustificata?}
+	\begin{equation*}
+		\#(\tilde{\s}_C \not\subset H) \ge \rank(T(h)).
+	\end{equation*}
+	Rappresentando $ T(h) \in A \times B $ in $ \R^{\bm{a}\times \bm{b}} $ tramite il passaggio alle
+	coordinate, troviamo
+	\begin{equation*}
+		T(h) = U_{S}DV^{*}_{S},
+	\end{equation*}
+	dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \R^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
+			| \cdots | v_{S}  \right] \in \R^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
+	di taglia $ S\times S $ ed
+	invertibile. Per la disuguaglianza di Sylvester\todo{serve ref? è risultato di algebra lineare},
+	\begin{equation*}
+		\begin{aligned}
+			\rank(T(h)) = \rank(U_{S}DV_{S}^*) & = \rank(U_{S}D) + \rank(V_{S}^*) - S                                               \\
+			                                   & \ge \dim \angb{u_\sigma}_{\sigma = 1}^S + \dim \angb{v_\sigma}_{\sigma = 1}^S - S.
+		\end{aligned}
+	\end{equation*}
+	Per definizione di $ k $-rango, valgono $ \dim \angb{u_{\sigma}} \ge \min \{S, \krk{\s_A}\}  $ e
+	$ \dim \angb{v_\sigma} \ge \min \{S, \krk{S_B}\}  $. Mettendo insieme queste ultime stime,
+	\begin{equation}
+		\label{eq:krk_s_c_down}
+		\#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  + \min \{S, \krk{\s_B}\} - S.
+	\end{equation}
+	Questo concluderebbe se sapessimo che $ S \le \min \{\krk{\s_A}, \krk{\s_B}\}  $.
+	Riscrivendo l'Equazione~\eqref{eq:kr3} dell'ipotesi, troviamo
+	\begin{equation}
+		\label{eq:krk_rewritten}
+		r - \krk{\s_C} + 1 \le \krk{\s_A} + \krk{\s_B} - r - 1.
+	\end{equation}
+	Siccome $ \#(\tilde{\s}_C \cap H) \ge \bm{c} - 1 $, dall'equazione sopra otteniamo
+	\begin{equation}
+		\label{eq:krk_s_c_up}
+		\begin{aligned}
+			\#(\tilde{\s}_C \not\subset H) & = r - \#(\tilde{\s}_C \cap H)                                             \\
+			                               & \le r - (c - 1)                                                           \\
+			                               & \le r - (\krk{\s_C} - 1)             &  & \quad \text{ dato che } c-1 \ge
+			\krk{\s_C} -1,                                                                                             \\
+			                               & \le \krk{\s_A} + \krk{\s_B} - r - 1.
+		\end{aligned}
+	\end{equation}
+	\todo{quale equazione è meglio numerare qui sopra?}
+	Mettendo insieme le stime trovate nell'Equazione~\eqref{eq:krk_s_c_down} e~\eqref{eq:krk_s_c_up}, troviamo
+	\begin{equation}
+		\krk{\s_A} + \krk{\s_B} - r - 1 \ge \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  +
+		\min \{S, \krk{\s_B}\} - S.
+	\end{equation}
+	Se fosse $ S \gneq  \min \{\krk{\s_A}, \krk{\s_B}\}  $, avremmo
+	\begin{equation*}
+		\krk{\s_A} + \krk{\s_B} - r -1 \gneq \krk{\s_A} + \krk{\s_B} - S
+	\end{equation*}
+	ovvero $  -r - 1 \gneq -S $ cioé $  r + 1 \lneq S $, assurdo. Quindi $ S \le \min \{\krk{\s_A},
+		\krk{\s_B}\}  $, e dal
+	permutation lemma segue l'uguaglianza $ \s_C = \tilde{\s}_C $.
 
-Supponiamo ora di avere due scritture di $ T $ che differiscono da due permutazioni degli indici
-tramite $ \sigma,\tau
-\in \mathfrak{S}_r $:
-\begin{equation*}
-  \begin{aligned}
-    T &= u_1 \otimes v_1 \otimes w_1 + \ldots + u_r \otimes v_r \otimes w_r \\
-      &=u_1 \otimes v_{\sigma(1)}
-  \otimes w_{\tau(1)} + \ldots + u_r \otimes v_{\sigma(r)} \otimes w_{\tau(r)}.
-  \end{aligned}
-\end{equation*}
+	Supponiamo ora di avere due scritture di $ T $ che differiscono da due permutazioni degli indici
+	tramite $ \sigma,\tau
+		\in \mathfrak{S}_r $:
+	\begin{equation*}
+		\begin{aligned}
+			T & = u_1 \otimes v_1 \otimes w_1 + \ldots + u_r \otimes v_r \otimes w_r \\
+			  & =u_1 \otimes v_{\sigma(1)}
+			\otimes w_{\tau(1)} + \ldots + u_r \otimes v_{\sigma(r)} \otimes w_{\tau(r)}.
+		\end{aligned}
+	\end{equation*}
 
-Se $ \sigma= \tau $, possiamo porre $a_{j} = u_j$, $b_{j} = v_{j} \otimes w_{j} $ e applicare il
-Lemma~\ref{lhm:two_case_permuted_tensor}.
+	Se $ \sigma= \tau $, possiamo porre $a_{j} = u_j$, $b_{j} = v_{j} \otimes w_{j} $ e applicare il
+	Lemma~\ref{lhm:two_case_permuted_tensor}.
 
-Se $ \sigma \neq \tau $, allora esiste il più piccolo indice $ j_0 \in \{1, \ldots, r\} $ tale che $
-\sigma(j_0) \eqdef s_0 \neq  t_0 \defeq \tau(j_0) $. Affermiamo che esistano due sottoinsiemi $ S,T
-\subset \{1, \ldots, r\} $ con le seguenti proprietà:
-\begin{enumerate}[label=(\roman*)]
-  \item $ s_0 \in S, t_0 \in T $,
-  \item $ S \cap T = \emptyset $,
-  \item $ \#S \le r - \krk{\s_B} + 1 $, $ \#T \le r - \krk{\s_C} + 1 $, e
-  \item Esistono due iperpiani $ \hat{H}_{S} \subset B $ e $ \hat{H}_{T} \subset C $ tali che 
-    \begin{itemize}
-      \item $ s_0 \not\in \hat{H}_{S}  $ e $ t_0 \not\in \hat{H}_{T} $.
-      \item I sottospazi $ \angb{v_j \mid j \in S^{\mathsf{c}}} $ e $ \angb{w_j \mid j \in
-    T^{\mathsf{c}}} $ sono contenuti negli iperpiani $ \hat{H}_{S} $ e $ \hat{H}_T $ rispettivamente.
-    \end{itemize}
-\end{enumerate}
-Qui, $ S^{\mathsf{c}} = \{1, \ldots, r\} \setminus S   $. L'idea è costruire due iperpiani
-$ \hat{H}_{S} $ e $ \hat{H}_{T} $ che separino $ v_{s_0} $ da $ v_{t_0} $ e $ w_{s_0} $ da $ w_{t_0}
-$ come in Figura~\ref{fig:kruskal_iperpiani}, per trovare un funzionale che annulli $ T $, da cui poi trovare un assurdo violando l'ipotesi di
-Kruskal.
+	Se $ \sigma \neq \tau $, allora esiste il più piccolo indice $ j_0 \in \{1, \ldots, r\} $ tale che $
+		\sigma(j_0) \eqdef s_0 \neq  t_0 \defeq \tau(j_0) $. Affermiamo che esistano due sottoinsiemi $ S,T
+		\subset \{1, \ldots, r\} $ con le seguenti proprietà:
+	\begin{enumerate}[label=(\roman*)]
+		\item $ s_0 \in S, t_0 \in T $,
+		\item $ S \cap T = \emptyset $,
+		\item $ \#S \le r - \krk{\s_B} + 1 $, $ \#T \le r - \krk{\s_C} + 1 $, e
+		\item Esistono due iperpiani $ \hat{H}_{S} \subset B $ e $ \hat{H}_{T} \subset C $ tali che
+		      \begin{itemize}
+			      \item $ s_0 \not\in \hat{H}_{S}  $ e $ t_0 \not\in \hat{H}_{T} $.
+			      \item I sottospazi $ \angb{v_j \mid j \in S^{\mathsf{c}}} $ e $ \angb{w_j \mid j \in
+					            T^{\mathsf{c}}} $ sono contenuti negli iperpiani $ \hat{H}_{S} $ e $ \hat{H}_T $ rispettivamente.
+		      \end{itemize}
+	\end{enumerate}
+	Qui, $ S^{\mathsf{c}} = \{1, \ldots, r\} \setminus S   $. L'idea è costruire due iperpiani
+	$ \hat{H}_{S} $ e $ \hat{H}_{T} $ che separino $ v_{s_0} $ da $ v_{t_0} $ e $ w_{s_0} $ da $ w_{t_0}
+	$ come in Figura~\ref{fig:kruskal_iperpiani}, per trovare un funzionale che annulli $ T $, da cui poi trovare un assurdo violando l'ipotesi di
+	Kruskal.
 
-Iniziando costruendo un iperpiano $ \hat{H}_{T} $ che soddisfi la (iv). Fissiamo una base $ \mathcal{C} $ di $
-C $ tale che $ \{w_{t_{0}}, w_{s_{0}} \} \subset \mathcal{C} $, e definiamo il sottospazio $ \hat{H}_{T}
-\defeq \angb{\mathcal{C} \setminus \{w_{t_0}\} } $ di dimensione $ \bm{c}-1 $.
-Possiamo riscrivere $ \hat{H}_{T} = \angb{w_{j} \mid j \in T^{\mathsf{c}}} $, dove $ T^{\mathsf{c}}
-$ è l'insieme dei $ \bm{c} -1 $ indici di supporto tali che $ t_0 \not\in T $. Dalla definizione di k-rango,
-vale $ \bm{c} \ge \krk{\s_C} $, dunque $ \#T^{\mathsf{c}} \ge \krk{\s_C} -1 $. Questo assicura che $
-\#T $ sia strettamente limitata da $ \krk{\s_B} $, in quanto
-\begin{equation*}
-\#T = r - \#T^{\mathsf{c}} \le r - \krk{\s_C} + 1 \le \krk{\s_A} +
-\krk{\s_B} - r - 1 \le \krk{\s_B} -1.
-\end{equation*}
-La penultima disuguaglianza segue dall'Equazione~\ref{eq:krk_rewritten}, mentre l'ultima segue da $
-\krk{\s_A} \le r $. Procediamo ora a costruire $ \hat{H}_{S} $. Consideriamo il sottospazio $
-V_T \defeq \angb{v_{j} \mid j \in T} $, che dalla stima su $ \#T $ ha dimensione al più $ \krk{\s_B} -1  $.
-Osserviamo che $ v_{s_0} \not\in V_{T} $; se così non fosse, l'insieme $ \{s_0\}  \cup T $
-conterrebbe al più $ \krk{\s_B} $ vettori, ma il vettore $ v_{s_0} $ sarebbe linearmente dipendente
-rispetto ai vettori $ \{v_{j} \mid j \in T\}  $, che contraddirrebbe la definizione di $ k $-rango.
-Da cui, completando il sottospazio $ \angb{v_j \mid j \in
-T} $ ad altri vettori in $ \pi^{-1}(\s_B) $, possiamo trovare un iperpiano $ \hat{H}_S \subset B $ contenente $
-\angb{v_t \mid t \in T} $ ma non $ v_{s_0}$. Sia ora $ S^{\mathsf{c}}
-\defeq \{j \mid v_j \in \hat{H}_S\}  $. Similmente a quanto visto per $ T $, valgono $
-\#S^{\mathsf{c}} \ge \krk{\s_B} -1 $, dunque $ \#S \le r - \krk{\s_B} + 1 $. Dalla costruzione segue
-che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le
-proprietà desiderate.
+	Partiamo da costruire un iperpiano $ \hat{H}_{T} $ che soddisfi la (iv). Fissiamo una base $ \mathcal{C} $ di $
+		C $ tale che $ \{w_{t_{0}}, w_{s_{0}} \} \subset \mathcal{C} $, e definiamo il sottospazio $ \hat{H}_{T}
+		\defeq \angb{\mathcal{C} \setminus \{w_{t_0}\} } $ di dimensione $ \bm{c}-1 $.
+	Possiamo riscrivere $ \hat{H}_{T} = \angb{w_{j} \mid j \in T^{\mathsf{c}}} $, dove $ T^{\mathsf{c}}
+	$ è l'insieme dei $ \bm{c} -1 $ indici di supporto tali che $ t_0 \not\in T $. Dalla definizione di k-rango,
+	vale $ \bm{c} \ge \krk{\s_C} $, dunque $ \#T^{\mathsf{c}} \ge \krk{\s_C} -1 $. Questo assicura che $
+		\#T $ sia strettamente limitata da $ \krk{\s_B} $, in quanto
+	\begin{equation*}
+		\#T = r - \#T^{\mathsf{c}} \le r - \krk{\s_C} + 1 \le \krk{\s_A} +
+		\krk{\s_B} - r - 1 \le \krk{\s_B} -1.
+	\end{equation*}
+	La penultima disuguaglianza segue dall'Equazione~\eqref{eq:krk_rewritten}, mentre l'ultima segue da $
+		\krk{\s_A} \le r $. Procediamo ora a costruire $ \hat{H}_{S} $. Consideriamo il sottospazio $
+		V_T \defeq \angb{v_{j} \mid j \in T} $, che dalla stima su $ \#T $ ha dimensione al più $ \krk{\s_B} -1  $.
+	Osserviamo che $ v_{s_0} \not\in V_{T} $; se così non fosse, l'insieme $ \{s_0\}  \cup T $
+	conterrebbe al più $ \krk{\s_B} $ vettori, ma il vettore $ v_{s_0} $ sarebbe linearmente dipendente
+	rispetto ai vettori $ \{v_{j} \mid j \in T\}  $, che contraddirrebbe la definizione di $ k $-rango.
+	Da cui, completando il sottospazio $ \angb{v_j \mid j \in
+			T} $ ad altri vettori in $ \pi^{-1}(\s_B) $, possiamo trovare un iperpiano $ \hat{H}_S \subset B $ contenente $
+		\angb{v_t \mid t \in T} $ ma non $ v_{s_0}$. Sia ora $ S^{\mathsf{c}}
+		\defeq \{j \mid v_j \in \hat{H}_S\}  $. Similmente a quanto visto per $ T $, valgono $
+		\#S^{\mathsf{c}} \ge \krk{\s_B} -1 $, dunque $ \#S \le r - \krk{\s_B} + 1 $. Dalla costruzione segue
+	che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le
+	proprietà desiderate.
 
-\todo{la figura va sistemata, lo farò alla fine}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter2/figures/kruskal_hyperplanes.pdf}
-  \caption{Rappresentazione della costruzione degli iperpiani $\hat{H}_T \subset C$ e $\hat{H}_S \subset B$ e della separazione degli indici nella dimostrazione del Teorema di Kruskal.}
-  \label{fig:kruskal_iperpiani}
-\end{figure}
+	\todo{la figura va sistemata, lo farò alla fine}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter2/figures/kruskal_hyperplanes.pdf}
+		\caption{Rappresentazione della costruzione degli iperpiani $\hat{H}_T \subset C$ e $\hat{H}_S \subset B$ e della separazione degli indici nella dimostrazione del Teorema di Kruskal.}
+		\label{fig:kruskal_iperpiani}
+	\end{figure}
 
-La formula delle dimensioni dell'ortogonale assicura che esista un elemento non banale in $
-\hat{H}_{S}^\perp \times \hat{H}_{S}^\perp $, infatti
-\begin{equation*}
-  \dim(\hat{H}_{S}^\perp \times \hat{H}_{S}^\perp) =   \dim(\hat{H}_{S}^\perp)
-  \dim(\hat{H}_{S}^\perp) = (\bm{b} - (\bm{b} - 1))(\bm{c} - (\bm{c} - 1)) = 1.
-\end{equation*}
-Notiamo che per costruzione $ T\big|_{\hat{H}_{S}^\perp \times \hat{H}_{T}^\perp} = 0$: preso
-l'unico elemento non zero $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $, si ha
-\begin{align*}
-  0 = T(\beta,\gamma) &= \sum_{j=1}^r u_j\beta(v_j)\gamma(w_j) \\
-                      &= \sum_{j=1}^r u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}) =  \sum_{j \in
-                      \mathcal{J}} u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}),
-\end{align*}
-dove $ \mathcal{J} = \{j \mid \sigma(j) \in S, \tau(j) \in T\} \supseteq \{j \mid \sigma(j) \neq
-\tau(j)\} $ è non vuoto, in quanto contiene almeno $ j_0 $, e ha cardinalità limitata da $ \#S $ e $ \#T $.
-Analizziamo meglio l'espressione sopra. Nel caso della prima sommatoria tutti i termini $
-\beta(v_{j})\gamma(w_{j}) $ sono nulli. Se così non fosse, esisterebbe un indice $ j $ tale per cui  $
-\beta(v_j) \neq 0 $ e $ \gamma(w_j) \neq 0 $, ma ciò accadrebbe, per definizione di annullatore, se
-e solo se $ v_j \not\in \hat{H}_S $ (cioè $ j \in S $) e $ w_j \not\in
-\hat{H}_T $ (cioè $ j\in T $), ma ciò accade se e solo se $ j \in S \cap T = \emptyset$. Nella seconda riga, similmente, un addendo è non nullo
-se $ v_{\sigma(j)} \not\in
-\hat{H}_S$ e $ w_{\tau(j)} \not\in \hat{H}_T $, cioè $ j \in \mathcal{J} $.
-Allora esiste una combinazione lineare non banale tra gli elementi $ u_j $ per gli indici $ j \in
-\mathcal{J} $, ma $ \#\mathcal{J} \le \min \{\#S, \#T\}  \le \min \{r - \krk{\s_B} + 1, r -
-\krk{\s_C} + 1\}  $, che è minore di $ \krk{\s_A} $, infatti, se fosse
-$\krk{\s_A} \gneq \min \{r - \krk{\s_B} + 1, r - \krk{\s_C} + 1\}$, si avrebbero
+	La formula delle dimensioni dell'ortogonale assicura che esista un elemento non banale in $
+		\hat{H}_{S}^\perp \times \hat{H}_{S}^\perp $, infatti
+	\begin{equation*}
+		\dim(\hat{H}_{S}^\perp \times \hat{H}_{S}^\perp) =   \dim(\hat{H}_{S}^\perp)
+		\dim(\hat{H}_{S}^\perp) = (\bm{b} - (\bm{b} - 1))(\bm{c} - (\bm{c} - 1)) = 1.
+	\end{equation*}
+	Notiamo che per costruzione $ T\big|_{\hat{H}_{S}^\perp \times \hat{H}_{T}^\perp} = 0$: preso
+	l'unico elemento non zero $ (\beta,\gamma) \in \hat{H}_S^\perp \times \hat{H}_T^\perp $, si ha
+	\begin{align*}
+		0 = T(\beta,\gamma) & = \sum_{j=1}^r u_j\beta(v_j)\gamma(w_j)                                   \\
+		                    & = \sum_{j=1}^r u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}) =  \sum_{j \in
+			\mathcal{J}} u_j \beta(v_{\sigma(j)})\gamma(w_{\tau(j)}),
+	\end{align*}
+	dove $ \mathcal{J} = \{j \mid \sigma(j) \in S, \tau(j) \in T\} \supseteq \{j \mid \sigma(j) \neq
+		\tau(j)\} $ è non vuoto, in quanto contiene almeno $ j_0 $, e ha cardinalità limitata da $ \#S $ e $ \#T $.
+	Analizziamo meglio l'espressione sopra. Nel caso della prima sommatoria tutti i termini $
+		\beta(v_{j})\gamma(w_{j}) $ sono nulli. Se così non fosse, esisterebbe un indice $ j $ tale per cui  $
+		\beta(v_j) \neq 0 $ e $ \gamma(w_j) \neq 0 $, ma ciò accadrebbe, per definizione di annullatore, se
+	e solo se $ v_j \not\in \hat{H}_S $ (cioè $ j \in S $) e $ w_j \not\in
+		\hat{H}_T $ (cioè $ j\in T $), ma ciò accade se e solo se $ j \in S \cap T = \emptyset$. Nella seconda riga, similmente, un addendo è non nullo
+	se $ v_{\sigma(j)} \not\in
+		\hat{H}_S$ e $ w_{\tau(j)} \not\in \hat{H}_T $, cioè $ j \in \mathcal{J} $.
+	Allora esiste una combinazione lineare non banale tra gli elementi $ u_j $ per gli indici $ j \in
+		\mathcal{J} $, ma $ \#\mathcal{J} \le \min \{\#S, \#T\}  \le \min \{r - \krk{\s_B} + 1, r -
+		\krk{\s_C} + 1\}  $, che è minore di $ \krk{\s_A} $, che produce l'assurdo, perché per lineare indipendenza e
+	definizione di $ k $-rango, questi dovrebbero essere almeno $ \krk{\s_{A}} $. Infatti, se fosse
+	$\krk{\s_A} \gneq \min \{r - \krk{\s_B} + 1, r - \krk{\s_C} + 1\}$, si avrebbero
 
-\begin{equation*}
-  \begin{aligned}
-    r - \krk{\s_B} + 1 &\gneq \krk{\s_A}, \\
-    r - \krk{\s_C} + 1 &\gneq \krk{\s_A}.
-  \end{aligned}
-\end{equation*}
-Sommando le disequazioni troveremmo $ 2r + 2 \gneq \krk{\s_A} + \krk{\s_B} + \krk{\s_A} $, che violerebbe
-l'ipotesi.
+	\begin{equation*}
+		\begin{aligned}
+			r - \krk{\s_B} + 1 & \gneq \krk{\s_A}, \\
+			r - \krk{\s_C} + 1 & \gneq \krk{\s_A}.
+		\end{aligned}
+	\end{equation*}
+	Sommando le disequazioni troveremmo $ 2r + 2 \gneq \krk{\s_A} + \krk{\s_B} + \krk{\s_A} $, che violerebbe
+	l'ipotesi.
+	Da cui $ \sigma = \tau $, che completa la dimostrazione.
 
 \end{proof}
 
@@ -692,23 +694,23 @@ La condizione di Kruskal è sufficiente ma non necessaria. Il seguente risultato
 condizione necessaria ma non sufficiente:
 
 \begin{theorem}
-  Dato un tensore $ T = \dsqr{U_1, \ldots, U_d}$ tale per cui  \[
-  \min_j \left\{ \rk(U_d \krp
-   \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1) \right\} < r
-  ,\] allora la fattorizzazione $ T =
-  \dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
+	Dato un tensore $ T = \dsqr{U_1, \ldots, U_d}$ tale per cui  \[
+		\min_j \left\{ \rk(U_d \krp
+		\cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1) \right\} < r
+		,\] allora la fattorizzazione $ T =
+		\dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
 \end{theorem}
 
 \begin{remark}
-Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
-argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura. 
-La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
-due dimostrazioni brevi che sfruttano il permutation lemma, ma che seguono idee diverse. La prima riscrittura, ad opera di Stegeman e
-Sidiropoulos~\cite{STEGEMAN2007540} era 16 pagine, ed è stata di seguito riadattata da
-Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di poche pagine, che abbiamo
-presentato in questo elaborato. La seconda rielaborazione, ad opera di Rhodes (circa 9
-pagine) in~\cite{rhodes2009conciseproofkruskalstheorem} utilizza un approccio diverso, che non discuteremo. Il caso generale, dimostrato
-da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
-riconducendosi al caso $ 3$-dimensionale, abbiamo ritenuto più interessante trattare solamente il
-caso in dimensione bassa.
+	Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
+	argomento di 40 pagine~\cite{KRUSKAL197795}, di non semplice lettura.
+	La sua idea è stata riadattata da diversi matematici, e attualmente abbiamo
+	due dimostrazioni brevi che sfruttano il permutation lemma, ma che seguono idee diverse. La prima riscrittura, ad opera di Stegeman e
+	Sidiropoulos~\cite{STEGEMAN2007540} era 16 pagine, ed è stata di seguito riadattata da
+	Landsberg~\cite{landsberg2011tensors} in un argomento geometrico di poche pagine, che abbiamo
+	presentato in questo elaborato. La seconda rielaborazione, ad opera di Rhodes (circa 9
+	pagine) in~\cite{rhodes2009conciseproofkruskalstheorem} utilizza un approccio diverso, che non discuteremo. Il caso generale, dimostrato
+	da Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness} si ottiene (in maniera non ovvia)
+	riconducendosi al caso $ 3$-dimensionale, abbiamo ritenuto più interessante trattare solamente il
+	caso in dimensione bassa.
 \end{remark}

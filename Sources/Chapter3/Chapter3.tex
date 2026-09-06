@@ -106,7 +106,7 @@ matrice vettore. In generale, se $ M $ ha rango $ R $, possiamo scriverla come s
 matrici di rango uno\todo{aggiungere thm?} e per linearità
 ottenere un costo $ O(Rn) $ per $ Mx $. È possibile generalizzare quest'idea per mappe bilineari.
 
-Calcolare la valutazione di una mappa bilineare $ \varphi $ come nell'Equazione~\ref{eq:b_k_bil}
+Calcolare la valutazione di una mappa bilineare $ \varphi $ come nell'Equazione~\eqref{eq:b_k_bil}
 senza alcuna fattorizzazione di $ T $ ha un costo $
 	O(mnp) $, data dal numero di
 moltiplicazioni necessarie fra gli elementi di $ u $ e $ v $ con le entrate non nulle di $ T $.
@@ -138,7 +138,7 @@ La prossima proposizione assicura che il rango di una forma bilineare sia dato d
 \begin{proof}
 	Data una decomposizione $ T = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP}
 	abbiamo che $ T = \sum_{l=1}^r u_l \otimes v_l \otimes w_l $, o in componenti, $ T_{i,j,k} =
-		\sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nell'Equazione~\ref{eq:b_k_bil} troviamo,
+		\sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nell'Equazione~\eqref{eq:b_k_bil} troviamo,
 
 	\begin{equation}
 		\label{eq:b_active}
@@ -155,7 +155,7 @@ La prossima proposizione assicura che il rango di una forma bilineare sia dato d
 		\end{aligned}
 	\end{equation}
 	per ogni $ k = 1, \ldots, p $.
-	Mettendo insieme le Equazioni \ref{eq:b_tuv} e \ref{eq:b_active} troviamo
+	Mettendo insieme le Equazioni \eqref{eq:b_tuv} e \eqref{eq:b_active} troviamo
 	\begin{equation}
 		\label{eq:lowrank_bilinear}
 		\varphi(x,y) = \sum_{l=1}^r (u_l^{\top}x)\cdot(v_l^{\top}y)w_l.
@@ -199,7 +199,7 @@ numero ottimale di operazioni.
 
 Consideriamo due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{n \times p} $ e il loro prodotto $
 	C \in \R^{m \times p} $. Ponendo $ x =
-	\Vec(A) $ e $ y=\Vec(B) $, l'Equazione~\ref{eq:b_tuv} diventa
+	\Vec(A) $ e $ y=\Vec(B) $, l'Equazione~\eqref{eq:b_tuv} diventa
 \begin{equation}
 	\label{eq:mulvec}
 	\Vec(C^\top) =\varphi(x,y) = T \ttm[1] \Vec(A)^{\top} \ttm[2] \Vec(B)^{\top},
@@ -208,7 +208,7 @@ dove tramite le trasposizioni abbiamo fissato l'ordinamento naturale sulle entra
 inverso su $
 	\Vec(C^\top)$. Per costruzione, il tensore $ T \in \R^{mn\times np\times mp} $ rappresenta
 l'algoritmo $ \algob{m,n,p} $. Scrivendo $ T $ tramite la sua decomposizione CP di rango $ r $,
-l'Equazione~\ref{eq:lowrank_bilinear} ci permette di riscrivere l'espressione sopra come una
+l'Equazione~\eqref{eq:lowrank_bilinear} ci permette di riscrivere l'espressione sopra come una
 bilinear computation
 \begin{equation}
 	\label{eq:mulvec:CP}
@@ -284,7 +284,7 @@ Denotiamo con $ \mathcal{C}_{\varphi}$ come l'insieme dei circuiti aritmetici $ 
 		\varphi $.
 \end{remark}
 Consideriamo la forma bilineare $ \varphi = \algob{n} $ data
-dall'Equazione~\ref{eq:matmul_component}.
+dall'Equazione~\eqref{eq:matmul_component}.
 Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
 		n}$, denotiamo con
 \begin{equation}
@@ -408,7 +408,7 @@ da $ r $, in quanto
 	\end{aligned}
 \end{equation*}
 Riassumendo, $ \rk(\algob{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
-applicando l'Equazione~\ref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $. Questa stima
+applicando l'Equazione~\eqref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $. Questa stima
 si rivelerà utile per calcolare la complessità degli algoritmi veloci, evitando senza dover passare per il Master Theorem~\cite{cormen2022introduction}.
 Abbiamo
 dimostrato la seguente:
@@ -570,7 +570,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		\omega = \inf \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
 	\end{equation*}
 	Sia $ \theta $ il lato destro dell'equazione sopra, e per semplicità scriviamo $ M(n) \defeq
-		M_{\K}(n)$ e $ \omega \defeq \omega_{\K}$. Dall'Equazione~\ref{eq:LandRank_estimate} abbiamo
+		M_{\K}(n)$ e $ \omega \defeq \omega_{\K}$. Dall'Equazione~\eqref{eq:LandRank_estimate} abbiamo
 	\begin{equation*}
 		\frac{1}{2}R(\algob{n}) \le L(\algob{n}) \le M(n),
 	\end{equation*}
@@ -583,7 +583,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		r \defeq \rk(\algob{n}) \le n^{\theta + \varepsilon}.
 	\end{equation}
 
-	Dall'Equazione~\ref{eq:mulvec:CP}\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} esistono dei funzionali $ f_{\rho},g_{\rho} \in
+	Dall'Equazione~\eqref{eq:mulvec:CP}\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} esistono dei funzionali $ f_{\rho},g_{\rho} \in
 		(\K^{n\times n})^*$  e delle matrici $ w_{\rho} \in \K^{n\times n} $ per $ \rho \in \{1, \ldots,
 		r\}  $ tali che, per ogni $ A,B \in \K^{n\times n} $
 	\begin{equation*}
@@ -600,7 +600,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	$ e $ B $: infatti abbiamo $ \mathcal{A}^{n\times n} = (\K^{n^i\times n^i})^{n \times n} \simeq \K^{n^{i+1}
 			\times n^{i+1}} $, dove l'isomorfismo può essere pensato come la suddivisione di matrici più
 	grandi in matrici a blocchi. Da questo fatto,
-	unito all'Equazione~\ref{eq:blk_matmul_algo}, si
+	unito all'Equazione~\eqref{eq:blk_matmul_algo}, si
 	ottiene che
 	\begin{equation}
 		\label{eq:Mn_recursionleq}
@@ -610,7 +610,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (formalmente, visto come prododotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
 	un numero costante di addizioni.
 	Siccome $ \algob{n} $ è concise, abbiamo che $ r \ge n^2 $. Fissando $ n $ (e quindi $ r $),
-	risolviamo la ricorsione dell'Equazione~\ref{eq:Mn_recursionleq} in funzione di $ i $ usando il
+	risolviamo la ricorsione dell'Equazione~\eqref{eq:Mn_recursionleq} in funzione di $ i $ usando il
 	Lemma~\ref{lemma:rec_relation_ab} con $ a = r $ e $ b = n^2 $, analizzando due casi.
 
 	Se $ r > n^2 $, abbiamo che
@@ -626,7 +626,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	\end{equation*}
 	dove abbiamo posto $ \alpha \defeq M(1) + n^2c $ e $ \beta \defeq - \frac{n^2c}{r-n^2}$.
 
-	Se $ r = n^2 $, dal Lemma~\ref{eq:Mn_recursionleq} abbiamo
+	Se $ r = n^2 $, dal Lemma~\eqref{eq:Mn_recursionleq} abbiamo
 	\begin{equation*}
 		M(n^i) \le (cs + M(1))r^i,
 	\end{equation*}
@@ -644,7 +644,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		M(h) \le M(n^{\left\lceil \log_{n} h \right\rceil }) = O(r^{\log_{n}h}) = O(h^{\log_{n}r}) = O(h^{\theta + \varepsilon}),
 	\end{equation*}
 	dove la prima uguaglianza segue dall'Equazione~\ref{prop:rk_monotony}, la seconda da una proprietà del logaritmo, e la terza
-	applicando la stima dell'Equazione~\ref{eq:r_estimate}.
+	applicando la stima dell'Equazione~\eqref{eq:r_estimate}.
 	Quindi passando all'inf, $ \omega_{\K} \le \theta $, che completa la dimostrazione.
 \end{proof}
 
@@ -870,7 +870,7 @@ Che in forma tensoriale diventa
 	\end{aligned}
 \end{equation*}
 Espandendo i prodotto tensoriali e facendo opportune semplificazioni, possiamo ritrovare il tensore
-dell'algoritmo classico riportato nell'Equazione~\ref{eq:tensor_222}.
+dell'algoritmo classico riportato nell'Equazione~\eqref{eq:tensor_222}.
 \begin{remark}[Costo computazionale]
 	Similmente a quanto svolto sopra, troviamo che $ M(n) = O(n^{\log_{2}
 				7}) = O(n^{2.81})$. Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
@@ -921,7 +921,7 @@ ponendo a zero l'entrata $ a_{22} $ di $ \algob{2} $:
 		a_{21}b_{11}                & a_{21}b_{12}
 	\end{bmatrix}.
 \end{equation*}
-Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazione~\ref{eq:tensor_222} si riscrive come
+Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazione~\eqref{eq:tensor_222} si riscrive come
 \begin{equation*}
 	\begin{aligned}
 		\algob{2}^{\text{red}}

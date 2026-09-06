@@ -236,28 +236,46 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 	\begin{equation*}
 		\L(\beta) = l.
 	\end{equation*}
-	in quanto
-	\[
-		\begin{aligned}
-			\L(\beta) & = \L\left(\beta_1, \ldots, \beta_{d}\right) =                                                   \\
-			          & =1 + \sum_{h = 1}^d s_1\left(\left\lfloor \frac{(l-1) \pmod{n_hs_h}}{s_h} \right\rfloor \right)
-		\end{aligned}
-	\]
-	\todo{FINIRE}
+	Per comodità prendiamo $ k = l-1 $, dove $ 0 \le k
+		< \prod_{j=1}^d n_{j}$. Ricordando che $ n_{j}s_{j} = s_{j+1} $, per definizione di
+	linearizzazione si ha
+	\begin{align}
+		\L(\beta) & = \L\left(\beta_1, \ldots, \beta_{d}\right) =  \notag                                                 \\
+		          & =1 + \sum_{j = 1}^d s_j\left(\left\lfloor \frac{k \pmod{s_{j+1}}}{s_j} \label{eq:linear_inverse_beta}
+		\right\rfloor \right).
+	\end{align}
+	Consideriamo la scrittura in base mista $ k = \sum_{h=1}^d c_{h}s_{h} $, dove $ 0 \le c_{h} <
+		n_{h} $, allora vale che $ k \pmod{s_{j+1}} = \sum_{h=1}^j c_{h}s_{h} $, da cui dividendo per $
+		s_{j}$,
+	\begin{equation*}
+		\frac{k \pmod{s_{j+1}}}{s_{j}} = c_{j} + \sum_{h=1}^{j-1} c_{h}s_{h} = c_{j} + \frac{k
+			\pmod{s_{j}}}{s_{j}}.
+	\end{equation*}
+	Siccome $ k \pmod{s_{j}} < s_{j} $ allora $ \left\lfloor c_{j} + \frac{k \pmod{s_{j}}}{s_{j}}
+		\right\rfloor = c_{j} $, per ogni $ j= 1,\ldots,d $, e sostituendo questi passaggi nell'Equazione~\eqref{eq:linear_inverse_beta},
+	\begin{equation*}
+		\L(\beta) = 1 + \sum_{h=1}^d s_{h}c_{h} = 1 + k = 1 + (l-1) = l.
+	\end{equation*}
 \end{proof}
 
 \begin{example}
 	È utile visualizzare il caso $ 3- $dimensionale: fissato un tensore $ T \in \R^{m\times
 			n\times p}$ indicizzato con $ (i,j,k) $, abbiamo che $ s_1=1,s_2 = m $ e $ s_3 = mn $, dunque
-	\[
-		\L(i,j,k) = 1 + (i-1) + m(j-1) + mn(k-1) = i + m(j-1) + mn(k-1)
-		,\]
+	\begin{equation*}
+		\begin{aligned}
+			\L(i,j,k) & = 1 + (i-1) + m(j-1) + mn(k-1) \\
+			          & = i + m(j-1) + mn(k-1),
+		\end{aligned}
+	\end{equation*}
 	mentre l'inversa è
-	\[
-		\L^{-1}(i,j,k) = \left( \left\lfloor (l-1) \mod(m)
-		\right\rfloor, 1 + \left\lfloor \frac{(l-1) \mod(mn)}{m} \right\rfloor, 1 + \left\lfloor
-		\frac{(l-1) \mod(mnp)}{mn} \right\rfloor \right)
-		.\]
+	\begin{equation*}
+		\begin{aligned}
+			 & \L^{-1}(i,j,k)                       \\
+			 & = \left( \left\lfloor (l-1) \pmod{m}
+			\right\rfloor, 1 + \left\lfloor \frac{(l-1) \pmod{mn}}{m} \right\rfloor, 1 + \left\lfloor
+			\frac{(l-1) \pmod{mnp}}{mn} \right\rfloor \right).
+		\end{aligned}
+	\end{equation*}
 \end{example}
 
 \begin{definition}[Reverse ordering]
@@ -270,9 +288,9 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 	\end{equation*} dove $ s_d^* =1 $ e $ s_{j-1}^* = \prod_{h=j}^{d} n_h = s_j^*n_j $, per $ j = d,\ldots,2 $. La sua inversa è la mappa
 	\begin{equation*}
 		\begin{aligned}
-			(\L^*)^{-1} \colon [\prod_{j=1}^d n_j] & \to \mdom!                                                                                  \\
-			l                                      & \mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1^*)}{s_1^*}\right\rfloor, \ldots, 1 +
-			\left\lfloor \frac{ (l-1)\mod(n_ds_d^*)}{s_d^*} \right\rfloor \right)
+			(\L^*)^{-1} \colon [\prod_{j=1}^d n_j] & \to \mdom!                                                                                   \\
+			l                                      & \mapsto \left(1 + \left\lfloor \frac{ (l-1)\pmod{n_1s_1^*}}{s_1^*}\right\rfloor, \ldots, 1 +
+			\left\lfloor \frac{ (l-1)\pmod{n_ds_d^*}}{s_d^*} \right\rfloor \right).
 		\end{aligned}
 	\end{equation*}.
 \end{definition}

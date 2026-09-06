@@ -57,6 +57,12 @@ funziona per le matrici ma non per i tensori
 ]
 Lo indichiamo con $ krank(cal(S)) .$
 
+#remark[][
+  La definizione originale di Kruskal era: data una matrice $M$, $krank(M)$ è il massimo intero
+  positivo $r$ tale che ogni sottoinsieme di $r$ colonne di $M$ sono vettori linearmente
+  indipendenti.
+]
+
 #todo[Qui fare gli show con esempi punti, piano]
 
 
