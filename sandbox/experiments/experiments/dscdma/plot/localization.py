@@ -89,6 +89,7 @@ def plot_antenna_and_radii(
     antenna_pos_true: np.ndarray,
     A_est: np.ndarray,
     S_est: Optional[np.ndarray] = None,
+    A_true: Optional[np.ndarray] = None,
     title: str = "User Position Recovery via Fixed Antenna Trilateration",
     save_path: Optional[str] = None,
     show: bool = False,
@@ -100,9 +101,20 @@ def plot_antenna_and_radii(
     """
     I, R = A_est.shape
 
+    if A_true is not None:
+        from experiments.dscdma.cp_solver import align_factors_by_channel_matching
+        C_dummy = np.zeros((1, R))
+        S_dummy = np.zeros((1, R)) if S_est is None else S_est
+        A_est, _, S_est_aligned, perm, _ = align_factors_by_channel_matching(
+            A_est, C_dummy, S_dummy, A_true
+        )
+        if S_est is not None:
+            S_est = S_est_aligned
+
     user_pos_est, scale_factors = extract_user_positions_from_A(
         A_est, antenna_pos_true, area_side=area_side
     )
+
 
     radii_est = np.zeros((I, R), dtype=np.float64)
     for r in range(R):

@@ -118,11 +118,13 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
         antenna_pos_true=antenna_pos_true,
         A_est=A_est,
         S_est=S_est,
+        A_true=data["A_true"],
         title=title,
         save_path=str(output_path),
         show=False,
         area_side=config.area_side,
     )
+
 
     print("\n" + "=" * 70)
     print(f"SUCCESS: Plot generated and saved to '{output_path}'")

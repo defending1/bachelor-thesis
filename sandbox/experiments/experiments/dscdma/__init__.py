@@ -6,7 +6,12 @@ from experiments.dscdma.config import SimConfig
 from experiments.dscdma.channel import generate_spatial_channel
 from experiments.dscdma.codes import generate_spreading_codes
 from experiments.dscdma.generator import DSCDMADatasetGenerator, tensor_reconstruct
-from experiments.dscdma.cp_solver import solve_cp_als, relative_error
+from experiments.dscdma.cp_solver import (
+    solve_cp_als,
+    relative_error,
+    align_factors_by_channel_matching,
+    align_factors_by_code_matching,
+)
 from experiments.dscdma.exporter import save_dataset, load_dataset
 
 __all__ = [
@@ -17,6 +22,9 @@ __all__ = [
     "tensor_reconstruct",
     "solve_cp_als",
     "relative_error",
+    "align_factors_by_channel_matching",
+    "align_factors_by_code_matching",
     "save_dataset",
     "load_dataset",
 ]
+
