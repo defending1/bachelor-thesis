@@ -8,8 +8,6 @@ from experiments.dscdma.solver import (
     generate_spreading_codes,
     solve_cp_als,
     relative_error,
-    align_factors_by_channel_matching,
-    align_factors_by_code_matching,
     align_factors,
     extract_user_positions_from_A,
 )
@@ -24,8 +22,6 @@ __all__ = [
     "tensor_reconstruct",
     "solve_cp_als",
     "relative_error",
-    "align_factors_by_channel_matching",
-    "align_factors_by_code_matching",
     "align_factors",
     "extract_user_positions_from_A",
     "save_dataset",

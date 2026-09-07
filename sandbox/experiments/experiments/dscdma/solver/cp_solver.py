@@ -9,15 +9,13 @@ from scipy.optimize import linear_sum_assignment
 from experiments.utils.cp import CP, solve_cp_als, relative_error
 
 
-def align_factors_by_channel_matching(
-    A_est: np.ndarray,
-    C_est: np.ndarray,
-    S_est: np.ndarray,
+def align_factors(
+    cp: CP,
     A_true: np.ndarray,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
-    Finds the optimal column permutation mapping A_true into A_est via absolute cosine similarity
-    and Hungarian matching over S_R, resolving sign ambiguities to restore positive channel gains.
+    Finds the optimal column permutation mapping A_true into cp.A via absolute cosine similarity
+    and Hungarian matching over S_R, resolving sign ambiguities and updating cp.factors in-place.
 
     Formulation:
         1. Compute normalized correlation matrix rho_{k, r} = <A_est[:, k], A_true[:, r]> / (||A_est[:, k]|| * ||A_true[:, r]||)
@@ -30,9 +28,7 @@ def align_factors_by_channel_matching(
            C_aligned[:, r] = C_est[:, perm[r]]
 
     Args:
-        A_est (np.ndarray): Recovered channel matrix of shape (I, R).
-        C_est (np.ndarray): Recovered code matrix of shape (J, R).
-        S_est (np.ndarray): Recovered symbol matrix of shape (K, R).
+        cp (CP): Approximate CP tensor factorization object containing factors [A, C, S].
         A_true (np.ndarray): Ground-truth channel matrix of shape (I, R).
 
     Returns:
@@ -43,6 +39,8 @@ def align_factors_by_channel_matching(
             - perm: Permutation index vector of length R.
             - signs: Sign flipping vector of length R (+1 or -1).
     """
+    A_est, C_est, S_est = cp.factors[0], cp.factors[1], cp.factors[2]
+
     I, R = A_true.shape
     norm_A_est = np.linalg.norm(A_est, axis=0, keepdims=True)  # (1, R)
     norm_A_true = np.linalg.norm(A_true, axis=0, keepdims=True)  # (1, R)
@@ -72,38 +70,7 @@ def align_factors_by_channel_matching(
     C_aligned = C_est[:, perm]
     S_aligned = S_est[:, perm] * signs[np.newaxis, :]
 
-    return A_aligned, C_aligned, S_aligned, perm, signs
-
-
-def align_factors(
-    A_est: Union[np.ndarray, CP],
-    C_est: Optional[np.ndarray] = None,
-    S_est: Optional[np.ndarray] = None,
-    A_true: Optional[np.ndarray] = None,
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Aligns CP factor matrices (A_est, C_est, S_est) against ground-truth channel matrix A_true
-    using channel matching, resolving column permutation and sign ambiguities.
-    Supports passing a CP instance as the first argument.
-    """
-    if isinstance(A_est, CP):
-        cp_obj = A_est
-        A_val = cp_obj.A
-        C_val = cp_obj.C
-        S_val = cp_obj.S
-        target_A_true = C_est if A_true is None else A_true
-    else:
-        A_val = A_est
-        C_val = C_est
-        S_val = S_est
-        target_A_true = A_true
-
-    A_aligned, C_aligned, S_aligned, perm, signs = align_factors_by_channel_matching(
-        A_val, C_val, S_val, target_A_true
-    )
-
-    if isinstance(A_est, CP):
-        A_est.factors = [A_aligned, C_aligned, S_aligned]
+    cp.factors = [A_aligned, C_aligned, S_aligned]
 
     return A_aligned, C_aligned, S_aligned, perm, signs
 
@@ -111,6 +78,5 @@ def align_factors(
 __all__ = [
     "solve_cp_als",
     "relative_error",
-    "align_factors_by_channel_matching",
     "align_factors",
 ]

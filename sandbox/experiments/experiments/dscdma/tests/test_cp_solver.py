@@ -8,9 +8,9 @@ from experiments.dscdma.utils.generator import DSCDMADatasetGenerator
 from experiments.dscdma.solver.cp_solver import (
     solve_cp_als,
     relative_error,
-    align_factors_by_channel_matching,
-    align_factors_by_code_matching,
+    align_factors,
 )
+from experiments.utils.cp import CP
 
 
 def test_solve_cp_als_reconstruction():
@@ -46,7 +46,7 @@ def test_solve_cp_als_multiple_dimensions():
         assert rec_err < 1e-3
 
 
-def test_align_factors_by_channel_matching():
+def test_align_factors():
     config = SimConfig(num_sources=3, num_antennas=4, spreading_gain=16, num_symbols=100, seed=42)
     generator = DSCDMADatasetGenerator(config)
     data = generator.generate()
@@ -55,15 +55,10 @@ def test_align_factors_by_channel_matching():
     C_true = data["C_true"]
     S_true = data["S_true"]
 
-    (A_est, C_est, S_est), rec_err = solve_cp_als(
-        data["tensor"], rank=3, n_iter_max=2000, tol=1e-9, random_state=42
-    )
-    assert rec_err < 1e-4
+    cp = CP(data["tensor"], rank=3).compute(n_iter_max=2000, tol=1e-9, random_state=42)
+    assert cp.rec_error < 1e-4
 
-    A_aligned, C_aligned, S_aligned, perm, signs = align_factors_by_channel_matching(
-        A_est, C_est, S_est, A_true
-    )
-
+    A_aligned, C_aligned, S_aligned, perm, signs = align_factors(cp, A_true)
 
     assert A_aligned.shape == A_true.shape
     assert C_aligned.shape == C_true.shape
@@ -76,25 +71,6 @@ def test_align_factors_by_channel_matching():
             np.linalg.norm(A_aligned[:, r]) * np.linalg.norm(A_true[:, r])
         )
         assert corr_A > 0.98, f"Column {r} channel correlation is {corr_A}, expected > 0.98"
-
-
-def test_align_factors_by_code_matching():
-    config = SimConfig(num_sources=3, num_antennas=4, spreading_gain=16, num_symbols=100, seed=42)
-    generator = DSCDMADatasetGenerator(config)
-    data = generator.generate()
-
-    C_true = data["C_true"]
-    (A_est, C_est, S_est), rec_err = solve_cp_als(
-        data["tensor"], rank=3, n_iter_max=2000, tol=1e-9, random_state=42
-    )
-    assert rec_err < 1e-4
-
-    A_aligned, C_aligned, S_aligned, perm, signs = align_factors_by_code_matching(
-        A_est, C_est, S_est, C_true
-    )
-
-    assert len(perm) == 3
-    assert set(perm) == {0, 1, 2}
 
 
 def test_cp_class_compute():
