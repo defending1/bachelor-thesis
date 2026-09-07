@@ -89,6 +89,40 @@ def test_plot_antenna_and_radii(tmp_path: Path):
     assert output_file.stat().st_size > 0
 
 
+def test_generate_multi_plot_pdf(tmp_path: Path):
+    from experiments.dscdma.plot import generate_multi_plot_pdf
+
+    config = SimConfig(num_sources=3, num_antennas=4, seed=None)
+    output_file = tmp_path / "test_multi_plot.pdf"
+
+    generated_path = generate_multi_plot_pdf(
+        config=config,
+        num_plots=6,
+        output_path=str(output_file),
+    )
+
+    assert generated_path.exists()
+    assert generated_path.stat().st_size > 1000
+
+
+def test_generate_dscdma_noise_experiment_pdf(tmp_path: Path):
+    from experiments.dscdma.plot import generate_dscdma_noise_experiment_pdf
+
+    config = SimConfig(num_sources=3, num_antennas=4, seed=42)
+    output_file = tmp_path / "test_noise_experiment.pdf"
+
+    generated_path = generate_dscdma_noise_experiment_pdf(
+        config=config,
+        noise_stds=[0.0, 0.01, 0.05],
+        output_path=str(output_file),
+    )
+
+    assert generated_path.exists()
+    assert generated_path.stat().st_size > 1000
+
+
+
+
 
 
 

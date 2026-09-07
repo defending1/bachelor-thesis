@@ -20,8 +20,12 @@ dev = [
 [project.scripts]
 dscdma-generator = "experiments.dscdma.cli:run_generator_cli"
 dscdma-plot = "experiments.dscdma.cli:run_plot_cli"
+dscdma-multi-plot = "experiments.dscdma.cli:run_multi_plot_cli"
+dscdma-noise-experiment = "experiments.dscdma.cli:run_noise_experiment_cli"
 eem-experiment = "experiments.tensor_data_eem.eem_cp_experiment:main"
 typical-rank-experiment = "experiments.typical_rank.typical_rank_experiment:main"
+
+
 
 [build-system]
 requires = ["hatchling"]

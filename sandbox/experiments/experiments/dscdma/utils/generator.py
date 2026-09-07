@@ -5,7 +5,7 @@ Synthesizes exact rank-R 3-way real tensor T_ijk = sum_{r=1}^R a_ir * c_jr * s_k
 using spatial 2D channel matrix A, random binary codes C, and generic real signals S.
 """
 
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import numpy as np
 
 from experiments.dscdma.config import SimConfig
@@ -19,6 +19,24 @@ def tensor_reconstruct(A: np.ndarray, C: np.ndarray, S: np.ndarray) -> np.ndarra
     Constructs dense 3D tensor T from factor matrices A, C, S using CP.reconstruct().
     """
     return CP(factors=[A, C, S]).reconstruct()
+
+
+def add_gaussian_noise(
+    tensor: np.ndarray,
+    noise_std: float,
+    rng: Optional[np.random.Generator] = None,
+) -> np.ndarray:
+    """
+    Adds zero-mean additive Gaussian noise with standard deviation noise_std to the 3D tensor.
+    T_noisy = T + W, where W_ijk ~ N(0, noise_std^2).
+    """
+    if noise_std <= 0.0:
+        return tensor.copy()
+    if rng is None:
+        rng = np.random.default_rng()
+    noise = rng.normal(loc=0.0, scale=noise_std, size=tensor.shape)
+    return tensor + noise
+
 
 
 class DSCDMADatasetGenerator:
