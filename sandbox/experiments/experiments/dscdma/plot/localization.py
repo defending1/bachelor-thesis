@@ -5,7 +5,7 @@ Visualization module for DS-CDMA spatial positions and antenna-centered radius c
 from pathlib import Path
 from typing import Optional, Tuple
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
+from matplotlib.patches import Circle, Rectangle
 import numpy as np
 from experiments.dscdma.plot.stickman import draw_stickman
 from experiments.dscdma.solver.localization import extract_user_positions_from_A
@@ -43,96 +43,110 @@ def plot_antenna_and_radii(
 
 
 
-    # Distinct palette for antennas and their circles (distinct from lightblue user and orange recovered user)
-    antenna_palette = [
-        "crimson",
-        "purple",
-        "forestgreen",
-        "saddlebrown",
-        "mediumvioletred",
-        "teal",
-        "darkolivegreen",
-        "deeppink",
+    # Colorblind-safe palette (Okabe-Ito standard for academic publications)
+    user_colors = [
+        "#0072B2",  # Deep Blue
+        "#E69F00",  # Amber / Orange
+        "#009E73",  # Bluish Green
+        "#CC79A7",  # Reddish Purple
+        "#D55E00",  # Vermillion
+        "#56B4E9",  # Sky Blue
     ]
+    ant_color = "#2C3E50"  # Neutral dark slate for fixed antennas
 
-    # Draw distance circles centered at fixed known antenna positions
-    for i in range(I):
-        c_ant = antenna_pos_true[i]
-        ant_color = antenna_palette[i % len(antenna_palette)]
-        for r in range(R):
+    # Draw distance circles centered at fixed known antenna positions, color-coded by User
+    for r in range(R):
+        u_color = user_colors[r % len(user_colors)]
+        for i in range(I):
+            c_ant = antenna_pos_true[i]
             radius = radii_est[i, r]
             circle = Circle(
                 xy=(c_ant[0], c_ant[1]),
                 radius=radius,
                 fill=False,
-                edgecolor=ant_color,
-                linestyle="--",
-                linewidth=1.2,
-                alpha=0.6,
-                label=f"Ant {i + 1} Circles" if r == 0 else None,
+                edgecolor=u_color,
+                linestyle=":",
+                linewidth=1.0,
+                alpha=0.35,
+                label=f"User {r + 1} Trilateration Circles" if i == 0 else None,
             )
             ax.add_patch(circle)
 
-    # Draw true users in lightblue / royalblue
+    # Draw Users (True = Solid Stickman, Recovered = Ghost Stickman, connected by Dotted Vector)
     for r in range(R):
+        u_color = user_colors[r % len(user_colors)]
+
+        # Displacement vector line linking True and Recovered position
+        ax.plot(
+            [user_pos[r, 0], user_pos_est[r, 0]],
+            [user_pos[r, 1], user_pos_est[r, 1]],
+            linestyle=":",
+            linewidth=1.3,
+            color=u_color,
+            alpha=0.7,
+            zorder=5,
+            label="Localization Error Vector" if r == 0 else None,
+        )
+
+        # True User (Solid Stickman)
         draw_stickman(
             ax,
             user_pos[r, 0],
             user_pos[r, 1],
             size=4.0,
-            color="deepskyblue",
-            label="True Users" if r == 0 else None,
+            color=u_color,
+            style="solid",
+            label="True Users (Solid)" if r == 0 else None,
         )
         ax.annotate(
-            f"  U{r + 1} (True)",
+            rf"  $U_{{{r + 1}}}$",
             (user_pos[r, 0], user_pos[r, 1] + 3.4),
             fontsize=10,
             fontweight="bold",
-            color="dodgerblue",
+            color=u_color,
             zorder=7,
         )
 
-        # Draw recovered users in orange
-        ax.scatter(
+        # Recovered User (Ghost / Dashed Stickman)
+        draw_stickman(
+            ax,
             user_pos_est[r, 0],
             user_pos_est[r, 1],
-            color="darkorange",
-            marker="o",
-            s=100,
-            edgecolors="black",
-            zorder=7,
-            label="Extracted Users (from A)" if r == 0 else None,
+            size=4.0,
+            color=u_color,
+            style="ghost",
+            label="Extracted Users (Ghost)" if r == 0 else None,
         )
         ax.annotate(
-            f"  U{r + 1} (Rec)",
+            rf"  $\hat{{U}}_{{{r + 1}}}$",
             (user_pos_est[r, 0], user_pos_est[r, 1] - 2.5),
             fontsize=9,
-            color="darkorange",
             fontweight="bold",
-            zorder=8,
+            color=u_color,
+            alpha=0.85,
+            zorder=7,
         )
 
-    # Plot fixed known antenna locations matrix P using distinct colors matching their respective circles
+    # Plot fixed known antenna locations matrix P using neutral dark slate
     for i in range(I):
-        ant_color = antenna_palette[i % len(antenna_palette)]
         ax.scatter(
             antenna_pos_true[i, 0],
             antenna_pos_true[i, 1],
             color=ant_color,
             marker="^",
-            s=130,
+            s=140,
             edgecolors="black",
             linewidths=1.0,
-            zorder=6,
+            zorder=8,
             label="Fixed Antennas (P)" if i == 0 else None,
         )
         ax.annotate(
-            f"  A{i + 1}",
-            (antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
+            rf"  $a_{{{i + 1}}}$",
+            (antenna_pos_true[i, 0], antenna_pos_true[i, 1] + 1.2),
             fontsize=9,
             fontweight="bold",
             color=ant_color,
-            zorder=7,
+            zorder=9,
         )
 
     # Calculate tight bounding box around fixed antennas and true/extracted users
@@ -266,112 +280,89 @@ def plot_noise_degradation_trajectory(
 
     fig, ax = plt.subplots(figsize=(11.5, 8.5))
 
-    # Distinct color per user
+    # Colorblind-safe palette (Okabe-Ito standard for academic publications)
     user_colors = [
-        "dodgerblue",
-        "darkorange",
-        "forestgreen",
-        "purple",
-        "mediumvioletred",
-        "teal",
+        "#0072B2",  # Deep Blue
+        "#E69F00",  # Amber / Orange
+        "#009E73",  # Bluish Green
+        "#CC79A7",  # Reddish Purple
+        "#D55E00",  # Vermillion
+        "#56B4E9",  # Sky Blue
     ]
+    ant_color = "#2C3E50"  # Neutral dark slate for fixed antennas
 
-    # Plot fixed antenna positions in red
+    # Plot fixed antenna positions in neutral dark slate
     for i in range(I):
         ax.scatter(
             antenna_pos_true[i, 0],
             antenna_pos_true[i, 1],
-            color="red",
+            color=ant_color,
             marker="^",
             s=140,
             edgecolors="black",
             linewidths=1.0,
-            zorder=6,
+            zorder=8,
             label="Fixed Antennas (P)" if i == 0 else None,
         )
         ax.annotate(
-            f"  A{i + 1}",
-            (antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
+            rf"  $a_{{{i + 1}}}$",
+            (antenna_pos_true[i, 0], antenna_pos_true[i, 1] + 1.2),
             fontsize=9,
             fontweight="bold",
-            color="red",
-            zorder=7,
+            color=ant_color,
+            zorder=9,
         )
 
-    # Plot ground truth users with distinct user colors
+    # Plot ground truth users as empty solid squares (unlabeled)
+    sq_side = 4.8
     for r in range(R):
         u_color = user_colors[r % len(user_colors)]
-        draw_stickman(
-            ax,
-            user_pos[r, 0],
-            user_pos[r, 1],
-            size=4.0,
-            color=u_color,
-            label=f"User {r + 1} True" if r < 4 else None,
+        sq = Rectangle(
+            (user_pos[r, 0] - sq_side * 0.5, user_pos[r, 1] - sq_side * 0.3),
+            sq_side,
+            sq_side,
+            facecolor="none",
+            edgecolor=u_color,
+            linewidth=2.0,
+            linestyle="-",
+            zorder=6,
+            label="True User Region" if r == 0 else None,
         )
-        ax.annotate(
-            f"  U{r + 1} (True)",
-            (user_pos[r, 0], user_pos[r, 1] + 3.4),
-            fontsize=10,
-            fontweight="bold",
-            color=u_color,
-            zorder=7,
-        )
+        ax.add_patch(sq)
 
-    # Plot user position trajectories across noise levels
+    # Plot recovered users as continuous stickmen for noise steps k >= 1 (k=0 noiseless is omitted)
     for r in range(R):
         u_color = user_colors[r % len(user_colors)]
         traj_x = [extracted_users_per_noise[k][r, 0] for k in range(K_noise)]
         traj_y = [extracted_users_per_noise[k][r, 1] for k in range(K_noise)]
 
-        # Connect trajectory points with a translucent dashed line
-        ax.plot(
-            traj_x,
-            traj_y,
-            linestyle="--",
-            linewidth=1.5,
-            color=u_color,
-            alpha=0.5,
-            zorder=4,
-            label=f"U{r + 1} Drift Trajectory",
-        )
+        # Draw Continuous Stickmen for noise steps k >= 1 with high visibility
+        for k in range(1, K_noise):
+            step_alpha = max(0.70, 1.0 - 0.05 * k)
 
-        # Plot translucent individual points for each noise level
-        for k in range(K_noise):
-            noise_val = noise_stds[k]
-            marker = "o" if k == 0 else "s"
-            size = 110 if k == 0 else 75
-
-            # Translucent user points (alpha=0.55)
-            ax.scatter(
+            draw_stickman(
+                ax,
                 traj_x[k],
                 traj_y[k],
+                size=3.6,
                 color=u_color,
-                alpha=0.55,
-                marker=marker,
-                s=size,
-                edgecolors="black",
-                linewidths=0.8,
-                zorder=8,
+                style="continuous",
+                linestyle="-",
+                fill_head=False,
+                alpha=step_alpha,
+                label=r"Recovered User for $\sigma_l$" if (r == 0 and k == 1) else None,
             )
 
-            # Format descriptive noise scale text (Step, Relative %, SNR dB)
-            if noise_val == 0.0:
-                annotation_str = f" σ{k} (0%, ∞dB)"
-            elif tensor_rms is not None and tensor_rms > 0:
-                rel = noise_val / tensor_rms
-                snr = -20.0 * np.log10(rel)
-                annotation_str = f" σ{k} ({rel:.0%}, {snr:.1f}dB)"
-            else:
-                annotation_str = f" σ{k} ({noise_val:.3f})"
+            # Annotate simple step number (1, 2, 3, ...)
+            annotation_str = f"{k}"
 
             ax.annotate(
                 annotation_str,
-                (traj_x[k], traj_y[k]),
-                fontsize=8,
-                color="black",
-                alpha=0.85,
-                fontweight="bold" if k == 0 else "normal",
+                (traj_x[k], traj_y[k] - 2.2),
+                fontsize=9,
+                fontweight="bold",
+                color=u_color,
+                alpha=step_alpha,
                 zorder=9,
             )
 
@@ -487,13 +478,8 @@ def generate_dscdma_noise_experiment_pdf(
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     with PdfPages(out_file) as pdf:
-        # Page 1: Overlaid trajectory summary plot with detailed noise scale subtitle
-        max_rel = noise_stds[-1] / max(1e-12, tensor_rms)
-        min_snr = -20.0 * np.log10(max_rel)
-        traj_title = (
-            f"Overlaid User Trajectory under Increasing Additive Gaussian Noise\n"
-            f"(R={config.num_sources}, I={config.num_antennas} | Noise Scale: 0% RMS [∞ dB SNR] → {max_rel:.0%} RMS [{min_snr:.1f} dB SNR])"
-        )
+        # Page 1: Overlaid trajectory summary plot with simplified title
+        traj_title = f"User Localization Drift under Gaussian Noise (R={config.num_sources}, I={config.num_antennas})"
 
         fig_traj, _ = plot_noise_degradation_trajectory(
             user_pos=user_pos_true,
