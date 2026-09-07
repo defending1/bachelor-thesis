@@ -116,7 +116,7 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
     print(">>> Aligning recovered factors with ground-truth channel...")
     align_factors(cp, data["A_true"])
 
-    title = f"Antenna & User Scatter Plot with Distance Circles (R={config.num_sources}, I={config.num_antennas})"
+    title = f"Stima delle Posizioni degli Utenti e Antenne (R={config.num_sources}, I={config.num_antennas})"
     plot_antenna_and_radii(
         user_pos=user_pos,
         antenna_pos_true=antenna_pos_true,

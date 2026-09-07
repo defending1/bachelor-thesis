@@ -4,6 +4,7 @@ Vector stickman figure drawing module for Matplotlib.
 
 from typing import Optional
 import matplotlib.pyplot as plt
+from matplotlib.legend_handler import HandlerBase
 from matplotlib.patches import Circle, PathPatch, Rectangle
 from matplotlib.path import Path as MPath
 
@@ -103,3 +104,80 @@ def draw_stickman(
         zorder=6,
     )
     ax.add_patch(patch)
+
+
+class StickmanLegendObject:
+    """Proxy object representing a stickman figure in Matplotlib legends."""
+    def __init__(
+        self,
+        color: str = "black",
+        linestyle: str = "-",
+        fill_head: bool = False,
+        label_text: Optional[str] = None,
+    ):
+        self.color = color
+        self.linestyle = linestyle
+        self.fill_head = fill_head
+        self.label_text = label_text
+
+
+class HandlerStickman(HandlerBase):
+    """Custom Matplotlib Legend Handler that renders a stickman icon inside legends."""
+    def create_artists(self, legend, orig_handle, xdescent, ydescent, width, height, fontsize, trans):
+        from matplotlib.patches import Circle, PathPatch
+        from matplotlib.path import Path as MPath
+        from matplotlib.text import Text
+
+        cx = xdescent + width * 0.38
+        cy = ydescent + height * 0.15
+        size = height * 1.2
+        color = getattr(orig_handle, "color", "black")
+        ls = getattr(orig_handle, "linestyle", "-")
+        should_fill = getattr(orig_handle, "fill_head", False)
+        text_str = getattr(orig_handle, "label_text", None)
+
+        head = Circle(
+            (cx, cy + size * 0.24),
+            size * 0.21,
+            facecolor=color if should_fill else "none",
+            edgecolor=color,
+            linestyle=ls,
+            linewidth=1.3,
+            transform=trans,
+        )
+        verts = [
+            (cx, cy + size * 0.08), (cx, cy - size * 0.16),
+            (cx - size * 0.23, cy + size * 0.02), (cx + size * 0.23, cy + size * 0.02),
+            (cx, cy - size * 0.16), (cx - size * 0.20, cy - size * 0.43),
+            (cx, cy - size * 0.16), (cx + size * 0.20, cy - size * 0.43),
+        ]
+        codes = [
+            MPath.MOVETO, MPath.LINETO,
+            MPath.MOVETO, MPath.LINETO,
+            MPath.MOVETO, MPath.LINETO,
+            MPath.MOVETO, MPath.LINETO,
+        ]
+        body = PathPatch(
+            MPath(verts, codes),
+            edgecolor=color,
+            linestyle=ls,
+            linewidth=1.5,
+            transform=trans,
+        )
+        artists = [head, body]
+
+        if text_str:
+            txt = Text(
+                cx + size * 0.22,
+                cy - size * 0.35,
+                text_str,
+                fontsize=fontsize * 0.95,
+                fontweight="bold",
+                color=color,
+                ha="left",
+                va="center",
+                transform=trans,
+            )
+            artists.append(txt)
+
+        return artists

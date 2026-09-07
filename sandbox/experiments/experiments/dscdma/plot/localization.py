@@ -7,7 +7,11 @@ from typing import Optional, Tuple
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle, Rectangle
 import numpy as np
-from experiments.dscdma.plot.stickman import draw_stickman
+from experiments.dscdma.plot.stickman import (
+    draw_stickman,
+    StickmanLegendObject,
+    HandlerStickman,
+)
 from experiments.dscdma.solver.localization import extract_user_positions_from_A
 
 
@@ -17,7 +21,7 @@ def plot_antenna_and_radii(
     A_est: np.ndarray,
     S_est: Optional[np.ndarray] = None,
     A_true: Optional[np.ndarray] = None,
-    title: str = "User Position Recovery via Fixed Antenna Trilateration",
+    title: str = "Stima della Posizione degli Utenti e delle Antenne",
     save_path: Optional[str] = None,
     show: bool = False,
     area_side: float = 100.0,
@@ -54,7 +58,7 @@ def plot_antenna_and_radii(
     ]
     ant_color = "#2C3E50"  # Neutral dark slate for fixed antennas
 
-    # Draw distance circles centered at fixed known antenna positions, color-coded by User
+    # Draw distance circles centered at fixed known antenna positions, color-coded by User (no legend entry)
     for r in range(R):
         u_color = user_colors[r % len(user_colors)]
         for i in range(I):
@@ -68,15 +72,16 @@ def plot_antenna_and_radii(
                 linestyle=":",
                 linewidth=1.0,
                 alpha=0.35,
-                label=f"User {r + 1} Trilateration Circles" if i == 0 else None,
+                label=None,
             )
             ax.add_patch(circle)
 
-    # Draw Users (True = Solid Stickman, Recovered = Ghost Stickman, connected by Dotted Vector)
+    # Draw True Users (Empty solid square) and Recovered Users (Stickman)
+    sq_side = 4.8
     for r in range(R):
         u_color = user_colors[r % len(user_colors)]
 
-        # Displacement vector line linking True and Recovered position
+        # Displacement vector line linking True and Recovered position (no legend entry)
         ax.plot(
             [user_pos[r, 0], user_pos_est[r, 0]],
             [user_pos[r, 1], user_pos_est[r, 1]],
@@ -85,37 +90,43 @@ def plot_antenna_and_radii(
             color=u_color,
             alpha=0.7,
             zorder=5,
-            label="Localization Error Vector" if r == 0 else None,
+            label=None,
         )
 
-        # True User (Solid Stickman)
-        draw_stickman(
-            ax,
-            user_pos[r, 0],
-            user_pos[r, 1],
-            size=4.0,
-            color=u_color,
-            style="solid",
-            label="True Users (Solid)" if r == 0 else None,
+        # True User (Empty solid square)
+        sq = Rectangle(
+            (user_pos[r, 0] - sq_side * 0.5, user_pos[r, 1] - sq_side * 0.3),
+            sq_side,
+            sq_side,
+            facecolor="none",
+            edgecolor=u_color,
+            linewidth=2.0,
+            linestyle="-",
+            zorder=6,
+            label="True User Region" if r == 0 else None,
         )
+        ax.add_patch(sq)
         ax.annotate(
             rf"  $U_{{{r + 1}}}$",
-            (user_pos[r, 0], user_pos[r, 1] + 3.4),
+            (user_pos[r, 0], user_pos[r, 1] + sq_side * 0.55),
             fontsize=10,
             fontweight="bold",
             color=u_color,
             zorder=7,
         )
 
-        # Recovered User (Ghost / Dashed Stickman)
+        # Recovered User (Continuous Stickman)
         draw_stickman(
             ax,
             user_pos_est[r, 0],
             user_pos_est[r, 1],
             size=4.0,
             color=u_color,
-            style="ghost",
-            label="Extracted Users (Ghost)" if r == 0 else None,
+            style="continuous",
+            linestyle="-",
+            fill_head=False,
+            alpha=0.95,
+            label="Recovered Users" if r == 0 else None,
         )
         ax.annotate(
             rf"  $\hat{{U}}_{{{r + 1}}}$",
@@ -123,7 +134,7 @@ def plot_antenna_and_radii(
             fontsize=9,
             fontweight="bold",
             color=u_color,
-            alpha=0.85,
+            alpha=0.95,
             zorder=7,
         )
 
@@ -138,7 +149,7 @@ def plot_antenna_and_radii(
             edgecolors="black",
             linewidths=1.0,
             zorder=8,
-            label="Fixed Antennas (P)" if i == 0 else None,
+            label="Antennas" if i == 0 else None,
         )
         ax.annotate(
             rf"  $a_{{{i + 1}}}$",
@@ -170,10 +181,27 @@ def plot_antenna_and_radii(
     ax.set_title(title, fontsize=13, fontweight="bold", pad=12)
 
     # Place legend outside the plot area at the bottom center
+    handles, labels = ax.get_legend_handles_labels()
+    new_handles = []
+    for h, l in zip(handles, labels):
+        if "Recovered" in l or "Extracted" in l:
+            new_handles.append(
+                StickmanLegendObject(
+                    color="#2C3E50", linestyle="-", fill_head=False, label_text=r"$l$"
+                )
+            )
+        else:
+            new_handles.append(h)
+
     ax.legend(
+        handles=new_handles,
+        labels=labels,
+        handler_map={StickmanLegendObject: HandlerStickman()},
         loc="upper center",
         bbox_to_anchor=(0.5, -0.04),
         ncol=3,
+        handleheight=1.5,
+        handlelength=1.8,
         frameon=True,
         framealpha=0.95,
         fontsize=10,
@@ -262,7 +290,7 @@ def plot_noise_degradation_trajectory(
     antenna_pos_true: np.ndarray,
     extracted_users_per_noise: list[np.ndarray],
     noise_stds: list[float],
-    title: str = "User Position Recovery Trajectory under Increasing Gaussian Noise",
+    title: str = "Deriva della Localizzazione degli Utenti sotto Rumore Gaussiano",
     save_path: Optional[str] = None,
     show: bool = False,
     area_side: float = 100.0,
@@ -278,7 +306,7 @@ def plot_noise_degradation_trajectory(
     I = antenna_pos_true.shape[0]
     K_noise = len(extracted_users_per_noise)
 
-    fig, ax = plt.subplots(figsize=(11.5, 8.5))
+    fig, ax = plt.subplots(figsize=(9.0, 7.0))
 
     # Colorblind-safe palette (Okabe-Ito standard for academic publications)
     user_colors = [
@@ -302,7 +330,7 @@ def plot_noise_degradation_trajectory(
             edgecolors="black",
             linewidths=1.0,
             zorder=8,
-            label="Fixed Antennas (P)" if i == 0 else None,
+            label="Antennas" if i == 0 else None,
         )
         ax.annotate(
             rf"  $a_{{{i + 1}}}$",
@@ -375,8 +403,8 @@ def plot_noise_degradation_trajectory(
     all_x = np.concatenate(all_x_pts)
     all_y = np.concatenate(all_y_pts)
 
-    margin_x = max(6.0, (all_x.max() - all_x.min()) * 0.15)
-    margin_y = max(6.0, (all_y.max() - all_y.min()) * 0.15)
+    margin_x = max(3.0, (all_x.max() - all_x.min()) * 0.05)
+    margin_y = max(3.0, (all_y.max() - all_y.min()) * 0.05)
 
     ax.set_xlim(all_x.min() - margin_x, all_x.max() + margin_x)
     ax.set_ylim(all_y.min() - margin_y, all_y.max() + margin_y)
@@ -390,10 +418,27 @@ def plot_noise_degradation_trajectory(
 
     ax.set_title(title, fontsize=13, fontweight="bold", pad=12)
 
+    handles, labels = ax.get_legend_handles_labels()
+    new_handles = []
+    for h, l in zip(handles, labels):
+        if "Recovered" in l or "Extracted" in l:
+            new_handles.append(
+                StickmanLegendObject(
+                    color="#2C3E50", linestyle="-", fill_head=False, label_text=r"$l$"
+                )
+            )
+        else:
+            new_handles.append(h)
+
     ax.legend(
+        handles=new_handles,
+        labels=labels,
+        handler_map={StickmanLegendObject: HandlerStickman()},
         loc="upper center",
         bbox_to_anchor=(0.5, -0.04),
         ncol=3,
+        handleheight=1.5,
+        handlelength=1.8,
         frameon=True,
         framealpha=0.95,
         fontsize=9,
@@ -478,8 +523,8 @@ def generate_dscdma_noise_experiment_pdf(
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     with PdfPages(out_file) as pdf:
-        # Page 1: Overlaid trajectory summary plot with simplified title
-        traj_title = f"User Localization Drift under Gaussian Noise (R={config.num_sources}, I={config.num_antennas})"
+        # Single page: Overlaid trajectory plot showing user localization drift under noise
+        traj_title = f"Deriva della Localizzazione degli Utenti sotto Rumore Gaussiano (R={config.num_sources}, I={config.num_antennas})"
 
         fig_traj, _ = plot_noise_degradation_trajectory(
             user_pos=user_pos_true,
@@ -494,33 +539,6 @@ def generate_dscdma_noise_experiment_pdf(
         )
         pdf.savefig(fig_traj, bbox_inches="tight")
         plt.close(fig_traj)
-
-        # Pages 2 to 7: Detailed per-noise localization plots with distance circles
-        for k, noise_std in enumerate(noise_stds):
-            cp, _ = cp_results[k]
-            rel_noise = noise_std / max(1e-12, tensor_rms)
-            if rel_noise == 0:
-                snr_desc = "Noiseless Baseline (0% RMS, SNR = ∞ dB)"
-            else:
-                snr_db = -20.0 * np.log10(rel_noise)
-                snr_desc = f"Relative Noise = {rel_noise:.1%} RMS, SNR = {snr_db:.1f} dB"
-
-            page_title = (
-                f"Noise Level {k}/{K_noise - 1}: {snr_desc} (σ = {noise_std:.4f})\n"
-                f"Tensor Rec. Error: {cp.rec_error:.4e}"
-            )
-            fig_page, _ = plot_antenna_and_radii(
-                user_pos=user_pos_true,
-                antenna_pos_true=antenna_pos_true,
-                A_est=cp.A,
-                S_est=cp.S,
-                title=page_title,
-                save_path=None,
-                show=False,
-                area_side=config.area_side,
-            )
-            pdf.savefig(fig_page, bbox_inches="tight")
-            plt.close(fig_page)
 
     print(f"\nSUCCESS: Noise experiment PDF saved to: {out_file.resolve()}")
     return out_file
