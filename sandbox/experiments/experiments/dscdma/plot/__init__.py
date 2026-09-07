@@ -9,7 +9,9 @@ from experiments.dscdma.plot.localization import (
     plot_antenna_localization_multi,
     generate_multi_plot_pdf,
     plot_noise_degradation_trajectory,
+    plot_noise_degradation_multi,
     generate_dscdma_noise_experiment_pdf,
+    generate_dscdma_noise_multi_experiment_pdf,
 )
 
 __all__ = [
@@ -19,7 +21,9 @@ __all__ = [
     "plot_antenna_localization_multi",
     "generate_multi_plot_pdf",
     "plot_noise_degradation_trajectory",
+    "plot_noise_degradation_multi",
     "generate_dscdma_noise_experiment_pdf",
+    "generate_dscdma_noise_multi_experiment_pdf",
 ]
 
 

@@ -17,6 +17,7 @@ from experiments.dscdma.plot import (
     plot_antenna_localization_multi,
     generate_multi_plot_pdf,
     generate_dscdma_noise_experiment_pdf,
+    generate_dscdma_noise_multi_experiment_pdf,
 )
 
 
@@ -171,8 +172,8 @@ def run_noise_experiment_cli(
     config_arg: Optional[Union[str, Path, list]] = None,
 ) -> None:
     """
-    CLI runner logic for DS-CDMA Gaussian noise degradation experiment.
-    Runs CP-ALS at 6 increasing noise levels and generates a multi-page PDF report.
+    CLI runner logic for single-run DS-CDMA Gaussian noise degradation experiment.
+    Generates a single overlaid trajectory plot.
     """
     config_path = resolve_config_path(config_arg)
     config = SimConfig.from_toml(config_path)
@@ -180,7 +181,7 @@ def run_noise_experiment_cli(
     output_path = Path("dscdma_noise_experiment.pdf")
 
     print_sim_banner(
-        "DS-CDMA Gaussian Noise Experiment Generator (6 Noise Levels)",
+        "DS-CDMA Gaussian Noise Experiment Generator (Single Run Trajectory)",
         config,
         {
             "Output PDF": str(output_path),
@@ -195,7 +196,41 @@ def run_noise_experiment_cli(
     )
 
     print("\n" + "=" * 70)
-    print(f"SUCCESS: Noise experiment PDF generated and saved to '{out_file.resolve()}'")
+    print(f"SUCCESS: Single noise experiment PDF generated and saved to '{out_file.resolve()}'")
+    print("=" * 70)
+
+
+def run_noise_multi_experiment_cli(
+    config_arg: Optional[Union[str, Path, list]] = None, num_plots: int = 6
+) -> None:
+    """
+    CLI runner logic for 6-subfigure (2x3 grid) DS-CDMA Gaussian noise degradation experiment.
+    Generates 6 independent noise trajectory runs in a single A4-friendly PDF figure.
+    """
+    config_path = resolve_config_path(config_arg)
+    config = SimConfig.from_toml(config_path)
+
+    output_path = Path("dscdma_noise_experiment_multi.pdf")
+
+    print_sim_banner(
+        f"DS-CDMA Gaussian Noise Multi-Subfigure Experiment Generator ({num_plots} Runs)",
+        config,
+        {
+            "Output PDF": str(output_path),
+            "Number of Subfigures": num_plots,
+            "Noise Levels per Subfigure": "6 steps (0.0 to 0.25 * RMS)",
+        },
+    )
+
+    out_file = generate_dscdma_noise_multi_experiment_pdf(
+        config=config,
+        num_runs=num_plots,
+        noise_stds=None,
+        output_path=str(output_path),
+    )
+
+    print("\n" + "=" * 70)
+    print(f"SUCCESS: Multi noise experiment PDF generated and saved to '{out_file.resolve()}'")
     print("=" * 70)
 
 

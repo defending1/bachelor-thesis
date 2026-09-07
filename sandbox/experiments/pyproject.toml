@@ -23,6 +23,7 @@ dscdma-plot = "experiments.dscdma.cli:run_plot_cli"
 dscdma-multi-plot = "experiments.dscdma.cli:run_multi_plot_cli"
 antenna-localization-plot-multi = "experiments.dscdma.cli:run_multi_plot_cli"
 dscdma-noise-experiment = "experiments.dscdma.cli:run_noise_experiment_cli"
+dscdma-noise-multi-experiment = "experiments.dscdma.cli:run_noise_multi_experiment_cli"
 eem-experiment = "experiments.tensor_data_eem.eem_cp_experiment:main"
 typical-rank-experiment = "experiments.typical_rank.typical_rank_experiment:main"
 

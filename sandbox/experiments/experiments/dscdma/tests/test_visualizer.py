@@ -140,6 +140,25 @@ def test_plot_antenna_localization_multi(tmp_path: Path):
     assert output_file.stat().st_size > 1000
 
 
+def test_plot_noise_degradation_multi(tmp_path: Path):
+    from experiments.dscdma.plot import plot_noise_degradation_multi
+
+    config = SimConfig(num_sources=3, num_antennas=4, seed=42)
+    output_file = tmp_path / "test_noise_multi_6_subfigures.pdf"
+
+    fig, axes = plot_noise_degradation_multi(
+        config=config,
+        num_runs=6,
+        seeds=[42, 43, 44, 45, 46, 47],
+        save_path=str(output_file),
+        show=False,
+    )
+
+    assert axes.size == 6
+    assert output_file.exists()
+    assert output_file.stat().st_size > 1000
+
+
 
 
 
