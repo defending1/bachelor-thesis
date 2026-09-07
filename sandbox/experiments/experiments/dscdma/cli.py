@@ -14,6 +14,7 @@ from experiments.utils.cp import CP
 from experiments.dscdma.utils.exporter import save_dataset, load_dataset
 from experiments.dscdma.plot import (
     plot_antenna_and_radii,
+    plot_antenna_localization_multi,
     generate_multi_plot_pdf,
     generate_dscdma_noise_experiment_pdf,
 )
@@ -137,8 +138,8 @@ def run_multi_plot_cli(
     config_arg: Optional[Union[str, Path, list]] = None, num_plots: int = 6
 ) -> None:
     """
-    CLI runner logic for multi-page DS-CDMA experiment plotting.
-    Generates a series of independent runs merged into a single PDF.
+    CLI runner logic for 6-subfigure (2x3 grid) DS-CDMA experiment plotting.
+    Generates 6 independent runs in 2 rows of 3 with equal area boxes in a single A4-friendly PDF figure.
     """
     config_path = resolve_config_path(config_arg)
     config = SimConfig.from_toml(config_path)
@@ -146,24 +147,23 @@ def run_multi_plot_cli(
     output_path = Path("dscdma_6_experiments.pdf")
 
     print_sim_banner(
-        f"DS-CDMA Multi-Experiment Series Generator ({num_plots} Runs)",
+        f"DS-CDMA Multi-Subfigure Experiment Generator ({num_plots} Runs)",
         config,
         {
             "Output PDF": str(output_path),
-            "Number of Plots": num_plots,
-            "Random Seeds": "True (seed=None)",
+            "Number of Subfigures": num_plots,
         },
     )
 
-    out_file = generate_multi_plot_pdf(
+    fig, _ = plot_antenna_localization_multi(
         config=config,
-        num_plots=num_plots,
-        output_path=str(output_path),
-        seeds=None,
+        num_runs=num_plots,
+        save_path=str(output_path),
+        show=False,
     )
 
     print("\n" + "=" * 70)
-    print(f"SUCCESS: {num_plots} plots generated and merged into '{out_file.resolve()}'")
+    print(f"SUCCESS: {num_plots} subfigures generated and saved to '{output_path.resolve()}'")
     print("=" * 70)
 
 
