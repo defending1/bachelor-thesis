@@ -59,13 +59,7 @@ class DSCDMADatasetGenerator:
         K = self.config.num_symbols
         R = self.config.num_sources
 
-        signals = self.rng.normal(0.0, 1.0, size=(K, R))
-        for r in range(R):
-            col_norm = float(np.linalg.norm(signals[:, r]))
-            if col_norm > 1e-12:
-                signals[:, r] = signals[:, r] * (np.sqrt(K) / col_norm)
-
-        return signals
+        return self.rng.normal(0.0, 1.0, size=(K, R))
 
     def generate(self) -> Dict[str, Any]:
         A_true, antenna_pos, user_pos = generate_spatial_channel(

@@ -21,7 +21,7 @@ def test_solve_cp_als_reconstruction():
     T_true = data['tensor']
 
     (A_est, C_est, S_est), rec_err = solve_cp_als(
-        T_true, rank=3, n_iter_max=2000, tol=1e-9, random_state=42, restore_physical_scale=True
+        T_true, rank=3, n_iter_max=2000, tol=1e-9, random_state=42
     )
 
     assert A_est.shape == (4, 3)
@@ -37,7 +37,7 @@ def test_solve_cp_als_multiple_dimensions():
         data = generator.generate()
 
         (A_est, C_est, S_est), rec_err = solve_cp_als(
-            data['tensor'], rank=R, n_iter_max=2000, tol=1e-9, random_state=100, restore_physical_scale=True
+            data['tensor'], rank=R, n_iter_max=2000, tol=1e-9, random_state=100
         )
 
         assert A_est.shape == (I, R)
@@ -56,7 +56,7 @@ def test_align_factors_by_channel_matching():
     S_true = data["S_true"]
 
     (A_est, C_est, S_est), rec_err = solve_cp_als(
-        data["tensor"], rank=3, n_iter_max=2000, tol=1e-9, random_state=42, restore_physical_scale=True
+        data["tensor"], rank=3, n_iter_max=2000, tol=1e-9, random_state=42
     )
     assert rec_err < 1e-4
 
@@ -85,7 +85,7 @@ def test_align_factors_by_code_matching():
 
     C_true = data["C_true"]
     (A_est, C_est, S_est), rec_err = solve_cp_als(
-        data["tensor"], rank=3, n_iter_max=2000, tol=1e-9, random_state=42, restore_physical_scale=True
+        data["tensor"], rank=3, n_iter_max=2000, tol=1e-9, random_state=42
     )
     assert rec_err < 1e-4
 

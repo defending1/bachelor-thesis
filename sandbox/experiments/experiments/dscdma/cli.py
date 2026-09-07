@@ -95,7 +95,6 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
         config,
         {
             "Output Plot": str(output_path),
-            "Restore Scale": config.restore_physical_scale,
         },
     )
 
@@ -111,7 +110,6 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
         n_iter_max=2000,
         tol=1e-9,
         random_state=config.seed,
-        restore_physical_scale=config.restore_physical_scale,
     )
     print(f"  Relative Tensor Reconstruction Error: {cp.rec_error:.6e}")
 

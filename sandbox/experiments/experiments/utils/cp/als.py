@@ -18,7 +18,6 @@ def solve_cp_als(
     n_iter_max: int = 2000,
     tol: float = 1e-9,
     random_state: Optional[int] = 42,
-    restore_physical_scale: bool = False,
     n_restarts: int = 10,
 ) -> CP:
     """
@@ -31,8 +30,6 @@ def solve_cp_als(
         n_iter_max (int): Maximum ALS iterations per restart run.
         tol (float): Convergence tolerance.
         random_state (Optional[int]): Base random seed.
-        restore_physical_scale (bool): If True for 3D tensors, transfers norm power from
-            modes 1 & 2 (C and S) into mode 0 (A).
         n_restarts (int): Number of initialization restarts.
 
     Returns:
@@ -74,20 +71,6 @@ def solve_cp_als(
 
     elapsed = time.time() - start_t
     factors = list(best_factors)
-
-    if restore_physical_scale and len(factors) == 3:
-        A_est, C_est, S_est = factors[0], factors[1], factors[2]
-        J, K = tensor.shape[1], tensor.shape[2]
-        norm_C = np.linalg.norm(C_est, axis=0, keepdims=True)
-        norm_S = np.linalg.norm(S_est, axis=0, keepdims=True)
-        norm_C = np.maximum(norm_C, 1e-12)
-        norm_S = np.maximum(norm_S, 1e-12)
-
-        scale_factor = (norm_C * norm_S) / (np.sqrt(J) * np.sqrt(K))
-        A_est = A_est * scale_factor
-        C_est = (C_est / norm_C) * np.sqrt(J)
-        S_est = (S_est / norm_S) * np.sqrt(K)
-        factors = [A_est, C_est, S_est]
 
     return CP(
         tensor=tensor,

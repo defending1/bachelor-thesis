@@ -75,44 +75,6 @@ def align_factors_by_channel_matching(
     return A_aligned, C_aligned, S_aligned, perm, signs
 
 
-def align_factors_by_code_matching(
-    A_est: np.ndarray,
-    C_est: np.ndarray,
-    S_est: np.ndarray,
-    C_true: np.ndarray,
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Permutes and sign-corrects the columns of CP factor matrices (A_est, C_est, S_est)
-    by matching recovered code matrix C_est against known true spreading codes C_true.
-    """
-    J, R = C_true.shape
-    norm_C_est = np.linalg.norm(C_est, axis=0, keepdims=True)
-    norm_C_est = np.maximum(norm_C_est, 1e-12)
-
-    inner_prods = C_est.T @ C_true  # (R, R)
-    rho = inner_prods / (norm_C_est.T * np.sqrt(J))
-
-    cost_matrix = 1.0 - np.abs(rho)
-
-    row_ind, col_ind = linear_sum_assignment(cost_matrix)
-
-    perm = np.zeros(R, dtype=int)
-    for k_idx, r_idx in zip(row_ind, col_ind):
-        perm[r_idx] = k_idx
-
-    signs = np.zeros(R, dtype=np.float64)
-    for r_idx in range(R):
-        k_idx = perm[r_idx]
-        ip = inner_prods[k_idx, r_idx]
-        signs[r_idx] = 1.0 if ip >= 0 else -1.0
-
-    A_aligned = A_est[:, perm] * signs[np.newaxis, :]
-    C_aligned = C_est[:, perm] * signs[np.newaxis, :]
-    S_aligned = S_est[:, perm] * signs[np.newaxis, :]
-
-    return A_aligned, C_aligned, S_aligned, perm, signs
-
-
 def align_factors(
     A_est: Union[np.ndarray, CP],
     C_est: Optional[np.ndarray] = None,
@@ -150,6 +112,5 @@ __all__ = [
     "solve_cp_als",
     "relative_error",
     "align_factors_by_channel_matching",
-    "align_factors_by_code_matching",
     "align_factors",
 ]

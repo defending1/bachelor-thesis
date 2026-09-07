@@ -19,7 +19,6 @@ class SimConfig:
         seed (Optional[int]): Random seed for reproducibility.
         dataset_output (str): Output file path for dataset generator.
         plot_output (str): Output file path for localization plot.
-        restore_physical_scale (bool): Whether to restore physical scale during CP-ALS.
     """
 
     num_sources: int = 3  # R
@@ -31,7 +30,6 @@ class SimConfig:
     seed: Optional[int] = None
     dataset_output: str = "dscdma_dataset.npz"
     plot_output: str = "antenna_localization_plot.pdf"
-    restore_physical_scale: bool = True
 
     def validate(self) -> None:
         """

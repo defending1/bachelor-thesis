@@ -11,4 +11,3 @@ seed = "none"                 # Random seed (integer or null / "none")
 
 dataset_output = "dscdma_dataset.npz"              # Dataset output path
 plot_output = "antenna_localization_plot.pdf"     # Localization plot output path
-restore_physical_scale = true                      # Restore physical scale during CP-ALS

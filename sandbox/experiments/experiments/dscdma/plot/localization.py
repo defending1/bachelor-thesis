@@ -218,7 +218,6 @@ def generate_multi_plot_pdf(
                 n_iter_max=2000,
                 tol=1e-9,
                 random_state=run_cfg.seed,
-                restore_physical_scale=run_cfg.restore_physical_scale,
             )
             align_factors(cp, data["A_true"])
 
@@ -472,7 +471,6 @@ def generate_dscdma_noise_experiment_pdf(
             n_iter_max=2000,
             tol=1e-9,
             random_state=config.seed,
-            restore_physical_scale=config.restore_physical_scale,
         )
         align_factors(cp, A_true)
 

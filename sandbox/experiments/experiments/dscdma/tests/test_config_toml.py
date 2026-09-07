@@ -28,7 +28,6 @@ min_dist = 0.2
 seed = 123
 dataset_output = "custom_dataset.npz"
 plot_output = "custom_plot.pdf"
-restore_physical_scale = false
 """
     )
 
@@ -42,7 +41,6 @@ restore_physical_scale = false
     assert custom_config.seed == 123
     assert custom_config.dataset_output == "custom_dataset.npz"
     assert custom_config.plot_output == "custom_plot.pdf"
-    assert custom_config.restore_physical_scale is False
 
 
 def test_cli_generator_and_plot(tmp_path):

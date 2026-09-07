@@ -99,7 +99,6 @@ class CP:
         n_iter_max: int = 2000,
         tol: float = 1e-9,
         random_state: Optional[int] = 42,
-        restore_physical_scale: bool = False,
         n_restarts: int = 10,
         **kwargs,
     ) -> "CP":
@@ -113,7 +112,6 @@ class CP:
             n_iter_max (int): Max ALS iterations.
             tol (float): Convergence tolerance.
             random_state (Optional[int]): Base random seed.
-            restore_physical_scale (bool): Transfer mode scale for 3D physical tensors.
             n_restarts (int): Number of initialization restarts.
 
         Returns:
@@ -149,7 +147,6 @@ class CP:
                 n_iter_max=n_iter_max,
                 tol=tol,
                 random_state=random_state,
-                restore_physical_scale=restore_physical_scale,
                 n_restarts=n_restarts,
                 **kwargs,
             )
