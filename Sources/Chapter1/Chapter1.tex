@@ -13,6 +13,9 @@ $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v
 	\alpha^\perp = \{v \in V \mid \alpha(v) = 0\}  $ l'\emph{annullatore} di $ \alpha $. Similmente,
 dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
 	\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
+Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
+gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $.
+
 
 \begin{definition}[Mappe trilineari]
 	Siano $ U,V,W $ spazi vettoriali di dimensione finita su un campo $ \K $. Una \emph{forma bilineare} è una mappa $ \varphi : U \times V \to
@@ -194,13 +197,13 @@ Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
 		\end{aligned}
 	\end{equation*}
 	dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j $-esimi} e sono definiti come $ s_1=1 $ e
-	$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j \in [d-1] $.
+	$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j = 1, \ldots, d-1 $.
 	L'inversa di $ \L $ è data dalla mappa
 	\begin{equation*}
 		\begin{aligned}
-			\L^{-1} \colon [\prod_{j=1}^d n_j] & \to \mdom!                                                                              \\
-			l                                  & \mapsto \left(1 + \left\lfloor \frac{ (l-1)\mod(n_1s_1)}{s_1}\right\rfloor, \ldots, 1 +
-			\left\lfloor \frac{ (l-1)\mod(n_ds_d)}{s_d} \right\rfloor \right).
+			\L^{-1} \colon [\prod_{j=1}^d n_j] & \to \mdom!                                                                               \\
+			l                                  & \mapsto \left(1 + \left\lfloor \frac{ (l-1)\pmod{n_1s_1}}{s_1}\right\rfloor, \ldots, 1 +
+			\left\lfloor \frac{ (l-1)\pmod{n_ds_d}}{s_d} \right\rfloor \right).
 		\end{aligned}
 	\end{equation*}
 	Le mappe $ \L $ e $ \L^{-1} $ sono l'una l'inversa dell'altra, e sono anche dette linearizzazione e tensorizzazione
@@ -371,7 +374,6 @@ naturale definire la seguente operazione
 	\end{equation*}
 	Nel caso matriciale si usa riferirsi all'ordine naturale come \emph{column-major} e a quello
 	inverso come \emph{row-major}, specialmente nel contesto dei linguaggi di programmazione.
-	\todo{Check}
 \end{remark}
 
 
@@ -404,8 +406,11 @@ decomposizione è vantaggioso in termini di memoria: infatti
 	\Vec(X) = v_1 \krn u_1 + \cdots + v_r \krn u_r
 	,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
 quindi riadattare questa decomposizione per memorizzare $ T $ con costo $ O((n_1+\cdots+n_d)r)
-$ invece che $ O(n_1\cdots n_d) $. \todo{discorso unicità} Tuttavia, generalizzare questa decomposizione a più dimensioni ha
-numerosi ostacoli \todo{ref to ostacoli}.
+$ invece che $ O(n_1\cdots n_d) $.
+
+Nel generalizzare questa decomposizione, nota come \emph{Canonical Polyadic Decomposition (CP)} incontreremo alcuni
+ostacoli, che discuteremo nella \S~\ref{sec:cp_rank}. Dimostreremo inoltre alcune condizioni
+necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 
 \begin{definition}[Canonical Polyadic Decomposition (CP)]
 	\label{def:CP}
@@ -624,9 +629,8 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 	\end{equation*}
 \end{proof}
 
-In molte situazioni è utile moltiplicare un tensore con una matrice, ma purtroppo le dimensioni non
-combaciano. La seguente definizione risolve
-il problema facendo agire la matrice la matrice lungo il modo $ k- $esimo di un tensore, e si
+In molte situazioni è utile moltiplicare un tensore con una matrice. La seguente definizione risolve
+il problema facendo agire la matrice la matrice lungo il modo $ k $-esimo di un tensore, e si
 chiama.
 \begin{definition}[Prodotto nel modo $k$]
 	Il \emph{prodotto nel modo $ k $} di un tensore $ T \in \Rmsiz! $ con una matrice $ U \in
@@ -820,8 +824,6 @@ gaussiane).
 			n_{d})\right) > 0\}.
 	\end{equation*}
 \end{definition}
-
-\todo{rewrite and verify}
 
 Mentre per le matrici il rango tipico è unico e coincide con il massimo rango possibile, per i
 tensori di ordine superiore a due. In particolare su $\mathbb{R}$ possono coesistere
@@ -1182,4 +1184,11 @@ modo che abbiano norma unitaria.
 	metodo delle potenze, in quanto l'Equazione~\eqref{eq:als_pseudoinverse_eq} degenera in $ a \gets
 		T \frac{b}{\|b\|^2}$ e $ b \gets T^{\top}\frac{a}{\|a\|^2} $, mentre per $ T $ di rango $ r > 1 $ diventa il metodo dei
 	sottospazi: $ A \gets TB(B^{\top}B)^{-1} $ e $ B \gets T^{\top}A(A^{\top}A)^{-1} $.
+\end{remark}
+\begin{remark}
+	L'espressione sopra \todo{ref} si può anche scrivere come
+	\begin{equation*}
+		\| T - \sum_{r = 1}^R a_{r} \otimes b_{r} \otimes c_{r} \|^2 = \sum_{i,j,k}\abs{t_{ijk} -
+			\sum_{r=1}^R a_{ir}b_{jr}c_{kr}}^2.
+	\end{equation*}
 \end{remark}

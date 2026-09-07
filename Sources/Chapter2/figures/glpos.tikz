@@ -1,0 +1,50 @@
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+	% ================= 3-POSIZIONE GENERALE =================
+	\begin{scope}[xshift=0cm]
+		\node[font=\large] at (0, 3.2) {$3$-posizione generale};
+
+		% Retta \ell (1-piano)
+		\draw[ultra thick, cBlue] (-3.2, -1.0) -- (2.8, 1.4)
+		node[above left, font=\small, cBlue!90!black] {Retta $\ell$ ($1$-piano)};
+
+		% 2 Punti sulla retta \ell
+		\coordinate (P1) at (-1.8, -0.44);
+		\coordinate (P2) at (1.2, 0.76);
+
+		% 1 Punto fuori dalla retta
+		\coordinate (P3) at (-0.5, 1.5);
+
+		% Disegno 3 punti
+		\fill[cBlue!90!black] (P1) circle (2.5pt) node[below right, font=\small] {$p_1$};
+		\fill[cBlue!90!black] (P2) circle (2.5pt) node[below right, font=\small] {$p_2$};
+		\fill[cBlue!90!black] (P3) circle (2.5pt) node[above, font=\small] {$p_3$};
+	\end{scope}
+
+	% ================= 4-POSIZIONE GENERALE =================
+	\begin{scope}[xshift=8.0cm]
+		\node[font=\large] at (0, 3.2) {$4$-posizione generale};
+
+		% Piano H (2-piano in prospettiva)
+		\filldraw[fill=cPurple!12, draw=cPurple!80, thick, rounded corners=3pt]
+		(-3.0, -1.3) -- (1.5, -1.3) -- (3.0, 1.5) -- (-1.5, 1.5) -- cycle;
+		\node[cPurple!90!black, font=\small\bfseries] at (-1.8, 1.8) {Piano $H$ ($2$-piano)};
+
+		% 3 Punti sul piano H
+		\coordinate (Q1) at (-1.8, -0.4);
+		\coordinate (Q2) at (-0.3, 0.7);
+		\coordinate (Q3) at (1.2, -0.6);
+
+		% 1 Punto fuori dal piano H
+		\coordinate (Q4) at (0.4, 2.3);
+
+		% Linea di altezza/proiezione per il punto fuori dal piano
+		\draw[gray, dashed] (Q4) -- (0.4, 0.8);
+		\fill[gray!60] (0.4, 0.8) circle (1.5pt);
+
+		% Disegno 4 punti
+		\fill[cPurple!90!black] (Q1) circle (2.5pt) node[left, font=\small] {$q_1$};
+		\fill[cPurple!90!black] (Q2) circle (2.5pt) node[above left, font=\small] {$q_2$};
+		\fill[cPurple!90!black] (Q3) circle (2.5pt) node[below right, font=\small] {$q_3$};
+		\fill[cPurple!90!black] (Q4) circle (2.5pt) node[above, font=\small] {$q_4$};
+	\end{scope}
+\end{tikzpicture}

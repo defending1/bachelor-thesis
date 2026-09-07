@@ -71,8 +71,8 @@ Trp-Gly e Phe). I dati sono organizzati in un tensore tridimensionale di dimensi
 	\times K = 18 \times 251
 	\times 21$, corrispondenti rispettivamente ai campioni, alle lunghezze d'onda di emissione (da 250 a
 500 nm) e alle lunghezze d'onda di eccitazione (da 210 a 310 nm). Una rappresentazione
-tridimensionale del tensore è mostrata in figura~\ref{fig:piled_tensor}, mentre alcune sezioni di
-matrici di eccitazione-emissione sono visualizzate in figura~\ref{fig:x_slices}.
+tridimensionale del tensore è mostrata in Figura~\ref{fig:piled_tensor}, mentre alcune sezioni di
+matrici di eccitazione-emissione sono visualizzate in Figura~\ref{fig:x_slices}.
 
 \begin{figure}[htbp]
 	\centering
@@ -129,7 +129,7 @@ sarà unica grazie al Teorema di Kruskal~\ref{thm:kruskal3d}. Quindi, decomponen
 possiamo recuperare la concentrazione
 di ognuna delle $ r $ sostanze in ogni soluzione, determinando i vettori $ a_{f} $ così come lo
 spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
-La figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le concentrazioni reali
+La Figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le concentrazioni reali
 delle tre sostanze, arrestando CP ALS quando la differenza dell'errore relativo tra due iterazioni
 susseguenti è minore di $ 10^{-4} $. Nel grafico sono tracciati i fattori $ a_{f},b_{f},c_{f} $ della decomposizione
 CP, dove ogni riga $ f  = 1,2,3 $ rappresenta una sostanza diversa (scritta in sottoimpressione). Ad
@@ -177,12 +177,12 @@ nell'intensità e fase (anche detta \emph{fading/gain}), quindi ciò che viene r
 	i $-esima sono le $ IK $ quantità $ a_{ir}s_{kr} $, dove $ a_{ir} $ è il fading/gain tra l'utente $
 	r $ e l'antenna $ i $.
 
-In questo scenario si riceve un tensore $ T \in \C^{I \times K} $ di rango $ R $ di entrate
+In questo scenario si riceve un tensore (matrice) $ T \in \C^{I \times K} $ di rango $ R $ di entrate
 \begin{equation*}
 	T_{ik} = \sum_{r=1}^R a_{ir}s_{kr}.
 \end{equation*}
-L'obiettivo sarebbe recuperare i segnali $ s_{r} $, per $ 1\le r \le R $ da questo tensore
-(matrice) decomponendole come matrici di rango uno. Sfortunatamente, questa decomposizione non è mai
+L'obiettivo sarebbe recuperare i segnali $ s_{r} $, per $ 1\le r \le R $ da questa
+matrice decomponendola come somma di matrici di rango uno. Sfortunatamente, questa decomposizione non è mai
 unica quando $ R > 1 $. Per aggirare il problema, vengono introdotti dei ``codici'' per ``diffondere'' il segnale che
 ogni utente invia per ottenere un tensore a tre indici che avrà generalmente una decomposizione
 unica.\footnote{Tale spreading è comune nelle telecomunicazioni, e.g. della ridondanza è introdotta per
@@ -193,7 +193,7 @@ d'aria, seguendo la strada più breve (secondo la distanza euclidea) senza incon
 simboli inviati arrivano in maniera ordinata senza sovrapposizione (esempio $ s_{k,r} $ allo stesso
 tempo di $ s_{k+1,r} $). Questi comportamenti sono noti in letteratura come ICI (\emph{interchip
 	interference}) e ISI (\emph{intersignal interference}).
-Inoltre i segnali non subiscono rumore e non vengono memorizzati (serve?).
+Inoltre i segnali non subiscono rumore e non vengono memorizzati.
 
 Per recuperare $ s_{r}
 $ e $ a_{ir} $, l'$ r $-esimo utente
@@ -227,13 +227,125 @@ $ S $ non sia di $ k $-rango pieno---c'è una possibilità che le sequenze di ut
 uguali, ma questo è poco probabile per dataset più grandi. Quindi nella pratica assumiamo che $ S $
 sia di $ k $-rango pieno. Questo significa che il numero di utenti che possono essere processati
 simultaneamente si può considerare limitato come
-\begin{equation*}
+\begin{equation}
+	\label{eq:krk_eq_full_rank}
 	\min \{I,R\} + \min \{J,R\} + \min \{K,R\} \ge 2(R+1).
-\end{equation*}
+\end{equation}
 
-Il recupero di $ T $ avviene con l'algoritmo ALS, fissando le matrici $ A,C $ e facendo variare la
-matrice $ S $, minimizzando la funzione
+Il recupero di $ T $ avviene con l'algoritmo ALS\todo{ref}
+
+\begin{remark}
+	Una limitazione di questo modello è che in ambito industriale spesso ci sono poche antenne e meno
+	utenti, quindi si perde l'unicità.
+\end{remark}
+
+\subsection*{Esperimento numerico}
+
+Consideriamo lo scenario dove $ R = 4 $ utenti vogliono inviare messaggi di $ K = 100 $ simboli a $
+	I = 5 $ antenne, con un fattore di spreading $ J = 16 $.
+Generiamo dei tensori
 \begin{equation*}
-	\| T - \sum_{r = 1}^R s_{r} \otimes c_{r} \otimes a_{r} \|^2 = \sum_{i,j,k}\abs{t_{ijk} -
-		\sum_{r=1}^R s_{ir}c_{jr}a_{kr}}^2.
+	T_{\sigma} = T_{\text{clean}} + W_{\sigma} \in \R^{I\times J\times K}
 \end{equation*}
+dove $ W_{\sigma} $ è un tensore di rumore gaussiano con entrate in $ \mathcal{N}(0, \sigma) $ e $
+	T_{\text{clean}} $ è un tensore generato in formato denso a partire dalla decomposizione $
+	T_{\text{clean}} = \dsqr{A,C,S}$. L'esperimento consiste in recuperare la posizione degli $ r $
+utenti conoscendo la posizione delle antenne (la matrice $ A $). Per farlo dobbiamo calcolare le
+matrici $ S $ e $ C $, sfruttando la decomposizione CP al variare del rumore $ \sigma $ nella
+Tabella~\ref{tab:dscdma_noise_scale}.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Livelli di rumore gaussiano applicati al tensore $T_{\sigma} = T_{\text{clean}} + W_{\sigma}$, con relativo rapporto segnale-rumore (SNR) e corrispondente scenario fisico di trasmissione.}
+	\label{tab:dscdma_noise_scale}
+	\begin{tabular}{c c c c l}
+		\toprule
+		Rumore     & $\sigma$   & $\text{SNR}_{\text{dB}}$ & Scenario fisico       \\
+		\midrule
+		$\sigma_0$ & $0{,}0000$ & $\infty\text{ dB}$       & Assenza di rumore     \\
+		$\sigma_1$ & $0{,}0173$ & $16{,}5\text{ dB}$       & Segnale ottimo        \\
+		$\sigma_2$ & $0{,}0403$ & $9{,}1\text{ dB}$        & Segnale buono         \\
+		$\sigma_3$ & $0{,}0691$ & $4{,}4\text{ dB}$        & Segnale debole        \\
+		$\sigma_4$ & $0{,}1037$ & $0{,}9\text{ dB}$        & Segnale quasi assente \\
+		$\sigma_5$ & $0{,}1382$ & $-1{,}6\text{ dB}$       & Fortissime
+		interferenze                                                               \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+\begin{itemize}
+	\item Matrice delle antenne $ A \in \R^{I \times R}$: generiamo le posizioni delle antenne $ p_{i}
+	      $ e degli utenti $ u_{r} $ nel quadrato $ [0,L]^2 $, dove $ L $ è un generico intero
+	      positivo, per $ i = 1, \ldots, I $ e $ r = 1, \ldots, R $. Le entrate di $ A $ sono $ a_{ir}
+		      \defeq \frac{1}{\| p_{i} - u_{r} \|_{2}}$, dove assumiamo che $ \| p_{i} - u_{r} \|_{2} >
+		      0$ (gli utenti non si trovano sulle antenne).
+	\item Matrice dei simboli $ S \in \R^{K \times R} $ con entrate $ s_{kr} $ secondo la
+	      distribuzione gaussiana standard
+	      $ \mathcal{N}(0,1) $.
+	\item Matrice delle sequenze di spreading $ C \in \{-1,1\}^{J \times R}  $: contiene i codici
+	      casuali assegnati a ciascuna delle $ R $ sorgenti, dove $ c_{jr} = -1 $ o $ c_{jr} = 1 $ con
+	      uguale probabilità.
+\end{itemize}
+L'algoritmo ALS \todo{ref} produce un tensore approssimante $ \hat{T} = \dsqr{\hat{A}, \hat{C},
+		\hat{S}} $ unico a meno di permutazione e riscalamento dei fattori: per costruzione, l'Equazione~\ref{eq:krk_eq_full_rank} è
+verificata in senso stretto. In questa applicazione è importante recuperare l'ordine dei
+fattori---altrimenti un utente finirebbe per trovarsi sulla posizione di un altro utente.
+Descriviamo brevemente il procedimento. Indichiamo con $ (a_{r},c_{r},s_{r}) $ i fattori di $ T $ e
+con $ (\hat{a}_{r}, \hat{c}_{r}, \hat{s}_{r}) $ i fattori di $ \hat{T} $.
+\begin{enumerate}
+	\item Calcoliamo correlazione tra ogni colonna $ \hat{a}_{k} $ e $ a_{r} $ tramite $ \rho_{kr}
+		      \defeq \frac{\hat{a}^{\top}_{k}a_{r}}{\|\hat{a}_{k}\|_{2} \cdot \|a_{r} \|_{2}}$.
+	\item Costruiamo la matrice dei costi $ M \in \R^{R\times R} $ di entrate $ M_{kr} = 1 -
+		      \abs{\rho_{kr}} $.
+	\item Troviamo una permutazione ottima $ \pi^* \in \mathfrak{S}_{R} $ che realizza
+	      \begin{equation*}
+		      \min_{\pi \in \mathfrak{S}_{R}} \sum_{r=1}^R M_{\pi(r),r}.
+	      \end{equation*}
+	\item Calcoliamo il cambio di segno tramite $ \xi_{r} \defeq
+		      \mathop{sign}(\hat{a}^{\top}_{\pi^*(r)}a_{r}) \in \{-1,1\} $.
+	\item Permutiamo e riscaliamo $ \hat{A} $ e $\hat{S} $ applicando $ \xi_{r}\hat{A}_{:, \pi^*(r)} $ e
+	      $ \xi_{r}\hat{S}_{:, \pi^*(r)} $, rispettivamente.
+\end{enumerate}
+
+\subsection*{Risultati}
+
+Nel contesto definito sopra, denotiamo gli utenti reali $ r \in \{1, \ldots, R\}  $ con dei quadrati
+e gli utenti recuperati con degli omini dello stesso colore. Inizialmente verifichiamo che in
+assenza di rumore l'utente recuperato combaci con l'utente reale, come illustrato in
+Figura~\ref{fig:antenna_localization_plot}. Inoltre verifichiamo che ciò funzioni per diverse
+disposizioni degli utenti e delle antenne in Figura~\ref{fig:dscdma_6_experiments}. Di seguito,
+generiamo più tensori $ T_{\sigma} $ al variare di $ \sigma $ nella
+Tabella~\ref{tab:dscdma_noise_scale} e osserviamo quanto gli utenti recuperati si discostano
+dall'utente originale. In Figura~\ref{fig:dscdma_noise_experiment} osserviamo i comportamenti tipici
+di deriva al crescere del rumore. Infine, la Figura~\ref{fig:dscdma_noise_experiment_multi} mostra
+ulteriori esecuzioni dell'algoritmo su sei configurazioni spaziali differenti.\todo{Cosa ne pensa di
+	queste figure?}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1\textwidth]{Sources/Chapter4/figures/antenna_localization_plot.pdf}
+	\caption{Stima della posizione degli utenti e delle antenne in assenza di rumore. I quadrati trasparenti indicano le posizioni reali degli utenti $U_r$, gli omini indicano le posizioni stimate $\hat{U}_r$, i triangoli scuri indicano le antenne $a_i$, e le circonferenze tratteggiate indicano le distanze stimate dalle antenne.}
+	\label{fig:antenna_localization_plot}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{Sources/Chapter4/figures/dscdma_6_experiments.pdf}
+	\caption{Stima della posizione degli utenti e delle antenne in sei esperimenti indipendenti con diverse disposizioni spaziali di antenne e sorgenti in assenza di rumore.}
+	\label{fig:dscdma_6_experiments}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{Sources/Chapter4/figures/dscdma_noise_experiment.pdf}
+	\caption{Deriva della localizzazione degli utenti sotto sei livelli crescenti di rumore gaussiano ($\sigma_0, \ldots, \sigma_5$) per un singolo esperimento. Gli omini numerati da $1$ a $5$ indicano le posizioni stimate al crescere del livello di rumore.}
+	\label{fig:dscdma_noise_experiment}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{Sources/Chapter4/figures/dscdma_noise_experiment_multi.pdf}
+	\caption{Deriva della localizzazione degli utenti sotto rumore gaussiano per sei esperimenti indipendenti (disposizioni spaziali differenti), mostrando i comportamenti tipici di deriva al crescere del livello di rumore $\sigma_l$.}
+	\label{fig:dscdma_noise_experiment_multi}
+\end{figure}

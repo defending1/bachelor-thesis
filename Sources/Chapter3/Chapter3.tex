@@ -51,9 +51,8 @@ discutendo dell'errore algoritmico.
 \end{remark}
 
 \subsection*{Rappresentazione in coordinate di una forma bilineare}
-\todo{forse sposta al chap 1}
 Un modo semplice di rappresentare una forma bilineare $ \varphi \colon U \times V \to W $ come un
-tensore è costruendone le slices. Fissato $ k \in \{1, \ldots, p\} $ e
+tensore è farlo partendo dalle fette. Fissato $ k \in \{1, \ldots, p\} $ e
 considerata la sua componente $ k $-esima $ \varphi_k : U \times V \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
 	\varphi_k(u,v) = u^{\top}Mv$ per ogni $ (u,v) \in \R^m \times \R^n $. Scrivendo ogni componente di $
 	\varphi = \begin{bmatrix} \varphi_1 \\ \vdots \\ \varphi_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ T
@@ -80,13 +79,13 @@ In forma tensoriale,
 	algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
 
+Ricordando che $ U^* \otimes V^* \otimes W $ è l'insieme delle forme trilineari da $ U \times V
+	\times W^* \to \K $, possiamo dare un nome all'oggetto sopra.
 \begin{definition}[Tensore strutturale]
-	L'unico tensore $ T \in U^* \otimes V^* \otimes W$\todo{decidere se lasciare scritto lo spazio
-		così (in caso introdurlo prima)} associato alla mappa bilineare $ \varphi : U
+	L'unico tensore $ T \in U^* \otimes V^* \otimes W$ associato alla mappa bilineare $ \varphi : U
 		\times V \to W $ è detto \emph{tensore strutturale} di $ \varphi $.
 \end{definition}
 
-\todo{ACHTUNG! Può andare bene?}
 \begin{remark}
 	Con un abuso di notazione tipicamente usato in letteratura~\cite{landsberg2011tensors,
 		landsberg2015geometry, burgisser2013algebraic}, nel seguito identificheremo l'algoritmo
@@ -103,7 +102,7 @@ in memoria. Aggiungiamo che questa rappresentazione è anche vantaggiosa per rid
 calcolo delle operazioni aritmetiche. Nel caso delle matrici, se $ M \in \R^{m\times n} $ ha rango uno, possiamo scrivere $ M = u \otimes v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; valutare $ Mx =
 	(uv^{\top})x = u(v^{\top}x) $ ha costo $ O(n) $, contro il costo $ O(mn) $ del prodotto classico
 matrice vettore. In generale, se $ M $ ha rango $ R $, possiamo scriverla come somma di $ R $
-matrici di rango uno\todo{aggiungere thm?} e per linearità
+matrici di rango uno e per linearità
 ottenere un costo $ O(Rn) $ per $ Mx $. È possibile generalizzare quest'idea per mappe bilineari.
 
 Calcolare la valutazione di una mappa bilineare $ \varphi $ come nell'Equazione~\eqref{eq:b_k_bil}
@@ -115,6 +114,7 @@ multiplications, in quanto saranno legate alla misura di complessità $ L(\varph
 trovando fattorizzazioni di rango più basso di $ T $.
 
 
+\todo{lasciamo in inglese o meglio tradurre?}
 \begin{definition}[Bilinear algorithm]
 	Sia $ \varphi : U \times V \to  W $ una mappa bilineare tra $ \K $-spazi vettoriali. Per ogni $ i
 		\in \{1, \dots, r\} $, siano $ f_{i} \in U^*, g_{i} \in V^*, w_{i} \in W$ tali che
@@ -125,6 +125,9 @@ trovando fattorizzazioni di rango più basso di $ T $.
 	detta \emph{bilinear computation (algorithm) di lunghezza $ r $ per $ \varphi $}, e la lunghezza
 	di più breve algoritmo di calcolo per $ \varphi $ è chiamata \emph{bilinear complexity} o rango
 	di $ \varphi $, che indichiamo ancora con $ \rk(\varphi) $.
+
+	\todo{si può definire direttamente come bilinear algorithm la scrittura sopra invece che
+		la $ r $-upla? (nel testo non la uso mai come $ r $-upla)}
 \end{definition}
 
 
@@ -359,7 +362,10 @@ Tuttavia, l'avvento dell'Intelligenza Artificiale sta dando un nuovo impulso a q
 AlphaTensor~\cite{fawzi2022discovering}); di recente (agosto 2026) l'utilizzo di strumenti di IA
 come AlphaEvolve ha stabilito il nuovo record di $ \omega \le 2.371177 $~\cite{alman2026}.
 Sottolineiamo che da un punto di vista pratico, non è detto che le stime ottimali si traducano in algoritmi più veloci
-o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presenteremo, risulta migliore di algoritmi con esponente più basso in molte situazioni~\cite{dalberto2023strassensmatrixmultiplicationalgorithm}.
+o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presenteremo, risulta migliore
+di algoritmi con esponente più basso in molte
+situazioni~\cite{dalberto2023strassensmatrixmultiplicationalgorithm, DBLP:journals/corr/BensonB14}.
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth, keepaspectratio]{Sources/Chapter3/figures/matrix_multiplication_timeline.pdf}
@@ -379,16 +385,22 @@ Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione com
 	\rk(\algob{n}) \le r $, allora $ \rk(\algob{n^i}) \le
 	r^i$; infatti, combinando le prossime Proposizioni~\ref{prop:bil_map_product}
 e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorfismo,
-troviamo\todo{spiegare cosa significa fare $ \angb{n}^{\otimes i} $}
+troviamo\todo{spiegare cosa significa fare $ \angb{n}^{\otimes i} $. C'è ambiguità, non è chiaro se
+	sia un prodotto di Kroneker o prodotto tensoriale (forse vanno bene entrambi)}
 \begin{equation*}
-	\rk(\algob{n^i}) = \rk(\algob{n}^{\otimes i}) \le \rk(\algob{n})^i \le r^i.
+	\rk(\algob{n^i}) = \rk(\algob{n}^{\otimes i}) \le \rk(\algob{n})^i \le r^i,
+\end{equation*}
+dove
+\begin{equation*}
+	\algob{n}^{\otimes i} = \underbrace{\algob{n} \otimes \cdots \otimes \algob{n}}_{ i
+		\text{-volte}}.
 \end{equation*}
 In altre parole, possiamo applicare ricorsivamente l'algoritmo di moltiplicazione veloce, che è disegnato per
 matrici $ n\times n $, per ottenere la moltiplicazione di matrici $ n^i \times n^i $ impiegando solo
 $ r^i $ moltiplicazioni (senza dover fattorizzare il tensore di $ \algob{n^i} $, che sarebbe del
 modesto formato $ (n^i)^2 \times (n^i)^2 \times (n^i)^2 $).
 
-Se invece $ n > n_0 $ sono due interi positivi (può essere utile pensare al caso $ n_0 = 2 $), dato un algoritmo con un caso base fissato $
+Se invece $ n > n_0 $ sono due interi positivi (nei passaggi può essere utile pensare al caso $ n_0 = 2 $) dato un algoritmo con un caso base fissato $
 	\algob{n_0} $ è possibile ottenerne uno per
 $ \algob{n} $ con $ n >  n_0 $, allargando la matrice di taglia $ n \times  n $ aggiungendo zeri
 fino a raggiungere la dimensione
@@ -409,7 +421,7 @@ da $ r $, in quanto
 \end{equation*}
 Riassumendo, $ \rk(\algob{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
 applicando l'Equazione~\eqref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $. Questa stima
-si rivelerà utile per calcolare la complessità degli algoritmi veloci, evitando senza dover passare per il Master Theorem~\cite{cormen2022introduction}.
+si rivelerà utile per calcolare la complessità degli algoritmi veloci, evitando di passare per il Master Theorem~\cite{cormen2022introduction}.
 Abbiamo
 dimostrato la seguente:
 \begin{proposition}
@@ -425,7 +437,8 @@ Nei passaggi sopra abbiamo anche osservato che se $ n \le n' $ e dato un algorit
 allargando la matrice. Possiamo racchiudere questa proprietà nel seguente risultato:
 \begin{proposition}[Monotonia del rango di un algoritmo]
 	\label{prop:rk_monotony}
-	Il rango di un algoritmo è monotono crescente rispetto alla dimensione, ovvero dati due interi positivi $ n \le n' $, allora $
+	Il rango di un algoritmo per la moltiplicazione di matrici è monotono crescente rispetto alle loro
+	taglie, ovvero dati due interi positivi $ n \le n' $, allora $
 		\rk(\algob{n}) \le \rk(\algob{n'}) $.
 \end{proposition}
 
@@ -476,9 +489,9 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 
 
 \subsection*{Il teorema di Strassen}
-Dato un algoritmo con $ r $ moltiplicazioni, possiamo costruire la sua bilinear computation (e
-rappresentarla con il suo circuito aritmetico), e poi dedurre che il rango del tensore è $ r $.
-Viceversa, se troviamo un tensore di rango $ r $ (o in generale se conosciamo solo $ r $), esiste un
+Dato un algoritmo con $ r $ moltiplicazioni, abbiamo mostrato che è possibile costruire la sua bilinear computation (e
+rappresentarla con il suo circuito aritmetico) e poi dedurre che il rango del tensore è $ r $.
+Esiste anche il problema inverso: quali interi positivi $ r $ realizzano un
 algoritmo con $ r $ moltiplicazioni? La prossima proposizione risponde a questa domanda.
 
 \todo{può andare bene qui questa figura o la mettiamo dopo?}
@@ -747,9 +760,10 @@ base standard $ \{E_{11}, E_{12}, E_{21}, E_{22}\}  $ dello spazio delle matrici
 dove i termini $ w_{i} $ sono determinati dalla scrittura sopra.
 
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
-	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes c_{r}$\todo{si veda anche
-	l'osservazione provvisoria sotto} e scrivere il tensore struttrale di $
-	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}):
+	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes w_{r}$ e scrivere il tensore struttrale di $
+	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}). Per farlo,
+identifichiamo i funzionali $ s_{r} $ e $ t_{r} $ con i loro primali $ a_{ij} $ e $ b_{ij} $ e le
+matrici $ w_{r} $ con gli elementi $ c_{ij} $.\todo{può andare bene scritto così?}
 \begin{equation}
 	\label{eq:tensor_222}
 	\begin{aligned}
@@ -774,16 +788,14 @@ Osserviamo che questo caso base dà luogo a un algoritmo ricorsivo per $ n > 2 $
 ragionamento dell'Equazione~\todo{mst} del Teorema di Strassen, troviamo che $ M(n) = O(n^{\log_{2}
 			8}) = O(n^3)$.
 
-Per secoli questo algoritmo è stato ritenuto il più veloce per moltiplicare le matrici $ 2\times 2 $
-(probabilmente anche l'unico conosciuto). Nel 1969
-Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
+Nel 1969 Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
 tentò di mostrare che non esistesse un algoritmo più veloce di quello classico. Tramite una serie di
-riduzioni riuscì a mostrare l'ottimalità su $ \Z/2\Z $, ma per $ \R $ o $ \C $ si rivelò essere un
+riduzioni manuali riuscì a mostrare l'ottimalità su $ \Z/2\Z $, ma per $ \R $ o $ \C $ il suo progetto si rivelò un
 fallimento spettacolare.
 
 \subsection*{L'algoritmo di Strassen}
 
-L'algoritmo di Strassen è probabilmente l'algoritmo di moltiplicazione veloce più noto e segue la
+L'algoritmo di Strassen è probabilmente l'algoritmo di moltiplicazione veloce più celebre e segue la
 stessa struttura a blocchi $ \algob{2} $.
 
 \begin{align*}
@@ -816,23 +828,6 @@ Nella base canonica, la matrice $ C $ si scrive come
 	\end{aligned}
 \end{equation*}
 
-\begin{remark}[OSSERVAZIONE PROVVISORIA]
-	Per far tornare la scrittura del tensore, inizialmente pensavo di dover assegnare i termini $ w_{i}
-	$ in questo modo, ignorando il fatto che fossero matrici
-
-	\begin{equation*}
-		\begin{aligned}
-			w_1 & = c_{11} + c_{22}  \\
-			w_2 & = c_{21} - c_{22}  \\
-			w_3 & = c_{12} + c_{22}  \\
-			w_4 & = c_{11} + c_{21}  \\
-			w_5 & = -c_{11} + c_{12} \\
-			w_6 & = c_{22}           \\
-			w_7 & = c_{11}.
-		\end{aligned}
-	\end{equation*}
-
-\end{remark}
 Possiamo anche calcolare gli $ m_{r} $:
 \begin{equation*}
 	\begin{aligned}
@@ -845,20 +840,9 @@ Possiamo anche calcolare gli $ m_{r} $:
 		m_7 & = (a_{12} - a_{22})(b_{21} + b_{22})
 	\end{aligned}
 \end{equation*}
-Mettendo insieme troviamo,
-\begin{equation*}
-	\begin{aligned}
-		\sum_{i=1}^7 m_{i}w_{i} & = (a_{11} + a_{22})(b_{11} + b_{22})(c_{11} + c_{22}) \\
-		                        & + (a_{21} + a_{22})b_{11} (c_{21} - c_{22})           \\
-		                        & + a_{11}(b_{12} - b_{22})(c_{12} + c_{22})            \\
-		                        & + a_{22}( - b_{11} + b_{21})(c_{11} + c_{21})         \\
-		                        & + (a_{11} + a_{12})b_{22}(-c_{11} + c_{12})           \\
-		                        & + (a_{21} - a_{11})(b_{11} + b_{12})c_{22}            \\
-		                        & + (a_{12} - a_{22})(b_{21} + b_{22})c_{11}.
-	\end{aligned}
-\end{equation*}
 
-Che in forma tensoriale diventa
+Passando all'isomorfismo, e usando l'identificazione fatta sopra, la bilinear computation si può
+riscrivere in forma tensoriale come
 \begin{equation*}
 	\begin{aligned}
 		\algob{2} & = (a_{11} + a_{22}) \otimes (b_{11} + b_{22}) \otimes (c_{11} + c_{22}) \\
@@ -882,11 +866,6 @@ dell'algoritmo classico riportato nell'Equazione~\eqref{eq:tensor_222}.
 		parametro}
 \end{remark}
 
-\begin{remark}[Osservazioni pratiche]
-	\todo{aggiungere qualche considerazione pratica? o un plot che mostra confronto libreria dgemm e
-	}
-\end{remark}
-
 \section{Alcune stime sull'esponente}
 \label{sec:exp_estimates}
 
@@ -902,7 +881,6 @@ discussione più ampia.
 
 \section{Algoritmi APA}
 \label{sec:APA}
-\todo{Il border rank viene introdotto nel capitolo precedente}
 
 Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
 ottimale, Bini et. Al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
@@ -949,10 +927,9 @@ L'espressione del tensore che stavano cercando era il seguente tensore di rango 
 			\right],
 	\end{aligned}
 \end{equation*}
-dove \todo{qui $ z_1^2 $ con $ z_2^1 $ è scambiato rispetto alla source, controlla di nuovo}
+dove
 
-\todo{correggi errore di copiatura nella III}
-\todo{qui decidi se usare notazione $ a_{ij} $ o $ a_j^i $, in caso uniforma con il capitolo}
+\todo{qui va sistemato con la notazione $ a_{ij} $ invece che $ a_j^i $, lo farò a breve}
 \begin{equation*}
 	\begin{aligned}
 		(I)   & = (a_2^1 + ta_1^1) \otimes (b_2^1 + tb_2^2 \otimes c_2^1)                                   \\
@@ -961,8 +938,9 @@ dove \todo{qui $ z_1^2 $ con $ z_2^1 $ è scambiato rispetto alla source, contro
 		(II)  & = (a_1^2 + ta_1^1) \otimes b_1^1 \otimes (c_1^1 + tc_1^2)                                   \\
 		      & = a_1^2 \otimes b_1^1 \otimes c_1^1 +t[a_1^2 \otimes b_1^1 \otimes c_1^2 + a_1^1 \otimes
 		b_1^1 \otimes c_1^1] + O(t^2)                                                                       \\
-		(III) & = a_1^2 \otimes b_1^1 \otimes c_1^1 + t[a_1^2 \otimes b_1^1 \otimes c_1^2 + a_1^1 \otimes
-		b_1^1 \otimes c_1^1] + O(t^2)                                                                       \\
+		(III) & = a^1_2 \otimes b^1_2 \otimes ((c^1_1 + c^1_2) + tz^2_2)                                    \\
+		      & = a^1_2 \otimes b^1_2 \otimes c^1_1 + a^1_2 \otimes b^1_2 \otimes c^1_2 + t \left[ a^1_2
+		\otimes b^1_2 \otimes c^2_2 \right]                                                                 \\
 		(IV)  & = a_1^2 \otimes ((b_1^1 + b_2^1) + tb_1^2) \otimes c_1^1                                    \\
 		      & = a_1^2 \otimes b_1^1 \otimes c_1^1 + a_1^2 \otimes b_2^1 \otimes c_1^1 + t[a_1^2 \otimes
 		b_1^2 \otimes c_1^1]                                                                                \\
@@ -1053,6 +1031,38 @@ dove $ \| \cdot \| $ è la norma del massimo, $ \varepsilon $ è la precisone di
 	f_{\text{alg}}(n) = n^2$ per l'algoritmo di moltiplicazione classico, senza alcuna ipotesi
 sull'ordinamento dei calcoli svolti dal prodotto scalare. Osserviamo che $ f_{\text{alg}} $ è
 indipendente dalle matrici di input, e $ \|A\|\|B\| $ è indipendente dall'algoritmo.
-\todo{esperimento (se $ \exists $ tempo: generalizzare CP matmul in rust per supportare l'esercizio
-	del laboratorio. A questo punto, provare a disegnare quel plot dell'errore (magari confrontalo con
-	l'errore di Strassen e mettilo qui))}
+
+\subsection*{Andamento dell'errore}
+
+Per analizzare il comportamento dell'errore algoritmico abbiamo confrontato
+l'algoritmo $\angb{2,2,2}^{\text{red}}$ con l'algoritmo di Strassen e con la routine di
+moltiplicazione standard fornita da Intel MKL DGEMM (Math Kernel Library, Double-precision General
+Matrix Multiply). Gli esperimenti sono stati condotti per dimensioni delle matrici $N = 2^1, \ldots,
+	2^{13} = 8192$ e livelli di ricorsione $L \in \{1, 2, 3\}$. I risultati sono riportati in Figura~\ref{fig:bini_error_speed_comparison}.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.85\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter3/figures/bini_speed_plot.pdf}
+		\caption{Prestazioni computazionali (GFLOPS effettivi)}
+		\label{fig:bini_speed}
+	\end{subfigure}
+	\vspace{1ex}
+	\begin{subfigure}[b]{0.85\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter3/figures/bini_error_plot.pdf}
+		\caption{Errore relativo in norma di Frobenius}
+		\label{fig:bini_error}
+	\end{subfigure}
+	\caption{Confronto delle prestazioni computazionali (in GFLOPS effettivi) e dell'errore relativo
+		in norma di Frobenius tra gli algoritmi al variare della dimensione della matrice $N = 2,4,8,
+			\ldots, 8192$.}
+	\label{fig:bini_error_speed_comparison}
+\end{figure}
+
+Come mostrato in Figura~\ref{fig:bini_speed} l'algoritmo $\angb{2,2,2}^{\text{red}}$ raggiunge
+prestazioni elevate grazie all'impiego di sole $ 5 $ moltiplicazioni. Tuttavia, come evidenziato in
+Figura~\ref{fig:bini_error}, l'accumulo degli errori di arrotondamento, dovuti al parametro
+$\varepsilon$, porta ad una crescita dell'errore relativo all'aumentare della profondità di
+ricorsione ($L = 2, 3$).

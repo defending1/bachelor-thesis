@@ -1,21 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Unicità della fattorizzazione CP}
+\label{cp:cp_uniqueness}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Convenzioni}
-
-Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
-	\colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
-	\pi(v) $. Poniamo $ \pi(\faktor{V \setminus \{0\}}{\sim}) \eqdef
-	\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
-Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
-	\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $ \todo{Landsberg aggiunge algebrico}, il
-suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
-sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
-Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
-gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $.
-
-\section{Essenziale unicità}
 
 Data una matrice $ M \in \C^{n\times n} $ di rango $ r $, possiamo scriverla come somma di matrici di rango uno come
 \begin{equation*}
@@ -100,6 +86,16 @@ Notiamo che il tensore permutato appartiene ancora allo spazio di partenza. In r
 		CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la definizione.
 \end{remark}
 
+\section{Convenzioni}
+
+Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(V) $ è dato da $ \pi
+	\colon V \setminus \{0\}  \to  \PP(V) \colon v \mapsto [v]$, dove per ogni $ v \in V \setminus \{0\}  $, il punto $ [v] $ denota $
+	\pi(v) $. Poniamo $ \pi(\faktor{V \setminus \{0\}}{\sim}) \eqdef
+	\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
+Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
+	\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $, il
+suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
+sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
 
 
 \section{Il Teorema di Kruskal}
@@ -111,8 +107,8 @@ Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scritt
 	,\end{equation}
 è essenzialmente unica, sotto opportune condizioni.
 
-\begin{remark}[Una fattorizzazione non unica]
-	Quindi una condizione semplice per l'unicità è che $ T $
+\begin{remark}
+	Una condizione semplice per l'unicità è che $ T $
 	non possa essere ricondotto a una somma di matrici di rango uno. Consideriamo ad esempio
 	\begin{equation*}
 		\begin{aligned}
@@ -135,12 +131,20 @@ Inoltre, se consideriamo per l'Equazione~\eqref{eq:tens_full} gli insiemi $ \s_A
 siano formati da $ r $ punti distinti.
 
 \begin{definition}[Posizione generale]
-	Sia $ W $ uno spazio vettoriale finito e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
+	Sia $ W $ uno spazio vettoriale finito dimensionale e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
 	Diciamo che i punti di $ \s  $ sono in $ 2 $-posizione generale se nessuna coppia di punti
 	coincide; sono in $ 3 $-posizione generale se nessuna terna di punti giace su una retta, e in
 	generale, diremo che sono in \emph{$ r $-posizione generale} se nessuna $ r $-upla giace su un
 	sottospazio proiettivo di dimensione $ r-2 $ (talvolta detto $ (r-2) $-piano).
 \end{definition}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter2/figures/glpos.pdf}
+	\caption{Rappresentazione di punti in $3$-posizione e $4$-posizione generale in uno spazio proiettivo.}
+	\label{fig:glpos}
+\end{figure}
+
 \begin{definition}[Kruskal rank]
 	Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
 	sono in $ r $-posizione generale.
@@ -203,14 +207,15 @@ Più in generale vale il seguente teorema:
 	\end{equation*}
 	cioè $ \krk{\s_A} \ge 2 $.
 \end{remark}
-\begin{remark}
-	\todo{lasciamo osservazione o lo scrivo come proposizione?}
-	Se $ \bm{a} = \bm{b} = \bm{c} $ e $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, quando $
-		r = \bm{a} $ l'espressione è unica.
+\begin{proposition}[Landsberg~\cite{landsberg2011tensors}, \S 12.5]
+	Dati degli spazi vettoriali $ A,B,C $ tali che $ \bm{a} = \bm{b} = \bm{c} $ e un tensore $ T \in A \otimes B \otimes C$ di rango
+	multilineare $ (\bm{a},\bm{a},\bm{a}) $. Se $ T $ ha rango $ \bm{a} $, allora la fattorizzazione è unica.
 	In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la condizione di unicità del teorema di Kruskal si
-	estende ad $ \bm{a} \le r \le \frac{1}{2}(\bm{a} + \bm{a} + \bm{a}) -1 = \frac{3}{2}\bm{a} - 1 $.
-
-\end{remark}
+	estende a
+	\begin{equation*}
+		\bm{a} \le r \le \frac{1}{2}(\bm{a} + \bm{a} + \bm{a}) -1 = \frac{3}{2}\bm{a} - 1
+	\end{equation*}
+\end{proposition}
 \begin{proof}
 	\todo{migliorare la scrittura}
 	Se $ r = \bm{a} $, consideriamo la decomposizione
@@ -276,7 +281,7 @@ Più in generale vale il seguente teorema:
 	Siccome $ \gamma_1 $ e $ \gamma_2 $ non si annullano sui vettori $ c_{i} $ e $ c_{k} $, allora $
 		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \not\in \gamma_{1}^\perp $, quindi necessariamente $
 		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, ma essendo $ c_{i} $ e $ c_{k} $ linearmente
-	indipendenti, da cui le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, assurdo.
+	indipendenti, le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, assurdo.
 
 	Ripetendo questo
 	ragionamento contraendo su $ A $ e poi su $ B $ otteniamo l'unicità.
@@ -315,7 +320,7 @@ Enunciamo il permutation lemma, dimostrato da Kruskal nell'articolo originale, e
 	In altre parole $ T $ è concise se non è contenuto in nessun sottospazio proprio $ A_1' \otimes
 		A_2' \otimes \cdots \otimes A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.\todo{teniamo questa
 		come definizione?}
-	Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi locali
+	Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi
 	$ A_i $.
 \end{remark}
 
@@ -344,7 +349,7 @@ Enunciamo il permutation lemma, dimostrato da Kruskal nell'articolo originale, e
 		T = \sum_{i=1}^\rho (u_{1i}' + u_{1i}'') \otimes \cdots \otimes (u_{ni}' + u_{ni}'') =
 		\sum_{i=1}^\rho u_{1i}' \otimes \cdots \otimes u_{ni}' + R,
 	\end{equation*}
-	dove $ R $ è il tensore che contiene i termini "misti" dati dai prodotti tra i fattori
+	dove $ R $ è il tensore che contiene i termini ``misti'' dati dai prodotti tra i fattori
 	$u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, appartenenti ai rispettivi
 	sottospazi $ A_{s}' \otimes A_{t}''  $ e $ A_{s}'' \otimes A_{t}''$, cioè
 	\begin{equation}
@@ -528,7 +533,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 		T(h) = \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) \in A \otimes B \simeq \R^{\bm{a} \times \bm{b}},
 	\end{equation*}
 	dove nessuno dei $ h(w_\sigma)
-	$ è nullo. In particolare,\todo{va giustificata?}
+	$ è nullo. In particolare,
 	\begin{equation*}
 		\#(\tilde{\s}_C \not\subset H) \ge \rank(T(h)).
 	\end{equation*}
@@ -540,7 +545,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \R^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
 			| \cdots | v_{S}  \right] \in \R^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
 	di taglia $ S\times S $ ed
-	invertibile. Per la disuguaglianza di Sylvester\todo{serve ref? è risultato di algebra lineare},
+	invertibile. Per la disuguaglianza di Sylvester~\cite[Pag. 12]{horn2012matrix}
 	\begin{equation*}
 		\begin{aligned}
 			\rank(T(h)) = \rank(U_{S}DV_{S}^*) & = \rank(U_{S}D) + \rank(V_{S}^*) - S                                               \\
@@ -570,7 +575,6 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 			                               & \le \krk{\s_A} + \krk{\s_B} - r - 1.
 		\end{aligned}
 	\end{equation}
-	\todo{quale equazione è meglio numerare qui sopra?}
 	Mettendo insieme le stime trovate nell'Equazione~\eqref{eq:krk_s_c_down} e~\eqref{eq:krk_s_c_up}, troviamo
 	\begin{equation}
 		\krk{\s_A} + \krk{\s_B} - r - 1 \ge \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  +
@@ -700,6 +704,7 @@ condizione necessaria ma non sufficiente:
 		,\] allora la fattorizzazione $ T =
 		\dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
 \end{theorem}
+\todo{forse è semplice da dimostrare, se avanza tempo fare}
 
 \begin{remark}
 	Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un
