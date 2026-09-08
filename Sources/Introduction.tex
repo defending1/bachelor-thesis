@@ -1,53 +1,68 @@
+% !TEX root = ../Thesis.tex
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter*{Introduzione}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-I tensori sono oggetti che modellano molti esperimenti in un numero disparato di aree scientifiche.
-\todo{scrivi altro}
-Decomporli in oggetti più facili da analizzare \ldots \todo{scrivi altro}
-Studieremo la \emph{canonical polyadic decomposition}, nota anche come PARAFAC, per ``parallel factor
-analysis'', CANDECOMP, per ``canonical decomposition'', e
-CP \emph{decomposition}, il quale nome potrebbe o come acronimo della combinazione di CANDECOMP e
-PARAFAC.
+In questo elaborato studiamo la decomposizione di un tensore come somma di tensori di rango uno, dal
+nome Canonical Polyadic Decomposition (abbreviata, decomposizione CP), anche nota come PARAFAC (da ``parallel factor
+analysis'') o CANDECOMP (da ``canonical decomposition'').
+Lo scopo principale è dimostrare l'unicità sotto opportune ipotesi, risultato noto come il Teorema
+di Kruskal.
 
-Le decomposizioni di tensori occorrono in numerose aree scientifiche. Alcune di queste sono:
+Le decomposizioni di tensori
+occorrono in numerose aree scientifiche dove è necessario modellare elementi di sistemi complessi
+con fattori semplici. In molte di queste applicazione è
+cruciale garantire l'unicità. Ad esempio,
 nell'ambito medico della psicometria è stata impiegata per studiare gli impulsi celebrali [311,
 		71, 158], in particolare nel trovare l'area del cervello di un paziente in cui è in atto una crisi
 epilettica, o la diagnosi e gestione di ictus.; sempre nella medicina,
-nell'interpretare la immagini di risonanze magnetiche (MRI); vedi ad esempio e relative
+nell'interpretare la immagini di risonanze magnetiche; vedi ad esempio e relative
 reference.
-Nella geofisica, ad esempio l'interpretazione di data magnetotellurica per strutture
-regionali a una e due dimensioni, ad esempio in \ldots e le reference all'interno (wtf?).
-Nell'analisi numerica.\todo{questo va o detto a parole, oppure descrivere esempio delle funzioni
-	semiseparabili} Grazie alla convergenza delle serie di Fourier nello spazio delle
-funzioni $ f : \R^n \to \R $ misurabili secondo la norma euclidea $ L^2(\R^n) $, si
-ha $ L^2(\R^n) =
-	L^2(\R) \otimes \cdots \otimes L^2(\R) $, e spesso vengono approssimate funzioni di $ n $
-variabili da una somma finita di prodotti di funzioni in una variabile, generalizzando la
-separazione di variabili. Si veda \ldots
+Nell'elaborazione di immagini per alcune tecniche di compressione, o in generale nell'analisi di
+dati \todo{reference}, anche in discipline come la geologia \todo{ref}. Nell'analisi numerica, spesso vengono approssimate funzioni di $ n $
+variabili da una somma finita di prodotti di funzioni in una variabile.\todo{reference}
 
 Questo elaborato si sviluppa con la seguente struttura:
 
-Nel capitolo 1, introdurremo i tensori e i relativi spazi. Definiremo la fattorizzazione CP e del
+Nel Capitolo~\ref{chp:tensors_intro}, introdurremo i tensori e i relativi spazi. Definiremo la fattorizzazione CP e del
 relativi metodi di calcolo. Discuteremo alcune loro caratteristiche
-fondamentali che li differenziano dalle matrici.
+fondamentali che li differenziano dalle matrici, come border rank, rango tipico e rango
+massimo. Introdurremo un metodo numerico per calcolare la fattorizzazione CP, chiamato algoritmo
+Alternating Least Squares (ALS). La trattazione è riadattata da Ballard e Kolda~\cite{BK25}.
 
-Nel capitolo 2 dimostreremo il Teorema di Kruskal, che afferma l'unicità della scrittura della
-fattorizzazione CP di un tensore sotto opportune ipotesi, discutendo alcuni casi di non unicità.
+Nel Capitolo~\ref{cp:cp_uniqueness} definiremo l'unicità di una fattorizzazione e il Kruskal rank per dimostrare il Teorema di Kruskal, che afferma l'unicità della scrittura della
+fattorizzazione CP di un tensore a tre indici. Enunceremo il risultato per tensori $ n
+$-dimensionali, e osserveremo che tale risultato non vale
+per le matrici. Presenteremo una versione modernizzata della dimostrazione originale di
+Kruskal~\cite{KRUSKAL197795} in dimensione tre a cura di Landsberg~\cite{landsberg2011tensors}.
 
-Nel capitolo 3 sposteremo il focus allo studio della complessità della moltiplicazione matriciale,
-studiando gli \emph{algortmi di moltiplicazione veloci} dal punto di vista della decomposizione
-CP.
+Nel Capitolo~\ref{chp:matmul} sposteremo il focus allo studio della complessità della
+moltiplicazione matriciale attraverso gli algoritmi di moltiplicazoine veloci. Introdurremo l'esponente di moltiplicazione ottimo $ \omega $e un modello computazionale per
+calcolarlo. Osserveremo che la moltiplicazione tra matrici, vista come mappa bilineare si può
+scrivere come un tensore, e di seguito messa in corrispondenza con un algoritmo per valutare il prodotto in
+funzione delle entrate del tensore. Dimostreremo la corrispondenza tra il rango di un tensore, il
+numero di moltiplicazioni di un algoritmo e l'esponente ottimale ottima per fornire alcune stime
+sull'esponente. Deriveremo un esempio di algoritmo di moltiplicazione approssimato partendo da
+quello classico, e osserveremo il ruolo del border rank. Al termine
+accenneremo l'errore algoritmico degli algoritmi veloci, e confronteremo numericamente l'andamento
+dell'errore degli algoritmi esatti contro gli algoritmi approssimati.
 
-Nel capitolo 4 presenteremo alcune applicazioni modellistiche della CP, presentando due esperimenti
-numerici: il recupero della concentrazione di sostanze chimiche in un composto (\emph{spettroscopia
-	fluorescente}) e l'analisi di segnali (\emph{cocktail party problem}).
-
-Le principali fonti di questo lavoro sono TENSORB e LANDSBERG1,2.
+Nel capitolo~\ref{chp:cp_applications} presenteremo alcune applicazioni modellistiche della CP, presentando due esperimenti
+numerici: il recupero della concentrazione di sostanze chimiche in un composto (spettroscopia
+fluorescente) e la ricostruzione di segnali (cocktail party problem). In entrambe le applicazioni
+l'unicità avrà un ruolo fondamentale.
 
 Come descritto da Landsberg\todo{cite}, nell'ambito del calcolo tensoriale avviene uno ``scontro di
 culture'', dove confluiscono risultati teorici trovati dagli studiosi delle applicazioni scientifiche
 (e.g., psicometria, chemiometria, neurologia), analisti numerici, teorici della complessità e
-geometri algebrici.
+geometri algebrici. In questi ambiti le notazioni differiscono sostanzialmente, noi abbiamo cercato
+di tenere il punto di vista dell'analisi numerica, senza appesantire troppo con la notazione tipica dell'algebra multilineare.
+\todo{Lascio questo paragrafo?}
 
-Credits: cite ballard E Kolda per aver inspirato molte figure. Librerie numeriche.
+Le sperimentazioni dei Capitoli~\ref{chp:tensors_intro} e~\ref{chp:cp_applications} sono state svolte in
+Python con le librerie Numpy, Scipy, Tensorly, il codice sorgente si trova QUI. L'esperimento del
+Capitolo 3 è stato scritto in Rust, ed è parte di un progetto svolto durante il corso di laurea per il corso ``laboratorio computazionale'' QUI REPO.
+
+Molte figure sono state ispirate dal libro di Ballard e Kolda~\cite{BK25} e riprodotte in Tikz.
+I grafici sono stati generati con Matplotlib con la libreria Scienceplots~\cite{SciencePlots}.

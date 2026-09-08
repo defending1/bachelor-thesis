@@ -10,10 +10,11 @@ Data una matrice $ M \in \C^{n\times n} $ di rango $ r $, possiamo scriverla com
 	\end{bmatrix} \begin{bmatrix} b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top}.
 \end{equation*}
 Questa decomposizione non è mai unica a meno che $ r =1 $, in quanto
-\begin{equation*}
+\begin{equation}
+	\label{eq:matrix_non_uniqueness}
 	M = AB^{\top} = APP^{-1}B^{\top} = (AP)(BP^{-T})^{\top},
-\end{equation*}
-dove $ P $ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
+\end{equation}
+dove $ P \in \GL{n}{\C}$ è invertibile ma non necessariamente prodotto di matrici diagonali. Siccome $
 	\GL{n}{\C} $ contiene infiniti elementi, esistono infinite decomposizioni per $ M $.
 Sorprendentemente, per i tensori è possibile ottenere l'unicità, sotto opportune ipotesi
 d'indipendenza delle componenti. Ma cosa intendiamo per unicità e indipendenza?
@@ -25,25 +26,25 @@ Possiamo definire l'unicità nel caso $ 3 $-dimensionale così: dato un tensore
 \end{equation*}
 sotto opportune ipotesi $ T $ differisce da un'altra fattorizzazione CP a meno di permutazione dei tensori
 elementari e
-riscalamento dei fattori. Più precisamente:
+riscalamento dei fattori. Più precisamente, se
 esistono degli scalari $ \alpha_1, \ldots, \alpha_{r}$, $\beta_1, \ldots, \beta_{r}$, $\gamma_1, \ldots,
-	\gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $, ed
+	\gamma_{r}$ tali che $ \alpha_j \beta_{j} \gamma_{j} =1 $ per ogni $ j \in \{1, \ldots, r\}  $ ed
 esiste una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
 \begin{equation*}
 	T = \alpha_1 a_{\sigma(1)} \otimes \beta_1 b_{\sigma(1)} \otimes \gamma_{1} c_{\sigma(1)} +
-	\cdots + \alpha_r a_{\sigma(r)} \otimes \beta_r b_{\sigma(r)} \otimes \gamma_{r} c_{\sigma(r)}.
+	\cdots + \alpha_r a_{\sigma(r)} \otimes \beta_r b_{\sigma(r)} \otimes \gamma_{r} c_{\sigma(r)},
 \end{equation*}
+diremo che la fattorizzazione CP è \emph{essenzialmente unica}.
 Diamo una definizione più generale.
 
 \begin{definition}[Essenziale unicità]
-	Una fattorizzazione CP di rango $ r $ di un tensore $ T \in A_1 \otimes \cdots \otimes A_{d} $,
+	Sia $ T \in A_1 \otimes \cdots \otimes A_{d}$ un tensore che ammette una decomposizione CP di rango $ r $
 	\begin{equation*}
-		T = u_1^1 \otimes \cdots \otimes u_1^d + \cdots + u_{r}^1 \otimes \cdots \otimes u_{r}^d
+		T = u_1^1 \otimes \cdots \otimes u_1^d + \cdots + u_{r}^1 \otimes \cdots \otimes u_{r}^d.
 	\end{equation*}
-	è \emph{essenzialmente unica} se differisce a meno di permutazioni dei tensori di rango uno e di scalari il cui prodotto fa uno.
-	Formalmente, se esistono degli scalari $ \lambda_{1}^{(t)}, \ldots, \lambda_{r}^{(t)} $ con $ t
+	Diremo che tale decomposizione è \emph{essenzialmente unica} se esistono degli scalari $ \lambda_{1}^{(t)}, \ldots, \lambda_{r}^{(t)} $ con $ t
 		\in \{1, \ldots, d\} $ tali che $ \lambda_{j}^{(1)}\lambda_{j}^{(2)} \cdots \lambda_{j}^{(d)} = 1 $ per ogni $
-		j \in \{1, \ldots, r\}  $, ed esiste una permutaione $ \sigma \in \mathfrak{S}_{r} $ tale che
+		j \in \{1, \ldots, r\}  $ e una permutazione $ \sigma \in \mathfrak{S}_{r} $ tale che
 	\begin{equation*}
 		T = \lambda_{1}^{(1)}u_{\sigma(1)}^{1} \otimes \cdots \lambda_{1}^{(d)}u_{\sigma(1)}^{d} +
 		\cdots + \lambda_{r}^{(1)}u_{\sigma(r)}^{1} \otimes \cdots \otimes
@@ -59,7 +60,7 @@ Notiamo che il tensore permutato appartiene ancora allo spazio di partenza. In r
 		I$ e $U_j = \tilde{U_j}D_jP$, per ogni $ j = 1, \ldots, d $.
 \end{definition}
 \begin{remark}
-	È facile vedere che questa definizione è una specializzazione di quella generale. Nel caso $ 3
+	Osserviamo che questa definizione è una specializzazione di quella generale. Nel caso $ 3
 	$-dimensionale, ad esempio scriviamo in coordinate
 	\begin{equation*}
 		A = \left[\begin{array}{c|c|c}
@@ -84,7 +85,7 @@ Notiamo che il tensore permutato appartiene ancora allo spazio di partenza. In r
 			\end{array}\right],
 	\end{equation*}
 	e definire in maniera analoga $ \tilde{B} \defeq BP^{-1}D_{B}^{-1}$ e $ \tilde{C} \defeq
-		CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la definizione.
+		CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la prima definizione.
 \end{remark}
 
 \section{Convenzioni}
@@ -95,7 +96,7 @@ Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(
 	\PP(V)$, dove $v \sim w $ se e solo se esiste $ \lambda \in \K \setminus \{0\}  $ tale che $ v = \lambda w $.
 Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
 	\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $, il
-suo cono vettoriale è $ \hat{X} = \pi^{-1}(X \cup \{0\} ) \subset V$. Lo span lineare di un
+suo cono vettoriale è $ \hat{X} = \pi^{-1}(X)  \cup \{0\} \subset V$. Lo span lineare di un
 sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
 
 
@@ -106,11 +107,12 @@ Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scritt
 	\label{eq:tens_full}
 	T = a_1 \otimes b_1 \otimes c_1 + \ldots + a_r \otimes b_r \otimes c_r
 	,\end{equation}
-è essenzialmente unica, sotto opportune condizioni.
+è essenzialmente unica se i suoi fattori sono ``abbastanza'' indipendenti.
 
 \begin{remark}
 	Una condizione semplice per l'unicità è che $ T $
-	non possa essere ricondotto a una somma di matrici di rango uno. Consideriamo ad esempio
+	non possa essere ricondotto a una somma di matrici di rango uno, perché accadrebbe quanto
+	descritto nell'Equazione~\eqref{eq:matrix_non_uniqueness}. Consideriamo ad esempio
 	\begin{equation*}
 		\begin{aligned}
 			T & = a_1 \otimes b_1\otimes c_1  + a_1 \otimes b_2 \otimes c_2 + a_3 \otimes b_3 \otimes c_3 +
@@ -126,10 +128,13 @@ Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scritt
 	\end{equation*}
 \end{remark}
 
-Inoltre, se consideriamo per l'Equazione~\eqref{eq:tens_full} gli insiemi $ \s_A = \{[a_i]\} \subset
-	\PP A$, $
-	\s_B = \{[b_i]\} \subset \PP B  $ e $ \s_C = \{[c_i]\} \subset \PP C$, allora l'unicità implica che
-siano formati da $ r $ punti distinti.
+\todo{serve?}
+\begin{remark}
+	Se consideriamo per l'Equazione~\eqref{eq:tens_full} gli insiemi $ \s_A = \{[a_i]\} \subset
+		\PP A$, $
+		\s_B = \{[b_i]\} \subset \PP B  $ e $ \s_C = \{[c_i]\} \subset \PP C$, allora l'unicità implica che
+	siano formati da $ r $ punti distinti.
+\end{remark}
 
 \begin{definition}[Posizione generale]
 	Sia $ W $ uno spazio vettoriale finito dimensionale e $ \s = \{x_1, \ldots, x_p\} \subset \PP W  $ un insieme di punti.
@@ -138,6 +143,7 @@ siano formati da $ r $ punti distinti.
 	generale, diremo che sono in \emph{$ r $-posizione generale} se nessuna $ r $-upla giace su un
 	sottospazio proiettivo di dimensione $ r-2 $ (talvolta detto $ (r-2) $-piano).
 \end{definition}
+La Figura~\ref{fig:glpos} mostra un esempio di punti in posizione generale.
 
 \begin{figure}[htbp]
 	\centering
@@ -147,14 +153,15 @@ siano formati da $ r $ punti distinti.
 \end{figure}
 
 \begin{definition}[Kruskal rank]
-	Il \emph{Kruskal rank} di $ \s $, indicato con $ \krk{\s} $, è il massimo $ r $ tale per cui i punti di $ \s $
-	sono in $ r $-posizione generale.
+	Il \emph{Kruskal rank} (o $ \emph{$ k $-rango} $) di un insieme $ \s \subset \PP W $ è il massimo $ r $ tale per cui i punti di $ \s $
+	sono in $ r $-posizione generale. Lo indichiamo con $ \krk{\s} $.
 \end{definition}
 \begin{remark}
 	Fissata una base per $ W $ tale per cui i punti di $ \s $ possono essere scritti come colonne di
 	una matrice $ M $ (è ben definito a meno di riscalamento), allora $ \krk{\s} $ è il massimo intero
 	positivo $ r $ tale per cui ogni sottoinsieme di $ r $ colonne di $ M $ sono vettori linearmente
-	indipendenti. Questa era la definizione originale di Kruskal.
+	indipendenti. Questa era la definizione originale di Kruskal, e in questo contesto lo indichiamo con $
+		\krk{M} $.
 \end{remark}
 
 \begin{remark}
@@ -177,24 +184,6 @@ Possiamo enunciare il Teorema di Kruskal.
 \end{theorem}
 
 \begin{remark}
-	Osserviamo che nel caso delle matrici l'unicità è verificata solo per $ r = 1 $ (in quanto $ T = u
-		\otimes v \in A \otimes B $) ma le ipotesi del teorema non sono rispettate perché $ \s_{A} =
-		\{[u]\}, \s_{B} = \{[v]\}  $ e i due insiemi hanno $ k $-rango uno, e varrebbe
-	\begin{equation*}
-		\krk{\s_{A}} + \krk{\s_{B}} = 1 + 1 = 2 \ge 2r + 2 - 1 = 2 + 2 - 1 = 3.
-	\end{equation*}
-\end{remark}
-
-Più in generale vale il seguente teorema:
-\begin{theorem}[\cite{sidiropoulos2000uniqueness}]
-	Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
-		\sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se
-	\begin{equation}
-		\sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + n - 1,
-	\end{equation}
-	allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
-\end{theorem}
-\begin{remark}
 	\label{rm:stima_krk}
 	Se vale l'Equazione~\eqref{eq:kr3}, segue che $ \krk{\s_A},\krk{\s_B}, \krk{\s_C} \ge 2
 	$. Dimostriamolo per $ \s_{A} $, gli altri casi sono analoghi. L'Equazione~\eqref{eq:kr3} si può riscrivere come
@@ -208,6 +197,28 @@ Più in generale vale il seguente teorema:
 	\end{equation*}
 	cioè $ \krk{\s_A} \ge 2 $.
 \end{remark}
+
+
+
+Più in generale vale il seguente teorema:
+\begin{theorem}[\cite{sidiropoulos2000uniqueness}]
+	Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
+		\sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se
+	\begin{equation}
+		\sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + n - 1,
+	\end{equation}
+	allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+\end{theorem}
+
+\begin{remark}
+	Osserviamo che nel caso delle matrici l'unicità è verificata solo per $ r = 1 $, in quanto $ T = u
+		\otimes v \in A \otimes B $. Tuttavia, le ipotesi del teorema non sono rispettate perché $ \s_{A} =
+		\{[u]\}, \s_{B} = \{[v]\}  $ e i due insiemi hanno $ k $-rango uno, e
+	\begin{equation*}
+		\krk{\s_{A}} + \krk{\s_{B}} = 1 + 1 = 2 \ge 2r + 2 - 1 = 2 + 2 - 1 = 3.
+	\end{equation*}
+\end{remark}
+
 \begin{proposition}[Landsberg~\cite{landsberg2011tensors}, \S 12.5]
 	Dati degli spazi vettoriali $ A,B,C $ tali che $ \bm{a} = \bm{b} = \bm{c} $ e un tensore $ T \in A \otimes B \otimes C$ di rango
 	multilineare $ (\bm{a},\bm{a},\bm{a}) $. Se $ T $ ha rango $ \bm{a} $, allora la fattorizzazione è unica.
@@ -255,7 +266,8 @@ Più in generale vale il seguente teorema:
 		H_{i} = \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
 	\end{equation*}
 	che forma un iperpiano in $ C^* $. Siccome su un campo infinito, lo spazio $ C^* $ non è unione finita di
-	sottospazi propri, possiamo trovare un $ \gamma \in C^* \setminus \bigcup_{i=1}^{\bm{a}} H_{i}$. Per
+	sottospazi propri, possiamo trovare un funzionale $ \gamma \in C^* \setminus
+		\bigcup_{i=1}^{\bm{a}} H_{i}$ non banale. Per
 	questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
 	Siccome $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, allora le matrici $ U,D_{j},V $
 	sono invertibili, in particolare, anche $ T(\gamma_{j}) $ è invertibile, per ogni $ j \in \{1,2\} $.
@@ -289,7 +301,8 @@ Più in generale vale il seguente teorema:
 \end{proof}
 
 
-Enunciamo il permutation lemma, dimostrato da Kruskal nell'articolo originale, e di centrale importanza nella dimostrazione del teorema.
+Enunciamo il permutation lemma, dimostrato da Kruskal nell'articolo originale, e di fondamentale
+importanza nella dimostrazione del Teorema di Kruskal.
 \begin{lemma}[Permutation lemma]
 	\label{lemma:perm}
 	Siano $ \s = \{p_1, \ldots, p_r\}  $ e $ \tilde{\s} = \{q_1, \ldots, q_r\} $ due insiemi di punti
