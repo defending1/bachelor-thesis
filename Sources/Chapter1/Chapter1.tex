@@ -29,7 +29,7 @@ In generale, dati degli spazi vettoriali $ A_1, \ldots, A_{n} $ di
 dimensione finita, definiamo le forme $ n $-multilineari come applicazioni $ \varphi : A_1
 	\times \cdots \times A_{n} \to \K $ lineari in ognuna delle $ n $ componenti, e data una forma $ n
 $-multilineare $ \varphi : A_1 \times A_2 \times \cdots \times A_{n} $ è possibile costruire una
-mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to \K $.
+mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $, e viceversa.
 
 \begin{definition}[Tensore]
 	Definiamo lo spazio dei \emph{tensori} $ A_1 \otimes A_2 \otimes \cdots \otimes
@@ -449,7 +449,6 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 		\item $ \Vec(T) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
 		\item $T_{\miwc} = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
 	\end{enumerate}
-	\todo{la 3 non torna}
 \end{remark}
 
 
@@ -727,7 +726,7 @@ Il border rank ammette anche la seguente interpretazione geometrica:
 
 \subsection*{Costo computazionale}
 \label{sec:computing_rank}
-Calcolare il costo di una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
+Il costo di calcolare una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
 solo; il problema di trovare un tensore approssimante di un certo rango è computazionalmente
 difficile. In altre parole, la miglior approssimazione di rango $ r $ è data da dei vettori $ x_{i}
 	\in \R^{n_1}, y_{i} \in \R^{n_2}, \ldots, z_{i} \in \R^{n_{d}}   $, per $ i = 1, \ldots, r $ che minimizzano
@@ -807,7 +806,7 @@ Mentre le matrici random hanno rango massimo con probabilità uno\footnote{L'ide
 	con entrate estratte da una distribuzione di probabilità continua, il
 	determinante è un polinomio le cui indeterminate sono le entrate della matrice. Il luogo di
 	zeri di questo polinomio ha misura di Lebesgue nulla, quindi integrando la densità di probabilità
-	sul luogo di zeri dà probabilità nulla. La tesi si ha passando al compolementare.}, per un tensore di un
+	sul luogo di zeri dà probabilità nulla. La tesi si ha passando al complementare.}, per un tensore di un
 formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
 come \emph{rango tipico}.
 
@@ -825,14 +824,14 @@ gaussiane).
 	\end{equation*}
 \end{definition}
 
-Mentre per le matrici il rango tipico è unico e coincide con il massimo rango possibile, per i
-tensori di ordine superiore a due. In particolare su $\mathbb{R}$ possono coesistere
+Per le matrici il rango tipico è unico e coincide con il massimo rango possibile, per i
+tensori di ordine superiore a due non è così: su $\mathbb{R}$ possono coesistere
 più ranghi tipici, mentre su $\mathbb{C}$ il rango tipico è sempre unico. La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
 Per verificare questi risultati, abbiamo implementato un esperimento numerico.
 Selezionando alcuni formati, abbiamo generato dei tensori casuali con entrate estratte
 indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
 distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
-usando l'algoritmo ALS\todo{ref} su un campione di $ 200 $ tensori, facendo $ 120 $ restarts e un
+usando l'algoritmo ALS (che introdurremo in \S~\ref{alg:ALS}) su un campione di $ 200 $ tensori, facendo $ 120 $ restarts e un
 numero massimo di $ 500 $ iterazioni, interrompendo una volta raggiunto un errore relativo inferiore a
 $10^{-5}$. La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
 distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi tipici e produce frequenze empiriche analoghe.
@@ -869,8 +868,8 @@ distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi
 
 
 \subsection*{Dipendenza dal campo base}
-Nel caso matriciale ogni matrice $ m \times n $ a entrate reali ha lo stesso
-rango se visto come elemento di $ \R^{m\times n} $ o di $ \C^{m \times n} $, per i tensori questo è
+Nel caso matriciale ogni matrice $ m \times n $ reale ha lo stesso
+rango se visto come elemento di $ \R^{m\times n} $ o di $ \C^{m \times n} $, ma per i tensori questo è
 falso. Consideriamo il seguente esempio:
 \begin{example}[De Silva e Lim~\cite{desilva2008tensorrankillposednessbest}]
 	Scriviamo $ z_{k} = x_{k} + \I y_{k} $ e $ \overline{z}_k = x_{k} - \I y_{k} $, allora
@@ -1040,7 +1039,7 @@ risultato di questa sezione.
 	Una conseguenza immediata di questo teorema è che $ T $ ha rango uno se e solo se $ \multirk(T) =
 		1$, cioè se e solo se $ \rk(\Tm{T}{j}) = 1 $ per ogni $ j $.
 	In generale vale che, se $ \rk(T) = r $, allora $ \multirk(T) \le r $, ma non il
-	viceversa.\todo{ho cercato un esempio non è semplice verificare}
+	viceversa.
 
 \end{remark}
 
@@ -1138,7 +1137,6 @@ se e solo se, usando il Lemma~\ref{lhm:had_krp}
 	\label{eq:als_pseudoinverse_eq}
 	(C^{\top}C \had B^{\top}B)A^{\top} = (C \krp B)^{\top}\Tm{T}{1}^{\top}
 \end{equation}
-<<<<<<< Updated upstream
 Sia $ Z \defeq C^{\top}C \had B^{\top}B \in \R^{r\times r} $. Osserviamo che calcolare $ Z $ ha costo $
 	O((n+p)r^2) $. Inoltre $ Z $ è semidefinita positiva\todo{motiva}, e quando $ C
 	\krp B$ è full-rank è positiva definita: in tal caso possiamo risolvere con la fattorizzazione di Cholesky il sistema
