@@ -1,3 +1,4 @@
+% !TEX root = ../../Thesis.tex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Applicazioni della CP alla complessità aritmetica}
 \label{chp:matmul}
@@ -929,44 +930,43 @@ L'espressione del tensore che stavano cercando era il seguente tensore di rango 
 \end{equation*}
 dove
 
-\todo{qui va sistemato con la notazione $ a_{ij} $ invece che $ a_j^i $, lo farò a breve}
 \begin{equation*}
 	\begin{aligned}
-		(I)   & = (a_2^1 + ta_1^1) \otimes (b_2^1 + tb_2^2 \otimes c_2^1)                                   \\
-		      & = a_{2}^1 \otimes b_2^1 \otimes c_2^1 + t[a_2^1 \otimes b_2^2 \otimes c_2^1 + a_1^1 \otimes
-		b_2^1 \otimes c_2^1] + O(t^2)                                                                       \\
-		(II)  & = (a_1^2 + ta_1^1) \otimes b_1^1 \otimes (c_1^1 + tc_1^2)                                   \\
-		      & = a_1^2 \otimes b_1^1 \otimes c_1^1 +t[a_1^2 \otimes b_1^1 \otimes c_1^2 + a_1^1 \otimes
-		b_1^1 \otimes c_1^1] + O(t^2)                                                                       \\
-		(III) & = a^1_2 \otimes b^1_2 \otimes ((c^1_1 + c^1_2) + tz^2_2)                                    \\
-		      & = a^1_2 \otimes b^1_2 \otimes c^1_1 + a^1_2 \otimes b^1_2 \otimes c^1_2 + t \left[ a^1_2
-		\otimes b^1_2 \otimes c^2_2 \right]                                                                 \\
-		(IV)  & = a_1^2 \otimes ((b_1^1 + b_2^1) + tb_1^2) \otimes c_1^1                                    \\
-		      & = a_1^2 \otimes b_1^1 \otimes c_1^1 + a_1^2 \otimes b_2^1 \otimes c_1^1 + t[a_1^2 \otimes
-		b_1^2 \otimes c_1^1]                                                                                \\
-		(V)   & = (a_2^1 + a_1^2) \otimes (b_2^1 + tb_1^2) \otimes (c_1^1 + tc_2^2)                         \\
-		      & =a_2^1\otimes b_2^1 \otimes c_1^1 + a_1^2 \otimes b_2^1 \otimes c_1^1                       \\
-		      & + t[a_2^1 \otimes
-				(b_2^1 + c_2^2 + b_1^2 \otimes c_1^1) + a_1^2 \otimes (b_2^1 \otimes c_2^2 + b_1^2 \otimes
-				c_1^1)] + O(t^2)
+		(I)   & = (a_{12} + ta_{11}) \otimes (b_{12} + tb_{22} \otimes c_{12})                                   \\
+		      & = a_{12} \otimes b_{12} \otimes c_{12} + t[a_{12} \otimes b_{22} \otimes c_{12} + a_{11} \otimes
+		b_{12} \otimes c_{12}] + O(t^2)                                                                          \\
+		(II)  & = (a_{21} + ta_{11}) \otimes b_{11} \otimes (c_{11} + tc_{21})                                   \\
+		      & = a_{21} \otimes b_{11} \otimes c_{11} +t[a_{21} \otimes b_{11} \otimes c_{21} + a_{11} \otimes
+		b_{11} \otimes c_{11}] + O(t^2)                                                                          \\
+		(III) & = a_{12} \otimes b_{12} \otimes ((c_{11} + c_{12}) + tz_{22})                                    \\
+		      & = a_{12} \otimes b_{12} \otimes c_{11} + a_{12} \otimes b_{12} \otimes c_{12} + t \left[ a_{12}
+		\otimes b_{12} \otimes c_{22} \right]                                                                    \\
+		(IV)  & = a_{21} \otimes ((b_{11} + b_{12}) + tb_{21}) \otimes c_{11}                                    \\
+		      & = a_{21} \otimes b_{11} \otimes c_{11} + a_{21} \otimes b_{12} \otimes c_{11} + t[a_{21} \otimes
+		b_{21} \otimes c_{11}]                                                                                   \\
+		(V)   & = (a_{12} + a_{21}) \otimes (b_{12} + tb_{21}) \otimes (c_{11} + tc_{22})                        \\
+		      & =a_{12}\otimes b_{12} \otimes c_{11} + a_{21} \otimes b_{12} \otimes c_{11}                      \\
+		      & + t[a_{12} \otimes
+				(b_{12} + c_{22} + b_{21} \otimes c_{11}) + a_{21} \otimes (b_{12} \otimes c_{22} + b_{21} \otimes
+				c_{11})] + O(t^2)
 	\end{aligned}
 \end{equation*}
 In ogni passaggio abbiamo applicato più volte la proprietà distributiva del prodotto tensoriale.
 Osserviamo che i termini di grado costante in $ t $ si cancellano:
 \begin{equation*}
 	\begin{aligned}
-		a_2^1   & \otimes (b_2^1 \otimes c_2^1 - b_2^1 \otimes c_1^1 - b_2^1 \otimes c_2^1 + b_2^1 \otimes
-		c_1^1)                                                                                                    \\
-		+ a_1^2 & \otimes (b_1^1 \otimes c_1^1 - b_1^1 \otimes c_1^1 + b_2^1 \otimes c_1^1 - b_2^1 \otimes c_1^1)
+		a_{12}   & \otimes (b_{12} \otimes c_{12} - b_{12} \otimes c_{11} - b_{12} \otimes c_{12} + b_{12} \otimes
+		c_{11})                                                                                                            \\
+		+ a_{21} & \otimes (b_{11} \otimes c_{11} - b_{11} \otimes c_{11} + b_{12} \otimes c_{11} - b_{12} \otimes c_{11})
 		= 0
 	\end{aligned}
 \end{equation*}
 Sommando e raggruppando i termini di grado uno in $ t $ troviamo
 \begin{equation*}
 	\begin{aligned}
-		\algob{n}^\text{red} = a_1^1 & \otimes (b_1^1 \otimes c_1^1 + b_2^1 \otimes c_2^1) + \\
-		a_2^1                        & \otimes (b_1^2 \otimes c_1^1 + b_2^2 \otimes c_2^1) + \\
-		a_1^2                        & \otimes (b_1^1 \otimes c_1^2 + b_2^1 \otimes c_2^2),
+		\algob{n}^\text{red} = a_{11} & \otimes (b_{11} \otimes c_{11} + b_{12} \otimes c_{12}) + \\
+		a_{12}                        & \otimes (b_{21} \otimes c_{11} + b_{22} \otimes c_{12}) + \\
+		a_{21}                        & \otimes (b_{11} \otimes c_{21} + b_{12} \otimes c_{22}),
 	\end{aligned}
 \end{equation*}
 ovvero il tensore di partenza. Da cui,
