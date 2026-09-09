@@ -361,19 +361,21 @@ importanza nella dimostrazione del Teorema di Kruskal.
 		\angb{\tilde{\s}} = W $. Se ogni iperpiano $ H \subset \PP W $ che contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ è tale che $ \#(\s \cap H) \ge
 		\#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
+\todo{Refactored!!}
 \begin{remark}
 	Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
-	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale (indichiamo con $
-		\nnz(\cdot ) $ la funzione che restituisce il numero di elementi non zero di un vettore). Ossia,
-	per ogni vettore $ x
-		\in \R^{\bm{w}}$ tale che $ \nnz(\tilde{M}^{\top}x)<  r -
-		\rank(\tilde{M}) + 1$ allora vale che
-	$ \nnz(\tilde{M}x)\ge \nnz(M^{\top}x) $. Per vedere questa corrispondenza, bisogna pensare al
-	vettore $ x $ come un punto in $ W^* $ che dà un'equazione di $ H $. Gli elementi nulli del
-	vettore $ \tilde{M}^{\top} $ corrispondono alle colonne che fanno zero quando accopiate con $ x $,
-	cioè che soddisfano un'equazione di $ H $; in altre parole sono punti dell'iperpiano $ H $.
-	Inoltre, l'ipotesi $ \angb{S} = W $, che motiveremo meglio a breve, implica che $ \rank(\tilde{M})
-		= \bm{w}$.
+	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale. Indichiamo con $
+		\nnz(\cdot ) $ il numero di elementi non nulli di un vettore.
+	Poiché $ \angb{S} = W $ segue che $ \rank(\tilde{M}) = \bm{w}$.
+	Ogni vettore $ x \in (\R^{\bm{w}})^* \setminus \{0\}  $ definisce un iperpiano proiettivo $ H
+		\subset \PP W $, la cui dimensione è $ \bm{w} - 2 $. Le colonne che si annullano nel prodotto $
+		\tilde{M}^{\top}x $ corrispondono ai punti di $ \tilde{\s} $ che soddisfano l'equazione di $ H
+	$. Pertanto, $ \#(\tilde{\s} \cap H)  = r - \nnz(\tilde{M}^{\top}x)$.
+	La condizione $ \#(\tilde{\s} \cap H) \ge \dim(H) + 1 $ si traduce in $ r -
+		\nnz(\tilde{M}^{\top}x) \ge \bm{w}-1 $, che equivale a $ \nnz(\tilde{M}^{\top}x) \le r -
+		\rank(\tilde{M}) + 1 $. Da cui la condizione originale: per ogni vettore $ x $ tale che $
+		\nnz(\tilde{M}^{\top}x) \le r - \rank(\tilde{M}) +1 $, la tesi $ \#(\s \cap H) \ge \#(\tilde{\s}
+		\cap H) $ impone che valga $ \nnz(M^{\top}x) \le \nnz(\tilde{M}^{\top}x) $.
 \end{remark}
 
 
@@ -397,39 +399,42 @@ importanza nella dimostrazione del Teorema di Kruskal.
 	restrizione è ben posta, ed esclude casi banali dalla dimostrazione del teorema di Kruskal.
 \end{remark}
 
-\begin{proposition}[Tensori concise e rango]
+\begin{proposition}[Lunghezza di un tensore concise]
 	\label{prop:conc_and_rank}
-	Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_n $ di rango $ r $. Diciamo che $ T \in
-		A_1' \otimes \cdots \otimes A_n'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
-	ogni espressione $ T = \sum_{i=1}^\rho u_{1i} \otimes \cdots \otimes u_{ni} $ con qualche $ u_{sj}
+	Sia $ n>2 $. Sia $ T \in A_1 \otimes \cdots \otimes A_d $ di rango $ r $. Diciamo che $ T \in
+		A_1' \otimes \cdots \otimes A_d'$, dove $ A_j' \subseteq A_j $ con almeno un'inclusione propria. Allora
+	ogni espressione $ T = \sum_{i=1}^\rho u^1_i \otimes \cdots \otimes u^d_i $ con qualche $ u^s_j
 		\notin A_s'$ ha $ \rho > r $.
 \end{proposition}
 \begin{remark}
 	In altre parole, se $ T $ non è concise, allora $ \rho > r $.
 \end{remark}
 \begin{proof}
-	Scegliamo dei complementari $ A_t'' $ tali che $ A_t = A_t' \oplus A_t'' $. Assumiamo per assurdo che $ \rho =
-		r$ e scriviamo $ u_{tj} = u_{tj}' + u_{tj}'' $, dove $ u_{tj}' \in A_t' $ e $ u_{tj}'' \in A_t''
-	$. Allora
+	Supponiamo per assurdo che $ \rho = r $, e consideriamo la scrittura $ T = \sum_{j=1}^r u^1_j
+		\otimes \cdots \otimes u^d_j $. Siccome
+	almeno un'inclusione è stretta, supponiamo senza perdita di generalità che $ u^1_1 \not\in A_{1}'
+	$. Allora esiste un funzionale $ \alpha \in A_{1}^* $ tale che $ \alpha(A_{1}') $ ma $
+		\alpha(u^1_1) \neq 0 $. Siccome $ T \in A_1' \otimes \cdots \otimes A_{d}'$ allora
+	valutando $ T $ in $ \alpha $ si deve avere che
 	\begin{equation*}
-		T = \sum_{i=1}^\rho (u_{1i}' + u_{1i}'') \otimes \cdots \otimes (u_{ni}' + u_{ni}'') =
-		\sum_{i=1}^\rho u_{1i}' \otimes \cdots \otimes u_{ni}' + R,
+		0 = T(\alpha) = \sum_{j=1}^r \alpha(u^1_j)(u^2_j \otimes \cdots \otimes u^d_j).
 	\end{equation*}
-	dove $ R $ è il tensore che contiene i termini ``misti'' dati dai prodotti tra i fattori
-	$u_{sj}' $ e $ u_{tj}'' $ oppure $ u_{sj}'' $ e $u_{tj}'' $, appartenenti ai rispettivi
-	sottospazi $ A_{s}' \otimes A_{t}''  $ e $ A_{s}'' \otimes A_{t}''$, cioè
-	\begin{equation}
-		R = \sum_{j=1}^\rho u_{1j}'' \otimes (u_{2j}' \otimes \cdots \otimes u_{nj}') + \ldots
-		+ \sum_{j=1}^\rho u_{1j}'' \otimes \cdots \otimes u_{nj}''.
-	\end{equation}
-	Ma siccome $ T \in A_1' \otimes \cdots \otimes A_n'$, si deve avere che $ R = 0 $,
-	ovvero i termini di $ R $ si proiettano nel vettore nullo.
-	Assumiamo senza perdita di generalità che $ A_{1}' \subsetneq A_{1}$ sia propria, dunque $ u_{1j_0}'' \neq
-		0$ per un certo $ j_0 $. Osserviamo che in $ R $ è presente l'espressione $ \sum_{j=1}^r u_{1j}'' \otimes (u_{2j}' \otimes
-		\cdots \otimes u_{nj}') = 0$, ma tutti i temini $ u_{2j}' \otimes \cdots \otimes u_{nj}' $ sono
-	linearmente indipendenti nel sottospazio $ A_2' \otimes \cdots \otimes A_n' $ \todo{why?} (altrimenti $ T $ si
-	potrebbe scrivere con meno di $ r $ termini, che contraddirrebbe la minimalità di $ r
-	$\todo{potrebbe non bastare}). Allora gli $ u_{1j} $ sono tutti nulli, che è assurdo.
+	Siccome $ \alpha(u^1_1) \neq 0 $, possiamo scrivere il primo addendo della sommatoria come combinazione
+	degli altri, ossia
+	\begin{equation*}
+		u^1_1 \otimes u^2_1 \otimes \cdots \otimes u^d_j = \sum_{j=2}^r \lambda_{j}(u^2_j \otimes
+		\cdots \otimes u^d_j),
+	\end{equation*}
+	dove $ \lambda_{j} \defeq -\frac{\alpha(u^1_j)}{\alpha(u^1_1)} $. Sostituendo quest'espressione
+	nell'equazione originale di $ T $, troviamo che
+	\begin{equation*}
+		\begin{aligned}
+			T & = u^1_1 \otimes \left( \sum_{j=2}^r \lambda_{j}(u^2_j) \otimes \cdots \otimes u^d_j
+			\right) + \sum_{j=2}^r u^1_j \otimes (u^2_j \otimes \cdots \otimes u^d_j)                 \\
+			  & = \sum_{j=2}^r (\lambda_{j}u^1_1 + u^1_j) \otimes u^2_j \otimes \cdots \otimes u^d_j,
+		\end{aligned}
+	\end{equation*}
+	che è una decomposizione di $ T $ di rango $ r - 1 $, che contraddice la minimalità di $ r $, assurdo.
 \end{proof}
 Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato insiemistico
 \begin{lemma}
