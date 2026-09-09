@@ -156,6 +156,11 @@ La Figura~\ref{fig:glpos} mostra un esempio di punti in posizione generale.
 	Il \emph{Kruskal rank} (o $ \emph{$ k $-rango} $) di un insieme $ \s \subset \PP W $ è il massimo $ r $ tale per cui i punti di $ \s $
 	sono in $ r $-posizione generale. Lo indichiamo con $ \krk{\s} $.
 \end{definition}
+\begin{example}
+	Considerato il piano illustrato nella Figura~\ref{fig:glpos} a destra, i punti $ \s = \{q_1,
+		q_2,q_3,q_4\} $ sono sia $ 2
+	$-posizione generale che in $ 3 $-posizione generale, quindi il $ k $-rango dell'insieme $ \s  $ è $ 3 $.
+\end{example}
 \begin{remark}
 	Fissata una base per $ W $ tale per cui i punti di $ \s $ possono essere scritti come colonne di
 	una matrice $ M $ (è ben definito a meno di riscalamento), allora $ \krk{\s} $ è il massimo intero
@@ -180,7 +185,7 @@ Possiamo enunciare il Teorema di Kruskal.
 		\label{eq:kr3}
 		r \le  \frac{1}{2} (\krk{\s_A} + \krk{\s_B} + \krk{\s_C}) - 1,
 	\end{equation}
-	allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+	allora $ T $ ha rango $ r $ e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
 
 \begin{remark}
@@ -202,12 +207,13 @@ Possiamo enunciare il Teorema di Kruskal.
 
 Più in generale vale il seguente teorema:
 \begin{theorem}[\cite{sidiropoulos2000uniqueness}]
-	Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_n $ che ammette una decomposizione $ T=
-		\sum_{i=1}^r u_{1i} \otimes \cdots \otimes u_{ni} $. Sia $ \s_{A_k} = \{[u_{ki}]\}  $. Se
+	Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_d $ che ammette una decomposizione $ T=
+		\sum_{i=1}^r u^1_{i} \otimes \cdots \otimes u^d_{i} $. Sia $ \s_{A_k} = \{[u^k_{i}]\}  $. Se
+	vale
 	\begin{equation}
-		\sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + n - 1,
+		\sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + d - 1,
 	\end{equation}
-	allora $ T $ ha rango $ r $, e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
+	allora $ T $ ha rango $ r $ e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
 
 \begin{remark}
@@ -228,8 +234,45 @@ Più in generale vale il seguente teorema:
 		\bm{a} \le r \le \frac{1}{2}(\bm{a} + \bm{a} + \bm{a}) -1 = \frac{3}{2}\bm{a} - 1
 	\end{equation*}
 \end{proposition}
+Introduciamo un lemma utile nella dimostrazione della proposizione.
+\todo{Nuovo!}
+\begin{lemma}
+	\label{lhm:multilin_unfolding}
+	Nelle ipotesi sopra, se $ T $ ha rango multilineare $ (\bm{a},\bm{a},\bm{a}) $, allora gli insiemi $
+		\{a_1, \ldots, a_{\bm{a}}\} , \{b_1 ,\ldots, b_{\bm{b}}\}, \{c_1, \ldots, c_{\bm{c}}\}   $ dati
+	dai fattori della decomposizione CP sono formati da vettori linearmente indipendenti.
+\end{lemma}
 \begin{proof}
-	\todo{migliorare la scrittura}
+	Mostriamolo per i vettori $ \{a_{1}, \ldots, a_{\bm{a}}\}  $, per gli altri insiemi segue per simmetria.
+	Consideriamo la scrittura di $ T $ in componenti
+	\begin{equation}
+		T_{ijk} = \sum_{l=1}^{\bm{a}} (a_{l})_{i} (b_{l})_{j} (c_{l})_{k}.
+	\end{equation}
+	Per definizione di unfolding troviamo
+	\begin{equation}
+		(\Tm{T}{1})_{i, \L(j,k)} = \sum_{l=1}^{\bm{a}} (a_{l})_{i} (b_{l} \otimes c_{l})_{\L(j,k)}.
+	\end{equation}
+	Dunque $ \Tm{T}{1} = UM^{\top} $ dove
+	\begin{equation*}
+		U =  \left[\begin{array}{c|c|c}
+				a_1 & \dots & a_{\bm{a}}
+			\end{array}\right], \qquad
+		V =  \left[\begin{array}{c|c|c}
+				b_1 & \dots & b_{\bm{b}}
+			\end{array}\right], \qquad
+		W =  \left[\begin{array}{c|c|c}
+				c_1 & \dots & c_{\bm{c}}
+			\end{array}\right],
+	\end{equation*}
+	e $ M = B \krp C $ è una matrice $ \bm{a}^2 \times \bm{a} $\todo{questo va motivato?}.
+	Per definizione di rango multilineare e per una disuguaglianza nota sul rango troviamo
+	\begin{equation*}
+		\bm{a} = \rank(\Tm{T}{1}) = \rank(UM^{\top}) \le \min \{\rank(U), \rank(M)\} \le \rank(U).
+	\end{equation*}
+	Essendo $ U $ di taglia $ \bm{a} \times \bm{a} $, necessariamente $ \rank(U) = \bm{a} $, da cui
+	l'indipendenza lineare.
+\end{proof}
+\begin{proof}[Dimostrazione della Proposizione]
 	Se $ r = \bm{a} $, consideriamo la decomposizione
 	\begin{equation*}
 		T = a_1 \otimes b_1 \otimes c_1 + \cdots a_{a} \otimes b_{a} \otimes c_{a}
@@ -252,10 +295,9 @@ Più in generale vale il seguente teorema:
 				b_1 & \dots & b_{\bm{a}}
 			\end{array}\right].
 	\end{equation*}
-	Osserviamo che $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, quindi le matrici $ U,V $
-	sono invertibili, ma $ D_{j} $ è invertibile solo se $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i = 1
-		, \ldots, \bm{a}$.
-	Fissiamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
+	Osserviamo che se $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, per il Lemma~\ref{lhm:multilin_unfolding} le matrici $ U,V $
+	sono invertibili, in particolare ma $ D_{j} $ è invertibile solo se $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i = 1
+		, \ldots, \bm{a}$. Fissiamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
 	\begin{enumerate}[label=(\roman*)]
 		\item Per ogni $ j \in \{1,2\} $, vale $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i = 1, \ldots, \bm{a}  $, da
 		      cui $ T(\gamma_{j}) $ è invertibile.
@@ -268,9 +310,10 @@ Più in generale vale il seguente teorema:
 	\begin{equation*}
 		H_{i} \defeq c_{i}^\perp =  \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
 	\end{equation*}
-	che forma un iperpiano in $ C^* $ per la formula della dimensione di un annullatore. Siccome $ \K
+	che forma un iperpiano in $ C^* $ (la sua dimensione segue dalla formula della dimensione di un
+	annullatore). Siccome $ \K
 	$ è infinito lo spazio $ C^* $ non è unione finita di
-	sottospazi propri\todo{ref?}, allora esiste un funzionale $ \gamma \in C^* \setminus
+	sottospazi propri\todo{Reference?}, allora esiste un funzionale $ \gamma \in C^* \setminus
 		\bigcup_{i=1}^{\bm{a}} H_{i}$ non banale. Per
 	questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
 	Allora la matrice $ D_{j} $ è invertibile, da cui anche $ T(\gamma_{j}) $ lo è, per ogni $ j \in \{1,2\} $.
@@ -319,16 +362,18 @@ importanza nella dimostrazione del Teorema di Kruskal.
 		\#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
 \begin{remark}
-	\todo{ha senso rifrasare la versione originale in forma di enunciato?}
 	Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
-	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale, ovvero che per ogni $ x
-		\in \R^{\bm{w}}$ tale $ \nnz(\tilde{M}^{\top}x)<  r - \rank(\tilde{M}) + 1$ hanno la proprietà che
+	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale (indichiamo con $
+		\nnz(\cdot ) $ la funzione che restituisce il numero di elementi non zero di un vettore). Ossia,
+	per ogni vettore $ x
+		\in \R^{\bm{w}}$ tale che $ \nnz(\tilde{M}^{\top}x)<  r -
+		\rank(\tilde{M}) + 1$ allora vale che
 	$ \nnz(\tilde{M}x)\ge \nnz(M^{\top}x) $. Per vedere questa corrispondenza, bisogna pensare al
-	vettore $ x $ come un punto in $ W^* $ che dà un'equazione di $ H $, e gli elementi nulli del
+	vettore $ x $ come un punto in $ W^* $ che dà un'equazione di $ H $. Gli elementi nulli del
 	vettore $ \tilde{M}^{\top} $ corrispondono alle colonne che fanno zero quando accopiate con $ x $,
-	cioè che soddisfano a un'equazione di $ H $, ovvero a punti contenuti in $ H $.
+	cioè che soddisfano un'equazione di $ H $; in altre parole sono punti dell'iperpiano $ H $.
 	Inoltre, l'ipotesi $ \angb{S} = W $, che motiveremo meglio a breve, implica che $ \rank(\tilde{M})
-		= \bm{w}$\todo{perché serve nella proof originale?}.
+		= \bm{w}$.
 \end{remark}
 
 
@@ -340,8 +385,7 @@ importanza nella dimostrazione del Teorema di Kruskal.
 \end{definition}
 \begin{remark}
 	In altre parole $ T $ è concise se non è contenuto in nessun sottospazio proprio $ A_1' \otimes
-		A_2' \otimes \cdots \otimes A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.\todo{teniamo questa
-		come definizione?}
+		A_2' \otimes \cdots \otimes A_n' \subset A_1 \otimes A_2 \otimes \cdots \otimes A_n $.
 	Possiamo pensare a i tensori concise come tensori che usano tutte le dimensioni degli spazi
 	$ A_i $.
 \end{remark}
