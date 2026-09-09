@@ -220,7 +220,7 @@ Più in generale vale il seguente teorema:
 \end{remark}
 
 \begin{proposition}[Landsberg~\cite{landsberg2011tensors}, \S 12.5]
-	Dati degli spazi vettoriali $ A,B,C $ tali che $ \bm{a} = \bm{b} = \bm{c} $ e un tensore $ T \in A \otimes B \otimes C$ di rango
+	Dati degli spazi vettoriali $ A,B,C $ di dimensioni $ \bm{a} = \bm{b} = \bm{c} $ e un tensore $ T \in A \otimes B \otimes C$ di rango
 	multilineare $ (\bm{a},\bm{a},\bm{a}) $. Se $ T $ ha rango $ \bm{a} $, allora la fattorizzazione è unica.
 	In particolare, quando $ \krk{\s_A} = \krk{\s_B} = \krk{\s_C} = \bm{a} $, la condizione di unicità del teorema di Kruskal si
 	estende a
@@ -235,7 +235,7 @@ Più in generale vale il seguente teorema:
 		T = a_1 \otimes b_1 \otimes c_1 + \cdots a_{a} \otimes b_{a} \otimes c_{a}
 	\end{equation*}
 
-	Contraiamo $ T $ lungo la terza componente, cioè per ogni funzionale $ \gamma_{j} \in C^* $
+	Per ogni funzionale $ \gamma_{j} \in C^* $, consideriamo la valutazione
 	\begin{equation*}
 		\begin{aligned}
 			T(\gamma_{j}) = \sum_{i = 1}^{\bm{a}} \gamma_{j}(c_{i})a_{i} \otimes b_{i}
@@ -252,25 +252,28 @@ Più in generale vale il seguente teorema:
 				b_1 & \dots & b_{\bm{a}}
 			\end{array}\right].
 	\end{equation*}
-	Consideriamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
+	Osserviamo che $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, quindi le matrici $ U,V $
+	sono invertibili, ma $ D_{j} $ è invertibile solo se $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i = 1
+		, \ldots, \bm{a}$.
+	Fissiamo due funzionali $ \gamma_1,\gamma_2 \in C^* $ tali che
 	\begin{enumerate}[label=(\roman*)]
-		\item Per ogni $ j \in \{1,2\} $, $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i \in \{1, \ldots, \bm{a}\}   $, da
+		\item Per ogni $ j \in \{1,2\} $, vale $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i = 1, \ldots, \bm{a}  $, da
 		      cui $ T(\gamma_{j}) $ è invertibile.
 		\item I rapporti $ \lambda_{i} = \frac{\gamma_1(c_{i})}{\gamma_2(c_{i})}$ sono a due a due
 		      distinti.
 	\end{enumerate}
-	La (i) segue perché, fissato $ \gamma = \gamma_{j} $, siccome $ \{c_1, \ldots, c_{\bm{a}}\}  $ è una base per $ C $, nessuno dei vettori $
+	Per comodità fissiamo $ \gamma = \gamma_{j} $, e mostriamo la (i). Siccome $ \{c_1, \ldots, c_{\bm{a}}\}  $ è una base per $ C $, nessuno dei vettori $
 		c_{i} $ è nullo. Per ogni $ c_{i} $, consideriamo l'insieme dei funzionali che si annullano con $
-		c_{i} $:
+		c_{i} $
 	\begin{equation*}
-		H_{i} = \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
+		H_{i} \defeq c_{i}^\perp =  \{\gamma \in C^* \mid \gamma(c_{i}) = 0\},
 	\end{equation*}
-	che forma un iperpiano in $ C^* $. Siccome su un campo infinito, lo spazio $ C^* $ non è unione finita di
-	sottospazi propri, possiamo trovare un funzionale $ \gamma \in C^* \setminus
+	che forma un iperpiano in $ C^* $ per la formula della dimensione di un annullatore. Siccome $ \K
+	$ è infinito lo spazio $ C^* $ non è unione finita di
+	sottospazi propri\todo{ref?}, allora esiste un funzionale $ \gamma \in C^* \setminus
 		\bigcup_{i=1}^{\bm{a}} H_{i}$ non banale. Per
 	questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
-	Siccome $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, allora le matrici $ U,D_{j},V $
-	sono invertibili, in particolare, anche $ T(\gamma_{j}) $ è invertibile, per ogni $ j \in \{1,2\} $.
+	Allora la matrice $ D_{j} $ è invertibile, da cui anche $ T(\gamma_{j}) $ lo è, per ogni $ j \in \{1,2\} $.
 	Da cui,
 	\begin{equation*}
 		\begin{aligned}
@@ -280,24 +283,29 @@ Più in generale vale il seguente teorema:
 		\end{aligned}
 	\end{equation*}
 	in altre parole, $ T(\gamma_1)T(\gamma_2)^{-1} $ è diagonalizzabile, con autovettori, dati dalla
-	matrice $ U $, univocamente determinati a meno di permutazione e riscalamento. Inoltre, i
-	rapporti $ \frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} $ sono distinti: se fosse $
+	matrice $ U $, univocamente determinati a meno di permutazione e riscalamento.
+
+	A questo punto possiamo mostrare la (ii), ovvero vediamo che i
+	rapporti $ \frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} $ sono distinti. Se per assurdo $
 		\frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} = \frac{\gamma_1(c_{k})}{\gamma_{2}(c_{k})} $ per certi $
 		i,k \in \{1, \ldots, \bm{a}\}  $, si avrebbe che
 	\begin{equation*}
 		\gamma_1(c_i) \gamma_2(c_{k}) = \gamma_1(c_{k}) \gamma_2(c_{i}).
 	\end{equation*}
-	Sfruttando la linearità di $ \gamma_1 $, troviamo
+	Sfruttando la linearità di $ \gamma_1 $, troveremmo
 	\begin{equation*}
 		\gamma_1 \left( c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \right) = 0.
 	\end{equation*}
 	Siccome $ \gamma_1 $ e $ \gamma_2 $ non si annullano sui vettori $ c_{i} $ e $ c_{k} $, allora $
 		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \not\in \gamma_{1}^\perp $, quindi necessariamente $
-		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, ma essendo $ c_{i} $ e $ c_{k} $ linearmente
-	indipendenti, le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, assurdo.
+		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, in quanto l'unico elemento fuori da $
+		\gamma_1^\perp $ che viene mandato in zero da $ \gamma_1 $ è il vettore nullo. Ma essendo $ c_{i} $ e $ c_{k} $ linearmente
+	indipendenti, le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, che contraddirrebbe
+	la (i).
 
 	Ripetendo questo
-	ragionamento contraendo su $ A $ e poi su $ B $ otteniamo l'unicità.
+	ragionamento su $ A $ e poi su $ B $ otteniamo l'unicità della fattorizzazione. Osserviamo che la stima
+	dell'enunciato segue direttamente dal Teorema di Kruskal.
 \end{proof}
 
 
@@ -341,7 +349,7 @@ importanza nella dimostrazione del Teorema di Kruskal.
 \begin{remark}
 	Tale proprietà giocherà un ruolo chiave nella dimostrazione del Teorema di Kruskal, dove
 	supporremo che $ \angb{\s_{A_{k}}} = A_{k} $; a questo scopo abbiamo indebolito il permutation lemma
-	con l'ipotesi $ \angb{S} = W $. La prossima proposizione afferma che tale
+	con l'ipotesi $ \angb{S} = W $ (che non era presente nell'enunciato di Kruskal). La prossima proposizione afferma che tale
 	restrizione è ben posta, ed esclude casi banali dalla dimostrazione del teorema di Kruskal.
 \end{remark}
 
@@ -542,7 +550,8 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 		\#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S,
 	\end{equation*}
 	sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
-		\cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Sia $ h \in \hat{H}^\perp $ non nullo. Valutando in $ h $ abbiamo
+		\cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Fissiamo un funzionale $ h \in \hat{H}^\perp $
+	non nullo, e consideriamo la valutazione di $ T $ in $ h $,
 	\begin{equation*}
 		T(h) = \sum_{\sigma=1}^S u_\sigma \otimes v_\sigma  h(w_\sigma) \in A \otimes B \simeq \R^{\bm{a} \times \bm{b}},
 	\end{equation*}
@@ -551,13 +560,13 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\begin{equation*}
 		\#(\tilde{\s}_C \not\subset H) \ge \rank(T(h)).
 	\end{equation*}
-	Rappresentando $ T(h) \in A \times B $ in $ \R^{\bm{a}\times \bm{b}} $ tramite il passaggio alle
+	Rappresentando $ T(h) $ in $ \K^{\bm{a}\times \bm{b}} $ tramite il passaggio alle
 	coordinate, troviamo
 	\begin{equation*}
 		T(h) = U_{S}DV^{*}_{S},
 	\end{equation*}
-	dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \R^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
-			| \cdots | v_{S}  \right] \in \R^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
+	dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \K^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
+			| \cdots | v_{S}  \right] \in \K^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
 	di taglia $ S\times S $ ed
 	invertibile. Per la disuguaglianza di Sylvester~\cite[Pag. 12]{horn2012matrix}
 	\begin{equation*}
@@ -589,7 +598,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 			                               & \le \krk{\s_A} + \krk{\s_B} - r - 1.
 		\end{aligned}
 	\end{equation}
-	Mettendo insieme le stime trovate nell'Equazione~\eqref{eq:krk_s_c_down} e~\eqref{eq:krk_s_c_up}, troviamo
+	A questo punto possiamo combinare le limitazioni trovate nell'Equazione~\eqref{eq:krk_s_c_down} e~\eqref{eq:krk_s_c_up},
 	\begin{equation}
 		\krk{\s_A} + \krk{\s_B} - r - 1 \ge \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  +
 		\min \{S, \krk{\s_B}\} - S.
@@ -598,7 +607,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\begin{equation*}
 		\krk{\s_A} + \krk{\s_B} - r -1 \gneq \krk{\s_A} + \krk{\s_B} - S
 	\end{equation*}
-	ovvero $  -r - 1 \gneq -S $ cioé $  r + 1 \lneq S $, assurdo. Quindi $ S \le \min \{\krk{\s_A},
+	ovvero $  -r - 1 \gneq -S $ cioé $  r + 1 \lneq S $, il che è assurdo. Quindi $ S \le \min \{\krk{\s_A},
 		\krk{\s_B}\}  $, e dal
 	permutation lemma segue l'uguaglianza $ \s_C = \tilde{\s}_C $.
 

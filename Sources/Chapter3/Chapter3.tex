@@ -99,8 +99,9 @@ Ricordando che $ U^* \otimes V^* \otimes W $ è l'insieme delle forme trilineari
 \section{Decomposizione low-rank di forme bilineari}
 
 In \S~\ref{sec:cp_factorization} abbiamo osservato che le fattorizzazioni low-rank riducono il costo
-in memoria. Aggiungiamo che questa rappresentazione è anche vantaggiosa per ridurre il
-calcolo delle operazioni aritmetiche. Nel caso delle matrici, se $ M \in \R^{m\times n} $ ha rango uno, possiamo scrivere $ M = u \otimes v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; valutare $ Mx =
+in memoria. Aggiungiamo che questa rappresentazione low rank è anche vantaggiosa per ridurre il
+calcolo delle operazioni aritmetiche. Per una matrice $ M \in \R^{m\times n} $ di rango uno,
+possiamo scrivere $ M = u \otimes v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; la valutazione $ Mx =
 	(uv^{\top})x = u(v^{\top}x) $ ha costo $ O(n) $, contro il costo $ O(mn) $ del prodotto classico
 matrice vettore. In generale, se $ M $ ha rango $ R $, possiamo scriverla come somma di $ R $
 matrici di rango uno e per linearità
@@ -115,7 +116,6 @@ multiplications, in quanto saranno legate alla misura di complessità $ L(\varph
 trovando fattorizzazioni di rango più basso di $ T $.
 
 
-\todo{lasciamo in inglese o meglio tradurre?}
 \begin{definition}[Bilinear algorithm]
 	Sia $ \varphi : U \times V \to  W $ una mappa bilineare tra $ \K $-spazi vettoriali. Per ogni $ i
 		\in \{1, \dots, r\} $, siano $ f_{i} \in U^*, g_{i} \in V^*, w_{i} \in W$ tali che
@@ -123,12 +123,9 @@ trovando fattorizzazioni di rango più basso di $ T $.
 		\varphi(u,v) = \sum_{i=1}^r f_{i}(u)g_{i}(v)w_{i},
 	\end{equation*}
 	per ogni $ u \in U, v \in V$. Allora la $ r $-upla $ (f_1,g_1,w_1; \ldots ; f_r, g_r,w_r) $ viene
-	detta \emph{bilinear computation (algorithm) di lunghezza $ r $ per $ \varphi $}, e la lunghezza
+	detta \emph{bilinear computation (algorithm) di lunghezza $ r $ per $ \varphi $}. La lunghezza
 	di più breve algoritmo di calcolo per $ \varphi $ è chiamata \emph{bilinear complexity} o rango
 	di $ \varphi $, che indichiamo ancora con $ \rk(\varphi) $.
-
-	\todo{si può definire direttamente come bilinear algorithm la scrittura sopra invece che
-		la $ r $-upla? (nel testo non la uso mai come $ r $-upla)}
 \end{definition}
 
 
@@ -217,12 +214,11 @@ bilinear computation
 \begin{equation}
 	\label{eq:mulvec:CP}
 	\Vec(C^\top) =  \sum_{l=1}^r (u_l^\top \Vec(A)) \cdot
-	(v_l^\top\Vec(B))w_l = \sum_{l=1}^r (s_l \cdot
-	t_l)w_l = \sum_{l=1}^r m_lw_l,
+	(v_l^\top\Vec(B))w_l = \sum_{l=1}^r (f_l \cdot
+	g_l)w_l = \sum_{l=1}^r m_lw_l,
 \end{equation}
-\todo{ha senso usare $ f_{l} $ e $ t_{l} $ invece che $ s_{l} $ e $ t_{l} $?}
-Dove abbiamo posto $ s_l \defeq  s_{l}(A) \defeq  u_l^\top \Vec(A)$, $ t_l \defeq t_{l}(B) \defeq v_l^\top\Vec(B)$ e $ m_l \defeq
-	s_lt_l $.
+Dove abbiamo posto $ f_l \defeq  f_{l}(A) \defeq  u_l^\top \Vec(A)$, $ g_l \defeq g_{l}(B) \defeq v_l^\top\Vec(B)$ e $ m_l \defeq
+	f_lg_l $.
 
 Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{m,n,p} $; spesso nella pratica $ m,n,p $ sono piu piccoli delle matrici da moltiplicare; in questo caso è possibile dividerle a blocchi e applicare
 l'algoritmo in maniera ricorsiva. Nella prossima sezione giustificheremo meglio questa procedura.
@@ -234,9 +230,10 @@ l'algoritmo in maniera ricorsiva. Nella prossima sezione giustificheremo meglio 
 
 \section{L'esponente della moltiplicazione tra matrici}
 
-In questo capitolo useremo il seguente modello computazionale per il calcolo della complessità, per
-calcolare costi computazionali anche su campi infiniti, e semplificare il calcolo dei costi eliminando
-branching (e.g. \texttt{if-then-else} o \texttt{while}).
+In questo capitolo useremo il seguente modello computazionale con lo scopo di calcolare la
+complessità di valutare una forma bilineare, che semplifica il calcolo dei costi eliminando le condizioni di
+branching (e.g. \texttt{if-then-else} o \texttt{while}) e consentendo l'input da un
+alfabeto infinito di simboli (come un campo $ \K \in \{\R,\C\}  $).
 \begin{definition}[Circuito aritmetico]
 	Un \emph{circuito aritmetico} $ \Gamma $ su $ \K $ è un grafo diretto, aciclico, finito con
 	vertici di grado entrante $ 0 $ o $ 2 $ ed esattamente un vertice di grado uscente $ 0 $. I vertici di grado
@@ -248,7 +245,7 @@ branching (e.g. \texttt{if-then-else} o \texttt{while}).
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth, keepaspectratio]{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
+	\includegraphics[width=0.4\textwidth, keepaspectratio]{Sources/Chapter3/figures/algebraic_circuit_example.pdf}
 	\caption{Esempio di circuito aritmetico per il polinomio $\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$.}
 	\label{fig:algebraic_circuit_example}
 \end{figure}
@@ -312,11 +309,18 @@ disponibili. Invece, il problema di approssimare la crescita asintotica della fu
 	\end{equation*}
 	In altre parole, $ \omega_{\K} = \inf_{n \in \N} \{\tau \in \R \mid M_{\K}(n) = o(n^\tau)\}  $.
 \end{definition}
-
+\begin{remark}
+	L'esponente $ \omega_{\K} $ rappresenta l'esponente ottimo globale per moltiplicare due matrici.
+	Osserviamo che non dipende dalla taglia $ n $.
+\end{remark}
 \begin{remark}
 	La notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Dato che tratteremo solo $ \K \in \{\R, \C\}  $, spesso
 	scriveremo $ \omega $ per $ \omega_{\K} $.
 \end{remark}
+\begin{example}
+	Per le matrici $ 2\times 2 $, vale $ 4 \le M_{\K}(2) \le 2^2(4 - 1) = 12 $. Osserveremo che trovare un algoritmo
+	che riduce $ M_{\K}(2) $ migliora anche l'esponente.
+\end{example}
 
 \begin{theorem}[Schönhage~\cite{sch81}]
 	L'esponente della moltiplicazione tra matrici è invariante rispetto alle estensioni scalari: se $
@@ -363,9 +367,7 @@ Tuttavia, l'avvento dell'Intelligenza Artificiale sta dando un nuovo impulso a q
 AlphaTensor~\cite{fawzi2022discovering}); di recente (agosto 2026) l'utilizzo di strumenti di IA
 come AlphaEvolve ha stabilito il nuovo record di $ \omega \le 2.371177 $~\cite{alman2026}.
 Sottolineiamo che da un punto di vista pratico, non è detto che le stime ottimali si traducano in algoritmi più veloci
-o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presenteremo, risulta migliore
-di algoritmi con esponente più basso in molte
-situazioni~\cite{dalberto2023strassensmatrixmultiplicationalgorithm, DBLP:journals/corr/BensonB14}.
+o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presenteremo, in molti casi compete con algoritmi con esponente più basso~\cite{dalberto2023strassensmatrixmultiplicationalgorithm, DBLP:journals/corr/BensonB14}.
 
 \begin{figure}[ht]
 	\centering
@@ -379,15 +381,14 @@ situazioni~\cite{dalberto2023strassensmatrixmultiplicationalgorithm, DBLP:journa
 
 \subsection*{Stimare la complessità nel caso generale}
 
-Precedentemente abbiamo introdotto gli algoritmi di moltiplicazione dal caso base e.g. $ \algob{n}
-$, senza giustificare come cambia la complessità quando l'algoritmo viene eseguito ricorsivamente.
+Precedentemente abbiamo introdotto gli algoritmi di moltiplicazione dal caso base (indicandolo con $ \algob{n}
+$) senza giustificare come cambia la complessità quando l'algoritmo viene eseguito ricorsivamente.
 Date due matrici $ n^i \times n^i $, possiamo vedere la loro moltiplicazione come il prodotto di matrici $ n\times n $ sull'algebra delle matrici $ n^{i-1}\times
 	n^{i-1} $, suddividendole in blocchi. Questo dice anche che, se $
 	\rk(\algob{n}) \le r $, allora $ \rk(\algob{n^i}) \le
 	r^i$; infatti, combinando le prossime Proposizioni~\ref{prop:bil_map_product}
 e~\ref{prop:rk_bil_map_product}, e usando che il rango è invariante per isomorfismo,
-troviamo\todo{spiegare cosa significa fare $ \angb{n}^{\otimes i} $. C'è ambiguità, non è chiaro se
-	sia un prodotto di Kroneker o prodotto tensoriale (forse vanno bene entrambi)}
+troviamo
 \begin{equation*}
 	\rk(\algob{n^i}) = \rk(\algob{n}^{\otimes i}) \le \rk(\algob{n})^i \le r^i,
 \end{equation*}
@@ -398,7 +399,7 @@ dove
 \end{equation*}
 In altre parole, possiamo applicare ricorsivamente l'algoritmo di moltiplicazione veloce, che è disegnato per
 matrici $ n\times n $, per ottenere la moltiplicazione di matrici $ n^i \times n^i $ impiegando solo
-$ r^i $ moltiplicazioni (senza dover fattorizzare il tensore di $ \algob{n^i} $, che sarebbe del
+$ r^i $ moltiplicazioni. In questo modo possiamo evitare dover fattorizzare il tensore di $ \algob{n^i} $, che sarebbe del
 modesto formato $ (n^i)^2 \times (n^i)^2 \times (n^i)^2 $).
 
 Se invece $ n > n_0 $ sono due interi positivi (nei passaggi può essere utile pensare al caso $ n_0 = 2 $) dato un algoritmo con un caso base fissato $
@@ -421,19 +422,17 @@ da $ r $, in quanto
 	\end{aligned}
 \end{equation*}
 Riassumendo, $ \rk(\algob{n,n,n}) \le r \cdot n^{\log_{n_0} r} $. Dunque ignorando la costante e
-applicando l'Equazione~\eqref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $. Questa stima
-si rivelerà utile per calcolare la complessità degli algoritmi veloci, evitando di passare per il Master Theorem~\cite{cormen2022introduction}.
-Abbiamo
-dimostrato la seguente:
+applicando l'Equazione~\eqref{eq:omega_as_rank}, segue che $ \omega \le \log_{n_0} r $.
+Abbiamo dimostrato la seguente:
 \begin{proposition}
 	\label{prop:omega_rk_estimate}
 	Se $ \rk(\algob{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
 \end{proposition}
-Questo risultato tornerà utile per calcolare l'esponente quando scopriremo una nuova fattorizzazione
-tensoriale di un algoritmo, in quanto $ \omega \le \log_{n} r $.
-\todo{da quello che ho capito quindi potremmo usare questa proposizione invece che il master theorem
-	per calcolare la complessità?}
-
+\begin{remark}
+	Questo risultato tornerà utile per stimare l'esponente a partire dal tensore strutturale di un
+	algoritmo di moltiplicazione veloce (un modo alternativo per stimarlo è applicare il Master
+	Theorem~\cite{cormen2022introduction}).
+\end{remark}
 Nei passaggi sopra abbiamo anche osservato che se $ n \le n' $ e dato un algoritmo per $ n' $, possiamo ottenerne uno per $ n $
 allargando la matrice. Possiamo racchiudere questa proprietà nel seguente risultato:
 \begin{proposition}[Monotonia del rango di un algoritmo]
@@ -455,7 +454,6 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 	\end{equation*}
 	cioè le due forme bilineari sono isomorfe.
 \end{proposition}
-\todo{warning! Potrebbe essere il kroneker product di mappe bilineari}
 \begin{proposition}
 	\label{prop:rk_bil_map_product}
 	Siano $ \varphi_1,\varphi_2 $ due mappe bilineari. Allora $ \rk(\varphi_1 \otimes \varphi_{2}) \le
@@ -492,10 +490,11 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 \subsection*{Il teorema di Strassen}
 Dato un algoritmo con $ r $ moltiplicazioni, abbiamo mostrato che è possibile costruire la sua bilinear computation (e
 rappresentarla con il suo circuito aritmetico) e poi dedurre che il rango del tensore è $ r $.
-Esiste anche il problema inverso: quali interi positivi $ r $ realizzano un
-algoritmo con $ r $ moltiplicazioni? La prossima proposizione risponde a questa domanda.
+Ci siamo poi chiesti, con la Proposizione~\ref{prop:omega_rk_estimate}, se una volta trovato un tensore di rango $ r $ allora la complessità è limitata
+da $ r $. A questo punto è lecito chiedersi se considero l'insieme di tutti gli algoritmi di
+moltiplicazione esistenti, trovo una stima ottimale su $ \omega $?
+\todo{non mi soddisfa!}
 
-\todo{può andare bene qui questa figura o la mettiamo dopo?}
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.6\textwidth, keepaspectratio]{Sources/Chapter3/figures/circuit.pdf}
@@ -527,7 +526,8 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	\end{enumerate}
 \end{definition}
 \begin{remark}
-	\todo{osservare che combacia con la def data per i tensori}
+	Vedendo $ \varphi $ come un elemento di $ U^* \otimes V^* \otimes W $ è possibile legare questa
+	definizione alla Definizione~\ref{def:concise_tensor} per i tensori concise.
 \end{remark}
 \begin{example}
 	La mappa bilineare $ \algob{n} $ è concise.
@@ -650,21 +650,19 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		\label{eq:Mn_as_O_ri}
 		M(n^i) = O(r^i).
 	\end{equation}
-	\todo{non chiaro se anche l'equazione sopra garantisca monotonia}
-	\todo{capire se questo passaggio è corretto}
 	Dalla proposizione~\ref{prop:rk_monotony} segue che $M$ è una successione monotona, per
 	ogni $ h \in \N \setminus \{0\}  $,
-	\begin{equation*}
+	\begin{equation}
+		\label{eq:chain_strassen_theorem}
 		M(h) \le M(n^{\left\lceil \log_{n} h \right\rceil }) = O(r^{\log_{n}h}) = O(h^{\log_{n}r}) = O(h^{\theta + \varepsilon}),
-	\end{equation*}
+	\end{equation}
 	dove la prima uguaglianza segue dall'Equazione~\ref{prop:rk_monotony}, la seconda da una proprietà del logaritmo, e la terza
 	applicando la stima dell'Equazione~\eqref{eq:r_estimate}.
-	Quindi passando all'inf, $ \omega_{\K} \le \theta $, che completa la dimostrazione.
+	Passando all'inf troviamo $ \omega_{\K} \le \theta $, che completa la dimostrazione.
 \end{proof}
 
 \begin{remark}
-	Riassumendo, il teorema sopra mette in corrispondenza $ \rk(\algob{n}) $, ovvero il rango del
-	tensore che rappresenta $ \algob{n} $ e numero di active multiplications, con l'esponente
+	Riassumendo, il teorema sopra mette in corrispondenza $ \rk(\algob{n}) $ (e quindi il numero di active multiplications) con l'esponente
 	asintotico ottimale. Possiamo quindi scrivere
 	\begin{equation}
 		\label{eq:omega_as_rank}
@@ -682,7 +680,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	tensore $ \algob{m,n,p} $ e scrivendo, attraverso una serie di permutazioni cicliche, la fattorizzazione di $ \algob{mnp} $ di rango $ r^3 $, che produce un algoritmo di complessità $ O(n^{\log_{abc}r^3}) =
 		O(n^{3\log_{abc}r})$. Questo si può vedere tramite la scrittura della moltiplicazione tra matrici
 	come forma trilineare dell'Osservazione~\ref{rmk:triliear_matmul}, che ci permette di dire che il tensore è
-	invariante per trasformazioni cicliche, in quanto
+	invariante per trasformazioni cicliche,
 	\begin{equation}
 		\mathop{trace}(ABC) = \mathop{trace}(CAB) = \mathop{trace}(BAC).
 	\end{equation}
@@ -746,9 +744,9 @@ addizioni:
 
 Proviamo a scriverlo in forma tensoriale. La sua bilinear computation è
 \begin{equation*}
-	C = \sum_{i=1}^8 m_{i}w_{i},
+	C = \sum_{i=1}^8 m_{i}w_{i}.
 \end{equation*}
-a noi resta solo da assegnare i termini $ w_{i} $, che in questo caso saranno matrici. Fissiamo la
+Resta solo da assegnare i termini $ w_{i} $, che in questo caso saranno matrici. Fissiamo la
 base standard $ \{E_{11}, E_{12}, E_{21}, E_{22}\}  $ dello spazio delle matrici $ 2\times 2 $. Scriviamo
 
 \begin{equation*}
@@ -779,20 +777,19 @@ matrici $ w_{r} $ con gli elementi $ c_{ij} $.\todo{può andare bene scritto cos
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{Sources/Chapter3/figures/tensor_222_cp.pdf}
-	\caption{Decomposizione CP del tensore di moltiplicazione di matrici $ \algob{2} $ come somma di 8 tensori di rango uno.}
+	\caption{Decomposizione CP di rango $ 8 $ del tensore di moltiplicazione di matrici $ \algob{2} $.}
 	\label{fig:tensor_222_cp}
 \end{figure}
 
 
-\todo{non mi convince molto}
-Osserviamo che questo caso base dà luogo a un algoritmo ricorsivo per $ n > 2 $. Ripercorrendo il
-ragionamento dell'Equazione~\todo{mst} del Teorema di Strassen, troviamo che $ M(n) = O(n^{\log_{2}
+Osserviamo che questo caso base dà luogo a un algoritmo ricorsivo per $ n > 2 $. Constestualizzando
+l'Equazione~\eqref{eq:chain_strassen_theorem} del Teorema di Strassen, troviamo che $ M(n) \le O(n^{\log_{2}
 			8}) = O(n^3)$.
 
 Nel 1969 Strassen \footnote{in una comunicazione riportata da Landsberg in~\cite{landsberg2011tensors}.}
 tentò di mostrare che non esistesse un algoritmo più veloce di quello classico. Tramite una serie di
-riduzioni manuali riuscì a mostrare l'ottimalità su $ \Z/2\Z $, ma per $ \R $ o $ \C $ il suo progetto si rivelò un
-fallimento spettacolare.
+riduzioni manuali riuscì a mostrare l'ottimalità su $ \Z/2\Z $, ma per $ \R $ o $ \C $ la tesi si
+rivelò essere falsa.
 
 \subsection*{L'algoritmo di Strassen}
 
@@ -857,7 +854,7 @@ riscrivere in forma tensoriale come
 Espandendo i prodotto tensoriali e facendo opportune semplificazioni, possiamo ritrovare il tensore
 dell'algoritmo classico riportato nell'Equazione~\eqref{eq:tensor_222}.
 \begin{remark}[Costo computazionale]
-	Similmente a quanto svolto sopra, troviamo che $ M(n) = O(n^{\log_{2}
+	Similmente a quanto svolto sopra, troviamo che $ M(n) \le  O(n^{\log_{2}
 				7}) = O(n^{2.81})$. Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
 		\le \log_2 7 < 2.81$.
 \end{remark}
@@ -876,7 +873,7 @@ matrici $ 2\times 2 $ con meno di sette moltiplicazioni.
 Nei casi diversi da $ \algob{2} $ il problema si complica, e attualmente abbiamo alcune stime più lasche: già
 per matrici $ 3\times 3 $, sappiamo solo che $ 19 \le \rk(\algob{3}) \le 23 $~\cite{BLASER200343,
 	bams/1183537626}; questo caso è ritenuto molto curioso perché esiste un'espressione nota per il
-tensore, ma è difficile dimostrarne il rango. Mentre la migliore stima astintotica dal basso per il caso di matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
+tensore, ma è difficile calcolarne il rango. In dimensione più alta la migliore stima dal basso per matrici $ n\times n $ è $ \frac{5}{2}n^2 - 3n \le
 	\rk(\algob{n}) $~\cite{blaser2001}. Si veda~\cite[Capitolo 11]{landsberg2011tensors} per una
 discussione più ampia.
 
@@ -912,7 +909,7 @@ Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazio
 \end{equation*}
 
 Che è somma di sei tensori elementari distinti, quindi $ \rk{\algob{2}^{\text{red}}} \le 6 $.
-Bini et. al. provarono a cercare un'espressione di rango cinque per $ \algob{2}^{\text{red}} $
+Gli autori provarono a cercare un'espressione di rango cinque per $ \algob{2}^{\text{red}} $
 numericamente, calcolando
 \begin{equation*}
 	\min_{\substack{T \in \R^{n\times n\times n} \\ \rk(T) = 5}}{\| \algob{2}^{\text{red}} - T\| }
@@ -920,7 +917,7 @@ numericamente, calcolando
 norma di $ \algob{2}^{\text{red}} $. Il loro computer continuava a produrre tensori $ T $ di rango cinque
 con la norma della differenza che diventava sempre più piccola, ma con coefficienti sempre più
 grandi. Questo è andato avanti per un po' di tempo, fino a che realizzarono che il codice era
-giusto, ma quello che sembrava un problema era in realtà una manifestazione del border rank.
+giusto, ma quello che sembrava un errore era in realtà una manifestazione del border rank.
 L'espressione del tensore che stavano cercando era il seguente tensore di rango $ 5 $:
 \begin{equation*}
 	\begin{aligned}
@@ -993,7 +990,6 @@ il rango con il border rank nel Teorema~\ref{thm:strassen}:
 	\end{equation*}
 \end{theorem}
 Possiamo inoltre generalizzare la Proposizione~\ref{prop:omega_rk_estimate}.
-\todo{l'ho trovato anche in forma $ \brk{\algob{n}} \ge n^{\omega} $ per ogni intero positivo $ n $}
 \begin{proposition}
 	Se $ \brk(\algob{n}) \le r$ per degli interi positivi $ n,r $, allora $ n^\omega \le r $.
 \end{proposition}
@@ -1036,7 +1032,7 @@ indipendente dalle matrici di input, e $ \|A\|\|B\| $ è indipendente dall'algor
 
 Per analizzare il comportamento dell'errore algoritmico abbiamo confrontato
 l'algoritmo $\angb{2,2,2}^{\text{red}}$ con l'algoritmo di Strassen e con la routine di
-moltiplicazione standard fornita da Intel MKL DGEMM (Math Kernel Library, Double-precision General
+moltiplicazione standard fornita da Intel MKL DGEMM~\cite{intel_mkl} (Math Kernel Library, Double-precision General
 Matrix Multiply). Gli esperimenti sono stati condotti per dimensioni delle matrici $N = 2^1, \ldots,
 	2^{13} = 8192$ e livelli di ricorsione $L \in \{1, 2, 3\}$. I risultati sono riportati in Figura~\ref{fig:bini_error_speed_comparison}.
 
@@ -1063,6 +1059,7 @@ Matrix Multiply). Gli esperimenti sono stati condotti per dimensioni delle matri
 
 Come mostrato in Figura~\ref{fig:bini_speed} l'algoritmo $\angb{2,2,2}^{\text{red}}$ raggiunge
 prestazioni elevate grazie all'impiego di sole $ 5 $ moltiplicazioni. Tuttavia, come evidenziato in
-Figura~\ref{fig:bini_error}, l'accumulo degli errori di arrotondamento, dovuti al parametro
-$\varepsilon$, porta ad una crescita dell'errore relativo all'aumentare della profondità di
+Figura~\ref{fig:bini_error}, l'accumulo degli errori di arrotondamento nel calcolo di $ \hat{C} $, dovuti al parametro
+$\varepsilon$, porta ad una crescita dell'errore relativo $ \frac{\| \hat{C} - C\|_{F}}{\| C
+		\|_{F}}$, dove $ C $ è il risultato dell'algoritmo di moltiplicazione standard, all'aumentare della profondità di
 ricorsione ($L = 2, 3$).

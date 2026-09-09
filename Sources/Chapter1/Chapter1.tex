@@ -16,7 +16,8 @@ $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v
 dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U $ come $ U^\perp =
 	\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
 Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
-gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $.
+gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $. Dato un intero positivo $ n $,
+indichiamo con $ \underline{n} \defeq \{1, 2, \ldots, n\}  $.
 
 
 \begin{definition}[Mappe trilineari]
@@ -41,9 +42,9 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 
 \begin{remark}[Spazio standard]
 	Sfruttando l'identificazione canonica $ \K^m \otimes \K^n \simeq \K^{m \times n} $ (o più in
-	generale $ \K^{n_1}\otimes \K^{n_2} \otimes \cdots \otimes \K^{n_{d}} \simeq \R^{n_1 \times n_2 \times
+	generale $ \K^{n_1}\otimes \K^{n_2} \otimes \cdots \otimes \K^{n_{d}} \simeq \K^{n_1 \times n_2 \times
 			\cdots \times n_{d}}$) possiamo dare una definizione di tensore operativamente utile in molti contesti del
-	calcolo tensoriale, dove spesso è più conveniente lavorare nello spazio standard $ \R^{n_1 \times
+	calcolo tensoriale, dove spesso è più conveniente lavorare nello spazio standard $ \K^{n_1 \times
 			\cdots \times n_{d}} $.
 
 
@@ -55,7 +56,7 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 \end{definition}
 \begin{remark}
 	Per la ragione sopra, spesso chiameremo tensore anche l'oggetto sopra scrivendo
-	semplicemente $ T \in \Rmsiz $.
+	semplicemente $ T \in \K^{n_1 \times n_2 \times \cdots \times n_{d}} $.
 \end{remark}
 \begin{remark}
 	Dato $ T \in A \otimes B \otimes C $, possiamo sempre passare da un tensore nello spazio $ A
@@ -79,17 +80,19 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
 
 \begin{remark}
-	L'insieme dei tensori $ \R^{\msiz!} $ forma un $ \R $-spazio vettoriale, dotato del prodotto
+	L'insieme dei tensori $ \K^{\msiz!} $ forma un $ \K $-spazio vettoriale, dotato del prodotto
 	scalare euclideo, con le operazioni
 	\begin{itemize}
 		\item Addizione: $(T_1 + T_2)(\miwc!) = T_1(\miwc!) + T_2(\miwc!)$.
-		\item Moltiplicazione per scalare: Per ogni $ \alpha \in \R, \alpha (T(\miwc!)) = (\alpha
+		\item Moltiplicazione per scalare: Per ogni $ \alpha \in \K, \alpha (T(\miwc!)) = (\alpha
 			      T)(\miwc!)$.
 		\item Prodotto scalare: $ \angb{T_1, T_2} = \Vec(T_1)^{\top} \Vec(T_2)$.
 		\item Norma: $\| \Vec(T)\| = \sqrt{\sum_{i_1=1}^{n_1}\sum_{i_2=1}^{n_2}\cdots
 				      \sum_{i_{d}=1}^{n_{d}} (T_{i_1,i_2,\ldots,i_{d}})^2 }$.
 	\end{itemize}
 \end{remark}
+Osserviamo che $ \| \cdot \| $ è la norma Frobenius sullo spazio $ \K^{\msiz!} $, che è indotta dal prodotto scalare sopra, che
+a sua volta è indotto dal prodotto scalare euclideo di $ \K^{n_1 n_2 \cdots n_{d}} $.
 
 \section{Rango tensoriale}
 
@@ -387,7 +390,7 @@ naturale definire la seguente operazione
 Introduciamo una scrittura di un tensore in tensori elementari, utile a risolvere i seguenti
 problemi che affronteremo nei prossimi capitoli.
 
-\textbf{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è, in
+\emph{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è, in
 linea teorica, un problema semplice costruire una matrice di
 rango $ r $; mentre dal punto di vista computazionale, esistono algoritmi polinomiali per
 approssimare il rango. Nel caso dei tensori, il problema è difficile su entrambi i fronti. Nella
@@ -396,7 +399,7 @@ approssimare il tensore, o il rango, è numericamente difficile. Questo complica
 vedremo ad esempio nel
 Capitolo~\ref{chp:matmul}.
 
-\textbf{Risparmio computazionale:} Cerchiamo una decomposizione di rango basso di un tensore $ T \in \Rmsiz! $ per ridurre il
+\emph{Risparmio computazionale:} Cerchiamo una decomposizione di rango basso di un tensore $ T \in \Rmsiz! $ per ridurre il
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
