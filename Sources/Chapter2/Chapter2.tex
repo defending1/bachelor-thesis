@@ -206,7 +206,7 @@ Possiamo enunciare il Teorema di Kruskal.
 
 
 Più in generale vale il seguente teorema:
-\begin{theorem}[\cite{sidiropoulos2000uniqueness}]
+\begin{theorem}[Sidiropoulos e Bro~\cite{sidiropoulos2000uniqueness}]
 	Sia $ T \in A_1\otimes A_2 \otimes \cdots \otimes A_d $ che ammette una decomposizione $ T=
 		\sum_{i=1}^r u^1_{i} \otimes \cdots \otimes u^d_{i} $. Sia $ \s_{A_k} = \{[u^k_{i}]\}  $. Se
 	vale
@@ -458,21 +458,15 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 	$ \#(X \setminus Y) = \# X - \#(X \cap Y) $.
 \end{proof}
 \begin{proof}[Dimostrazione del permutation lemma]
-	Osserviamo prima che sostituendo nell'ipotesi ‘‘iperpiani’’ con ‘‘punti’’, la tesi segue
-	immediatamente: per
-	ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
-	allora $ \s \cap \{P\} = \tilde{\s} \cap \{P\}  $, ovvero $ \s = \tilde{\s} $, poiché i punti di $ \s $ sono distinti.
-	Consideriamo la seguente proprietà $ (\mathcal{P}_{k+1}) $: i $ (k+1)$-piani $ M $ che contengono almeno $ k+2 $ punti di $
-		\tilde{\s} $, soddisfano $ \#(\s \cap M) \ge \#(\tilde{\s} \cap M) $. Vediamo che lo stesso
-	vale per i $ k $-piani $(\mathcal{P}_{k})$. Una volta dimostrato ciò, sapendo per ipotesi che la proprietà sopra valga per gli
-	iperpiani (ovvero piani di dimensione $ \dim(\PP W) - 1 = \bm{w}-2 $), possiamo costrure una catena di
-	implicazioni dagli iperpiani fino ai punti, e ottenere la tesi:
-	\todo{sto pensando a un modo di riscrivere questo}
-	\begin{equation*}
-		\mathcal{P}_{\bm{w}-2} \implies \mathcal{P}_{\bm{w}-3} \implies \mathcal{P}_{\bm{w}-4} \implies
-		\cdots  \implies \mathcal{P}_{1} \implies \mathcal{P}_{0} \implies \s = \tilde{\s},
-	\end{equation*}
-	dove la proprietà $ \mathcal{P}_{0} $ corrisponde a quella detta inizialmente per i punti.
+	Consideriamo la seguente proprietà: i $ k $-piani $ L $ che contengono almeno $ \dim(L) + 1 = k+1
+	$ punti di $ \tilde{\s} $, soddisfano $ \#(\s \cap L) \ge \#(\tilde{\s} \cap L) $.
+	Osserviamo che per gli $ 0 $-piani, ovvero i punti, la proprietà implica la tesi, in quanto per ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
+	allora $ \s \cap \{P\} = \tilde{\s} \cap \{P\}  $, ovvero $ \s = \tilde{\s} $, in quanto i punti
+	di $ \s $ sono distinti. Notiamo anche che per ipotesi la proprietà è vera per i $ \bm{w}-2
+	$-piani, cioè per gli iperpiani. Possiamo quindi dimostrare la tesi assumendo che la proprietà
+	sopra valga per i $ (k+1) $-piani, e mostrando che valga per i $ k $-piani. Tramite un'induzione
+	discendente possiamo partire dagli iperpiani e arrivare fino al caso base, da cui $ \s = \tilde{\s} $.
+	\todo{Meglio o peggio?}
 
 	Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
 	punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
@@ -492,6 +486,7 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 		\label{eq:malpha}
 		\#(\tilde{\s} \cap M_{\alpha}) \le \#(\s \cap M_{\alpha}).
 	\end{equation}
+
 	Osserviamo che
 	\begin{align}
 		\#(\tilde{\s} \cap L) + \sum_\alpha \#(\tilde{\s} \cap (M_\alpha \setminus  L)) = r,
@@ -565,7 +560,7 @@ Introduciamo un ultimo lemma valido in generale:
 Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 
 \begin{proof}[Dimostrazione del Teorema di Kruskal]
-	Dalla Proposizione~\ref{prop:conc_and_rank} possiamo supporre che $ T $ sia conciso, ovvero che $
+	Dalla Proposizione~\ref{prop:conc_and_rank} possiamo supporre che $ T $ sia concise, ovvero che $
 		A,B,C $ coincidano con i sottospazi generati da $ \tilde{\s}_{A},\tilde{\s}_{B},\tilde{\s}_{C} $, rispettivamente. Date
 	quindi due decomposizioni
 	\begin{equation}
@@ -574,13 +569,15 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 		\otimes \tilde{w}_j
 	\end{equation}
 	di lunghezza $ r $, con la prima decomposizione che soddisfa le ipotesi del teorema, vogliamo mostrare
-	che sono uguali. Notiamo che, quando l'unicità della decomposizione di
+	che coincidano a meno di permutazione e riscalamento dei fattori. Notiamo che, quando l'unicità della decomposizione di
 	lunghezza $ r $ è verificata, il rango di $ T $ è $ r $; infatti, se sopra apparisse una decomposizione di lunghezza $ r-1 $, potremmo
 	ricostruirne una di lunghezza $ r $ rimpiazzando $ \tilde{u}_1 \otimes \tilde{v}_1 \otimes
 		\tilde{w}_1 $ con $ \frac{1}{2} \tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 + \frac{1}{2}
 		\tilde{u}_1 \otimes \tilde{v}_1 \otimes \tilde{w}_1 $. Mostriamo prima che $ \s_A = \tilde{\s}_A
 	$, $ \s_B = \tilde{\s}_B$ e $ \s_C = \tilde{\s}_C $. Per simmetria basta mostrare l'ultima
-	affermazione, sfruttando il permutation lemma. Consideriamo un iperpiano $ H \subset \PP C $
+	affermazione, sfruttando il permutation lemma.
+
+	Consideriamo un iperpiano $ H \subset \PP C $
 	tale che $ \#(\tilde{\s}_C \cap H) \ge \bm{c}-1 $, allora
 	\begin{equation}
 		\label{eq:stima_perm_lemma}
@@ -598,7 +595,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\begin{equation*}
 		\#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S,
 	\end{equation*}
-	sostituendo $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
+	dove abbiamo effetuato le sostituzioni $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
 		\cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Fissiamo un funzionale $ h \in \hat{H}^\perp $
 	non nullo, e consideriamo la valutazione di $ T $ in $ h $,
 	\begin{equation*}
@@ -614,9 +611,12 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\begin{equation*}
 		T(h) = U_{S}DV^{*}_{S},
 	\end{equation*}
-	dove $ U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \K^{\bm{a}\times S}  $, $ V_{S} = \left[v_1
-			| \cdots | v_{S}  \right] \in \K^{\bm{b}\times S}  $ e $ D = \diag(h(w_1), \ldots, h(w_{S})) $ è
-	di taglia $ S\times S $ ed
+	dove
+	\begin{equation*}
+		U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \K^{\bm{a}\times S}  , \; V_{S} = \left[v_1
+			| \cdots | v_{S}  \right] \in \K^{\bm{b}\times S}, \; D = \diag(h(w_1), \ldots, h(w_{S})),
+	\end{equation*}
+	in particolare $ D $ è di taglia $ S\times S $ ed
 	invertibile. Per la disuguaglianza di Sylvester~\cite[Pag. 12]{horn2012matrix}
 	\begin{equation*}
 		\begin{aligned}
@@ -625,7 +625,8 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 		\end{aligned}
 	\end{equation*}
 	Per definizione di $ k $-rango, valgono $ \dim \angb{u_{\sigma}} \ge \min \{S, \krk{\s_A}\}  $ e
-	$ \dim \angb{v_\sigma} \ge \min \{S, \krk{S_B}\}  $. Mettendo insieme queste ultime stime,
+	$ \dim \angb{v_\sigma} \ge \min \{S, \krk{S_B}\}  $. Mettendo insieme queste ultime stime
+	otteniamo che
 	\begin{equation}
 		\label{eq:krk_s_c_down}
 		\#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  + \min \{S, \krk{\s_B}\} - S.
@@ -647,7 +648,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 			                               & \le \krk{\s_A} + \krk{\s_B} - r - 1.
 		\end{aligned}
 	\end{equation}
-	A questo punto possiamo combinare le limitazioni trovate nell'Equazione~\eqref{eq:krk_s_c_down} e~\eqref{eq:krk_s_c_up},
+	A questo punto possiamo combinare le limitazioni trovate nelle Equazioni~\eqref{eq:krk_s_c_down} e~\eqref{eq:krk_s_c_up},
 	\begin{equation}
 		\krk{\s_A} + \krk{\s_B} - r - 1 \ge \#(\tilde{\s}_C \not\subset H) \ge \min \{S, \krk{\s_A}\}  +
 		\min \{S, \krk{\s_B}\} - S.
@@ -769,7 +770,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 La condizione di Kruskal è sufficiente ma non necessaria. Il seguente risultato fornisce una
 condizione necessaria ma non sufficiente:
 
-\begin{theorem}
+\begin{theorem}[Non unicità CP, Liu e Sidiropoulos~\cite{liu2001cramer}]
 	Dato un tensore $ T = \dsqr{U_1, \ldots, U_d}$ tale per cui  \[
 		\min_j \left\{ \rk(U_d \krp
 		\cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1) \right\} < r

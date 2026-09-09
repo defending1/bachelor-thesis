@@ -4,18 +4,20 @@
 \label{chp:matmul}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In questo capitolo introdurremo l'esponente asintotico della moltiplicazione matriciale $ \omega $ e
-alcuni fondamenti teorici per calcolare la complessità del prodotto tra matrici. Formuleremo tale
-prodotto come una mappa bilineare, e quindi come un tensore. Osserveremo che il rango della forma
-bilineare dà il numero di moltiplicazioni di un algoritmo, e viceversa. In questo contesto,
-introdurremo gli \emph{algoritmi di moltiplicazione veloce}, cioè gli algoritmi di moltiplicazione matriciale che
+\todo{Aggiornato}
+L'algoritmo di moltiplicazione matriciale si può esprimere come mappa bilineare che manda due matrici $ A
+$ e $ B $ nel prodotto $ C = AB $. Possiamo naturalmente rappresentare tale mappa come un tensore $ T $, e
+quindi cercarne una rappresentazione di rango più basso. Questo dà il vantaggio di valutare le matrici $ A
+$, $ B $ in un algoritmo che dipende dalle entrate di $ T $ per ridurre il numero di
+moltiplicazioni in base al rango di $ T $. Infatti, studiamo gli \emph{algoritmi di moltiplicazione veloce},
+ovvero gli algoritmi di moltiplicazione matriciale che
 impiegano asintoticamente un numero minore di operazioni aritmetiche rispetto all'algoritmo
 classico, ottenendo un esponente di complessità asintotica minore di $ 3 $ per le matrici quadrate.
-Presenteremo alcuni algoritmi di moltiplicazione veloci esatti e approssimati, e concluderemo
-discutendo dell'errore algoritmico.
-
-\todo{Controlla che non ci sia ambiguità nel riferirti a mappe/forme bilineari: $ \psi : U\times V
-		\to W $ è una forma bilineare se $ W = \K $, altrimenti chiamala mappa bilineare}
+In questo contesto, mostriamo che il rango della forma bilineare dà il numero di moltiplicazioni di un algoritmo, e
+viceversa. Risulta utile tener traccia del costo ottimale della moltiplicazione $ \omega $ e
+dimostrare attraverso il Teorema di Strassen che il rango del tensore può essere messo in corrispondenza con $ \omega $.
+Concludiamo definendo l'algoritmo di Strassen e ricavando un algoritmo approssimato a partire da quello
+classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettivi errori algoritmici.
 
 \section{Mappe multilineari e moltiplicazione tra matrici}
 \label{sec:tensor_bil}
@@ -52,31 +54,31 @@ discutendo dell'errore algoritmico.
 \end{remark}
 
 \subsection*{Rappresentazione in coordinate di una forma bilineare}
-Un modo semplice di rappresentare una forma bilineare $ \varphi \colon U \times V \to W $ come un
-tensore è farlo partendo dalle fette. Fissato $ k \in \{1, \ldots, p\} $ e
-considerata la sua componente $ k $-esima $ \varphi_k : U \times V \to \R $, esiste una matrice $ M \in \R^{m \times n} $ tale che $
-	\varphi_k(u,v) = u^{\top}Mv$ per ogni $ (u,v) \in \R^m \times \R^n $. Scrivendo ogni componente di $
-	\varphi = \begin{bmatrix} \varphi_1 \\ \vdots \\ \varphi_p \end{bmatrix}$ in questa forma, otteniamo un tensore $ T
-	\in \R^{m \times n\times p} $ tale che le sue fette
-frontali rappresentino ognuna delle $ p $ forme bilineari $ \varphi_k $, ossia che
+Consideriamo degli spazi vettoriali $ U,V,W $ di dimensioni $ I,J,K $, rispettivamente. Un modo semplice di rappresentare una forma bilineare $ \varphi \colon U \times V \to W $ come un
+tensore è farlo partendo dalle slices. Fissato $ k \in \{1, \ldots, K\} $ e
+considerata la sua componente $ k $-esima $ \varphi_k : U \times V \to \R $, esiste una matrice $ M \in \R^{I \times J} $ tale che $
+	\varphi_k(u,v) = u^{\top}Mv$ per ogni $ (u,v) \in \R^I \times \R^J $. Scrivendo ogni componente di $
+	\varphi = \begin{bmatrix} \varphi_1 \\ \vdots \\ \varphi_K \end{bmatrix}$ in questa forma, otteniamo un tensore $ T
+	\in \R^{I \times J\times K} $ tale che le sue fette
+frontali $ T_{:,:,1}, \ldots, T_{:,:,K} $ rappresentano ognuna delle $ K $ forme bilineari $ \varphi_k $, ossia che
 \begin{equation}
 	\label{eq:b_k_bil}
-	\varphi_k(u,v) = u^{\top}T_{:,:,k}v = \sum_{i=1}^m\sum_{j=1}^n T_{i,j,k}u_iv_j, \text{ per ogni
-	} k = 1, \ldots, p
+	\varphi_k(u,v) = u^{\top}T_{:,:,k}v = \sum_{i=1}^I\sum_{j=1}^J T_{i,j,k}u_iv_j, \text{ per ogni
+	} k = 1, \ldots, K
 	.\end{equation}
 In forma tensoriale,
 \begin{equation}
 	\label{eq:b_tuv}
-	\varphi(u,v) = \begin{bmatrix} \varphi_1(u,v) \\ \vdots \\ \varphi_p(u,v) \end{bmatrix} = \begin{bmatrix}
+	\varphi(u,v) = \begin{bmatrix} \varphi_1(u,v) \\ \vdots \\ \varphi_K(u,v) \end{bmatrix} = \begin{bmatrix}
 		u^{\top}T_{:,:,1}v \\
-		\vdots             \\ u^{\top}T_{:,:,p}v\end{bmatrix} = T \ttm[1] u^{\top}
+		\vdots             \\ u^{\top}T_{:,:,K}v\end{bmatrix} = T \ttm[1] u^{\top}
 	\ttm[2] v^{\top}.
 \end{equation}
 \begin{remark}
 	L'algebra multilineare garantisce l'esistenza e l'unicità di $ T $.
 \end{remark}
 \begin{remark}
-	Questa procedura si estende (passando alle coordinate) anche al caso in cui le entrate di $ u $ e $ v $ siano oggetti
+	Questa procedura si estende anche al caso in cui le entrate di $ u $ e $ v $ siano oggetti
 	algebrici più complessi di scalari, ad esempio vettori o matrici.
 \end{remark}
 
@@ -91,7 +93,7 @@ Ricordando che $ U^* \otimes V^* \otimes W $ è l'insieme delle forme trilineari
 	Con un abuso di notazione tipicamente usato in letteratura~\cite{landsberg2011tensors,
 		landsberg2015geometry, burgisser2013algebraic}, nel seguito identificheremo l'algoritmo
 	di moltiplicazione matriciale (come mappa bilineare) con il suo tensore strutturale, denotando
-	entrambi dello stesso simbolo $ \angb{m,n,p} $, e specificheremo l'oggetto in questione laddove
+	entrambi dello stesso simbolo $ \angb{m,n,p} $, distinguendo l'oggetto in questione laddove
 	creerà ambiguità. Più avanti questa notazione sarà giustificata dalla
 	Proposizione~\ref{prop:iso_bil_tensor}.
 \end{remark}
@@ -99,7 +101,7 @@ Ricordando che $ U^* \otimes V^* \otimes W $ è l'insieme delle forme trilineari
 \section{Decomposizione low-rank di forme bilineari}
 
 In \S~\ref{sec:cp_factorization} abbiamo osservato che le fattorizzazioni low-rank riducono il costo
-in memoria. Aggiungiamo che questa rappresentazione low rank è anche vantaggiosa per ridurre il
+in memoria. Aggiungiamo che questa rappresentazione è anche vantaggiosa per ridurre il
 calcolo delle operazioni aritmetiche. Per una matrice $ M \in \R^{m\times n} $ di rango uno,
 possiamo scrivere $ M = u \otimes v = uv^{\top} $ per certi $ u \in \R^m $ e $ v \in \R^n $; la valutazione $ Mx =
 	(uv^{\top})x = u(v^{\top}x) $ ha costo $ O(n) $, contro il costo $ O(mn) $ del prodotto classico
@@ -132,30 +134,29 @@ trovando fattorizzazioni di rango più basso di $ T $.
 
 La prossima proposizione assicura che il rango di una forma bilineare sia dato dal rango CP.
 \begin{proposition}
-	Fissata una forma bilineare $ \varphi $, e detto $ T $ il tensore che la rappresenta. Allora, dalla
+	Fissiamo una forma bilineare $ \varphi $ e denotiamo con $ T $ il tensore che la rappresenta. Allora, dalla
 	fattorizzazione CP di un tensore $ T $ si ottieme una bilinear computation, e in particolare $
 		\rk(\varphi) = \rk(T) $.
 \end{proposition}
 \begin{proof}
 	Data una decomposizione $ T = \dsqr{U,V,W} $ di rango $ r $, dalla Definizione~\ref{def:CP}
-	abbiamo che $ T = \sum_{l=1}^r u_l \otimes v_l \otimes w_l $, o in componenti, $ T_{i,j,k} =
-		\sum_{l=1}^r u_{il}v_{jl}w_{kl} $. Inserendo questa relazione nell'Equazione~\eqref{eq:b_k_bil} troviamo,
+	abbiamo che $ T = \sum_{l=1}^r u_l \otimes v_l \otimes w_l $, dove $ U \in \R^{I \times r}, V \in
+		\R^{J \times r}, W \in \R^{K \times r}$. Ricordando che in componenti $ T_{i,j,k} =
+		\sum_{l=1}^r u_{il}v_{jl}w_{kl} $, la relazione dell'Equazione~\eqref{eq:b_k_bil} diventa,
 
 	\begin{equation}
 		\label{eq:b_active}
 		\begin{aligned}
-			\varphi_k(x,y) & = \left( \left( \sum_{l=1}^r u_l \otimes v_l \otimes w_l \right) \ttm[1] x^{\top} \ttm[2]
-			y^{\top}  \right)_k
-			= \left( \sum_{l=1}^r \left( u_l \otimes v_l \otimes w_l  \right) \ttm[1] x^{\top} \ttm[2]
-			y^{\top} \right)_k                                                                                         \\
+			\varphi_k(x,y) & = \sum_{i=1}^I \sum_{j = 1}^J T_{ijk} x_{i}y_{k}        \\
 			               & =
-			\sum_{i=1}^m \sum_{j=1}^n \sum_{l=1}^r u_{il}v_{jl}w_{kl} x_i y_j = \sum_{l=1}^r \left(\sum_{i=1}^m
-			u_{il} x_i \right) \cdot \left( \sum_{j=1}^n v_{jl} y_j  \right)  w_{kl}                                   \\
+			\sum_{i=1}^I \sum_{j=1}^J \sum_{l=1}^r u_{il}v_{jl}w_{kl} x_i y_j        \\
+			               & = \sum_{l=1}^r \left(\sum_{i=1}^I
+			u_{il} x_i \right) \cdot \left( \sum_{j=1}^J v_{jl} y_j  \right)  w_{kl} \\
 			               & = \sum_{l=1}^r
 			(u_l^{\top}x) \cdot (v_l^{\top}y)w_{kl},
 		\end{aligned}
 	\end{equation}
-	per ogni $ k = 1, \ldots, p $.
+	per ogni $ k = 1, \ldots, K $.
 	Mettendo insieme le Equazioni \eqref{eq:b_tuv} e \eqref{eq:b_active} troviamo
 	\begin{equation}
 		\label{eq:lowrank_bilinear}
@@ -169,8 +170,8 @@ Quindi valutare $ \varphi $ richiede esattamente $ r = \rk(T) $ active multiplic
 	O(r) $ addizioni), che sopra evidenziamo con $
 	(\cdot) $.
 In particolare, il seguente risultato algebrico ci dice che la rappresentazione di una forma
-bilineare come tensore o come bilinear computation sono identiche, ed è utile per riscrivere un
-algoritmo tramite un tensore.
+bilineare come tensore o come bilinear computation sono identiche. La seconda forma sarà utile per
+moltiplicare le matrici sfruttando la decomposizione di $ T $.
 \begin{proposition}[Si veda~\cite{burgisser2013algebraic}, Cap. 14]
 	\label{prop:iso_bil_tensor}
 	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali. Allora esiste un unico isomorfismo $ U^*
@@ -194,9 +195,8 @@ algoritmo tramite un tensore.
 
 
 
-\section{Rappresentazione del prodotto tra matrici}
-Torniamo al nostro focus iniziale, cioè valutare la forma bilineare del prodotto tra matrici con un
-numero ottimale di operazioni.
+\section{Rappresentazione low-rank del prodotto tra matrici}
+Possiamo applicare il risultato sopra per valutare il prodotto tra matrici con un numero ottimale di operazioni.
 
 Consideriamo due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{n \times p} $ e il loro prodotto $
 	C \in \R^{m \times p} $. Ponendo $ x =
@@ -221,11 +221,7 @@ Dove abbiamo posto $ f_l \defeq  f_{l}(A) \defeq  u_l^\top \Vec(A)$, $ g_l \defe
 	f_lg_l $.
 
 Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{m,n,p} $; spesso nella pratica $ m,n,p $ sono piu piccoli delle matrici da moltiplicare; in questo caso è possibile dividerle a blocchi e applicare
-l'algoritmo in maniera ricorsiva. Nella prossima sezione giustificheremo meglio questa procedura.
-
-
-
-
+l'algoritmo in maniera ricorsiva, ripetendo la ricorsione fino a raggiungere il caso base. Di seguito giustificheremo meglio questa procedura.
 
 
 \section{L'esponente della moltiplicazione tra matrici}
@@ -249,8 +245,6 @@ alfabeto infinito di simboli (come un campo $ \K \in \{\R,\C\}  $).
 	\caption{Esempio di circuito aritmetico per il polinomio $\varphi(x_1, x_2) = (x_1 + x_2)x_2(x_2 + 1)$.}
 	\label{fig:algebraic_circuit_example}
 \end{figure}
-
-\todo{specifichiamo a che spazio appartengono i risultati intermedi?}
 
 \begin{definition}[Funzione costo]
 	Sia $ \varphi : U \times V \to W $ una mappa bilineare tra $ \K $-spazi vettoriali di dimensione
@@ -317,6 +311,7 @@ disponibili. Invece, il problema di approssimare la crescita asintotica della fu
 	La notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Dato che tratteremo solo $ \K \in \{\R, \C\}  $, spesso
 	scriveremo $ \omega $ per $ \omega_{\K} $.
 \end{remark}
+\todo{Aggiunto}
 \begin{example}
 	Per le matrici $ 2\times 2 $, vale $ 4 \le M_{\K}(2) \le 2^2(4 - 1) = 12 $. Osserveremo che trovare un algoritmo
 	che riduce $ M_{\K}(2) $ migliora anche l'esponente.
@@ -335,8 +330,6 @@ disponibili. Invece, il problema di approssimare la crescita asintotica della fu
 Un modo elementare di trovare una nuova stima su $ \omega $ è trovare una scrittura più breve della
 forma bilineare (o del tensore). La seguente proposizione ci fornisce una prima stima della misura di complessità con il rango di una forma bilineare.
 \begin{proposition}[Strassen, si veda~\cite{burgisser2013algebraic}, Capitolo 14]
-	\todo{in realtà è un corollario semplice di un teorema formulato da Strassen, che ho deciso di
-		attribuire a Strassen (non aveva nome)}
 
 	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali di dimensione finita, e $ \varphi : U\times V \to  W $ una
 	mappa bilineare. Allora
@@ -488,11 +481,11 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 
 
 \subsection*{Il teorema di Strassen}
-Dato un algoritmo con $ r $ moltiplicazioni, abbiamo mostrato che è possibile costruire la sua bilinear computation (e
+Dato un algoritmo con $ r $ moltiplicazioni abbiamo mostrato che è possibile costruire la sua bilinear computation (e
 rappresentarla con il suo circuito aritmetico) e poi dedurre che il rango del tensore è $ r $.
-Ci siamo poi chiesti, con la Proposizione~\ref{prop:omega_rk_estimate}, se una volta trovato un tensore di rango $ r $ allora la complessità è limitata
-da $ r $. A questo punto è lecito chiedersi se considero l'insieme di tutti gli algoritmi di
-moltiplicazione esistenti, trovo una stima ottimale su $ \omega $?
+Con la Proposizione~\ref{prop:omega_rk_estimate} osservato che, trovato un
+tensore di rango $ r $ riduce il costo computazionale. A questo punto è lecito chiedersi se, dato l'insieme di tutti gli algoritmi di
+moltiplicazione $ \algob{n} $ al variare di $ n $, trovo una stima ottimale su $ \omega $.
 \todo{non mi soddisfa!}
 
 \begin{figure}[htbp]
@@ -546,7 +539,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	\end{equation*}
 \end{lemma}
 \begin{proof}
-	Mostriamo la formula per induzione su $ s $. Per $ s=0 $ la formula è verificata.
+	Mostriamo la formula per induzione su $ s $. Per $ s=0 $ segue direttamente:
 	\begin{equation*}
 		\begin{aligned}
 			x_1 & = ax_0 + bc,                                               \\
@@ -597,7 +590,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		r \defeq \rk(\algob{n}) \le n^{\theta + \varepsilon}.
 	\end{equation}
 
-	Dall'Equazione~\eqref{eq:mulvec:CP}\todo{matrix product, ma TODO verifica, e controlla se è così davvero( io ho i vec)} esistono dei funzionali $ f_{\rho},g_{\rho} \in
+	Dall'Equazione~\eqref{eq:mulvec:CP} esistono dei funzionali $ f_{\rho},g_{\rho} \in
 		(\K^{n\times n})^*$  e delle matrici $ w_{\rho} \in \K^{n\times n} $ per $ \rho \in \{1, \ldots,
 		r\}  $ tali che, per ogni $ A,B \in \K^{n\times n} $
 	\begin{equation*}
@@ -688,7 +681,6 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 
 
 \subsection*{Il caso naive}
-\todo{Dire se la derivazione del tensore è chiara, ho provato a giustificarla meglio che potessi}
 
 Trattiamo il caso di matrici quadrate con taglie potenze di due (possiamo farlo a meno di passare a
 una sottomatrice di taglia pari). In questo caso possiamo
@@ -712,6 +704,7 @@ partizionare le matrici in delle sottomatrici a blocchi $ 2\times 2 $ \footnote{
 		a_{21}b_{11} + a_{22}b_{21} & a_{21}b_{12} + a_{22}b_{22}
 	\end{bmatrix}.
 \end{equation*}
+Qui è indifferente pensare alle entrate come scalari o come matrici.
 L'algoritmo naive procede combinando un insieme di otto moltiplicazioni matriciali con quattro
 addizioni:
 
@@ -762,7 +755,7 @@ Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo map
 	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes w_{r}$ e scrivere il tensore struttrale di $
 	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}). Per farlo,
 identifichiamo i funzionali $ s_{r} $ e $ t_{r} $ con i loro primali $ a_{ij} $ e $ b_{ij} $ e le
-matrici $ w_{r} $ con gli elementi $ c_{ij} $.\todo{può andare bene scritto così?}
+matrici $ w_{r} $ con gli elementi $ c_{ij} $.
 \begin{equation}
 	\label{eq:tensor_222}
 	\begin{aligned}
@@ -855,13 +848,13 @@ Espandendo i prodotto tensoriali e facendo opportune semplificazioni, possiamo r
 dell'algoritmo classico riportato nell'Equazione~\eqref{eq:tensor_222}.
 \begin{remark}[Costo computazionale]
 	Similmente a quanto svolto sopra, troviamo che $ M(n) \le  O(n^{\log_{2}
-				7}) = O(n^{2.81})$. Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
+				7}) = O(n^{2.81})$.\todo{qui posso mettere $ M(n) = O(\ldots) $?} Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
 		\le \log_2 7 < 2.81$.
 \end{remark}
 
 \begin{remark}
-	L'algoritmo di Strassen non è unico: è possibile riscrivere il tensore sopra in funzione di un
-	parametro $ t \in \R $. Si veda~\cite[Pag. 37]{landsberg2011tensors}.
+	L'algoritmo di Strassen non è unico: è possibile riscrivere il tensore sopra in funzione di una
+	costante $ t \in \R $ arbitraria. Si veda~\cite[Pag. 37]{landsberg2011tensors}.
 \end{remark}
 
 \section{Alcune stime sull'esponente}
@@ -908,7 +901,7 @@ Facendo alcuni raccoglimenti e sostituendo $ a_{22} =0$, il tensore dell'Equazio
 	\end{aligned}
 \end{equation*}
 
-Che è somma di sei tensori elementari distinti, quindi $ \rk{\algob{2}^{\text{red}}} \le 6 $.
+Che è somma di sei tensori elementari distinti, quindi $ \rk(\algob{2}^{\text{red}}) \le 6 $.
 Gli autori provarono a cercare un'espressione di rango cinque per $ \algob{2}^{\text{red}} $
 numericamente, calcolando
 \begin{equation*}
@@ -1014,10 +1007,10 @@ della riga e colonna corrispondente. Gli algoritmi veloci, invece, eseguono calc
 altre entrate della matrice che non appaiono nel prodotto scalare (eventualmente questi contributi
 si cancellano), dunque gli errori dipendono da proprietà globali delle matrici di input. In gergo, gli algoritmi veloci
 \footnote{senza ulteriori modifiche, come manipolazione algoritmica per ridurre l'errore di
-	arrotondamento} sono detti \emph{stabili rispetto alla norma}~\cite{bini1980stability,
-	miller1974computational}, mentre quello classico gode di una proprietà
-più forte, ovvero è \emph{stabile rispetto alle componenti}, caratteristica irraggiungibile per gli
-algoritmi veloci~\cite{miller1974computational}. Definiamo la stabilità rispetto alla norma per il prodotto $ C = AB $ dove $ A \in \R^{m \times n} $
+	arrotondamento} sono detti stabili rispetto alla norma~\cite{bini1980stability,
+	miller1974computational}, mentre quello classico gode della proprietà
+detta sopra, ovvero è \emph{stabile rispetto alle componenti}, caratteristica irraggiungibile per gli
+algoritmi veloci~\cite{miller1974computational}. Definiamo la \emph{stabilità rispetto alla norma} per il prodotto $ C = AB $ dove $ A \in \R^{m \times n} $
 e $ B \in \R^{n \times k} $ come
 \begin{equation*}
 	\| \hat{C} - C \| \le f_{\text{alg}}(n) \| A \| \|B\| + O(\varepsilon^2),
