@@ -17,20 +17,18 @@ dato un sottospazio vettoriale $ U \subseteq V $, definiamo l'annullatore di $ U
 	\{\alpha \in V^* \mid \alpha(u) = 0, \, \forall u \in U\}  $.
 Denotiamo con $ \mathfrak{S}_n $ il gruppo simmetrico su $ n $ elementi, e con $ \GL{n}{\K} $ il
 gruppo delle matrici $ n \times n $ invertibili sul campo $ \K $. Dato un intero positivo $ n $,
-indichiamo con $ \underline{n} \defeq \{1, 2, \ldots, n\}  $.
+indichiamo l'insieme dei numeri $ \{1, 2, \ldots, n\}  $ con $ \underline{n} $ (o anche con $ [n] $).
 
 
-\begin{definition}[Mappe trilineari]
-	Siano $ U,V,W $ spazi vettoriali di dimensione finita su un campo $ \K $. Una \emph{forma bilineare} è una mappa $ \varphi : U \times V \to
+\begin{definition}[Mappe bilineari]
+	Siano $ U,V,W $ spazi vettoriali di dimensione finita su un campo $ \K $. Una \emph{mappa
+		bilineare} è un'applicazione $ \varphi : U \times V \to
 		W$ lineare in ogni componente, in altre parole tale che $ f(u, \cdot) $ e $ f(\cdot,v) $ sono
 	lineari per ogni $ u\in U $ e $ v\in V $. Quando $ W = \K $ la chiameremo \emph{forma bilineare}.
-
-
-
 \end{definition}
 In generale, dati degli spazi vettoriali $ A_1, \ldots, A_{n} $ di
 dimensione finita, definiamo le forme $ n $-multilineari come applicazioni $ \varphi : A_1
-	\times \cdots \times A_{n} \to \K $ lineari in ognuna delle $ n $ componenti, e data una forma $ n
+	\times \cdots \times A_{n} \to \K $ lineari in ognuna delle $ n $ componenti. Data una forma $ n
 $-multilineare $ \varphi : A_1 \times A_2 \times \cdots \times A_{n} $ è possibile costruire una
 mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $, e viceversa.
 
@@ -60,10 +58,10 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 \end{remark}
 \begin{remark}
 	Dato $ T \in A \otimes B \otimes C $, possiamo sempre passare da un tensore nello spazio $ A
-		\otimes B \otimes C $ a un tensore in $ \R^{\bm{a} \times \bm{b} \times \bm{c}} $ così: fissate
+		\otimes B \otimes C $ a un tensore in $ \K^{\bm{a} \times \bm{b} \times \bm{c}} $ così: fissate
 	delle basi $ \{e_{i}\}, \{g_{j}\}, \{h_{k}\}    $ di $ A, B, C $ rispettivamente, possiamo
 	scrivere $ T = \sum_{ijk} T_{ijk} e_{i} \otimes g_{j} \otimes h_{k} $. Al variare degli indici, $
-		T_{ijk} $ descrive un array tridimensionale (``a forma di parallelepipedo'') in $ \R^{\bm{a}
+		T_{ijk} $ descrive un array tridimensionale (``a forma di parallelepipedo'') in $ \K^{\bm{a}
 			\times \bm{b} \times \bm{c}} $, che chiamiamo ancora $ T $.
 \end{remark}
 \begin{remark}
@@ -80,21 +78,22 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 \todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
 
 \begin{remark}
-	L'insieme dei tensori $ \K^{\msiz!} $ forma un $ \K $-spazio vettoriale, dotato del prodotto
-	scalare euclideo, con le operazioni
-	\begin{itemize}
-		\item Addizione: $(T_1 + T_2)(\miwc!) = T_1(\miwc!) + T_2(\miwc!)$.
-		\item Moltiplicazione per scalare: Per ogni $ \alpha \in \K, \alpha (T(\miwc!)) = (\alpha
-			      T)(\miwc!)$.
-		\item Prodotto scalare: $ \angb{T_1, T_2} = \Vec(T_1)^{\top} \Vec(T_2)$.
-		\item Norma: $\| \Vec(T)\| = \sqrt{\sum_{i_1=1}^{n_1}\sum_{i_2=1}^{n_2}\cdots
-				      \sum_{i_{d}=1}^{n_{d}} (T_{i_1,i_2,\ldots,i_{d}})^2 }$.
-	\end{itemize}
+	L'insieme dei tensori $ \K^{\msiz!} $ forma un $ \K $-spazio vettoriale con le operazioni di addizione e moltiplicazione per scalare
+	\begin{equation*}
+		\begin{aligned}
+			(T_1 + T_2)(\miwc!) & = T_1(\miwc!) + T_2(\miwc!)                           \\
+			\alpha (T(\miwc!))  & = (\alpha T)(\miwc!), \text{ per ogni } \alpha \in \K
+		\end{aligned}
+	\end{equation*}
+	Possiamo dotare questo spazio di un prodotto scalare $ \angb{T_1, T_2} = \Vec(T_1)^{\top}
+		\Vec(T_2)$, che induce una norma $\| \Vec(T)\| = \sqrt{\sum_{i_1=1}^{n_1}\sum_{i_2=1}^{n_2}\cdots
+			\sum_{i_{d}=1}^{n_{d}} (T_{i_1,i_2,\ldots,i_{d}})^2 }$.
+	Osserviamo che $ \| \cdot \| $ è la norma Frobenius sullo spazio $ \K^{\msiz!} $, che è indotta dal prodotto scalare sopra, che
+	a sua volta è indotto dal prodotto scalare euclideo di $ \K^{n_1 n_2 \cdots n_{d}} $.
 \end{remark}
-Osserviamo che $ \| \cdot \| $ è la norma Frobenius sullo spazio $ \K^{\msiz!} $, che è indotta dal prodotto scalare sopra, che
-a sua volta è indotto dal prodotto scalare euclideo di $ \K^{n_1 n_2 \cdots n_{d}} $.
 
 \section{Rango tensoriale}
+\todo{chiarire un sec}
 
 \begin{definition}[Tensore di rango uno]
 	Dati $ a_1 \in A_1, a_2 \in A_2, \ldots, a_{d} \in A_{d} $, definiamo un \emph{tensore di rango
@@ -103,7 +102,7 @@ a sua volta è indotto dal prodotto scalare euclideo di $ \K^{n_1 n_2 \cdots n_{
 		\beta_{n}) = \beta_1(a_1)\beta_2(a_2) \cdots \beta_{d}(a_{d}) $.
 \end{definition}
 
-Operativamente, dati due vettori $ u = \begin{bmatrix} u_1, \ldots, u_m \end{bmatrix}^{\top} \in \R^m $ e $ v =
+Operativamente, dati due vettori $ u = \begin{bmatrix} u_1, \ldots, u_m \end{bmatrix}^{\top} \in \K^m $ e $ v =
 	\begin{bmatrix} v_1, \ldots, v_n \end{bmatrix}^{\top} \in \R^n  $, possiamo calcolare il prodotto
 tensore come
 \begin{equation*}
@@ -114,10 +113,11 @@ tensore come
                 u_mv_1 & u_mv_2 & \ldots & u_mv_n
 	\end{bmatrix} \in \R^{m\times n}.
 \end{equation*}
-In più dimensioni, presi $ a_{1} \in \R^{n_1}, \ldots, a_{n} \in \R^{n_n} $, il loro prodotto tensore è
+In più dimensioni, presi $ a_{1} \in \K^{n_1}, \ldots, a_{n} \in \K^{n_n} $, il loro prodotto tensore è
 \begin{equation}
 	\label{eq:rk1}
-	T = a^{(1)} \topp a^{(2)} \topp \cdots \topp a^{(d)} \in \Rmsiz
+	T = a^{(1)} \topp a^{(2)} \topp \cdots \topp a^{(d)} \in \K^{n_1 \times n_2 \times \cdots \times
+		n_{d}}
 \end{equation}
 tale che la sua scrittura in componenti è
 \begin{equation}
@@ -127,71 +127,15 @@ tale che la sua scrittura in componenti è
 
 Questo ci permette di definire la seguente quantità fondamentale:
 \begin{definition}[Rango di un tensore]
-	Il rango di un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_{n}$ è il minimo intero positivo $ r $ tale che $ T $ si può scrivere come somma di tensori di rango uno, e scriviamo $ \rk(T) = r $.
+	Il rango di un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_{n}$ è il minimo intero
+	positivo $ r $ tale che $ T $ si può scrivere come somma di tensori di rango uno. Lo indicheremo con $ \rk(T) = r $.
 \end{definition}
 
 \section{Ordinamenti}
 
-Introduciamo alcuni ingredienti utili a definire la fattorizzazione CP.
-
-\todo{Sposta sotto ordinamento}
-\begin{definition}[Prodotto di Kroneker]
-	\label{def:krn}
-	Date due matrici $ A \in \R^{m \times n} $ e $ B \in \R^{p \times q} $, il loro prodotto
-	di Kroneker è la matrice
-	\[
-		C = A \boxtimes B =
-		\begin{bmatrix}
-			a_{11}B & a_{12}B & \ldots & a_{1n}B \\
-			a_{21}B & a_{22}B & \ldots & a_{2n}B \\
-			\vdots  & \vdots  & \ddots & \vdots  \\
-			a_{m1}B & a_{m2}B & \ldots & a_{mn}B \\
-		\end{bmatrix}  \in  \R^{mp \times nq}, \text{dove } c_{kl} = a_{ij}b_{nl},
-		.\]
-	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
-
-\end{definition}
-\begin{remark}
-	\label{rmk:rk_krn_prod}
-	Dalla definizione di prodotto di Kroneker, segue che
-	\begin{equation*}
-		\rank(A \krn B) = \rank(A)\rank(B).
-	\end{equation*}
-	Un modo per dimostrarlo è considerare le decomposizioni ai valori singolari (SVD) di $ A = U
-		\Sigma V^* $ e $ B = U' \Sigma' V'^*$, e calcolare
-	\begin{equation*}
-		\begin{aligned}
-			A \krn B & = \left(U \Sigma V^*\right) \krn \left( U' \Sigma' V'^* \right)                   \\
-			         & = \left( U \krn U' \right)\left( \Sigma \krn \Sigma' \right) \left( V^* \krn V'^*
-			\right),
-		\end{aligned}
-	\end{equation*}
-	dove la seconda uguaglianza seque dalla proprietà $ (AC \krn BD) = (A \krn B)(C \krn D) $ del
-	prodotto di Kroneker. Siccome le matrici $ U,U' $ e $ V,V' $ sono ortogonali (e quindi
-	invertibili), anche $ U \krn U' $ e $ V^* \krn V'^*$ sono ortogonali. Quindi
-	\begin{equation*}
-		\rank(A \krn B) = \rank(\Sigma \krn \Sigma') = \rank(\Sigma)\rank(\Sigma') = \rank(A)\rank(B).
-	\end{equation*}
-\end{remark}
-\begin{remark}[Prodotto di Kroneker come vettorizzazione del prodotto tensore]
-	\label{rmk:krn_tensor}
-	Dati due vettori $ u \in \R^m $ e $ v \in \R^n $, il loro prodotto di Kroneker si può vedere come
-	vettorizzazione del prodotto vettore, ossia
-	\begin{equation}
-		\Vec(v \otimes u) =
-		\Vec \left(
-		\begin{bmatrix}
-			v_1u_1 & v_1u_2 & \ldots & v_1u_m \\
-			v_2u_1 & v_2u_2 & \ldots & v_2u_m \\
-			\vdots & \vdots & \ddots & \vdots \\
-			v_nu_1 & v_nu_2 & \ldots & v_nu_m
-		\end{bmatrix}  \right) =
-		\begin{bmatrix} u_1v \mid u_2v \mid \ldots \mid  u_mv \end{bmatrix} = u \krn v
-	\end{equation}
-	Notiamo che tale operazione scambia l'ordine tra i vettori.
-\end{remark}
-
-\todo{Breve motivazione dell'ordinamento naturale}
+In molte situazioni è utile passare da una $ d $-upla di indici a un indice lineare, e viceversa,
+per vettorizzare un tensore o appiattirlo su un tensore di formato più basso (come un tensore su una
+matrice, o un tensore di ordine $ 4 $ su uno di ordine $ 3 $).
 
 \begin{definition}[Ordinamento naturale]
 	\emph{L'ordinamento naturale (o natural ordering)} sull'insieme $ \mdom! $ è la mappa biunivoca
@@ -322,8 +266,8 @@ naturale definire la seguente operazione
 	tramite la mappa di vettorizzazione
 	\begin{equation*}
 		\begin{aligned}
-			\Vec \colon \Rmsiz & \to \R^{\prod_{j=1}^d n_j} \\
-			T                  & \mapsto x                  \\
+			\Vec \colon \K^{n_1 \times n_2 \times \cdots \times n_{d}} & \to \K^{\prod_{j=1}^d n_j} \\
+			T                                                          & \mapsto x                  \\
 			\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35, z={(0.4,0.4)}]
 
 				% --- Back slice (k=2) ---
@@ -351,7 +295,7 @@ naturale definire la seguente operazione
 				\draw[fill=cGreen]  (1,1,0) -- (2,1,0) -- (2,2,0) -- (1,2,0) -- cycle;
 
 			\end{tikzpicture}
-			                   & \mapsto
+			                                                           & \mapsto
 			\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}, scale=0.35]
 				% Draw the vectorized column from bottom (y=0) to top (y=8)
 				\draw[fill=cPink]   (0,0) rectangle (1,1);
@@ -381,17 +325,74 @@ naturale definire la seguente operazione
 	inverso come \emph{row-major}, specialmente nel contesto dei linguaggi di programmazione.
 \end{remark}
 
+\section{Il prodotto di Kroneker}
+
+\begin{definition}[Prodotto di Kroneker]
+	\label{def:krn}
+	Date due matrici $ A \in \K^{m \times n} $ e $ B \in \K^{p \times q} $, il loro prodotto
+	di Kroneker è la matrice
+	\[
+		C = A \boxtimes B =
+		\begin{bmatrix}
+			a_{11}B & a_{12}B & \ldots & a_{1n}B \\
+			a_{21}B & a_{22}B & \ldots & a_{2n}B \\
+			\vdots  & \vdots  & \ddots & \vdots  \\
+			a_{m1}B & a_{m2}B & \ldots & a_{mn}B \\
+		\end{bmatrix}  \in  \K^{mp \times nq}, \text{dove } c_{kl} = a_{ij}b_{nl},
+		.\]
+	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
+
+\end{definition}
+\begin{remark}
+	\label{rmk:rk_krn_prod}
+	Dalla definizione di prodotto di Kroneker, segue che
+	\begin{equation*}
+		\rank(A \krn B) = \rank(A)\rank(B).
+	\end{equation*}
+	Un modo per dimostrarlo è considerare le decomposizioni ai valori singolari (SVD) di $ A = U
+		\Sigma V^* $ e $ B = U' \Sigma' V'^*$, e calcolare
+	\begin{equation*}
+		\begin{aligned}
+			A \krn B & = \left(U \Sigma V^*\right) \krn \left( U' \Sigma' V'^* \right)                   \\
+			         & = \left( U \krn U' \right)\left( \Sigma \krn \Sigma' \right) \left( V^* \krn V'^*
+			\right),
+		\end{aligned}
+	\end{equation*}
+	dove la seconda uguaglianza seque dalla proprietà $ (AC \krn BD) = (A \krn B)(C \krn D) $ del
+	prodotto di Kroneker. Siccome le matrici $ U,U' $ e $ V,V' $ sono ortogonali (e quindi
+	invertibili), anche $ U \krn U' $ e $ V^* \krn V'^*$ sono ortogonali. Quindi
+	\begin{equation*}
+		\rank(A \krn B) = \rank(\Sigma \krn \Sigma') = \rank(\Sigma)\rank(\Sigma') = \rank(A)\rank(B).
+	\end{equation*}
+\end{remark}
+\begin{remark}[Prodotto di Kroneker come vettorizzazione del prodotto tensore]
+	\label{rmk:krn_tensor}
+	Dati due vettori $ u \in \K^m $ e $ v \in \K^n $, il loro prodotto di Kroneker si può vedere come
+	vettorizzazione del prodotto vettore, ossia
+	\begin{equation}
+		\Vec(v \otimes u) =
+		\Vec \left(
+		\begin{bmatrix}
+			v_1u_1 & v_1u_2 & \ldots & v_1u_m \\
+			v_2u_1 & v_2u_2 & \ldots & v_2u_m \\
+			\vdots & \vdots & \ddots & \vdots \\
+			v_nu_1 & v_nu_2 & \ldots & v_nu_m
+		\end{bmatrix}  \right) =
+		\begin{bmatrix} u_1v \mid u_2v \mid \ldots \mid  u_mv \end{bmatrix} = u \krn v
+	\end{equation}
+	Notiamo che tale operazione scambia l'ordine tra i vettori.
+\end{remark}
+
 
 
 
 \section{La fattorizzazione CP}
 \label{sec:cp_factorization}
 
-Introduciamo una scrittura di un tensore in tensori elementari, utile a risolvere i seguenti
+Introduciamo una scrittura di un tensore in tensori elementari, utile a risolvere alcuni
 problemi che affronteremo nei prossimi capitoli.
 
-\emph{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è, in
-linea teorica, un problema semplice costruire una matrice di
+\emph{Il problema inverso del rango:} Dato un intero positivo $ r $, nel caso matriciale è semplice costruire una matrice di
 rango $ r $; mentre dal punto di vista computazionale, esistono algoritmi polinomiali per
 approssimare il rango. Nel caso dei tensori, il problema è difficile su entrambi i fronti. Nella
 teoria, trovare un tensore di un certo rango è come trovare un ago in un pagliaio; nella pratica,
@@ -403,7 +404,8 @@ Capitolo~\ref{chp:matmul}.
 costo di rappresentazione in memoria e delle operazioni algebriche che lo convolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
-	X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \left[ v_1 | \cdots | v_r \right]^{\top} =
+	X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \begin{bmatrix}  v_1 | \cdots
+		| v_r\end{bmatrix}^{\top} =
 	u_1v_1^{\top} + \cdots + u_rv_r^{\top} = u_1 \topp v_1 + \cdots + u_r \topp v_r
 	,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
 decomposizione è vantaggioso in termini di memoria: infatti
@@ -411,9 +413,7 @@ decomposizione è vantaggioso in termini di memoria: infatti
 	\Vec(X) = v_1 \krn u_1 + \cdots + v_r \krn u_r
 	,\] quindi memorizzare $ U $ e $ V $ costa $ O((n_1+n_2)r) $ invece che $ O(n_1n_2) $. Vorremmo
 quindi riadattare questa decomposizione per memorizzare $ T $ con costo $ O((n_1+\cdots+n_d)r)
-$ invece che $ O(n_1\cdots n_d) $.
-
-Nel generalizzare questa decomposizione, nota come \emph{Canonical Polyadic Decomposition (CP)} incontreremo alcuni
+$ invece che $ O(n_1\cdots n_d) $. Nel farlo incontreremo alcuni
 ostacoli, che discuteremo nella \S~\ref{sec:cp_rank}. Dimostreremo inoltre alcune condizioni
 necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 
@@ -421,17 +421,22 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 	\label{def:CP}
 	Dati degli spazi vettoriali $ A_1 \otimes \cdots \otimes A_d $ e dei vettori $ \{u_1^t, \ldots,
 		u_{n_{t}}^t\} \subset A_{t}  $, diciamo che un tensore $ T \in A_1 \otimes \cdots \otimes A_d $
-	ammette una \emph{decomposizione CP} di rango $ r \in \N $ se si può scrivere come
+	ammette una \emph{Canonical Polyadic Decomposition} (abbreviata, \emph{decomposizione CP}) di
+	rango $ r \in \N $ se si può scrivere come somma di $ r $ tensori di rango uno
 	\begin{equation*}
 		T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
 		\otimes u_r^d.
 	\end{equation*}
-	\todo{serve ipotesi sui vettori?}
 \end{definition}
 \begin{remark}
 	Siccome $ A_1 \otimes \cdots \otimes A_{n} $ è generato da elementi di rango uno, è sempre
 	possibile decomporre un tensore in formato $ CP $.
 \end{remark}
+\begin{remark}
+	Possiamo rifrasare il rango $ r =\rk(T) $ come il minimo $ r $ tale per cui $ T $ ammette una
+	fattorizzazione CP.
+\end{remark}
+
 
 \begin{remark}[Canonical Polyadic Decomposition (CP)]
 	La decomposizione CP in $ \Rmsiz $ è data da delle matrici $ U_1, \ldots, U_d $ tali che $ U_t = \left[ u_1^t \mid
@@ -448,11 +453,11 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 \end{remark}
 
 \begin{remark}
-	Fissando la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
+	Tramite la notazione sopra, la fattorizzazione CP si può scrivere nelle seguenti formulazioni equivalenti:
 	\begin{enumerate}[label=(\roman*)]
-		\item $ T = \sum_{j=1}^r u_j^1 \topp \cdots \topp u_j^d$.
-		\item $ \Vec(T) = \sum_{j=1}^r u_j^d \krn \cdots \krn u_j^1$.
-		\item $T_{\miwc} = \sum_{j=1}^r U_1(i_1,j)U_2(i_2,j)\cdots U_d(i_d,j)$.
+		\item $ T = \sum_{l=1}^r u_l^1 \topp \cdots \topp u_l^d$.
+		\item $ \Vec(T) = \sum_{l=1}^r u_l^d \krn \cdots \krn u_l^1$.
+		\item $T_{\miwc} = \sum_{l=1}^r U_1(i_1,l)U_2(i_2,l)\cdots U_d(i_d,l)$.
 	\end{enumerate}
 \end{remark}
 
@@ -463,7 +468,7 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 	\centering
 	\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/cp.pdf}
 	\caption{Fattorizzazione CP di un tensore $ T = \dsqr{A,B,C} \in \R^{n\times m\times p} $,
-		dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l- $esime di $ A,B,C $.}
+		dove i vettori $ a_l,b_l,c_l $ indicano le colonne $ l $-esime di $ A,B,C $.}
 	\label{fig:cp_dec}
 \end{figure}
 
@@ -475,8 +480,7 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 
 
 \section{Slices, fibers e unfoldings}
-\todo{Cambiare}
-
+Introduciamo alcuni modi per manipolare più agilmente i tensori.
 
 
 \begin{definition}[Tensor slice]
@@ -486,7 +490,7 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/slices.pdf}
-		\caption{Slices di un tensore di ordine 3: fette orizzontali $X_{i::}$ (mode-1), laterali $X_{:j:}$ (mode-2) e frontali $X_{::k}$ (mode-3).}
+		\caption{Slices di un tensore di ordine 3.}
 		\label{fig:tensor_slices}
 	\end{figure}
 \end{definition}
@@ -498,7 +502,7 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/fibers.pdf}
-		\caption{Fibre di un tensore di ordine 3: fibre colonna $x_{:jk}$ (mode-1), riga $x_{i:k}$ (mode-2) e tubo $x_{ij:}$ (mode-3).}
+		\caption{Fibre di un tensore di ordine 3.}
 		\label{fig:tensor_fibers}
 	\end{figure}
 \end{definition}
@@ -509,7 +513,7 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 \begin{definition}[Mode-$k$ unfolding]
 	Il \emph{mode-$k$ unfolding} di un tensore $ T \in \Rmsiz! $ è la matrice $ \Tm{T}{k} \in \R^{n_k \times
 			\prod_{j\neq k}n_j} $ le cui colonne sono mode-$ k $ fibers ordinate seguendo l'ordine naturale
-	su $ \sdom $. In particolare si ha
+	su $ [n_1] \times \cdots [n_{k-1}] \times [n_{k+1}] \times \cdots \times [n_{d}] $. In particolare si ha
 	\[
 		(\Tm{T}{k})_{i,j} = T_{\siwc{i}} \text{, con } j = \L(\siwc)
 		.\]
@@ -572,10 +576,10 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 \begin{definition}[Reshape]
 	Definiamo l'operatore di \emph{reshape} come l'operazione riarrangia il tensore senza alterarne le dimensioni e mantenendo l'ordine delle entrate. Formalmente,
 	fissati $ d, d' \in \N$ e un tensore $ T \in \Rmsiz! $, per ogni $ m_1, \ldots, m_{d'} $ tali
-	che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore $ \Tn{y} = \reshape(T,
+	che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore $ Y = \reshape(T,
 		\msiz![m][d']) \in \Rmsiz![m][d'] $ è definito come
 	\[
-		\Tn{y}(i_1, \ldots, i_{d'})= T(j_1, \ldots, j_d)
+		Y_{i_1, \ldots, i_{d'}}= T_{j_1, \ldots, j_d}
 		,\]
 	per ogni $(i_1, \ldots, i_{d'}),(j_1, \ldots,
 		j_d) $ tali che $ \L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
@@ -618,7 +622,7 @@ Dal punto di vista computazionale è utile introdurre la seguente operazione
 \end{lemma}
 \begin{proof}
 	La $ (i) $ segue applicando più volte l'Osservazione~\ref{rmk:krn_tensor}. Dimostriamo la $ (ii)
-	$. Per definizione di tensore di rango uno~\eqref{eq:rk1_components} la scrittura in componenti di $ T $ è
+	$. Per definizione di tensore di rango uno la scrittura in componenti di $ T $ è
 	\begin{equation*}
 		T_{i_1, \ldots, i_{d}} = v^1_{i_1} \cdots v^d_{i_{d}} = v^k_{i_{k}} \left( \prod_{\substack{m=1
 				\\ m\neq k}}^d v^m_{i_{m}}\right).
@@ -652,14 +656,13 @@ chiama.
 \section{Il problema del rango}
 \label{sec:cp_rank}
 
-In più dimensioni il problema di calcolare il rango, e una fattorizzazione CP di un tensore si
-complicano notevolmente rispetto al caso matriciale.\todo{non mi piace}
-Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una risposta generale (a
-differenza del
-caso matriciale) a domande del tipo:
+Rispetto al caso matriciale, il problema di calcolare il rango e una fattorizzazione CP di un tensore si
+complicano notevolmente. Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una
+risposta generale a domande pienamente risolte per le matrici:
 \begin{enumerate}
 	\item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
 	\item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
+	\item Qual'è il rango di una successione di tensori al limite?
 \end{enumerate}
 Per capire il motivo, discutiamo alcune caratteristiche dei tensori che rendono complesso il ``problema del
 rango''.
@@ -667,7 +670,7 @@ rango''.
 \subsection*{Border rank}
 Nel caso delle matrici, una successione di matrici di rango $ r $ converge sempre a una matrice di
 rango $ \le r $. Per i tensori possono accadere dei ``salti'', in altre parole, la varietà dei
-tensori di un rango fissato $ r $ non è chiusa\footnote{Non precisiamo la topologia, per una
+tensori di un rango fissato $ r $ non è chiusa\footnote{Non ne precisiamo la topologia, per una
 	discussione formale si vedano~\cite{landsberg2011tensors,landsberg2015geometry}.}, ad esempio, un tensore di rango $ 2 $
 può convergere ad uno di rango $ 3 $, come mostra il prossimo esempio. Questo inconveniente teorico
 ha risvolti interessanti che vedremo nella \S~\ref{sec:APA}.
@@ -688,20 +691,20 @@ ha risvolti interessanti che vedremo nella \S~\ref{sec:APA}.
 		\varepsilon a_2 \right) \topp (b_1 + \varepsilon b_2) \topp (c_1 + \varepsilon c_2) -
 		\frac{1}{\varepsilon} a_1 \topp b_1 \topp c_1, \text{ con } \varepsilon \in \R,
 	\end{equation}
-	che essendo combinazione lineare di due tensori di rango uno, ha rango 2.
+	che essendo combinazione di due tensori di rango uno, ha rango 2.
 	Vediamo che $ \lim_{\varepsilon \to 0} T_\varepsilon = T $, da cui segue che l'insieme dei tensori di rango 3 non è chiuso.
 	Espandendo i termini dell'Equazione \eqref{eq:rank_counterex} tramite la proprietà distributiva del prodotto esterno,
 	\begin{equation}
 		\begin{aligned}
-			\Tn{y}_\varepsilon & =  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
-			+a_2 \topp b_1 \topp c_1                                                                                                  \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+			T_\varepsilon & =  \frac{1}{\varepsilon} a_1 \topp b_1 \topp c_2 + a_1 \topp b_1 \topp c_2 + a_1 \topp b_2 \topp c_1
+			+a_2 \topp b_1 \topp c_1                                                                                             \\ &+ \varepsilon \left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
 			a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right) - \frac{1}{\varepsilon} a_1 \topp
-			b_1 \topp c_1                                                                                                             \\
-			                   & = T + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
+			b_1 \topp c_1                                                                                                        \\
+			              & = T + \varepsilon\left(a_2 \topp b_2 \topp c_1 + a_1 \topp b_1 \topp c_2 +
 			a_1 \topp b_2 \topp c_2 + a_2 \topp b_2 \topp c_2 \right)
 		\end{aligned}
 	\end{equation}
-	Quindi $ T_\varepsilon - T \to 0 $.
+	Quindi $ T_\varepsilon - T \xrightarrow[\varepsilon \to 0]{}  0 $.
 \end{example}
 
 Questo motiva la seguente definizione:
@@ -729,15 +732,15 @@ Il border rank ammette anche la seguente interpretazione geometrica:
 
 
 
-\subsection*{Costo computazionale}
+\subsection*{Difficoltà di calcolo}
 \label{sec:computing_rank}
 Il costo di calcolare una fattorizzazione CP usando un algoritmo esatto è NP-Hard~\cite{haastad1989tensor}. Non
 solo; il problema di trovare un tensore approssimante di un certo rango è computazionalmente
-difficile. In altre parole, la miglior approssimazione di rango $ r $ è data da dei vettori $ x_{i}
-	\in \R^{n_1}, y_{i} \in \R^{n_2}, \ldots, z_{i} \in \R^{n_{d}}   $, per $ i = 1, \ldots, r $ che minimizzano
+difficile. In altre parole, la miglior approssimazione di rango $ r $ è data da dei vettori $ u_{i}
+	\in \R^{n_1}, v_{i} \in \R^{n_2}, \ldots, w_{i} \in \R^{n_{d}}   $, per $ i = 1, \ldots, r $ che minimizzano
 \begin{equation*}
-	\| A - x_1 \otimes y_1 \otimes \cdots \otimes z_1 - \cdots x_{r} \otimes y_{r} \otimes \cdots
-	\otimes z_{r}\|
+	\| A - u_1 \otimes v_1 \otimes \cdots \otimes w_1 - \cdots - u_{r} \otimes v_{r} \otimes \cdots
+	\otimes w_{r}\|
 \end{equation*}
 oppure, in altre parole un tensore $ B $ dato da una fattorizzazione CP, che realizza
 \begin{equation*}
@@ -753,11 +756,11 @@ teorema di Eckart-Young-Mirsky~\cite{eckart1936approximation}: se
 è la decomposizione ai valori singolari di $ A $ (anche detta SVD), allora la migliore
 approssimazione di rango $ r $ è data dai primi $ r $ termini della somma.
 Sfortunatamente, generalizzare questo risultato in più dimensioni è
-ritenuto molto difficile (o impossibile)~\cite{desilva2008tensorrankillposednessbest}.
+ritenuto infattibile~\cite{desilva2008tensorrankillposednessbest}.
 
 Nella pratica esistono diverse euristiche per calcolare il rango. Una di queste è scegliere come rango il più piccolo $ r $ che minimizza l'errore
-relativo rispetto al rango $ r-1 $. Per un tensore a $ 3 $ indici, l'\emph{errore relativo} è
-definito in questo modo:
+relativo rispetto al rango $ r-1 $. Possiamo definire l'\emph{errore relativo} per un tensore $ T $
+a tre indici come
 \begin{equation}
 	\label{eq:rel_error}
 	\varepsilon_{\text{rel}} = \frac{\| T - \dsqr{A,B,C} \|}{\|T\|} = \frac{\left(\sum_{i,j,k}\left( t_{ijk} -
@@ -770,12 +773,12 @@ definito in questo modo:
 
 Nel caso di una matrice $ m \times n $, il suo rango massimo è $ \min \{m,n\}  $. Per un tensore, il
 \emph{rango massimo} è definito come il massimo dei ranghi realizzabili per dei tensori $ T \in
-	\R^{n_1 \times \cdots \times n_{d}} $ di una certa taglia fissata. In altre parole,
+	\R^{n_1 \times n_2 \times  \cdots \times n_{d}} $ di una certa taglia fissata. In altre parole,
 \begin{equation*}
 	\rk_{\text{max}}(\R^{n_1\times n_2 \times \cdots \times  n_{d}}) = \max \{ \rk(T) \mid T \in
 	\R^{n_1 \times n_2 \times \cdots \times n_{d}}\}.
 \end{equation*}
-Sfortunatamente, ad eccezione di alcuni casi speciali, i ranghi massimi per la maggior parte dei
+Sfortunatamente, i ranghi massimi per la maggior parte dei
 tensori di ordine superiore sono sconosciuti. I casi speciali in cui il rango massimo è noto sono elencati nella Tabella~\ref{tab:max_ranks}. Il primo risultato per tensori di dimensione $2 \times m \times n$ implica, ad esempio, che un tensore di taglia $2 \times 2 \times 2$ ha un rango massimo pari a $3$.
 
 \begin{table}[htbp]
@@ -795,8 +798,7 @@ tensori di ordine superiore sono sconosciuti. I casi speciali in cui il rango ma
 	\end{tabular}
 \end{table}
 
-È inoltre possibile derivare un limite superiore debole per il rango massimo:
-\todo{se lasci verificalo}
+È inoltre possibile derivare un limite superiore debole per il rango massimo, tratto da~\cite[Pag. 275]{BK25},
 \begin{equation}
 	\label{eq:weak_upper_bound_max_rank}
 	\rk_{\text{max}}(\R^{n_1 \times n_2 \times \cdots \times n_d}) \le \min_k \prod_{\substack{\ell=1 \\ \ell \neq k}}^d n_\ell = \frac{\prod_{k=1}^d n_k}{\max_k n_k}.
@@ -812,11 +814,10 @@ Mentre le matrici random hanno rango massimo con probabilità uno\footnote{L'ide
 	determinante è un polinomio le cui indeterminate sono le entrate della matrice. Il luogo di
 	zeri di questo polinomio ha misura di Lebesgue nulla, quindi integrando la densità di probabilità
 	sul luogo di zeri dà probabilità nulla. La tesi si ha passando al complementare.}, per un tensore di un
-formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto
-come \emph{rango tipico}.
+formato fissato potrebbe esserci più di un rango con probabilità positiva. Questo fenomeno è noto come rango tipico.
 
-Sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$ una distribuzione di probabilità continua sullo spazio
-dei tensori $ \R^{n_1 \times n_2 \times \cdots \times n_{d}} $ (un esempio sono i tensori a entrate
+Fissiamo una misura di probabilità $ P $, e sia $ \mathcal{D}(n_1, n_2, \ldots, n_{d})$ una distribuzione di probabilità continua sullo spazio
+dei tensori $ \K^{n_1 \times n_2 \times \cdots \times n_{d}} $ (un esempio sono i tensori a entrate
 gaussiane).
 \begin{definition}
 	Il \emph{rango tipico} (o \emph{rango generico}) di un tensore $ T \in \K^{n_1 \times \cdots
@@ -825,7 +826,8 @@ gaussiane).
 	In formule,
 	\begin{equation*}
 		\rk_{\text{typical}} = \{r \mid P \left( \rk(T) = r, \; T \sim \mathcal{D}(n_1, \ldots,
-			n_{d})\right) > 0\}.
+			n_{d})\right) > 0 \text{ per ogni } \mathcal{D}(n_1, \ldots,
+		n_{d})\}.
 	\end{equation*}
 \end{definition}
 
@@ -833,7 +835,7 @@ Per le matrici il rango tipico è unico e coincide con il massimo rango possibil
 tensori di ordine superiore a due non è così: su $\mathbb{R}$ possono coesistere
 più ranghi tipici, mentre su $\mathbb{C}$ il rango tipico è sempre unico. La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
 Per verificare questi risultati, abbiamo implementato un esperimento numerico.
-Selezionando alcuni formati, abbiamo generato dei tensori casuali con entrate estratte
+Selezioniamo alcuni formati e generiamo dei tensori casuali con entrate estratte
 indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
 distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
 usando l'algoritmo ALS (che introdurremo in \S~\ref{alg:ALS}) su un campione di $ 200 $ tensori, facendo $ 120 $ restarts e un
@@ -851,7 +853,7 @@ distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Ranghi tipici noti sul campo reale $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (adattata da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
+	\caption{Ranghi tipici noti su $\mathbb{R}$ per tensori di dimensione $m \times n \times p$ con $2 \le m \le n \le p$ (da Ballard e Kolda~\cite[Tabella~16.2]{BK25}).}
 	\label{tab:typical_ranks}
 	\begin{tabular}{lll}
 		\toprule
@@ -911,9 +913,8 @@ falso. Consideriamo il seguente esempio:
 
 \section{Il teorema del rango}
 
-Data la complessità del problema del rango possiamo stimarlo rango con la seguente
-proposizione, dalla quale intuiamo che non sarà semplice trovare stime del rango di un
-tensore---queste spesso coinvolgono tecniche algebrico-combinatoriche avanzate. Vedremo alcuni esempi di
+Data la complessità del problema del rango possiamo stimarlo con la seguente
+proposizione, dalla quale intuiamo che non sarà semplice trovare stime generali più precise---queste spesso coinvolgono tecniche algebrico-combinatoriche avanzate. Vedremo alcuni esempi di
 queste stime nella Sezione~\ref{sec:exp_estimates}.
 
 Definiamo un'operazione utile tra le colonne di due matrici, che sarà utile a dimostrare il
@@ -1000,7 +1001,7 @@ risultato di questa sezione.
 \end{proposition}
 \begin{proof}
 	Fissato $ r = \rk(T) $, la minorazione segue direttamente dal fatto che ogni unfolding $ \Tm{T}{j}
-	$ è una matrice di taglia $ n_{j} \times r  $.
+	$ è una matrice di taglia $ n_{j} \times r  $ di rango $ r_{j} $.
 	Mostriamo la maggiorazione, assumendo senza perdita di generalità che $ \rk(T) \le
 		\prod_{i=2}^d r_i $. Consideriamo la vettorizzazione
 	\begin{equation}
@@ -1052,13 +1053,13 @@ risultato di questa sezione.
 \section{Ricostruzione del tensore in formato denso}
 
 In alcune situazioni è utile scrivere il tensore fattorizzato in modo esplicito, ad esempio per
-valutare l'errore di approssimazione~\eqref{eq:rel_error} o generare numericamente un tensore. Un modo conveniente
+valutare l'errore di approssimazione dell'Equazione~\eqref{eq:rel_error} o generare numericamente un tensore. Un modo conveniente
 di farlo è il seguente. Data una fattorizzazione $ T = \dsqr{A,B,C} \in \R^{m\times n\times p} $ di
 rango $ r $,
-dato che $ \vec(T) = \left( C \krp B \krp A \right)\bm{1}_{r} $, saremmo tentati di formare la matrice $ C
+poiché $ \vec(T) = \left( C \krp B \krp A \right)\bm{1}_{r} $, saremmo tentati di formare la matrice $ C
 	\krp B \krp A $ e moltiplicarla per il vettore di tutti uni $ \bm{1}_{r} $, ma questa matrice ha più
-entrate del risultato finale. L'approccio vincente è considerare $ \Tm{T}{1} = A \left( C \krp B
-	\right)^{\top} $ dato dalla Proposizione~\ref{lhm:krp_unfoldings}, e studiare il sistema
+entrate del risultato finale. L'approccio vincente è considerare l'unfolding $ \Tm{T}{1} = A \left( C \krp B
+	\right)^{\top} $ della Proposizione~\ref{lhm:krp_unfoldings}, e studiare il sistema
 \begin{equation*}
 	\begin{cases}
 		R = C \krp B,  \\
@@ -1067,7 +1068,7 @@ entrate del risultato finale. L'approccio vincente è considerare $ \Tm{T}{1} = 
 	\end{cases}
 \end{equation*}
 Il risultato intermedio $ R \in \R^{np \times r} $ ha costo $ O(npr) $, mentre formare $ Y $ costa $
-	O(mnpr) $. Dato che l'unfolding è sul modo uno, non abbiamo bisogno di permutazioni.
+	O(mnpr) $. Essendo un unfolding sul modo uno, non paghiamo il costo di permutazioni.
 
 
 \section{Calcolo della fattorizzazione CP}
@@ -1084,8 +1085,7 @@ problema ai minimi quadrati
 	\min_{A,B,C}\| T - \dsqr{A,B,C}\|^2.
 \end{equation}
 Tale problema può essere mal posto per quanto detto sul border rank. Inoltre si tratta di un
-problema non convesso (esistono molti minimi locali); inoltre un tensore può avere
-fattorizzazioni CP multiple.
+problema non convesso (esistono molti minimi locali). Ricordiamo anche che in generale un tensore può avere fattorizzazioni CP multiple.
 
 \begin{definition}[Prodotto di Hadamard]
 	Date due matrici $ A,B \in \R^{m\times n} $, il loro \emph{prodotto di Hadamard} è il loro
@@ -1123,7 +1123,7 @@ fattorizzazioni CP multiple.
 \subsubsection{Alternating least-squares}
 
 Nonostante la funzione obbiettivo dell'Equazione~$\eqref{eq:least_square_tensor}$ non sia convessa,
-essa è convessa nelle singole variabili. Ovvero, fissando $ B $ e $ C $, ottimizzare solo su $ A $
+essa è convessa nelle singole variabili. Ovvero, fissate $ B $ e $ C $, ottimizzare solo su $ A $
 significa risolvere un problema ai minimi quadrati lineare
 \begin{equation}
 	\label{eq:lsq_matrix}
@@ -1133,7 +1133,7 @@ significa risolvere un problema ai minimi quadrati lineare
 dove l'incognita è una matrice. Nel primo
 passaggio abbiamo applicato la Proposizione~\ref{lhm:krp_unfoldings} per ridurci a un problema ai
 minimi quadrati matriciale.
-La soluzione può essere espressa \todo{why?} in termini delle equazioni normali
+La soluzione può essere espressa in termini delle equazioni normali
 \[
 	(C \krp B)^{\top}(C \krp B)A^T = (C \krp B)^{\top}\Tm{T}{1}^{\top}
 	,\]
@@ -1142,21 +1142,32 @@ se e solo se, usando il Lemma~\ref{lhm:had_krp}
 	\label{eq:als_pseudoinverse_eq}
 	(C^{\top}C \had B^{\top}B)A^{\top} = (C \krp B)^{\top}\Tm{T}{1}^{\top}
 \end{equation}
-Sia $ Z \defeq C^{\top}C \had B^{\top}B \in \R^{r\times r} $. Osserviamo che calcolare $ Z $ ha costo $
-	O((n+p)r^2) $. Inoltre $ Z $ è semidefinita positiva\todo{motiva}, e quando $ C
-	\krp B$ è full-rank è positiva definita: in tal caso possiamo risolvere con la fattorizzazione di Cholesky il sistema
+Sia $ Z \defeq (C \krp B) = C^{\top}C \had B^{\top}B \in \R^{r\times r} $. Osserviamo che $ Z $ soddisfa
+\begin{equation*}
+	x^{\top}Zx = x^{\top}(C \krp B)^{\top}(C \krp B)x = ((C \krp B)x)^{\top}((C \krp B)x) = \|^2 (C \krp
+	B)x \|_{2} \ge 0
+\end{equation*}
+per ogni $ x \in \R^r $, ossia è semidefinita positiva. In particolare dall'equazione sopra segue che quando $ C
+	\krp B$ è full-rank $ Z $ è positiva definita: in tal caso possiamo risolvere con la fattorizzazione di Cholesky il sistema
 \begin{equation}
 	AZ = \Tm{T}{1}(C\krp B)= M,
 \end{equation}
-con costo $ O(r^2m + r^3) $ \todo{verifica}
+con costo $ O(r^2m + r^3) $.
 
-L'idea dell'algoritmo ALS è di minimizzare ciclicamente la funzione obiettivo
-dell'Equazione~\eqref{eq:lsq_matrix}, prima al variare di $ A $, poi $ B $ e poi $ C $. Ognuno dei problemi dati dall'Equazione ha costo $
-	O(mnpr) $\todo{verificare (aggiungerebbe un paragrafetto)}. Riassumiamo questo schema
-nell'Algoritmo~\ref{alg:ALS}, dove in ogni passaggio riscaliamo la fattorizzazione CP come $
-	\dsqr{AD_{A}, BD_{B}, CD_{C}} $ con delle
-matrici tali che $ D_{A}D_{B}D_{C} = I_{r} $ per riscalare le colonne dei due fattori fissati in
-modo che abbiano norma unitaria.
+
+\begin{remark}
+	Facciamo un breakdown dei costi:
+	\begin{itemize}
+		\item Calcolare $ \Tm{T}{1}(C \krp B) $ costa $ O(mnpr) $, in quanto calcolare $ C \had B $
+		      costa $ O(mpr) $; essendo $ C \had B $ una matrice $ np \times r $ e $ \Tm{T}{1} $ una matrice
+		      $ m \times np $, il loro prodotto costa $ O(mnpr) $.
+		\item Calcolare $ (C^{\top}C \had B^{\top}B) $ costa $ O(r^2n + r^2 p + r^2) $ in quanto $
+			      C^{\top}C $ costa $ r^2n $, $ B^{\top}B $ costa $ r^2p $ ed essendo entrambe due matrici $ r
+			      \times r $, il loro prodotto di Katri-Rao costa $ O(r^2) $.
+		\item La risoluzione con Cholesky costa $ O(r^3) $, e ricavare $ A $ costa $ O(r^2m) $.
+	\end{itemize}
+	Siccome in generale il rango è molto più piccolo delle dimensioni del tensore, il costo asintotico è $ O(mnpr) $.
+\end{remark}
 
 \begin{algorithm}[htbp]
 	\caption{Schema dell'algoritmo ALS.}
@@ -1176,6 +1187,16 @@ modo che abbiano norma unitaria.
 	\end{algorithmic}
 \end{algorithm}
 
+L'idea dell'algoritmo ALS è di minimizzare ciclicamente la funzione obiettivo
+dell'Equazione~\eqref{eq:lsq_matrix}, prima al variare di $ A $, poi $ B $ e poi $ C $. Alla luce
+dei calcoli sopra, risolvere i problemi dati dall'Equazione ha costo $
+	O(mnpr) $, che quindi è anche il costo dell'algoritmo ALS. Riassumiamo questo schema
+nell'Algoritmo~\ref{alg:ALS}, dove in ogni passaggio riscaliamo la fattorizzazione CP come $
+	\dsqr{AD_{A}, BD_{B}, CD_{C}} $ con delle
+matrici tali che $ D_{A}D_{B}D_{C} = I_{r} $ per riscalare le colonne dei due fattori fissati in
+modo che abbiano norma unitaria.
+
+
 \begin{remark}
 	Dato che in genere non si sa il valore ottimo del problema~$\eqref{eq:least_square_tensor}$,
 	arrestiamo l'algortmo quando sta ``stagnando'', ovvero quando l'errore relativo fra due iterazioni
@@ -1187,11 +1208,4 @@ modo che abbiano norma unitaria.
 	metodo delle potenze, in quanto l'Equazione~\eqref{eq:als_pseudoinverse_eq} degenera in $ a \gets
 		T \frac{b}{\|b\|^2}$ e $ b \gets T^{\top}\frac{a}{\|a\|^2} $, mentre per $ T $ di rango $ r > 1 $ diventa il metodo dei
 	sottospazi: $ A \gets TB(B^{\top}B)^{-1} $ e $ B \gets T^{\top}A(A^{\top}A)^{-1} $.
-\end{remark}
-\begin{remark}
-	L'espressione sopra \todo{ref} si può anche scrivere come
-	\begin{equation*}
-		\| T - \sum_{r = 1}^R a_{r} \otimes b_{r} \otimes c_{r} \|^2 = \sum_{i,j,k}\abs{t_{ijk} -
-			\sum_{r=1}^R a_{ir}b_{jr}c_{kr}}^2.
-	\end{equation*}
 \end{remark}

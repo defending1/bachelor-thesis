@@ -5,7 +5,8 @@ add_cus_dep( 'glo', 'gls', 0, 'makeglossaries' );
 
 sub makeglossaries {
     my ($name, $path) = fileparse( $$Psource );
-    return system "makeglossaries -d '$path' '$name'";
+    system "makeglossaries -d '$path' '$name'";
+    return 0;
 }
 
 $lualatex = 'lualatex  %O  -interaction=nonstopmode --shell-escape %S';

@@ -1,0 +1,82 @@
+% !TEX root = ../Thesis.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter*{Introduzione}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In questo elaborato studiamo la decomposizione di un tensore di rango $ r $ come somma di $ r $ tensori di rango uno, dal
+nome Canonical Polyadic Decomposition (abbreviata, decomposizione CP), anche nota come PARAFAC (da ``parallel factor
+analysis'') o CANDECOMP (da ``canonical decomposition'').
+Dimostreremo l'unicità di una decomposizione sotto opportune ipotesi di indipendenza dei fattori, risultato noto come il Teorema
+di Kruskal. Per farlo, introdurremo il concetto di unicità di una decomposizione e di indipendenza
+dei fattori (detto $ k $-rango). Questo
+risultato sarà molto rilevante nelle applicazioni, per identificare univocamente le componenti di un
+modello reale. Esploreremo due applicazioni modellistiche, dove sarà necessario garantire
+l'unicità. La prima sarà la spettroscopia fluorescente (dalla
+chemiometria) dove dalla decomposizione di un tensore che rappresenta una serie di misurazioni di un
+campione recupereremo la concentrazione delle sostanze chimiche. La seconda, la blind deconvolution
+di segnali (dall'analisi di segnali) dove una decomposizione ci permetterà di recuperare la posizione di utenti che mandano messaggi a delle antenne.
+Di seguito passeremo allo studio della complessità aritmetica della
+moltiplicazione tra matrici, dove modelleremo l'algoritmo di moltiplicazione tramite la
+decomposizione CP di rango $ r $. Dimostreremo la corrispondenza tra il rango della decomposizione e
+la complessità ottima del prodotto matriciale. Al fine dare stime più accurate della complessità,
+studieremo gli algoritmi di moltiplicazione approssimati, che impiegheranno meno moltiplicazioni al
+costo di un maggiore errore algoritmico.
+
+Le decomposizioni di tensori occorrono in numerose aree scientifiche dove è necessario modellare elementi di sistemi complessi
+con fattori semplici, in molte di queste applicazione è
+cruciale garantire l'unicità. Per elencarne alcune, nell'ambito medico della psicometria è stata impiegata per studiare gli impulsi celebrali [311,
+		71, 158], in particolare nel trovare l'area del cervello di un paziente in cui è in atto una crisi
+epilettica, o la diagnosi e gestione di ictus.; sempre nella medicina,
+nell'interpretare la immagini di risonanze magnetiche; vedi ad esempio e relative
+reference.
+Nell'elaborazione di immagini per alcune tecniche di compressione, o in generale nell'analisi di
+dati \todo{reference}, anche in discipline come la geologia \todo{ref}. Nell'analisi numerica, spesso vengono approssimate funzioni di $ n $
+variabili da una somma finita di prodotti di funzioni in una variabile.\todo{reference}
+
+Questo elaborato si sviluppa con la seguente struttura:
+
+Nel Capitolo~\ref{chp:tensors_intro}, introdurremo i tensori e i relativi spazi. Definiremo la fattorizzazione CP e del
+relativi metodi di calcolo. Discuteremo alcune loro caratteristiche
+fondamentali che li differenziano dalle matrici, come border rank, rango tipico e rango
+massimo. Introdurremo un metodo numerico per calcolare la fattorizzazione CP, chiamato algoritmo
+Alternating Least Squares (ALS). La trattazione è riadattata da Ballard e Kolda~\cite{BK25}.
+
+Nel Capitolo~\ref{cp:cp_uniqueness} definiremo l'unicità di una fattorizzazione e il Kruskal rank per dimostrare il Teorema di Kruskal, che afferma l'unicità della scrittura della
+fattorizzazione CP di un tensore a tre indici. Enunceremo il risultato per tensori $ n
+$-dimensionali, e osserveremo che tale risultato non vale
+per le matrici. Presenteremo una versione modernizzata della dimostrazione originale di
+Kruskal~\cite{KRUSKAL197795} in dimensione tre a cura di Landsberg~\cite{landsberg2011tensors}.
+
+Nel Capitolo~\ref{chp:matmul} sposteremo il focus allo studio della complessità della
+moltiplicazione matriciale attraverso gli algoritmi di moltiplicazoine veloci. Introdurremo l'esponente di moltiplicazione ottimo $ \omega $ e un modello computazionale per
+calcolarlo. Osserveremo che la moltiplicazione tra matrici, vista come mappa bilineare si può
+scrivere come un tensore, e di seguito messa in corrispondenza con un algoritmo per valutare il prodotto in
+funzione delle entrate del tensore. Dimostreremo la corrispondenza tra il rango di un tensore, il
+numero di moltiplicazioni di un algoritmo e l'esponente ottimale ottima per fornire alcune stime
+sull'esponente. Deriveremo un esempio di algoritmo di moltiplicazione approssimato partendo da
+quello classico, dove potremo osservare il fenomeno del border rank. Al termine
+accenneremo l'errore algoritmico degli algoritmi veloci, e confronteremo numericamente l'andamento
+dell'errore degli algoritmi esatti contro gli algoritmi approssimati. In questo capitolo le fonti si
+trovano all'intersezione dei campi dell'analisi numerica~\ref{BK25}, della teoria della complessità
+algebrica~\ref{burgisser2013algebraic} e della geometria algebrica~\ref{landsberg2011tensors,
+	landsberg2015geometry, cw90}.
+
+Nel capitolo~\ref{chp:cp_applications} presenteremo alcune applicazioni modellistiche della CP, presentando due esperimenti
+numerici: il recupero della concentrazione di sostanze chimiche in un composto (spettroscopia
+fluorescente) e la ricostruzione di segnali (cocktail party problem). In entrambe le applicazioni
+l'unicità avrà un ruolo fondamentale.
+
+Come descritto da Landsberg\todo{cite}, nell'ambito del calcolo tensoriale avviene uno ``scontro di
+culture'', dove confluiscono risultati teorici trovati dagli studiosi delle applicazioni scientifiche
+(e.g., psicometria, chemiometria, neurologia), analisti numerici, teorici della complessità e
+geometri algebrici. In questi ambiti le notazioni differiscono sostanzialmente, noi abbiamo cercato
+di tenere il punto di vista dell'analisi numerica, senza appesantire troppo con la notazione tipica dell'algebra multilineare.
+\todo{Lascio questo paragrafo?}
+
+Le sperimentazioni dei Capitoli~\ref{chp:tensors_intro} e~\ref{chp:cp_applications} sono state svolte in
+Python con le librerie Numpy, Scipy, Tensorly, il codice sorgente si trova QUI. L'esperimento del
+Capitolo 3 è stato scritto in Rust, ed è parte di un progetto svolto durante il corso di laurea per il corso ``laboratorio computazionale'' QUI REPO.
+
+Molte figure sono state ispirate dal libro di Ballard e Kolda~\cite{BK25} e riprodotte in Tikz.
+I grafici sono stati generati con Matplotlib con la libreria Scienceplots~\cite{SciencePlots}.
