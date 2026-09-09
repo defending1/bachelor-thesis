@@ -110,7 +110,7 @@
 % 5 '  - Transpose
 % 6 "  - Phantom Tranpose
 \NewDocumentCommand{\Tm}{O{} m O{} !g t' t"}{
-	\bm{#1{\mathbf{\MakeUppercase{#2}}}}_{\prn#3(#4)}%
+	#1{\MakeUppercase{#2}}_{\prn#3(#4)}%
 	\IfBooleanTF{#5}{^{\Tr}}{%
 		\IfBooleanT{#6}{^{\Tr*}}}%
 }
