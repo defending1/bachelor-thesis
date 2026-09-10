@@ -62,28 +62,6 @@
 \setsansfont{IBM Plex Sans}
 \setmonofont{IBM Plex Mono}
 
-\newacronym[description={Canonical Polyadic Decomposition}]{CP}{CP}{canonical polyadic decomposition}
-\newacronym[description={Alternating Least Squares}]   {ALS}{ALS}{alternating least squares}
-\newacronym[description={Singular Value Decomposition}]   {SVD}{SVD}{singular value decomposition}
-\newacronym[description={Arbitrary Precision Approximating}]   {APA}{APA}{arbitrary precision approximating}
-
-
-
-\newglossaryentry{LaTeX}{%
-  name        = {\LaTeX},
-  description = {A document preparation system},
-  sort        = {LaTeX},
-}
-
-\newglossaryentry{Real numbers}{%
-  name        = {$\real$},
-  description = {The set of real numbers},
-  sort        = {Real numbers},
-}
-
-\makeindex
-\makeglossaries
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figures
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,8 +69,6 @@
 \usepackage{xifthen}
 \usepackage{pdfpages}
 \usepackage{transparent}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ordinals
@@ -123,7 +99,6 @@
 \definecolor{cGrey}{HTML}{A0A0A0}
 \definecolor{cBrown}{HTML}{A9795C}
 \definecolor{cPink}{HTML}{F084B6}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Math
@@ -169,6 +144,194 @@
   \par\vspace{1ex}       % Small space after the environment
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acronyms & Glossaries
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- ACRONIMI ---
+\newacronym[description={Canonical Polyadic Decomposition}]{CP}{CP}{canonical polyadic decomposition}
+\newacronym[description={Alternating Least Squares}]{ALS}{ALS}{alternating least squares}
+\newacronym[description={Singular Value Decomposition}]{SVD}{SVD}{singular value decomposition}
+\newacronym[description={Arbitrary Precision Approximating}]{APA}{APA}{arbitrary precision approximating}
+\newacronym[description={Excitation-Emission Matrix}]{EEM}{EEM}{excitation-emission matrix}
+\newacronym[description={Direct-Sequence Code-Division Multiple Access}]{DS-CDMA}{DS-CDMA}{direct-sequence code-division multiple access}
+\newacronym[description={Blind Source Separation}]{BSS}{BSS}{blind source separation}
+\newacronym[description={Signal-to-Noise Ratio}]{SNR}{SNR}{signal-to-noise ratio}
+\newacronym[description={Interchip Interference}]{ICI}{ICI}{interchip interference}
+\newacronym[description={Intersignal Interference}]{ISI}{ISI}{intersignal interference}
+
+% --- GLOSSARIO NOTAZIONE MATEMATICA ---
+
+% Insiemi numerici e spazi
+\newglossaryentry{numsets}{%
+  name        = {$\N, \Z, \Q, \R, \C$},
+  description = {Insiemi dei numeri naturali, interi, razionali, reali e complessi},
+  sort        = {N},
+}
+
+\newglossaryentry{field}{%
+  name        = {$\K$},
+  description = {Campo scalare generico ($\R$ o $\C$)},
+  sort        = {K},
+}
+
+\newglossaryentry{indexset}{%
+  name        = {$[n]$},
+  description = {Insieme degli indici $\{1, 2, \ldots, n\}$},
+  sort        = {n},
+}
+
+\newglossaryentry{dualspace}{%
+  name        = {$V^*$},
+  description = {Spazio duale dello spazio vettoriale $V$},
+  sort        = {V*},
+}
+
+\newglossaryentry{annihilator}{%
+  name        = {$U^\perp$},
+  description = {Annullatore / complemento ortogonale del sottospazio $U$},
+  sort        = {Uperp},
+}
+
+\newglossaryentry{symgroup}{%
+  name        = {$\mathfrak{S}_n$},
+  description = {Gruppo simmetrico su $n$ elementi},
+  sort        = {Sn},
+}
+
+\newglossaryentry{genlinear}{%
+  name        = {$\mathrm{GL}_n(\K)$},
+  description = {Gruppo generale lineare delle matrici $n \times n$ invertibili su $\K$},
+  sort        = {GL},
+}
+
+\newglossaryentry{tensor}{%
+  name        = {$T$},
+  description = {Tensore di ordine $d$},
+  sort        = {T},
+}
+
+\newglossaryentry{tensorprodspace}{%
+  name        = {$A_1 \otimes \cdots \otimes A_d$},
+  description = {Spazio vettoriale del prodotto tensoriale di $d$ spazi},
+  sort        = {A1},
+}
+
+\newglossaryentry{unfolding}{%
+  name        = {$T_{(\ell)}$},
+  description = {Matricizzazione ($\ell$-esimo unfolding) del tensore $T$},
+  sort        = {Tell},
+}
+
+\newglossaryentry{kruskalnotation}{%
+  name        = {$\llbracket A_1, \ldots, A_d \rrbracket$},
+  description = {Notazione di Kruskal per la decomposizione CP},
+  sort        = {dsqr},
+}
+
+\newglossaryentry{tensorsubstructures}{%
+  name        = {$T_{:,:,k}, T_{:,j,k}$},
+  description = {Slice e fibra di un tensore},
+  sort        = {Tslice},
+}
+
+% Operatori tensoriali
+\newglossaryentry{outerprod}{%
+  name        = {$\otimes$},
+  description = {Prodotto tensoriale o esterno (outer product)},
+  sort        = {topp},
+}
+
+\newglossaryentry{kronecker}{%
+  name        = {$\boxtimes$},
+  description = {Prodotto di Kronecker tra matrici},
+  sort        = {krn},
+}
+
+\newglossaryentry{khatrirao}{%
+  name        = {$\odot$},
+  description = {Prodotto di Khatri-Rao (Kronecker colonna per colonna)},
+  sort        = {krp},
+}
+
+\newglossaryentry{hadamard}{%
+  name        = {$\ast$},
+  description = {Prodotto di Hadamard (elemento per elemento)},
+  sort        = {had},
+}
+
+\newglossaryentry{ttm}{%
+  name        = {$\times_n$},
+  description = {Prodotto tensore-matrice lungo il modo $n$},
+  sort        = {ttm},
+}
+
+\newglossaryentry{transpose}{%
+  name        = {$A^{\top}$},
+  description = {Matrice trasposta},
+  sort        = {Tr},
+}
+
+
+\newglossaryentry{vec}{%
+  name        = {$\operatorname{vec}(M)$},
+  description = {Vettorizzazione di una matrice o tensore},
+  sort        = {vec},
+}
+
+% Ranghi e invarianti
+\newglossaryentry{rank}{%
+  name        = {$\mathbf{R}(T), \operatorname{rank}(M)$},
+  description = {Rango tensoriale o rango matriciale},
+  sort        = {rk},
+}
+
+\newglossaryentry{multilinrank}{%
+  name        = {$\mathbf{R}_{\text{multilin}}(T)$},
+  description = {Rango multilineare (tupla dei ranghi delle matricizzazioni)},
+  sort        = {multirk},
+}
+
+\newglossaryentry{krank}{%
+  name        = {$\mathbf{k}_{A}$},
+  description = {Kruskal rank ($k$-rango) della matrice $A$},
+  sort        = {krk},
+}
+
+\newglossaryentry{borderrank}{%
+  name        = {$\underline{\mathbf{R}}(T)$},
+  description = {Border rank di un tensore},
+  sort        = {brk},
+}
+
+\newglossaryentry{frobeniusnorm}{%
+  name        = {$\|T\|_F$},
+  description = {Norma di Frobenius di un tensore o matrice},
+  sort        = {fnrm},
+}
+
+\newglossaryentry{innerproduct}{%
+  name        = {$\langle T_{1}, T_{2} \rangle$},
+  description = {Prodotto scalare tra tensori},
+  sort        = {angb},
+}
+
+% Moltiplicazione matriciale e complessità
+\newglossaryentry{matmul_tensor}{%
+  name        = {$\langle m, n, p \rangle$},
+  description = {Tensore o mappa bilineare della moltiplicazione di matrici di dimensioni $(m \times n)$ e $(n \times p)$},
+  sort        = {algob},
+}
+
+\newglossaryentry{omega}{%
+  name        = {$\omega$},
+  description = {Esponente di complessità della moltiplicazione tra matrici},
+  sort        = {omega},
+}
+
+\makeindex
+\makeglossaries
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Incipit
@@ -185,8 +348,8 @@
 \mainmatter
 
 \include{Sources/Introduction}
-% \include{Sources/Chapter1/Chapter1}
-% \include{Sources/Chapter2/Chapter2}
+\include{Sources/Chapter1/Chapter1}
+\include{Sources/Chapter2/Chapter2}
 \include{Sources/Chapter3/Chapter3}
 \include{Sources/Chapter4/Chapter4}
 % \include{Sources/Appendix}
@@ -198,6 +361,7 @@
 
 \begingroup
 \let\clearpage\relax
+\renewcommand{\glsgroupskip}{}
 \glsaddall
 \printglossary[type=\acronymtype]
 \newpage
