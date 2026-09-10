@@ -21,7 +21,7 @@ indichiamo l'insieme dei numeri $ \{1, 2, \ldots, n\}  $ con  $ [n] $.
 \begin{definition}[Mappe bilineari]
 	Siano $ U,V,W $ spazi vettoriali di dimensione finita su un campo $ \K $. Una \emph{mappa
 		bilineare} è un'applicazione $ \varphi : U \times V \to
-		W$ lineare in ogni componente, in altre parole tale che $ f(u, \cdot) $ e $ f(\cdot,v) $ sono
+		W$ lineare in ogni componente, in altre parole tale che $ \varphi(u, \cdot) $ e $ \varphi(\cdot,v) $ sono
 	lineari per ogni $ u\in U $ e $ v\in V $. Quando $ W = \K $ la chiameremo \emph{forma bilineare}.
 \end{definition}
 In generale, dati degli spazi vettoriali $ A_1, \ldots, A_{n} $ di
@@ -122,18 +122,24 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 		\beta_{n}) = \beta_1(a_1)\beta_2(a_2) \cdots \beta_{d}(a_{d}) $.
 \end{definition}
 
-Operativamente, dati due vettori $ u = \begin{bmatrix} u_1, \ldots, u_m \end{bmatrix}^{\top} \in \K^m $ e $ v =
-	\begin{bmatrix} v_1, \ldots, v_n \end{bmatrix}^{\top} \in \R^n  $, possiamo calcolare il prodotto
+Operativamente, dati due vettori $ a = \begin{bmatrix} a_1, \ldots, a_m \end{bmatrix}^{\top} \in \K^m $ e $ b =
+	\begin{bmatrix} b_1, \ldots, b_n \end{bmatrix}^{\top} \in \K^n  $, possiamo calcolare il prodotto
 tensore come
 \begin{equation*}
-	u \topp v = uv^{\top} =
-	\begin{bmatrix} u_1v_1 & u_1v_2 & \ldots & u_1v_n \\ u_2v_1 & u_2v_2 &
-                \ldots & u_2v_n                   \\
+	a \topp b = ab^{\top} =
+	\begin{bmatrix} a_1b_1 & a_1b_2 & \ldots & a_1b_n \\ a_2b_1 & a_2b_2 &
+                \ldots & a_2b_n                   \\
                 \vdots & \vdots & \ddots & \vdots \\
-                u_mv_1 & u_mv_2 & \ldots & u_mv_n
+                a_mb_1 & a_mb_2 & \ldots & a_mb_n
 	\end{bmatrix} \in \R^{m\times n}.
 \end{equation*}
-In più dimensioni, presi $ a_{1} \in \K^{n_1}, \ldots, a_{n} \in \K^{n_n} $, il loro prodotto tensore è
+Questo segue dalla valutazione di $ T = a \otimes b \in \K^{m \times n}$ sulla base canonica $
+	e_{i}^* $:
+\begin{equation*}
+	T_{i,j} = T(e_{i}^*, e_{j}^*) = (a \otimes b)(e_{i}^*, e_{j}^*) = e_{i}^*(a) e_{j}^*(b) = a_{i}b_{j}.
+\end{equation*}
+
+Analogamente, in più dimensioni, presi $ a_{1} \in \K^{n_1}, \ldots, a_{n} \in \K^{n_n} $, il loro prodotto tensore è
 \begin{equation}
 	\label{eq:rk1}
 	T = a^{(1)} \topp a^{(2)} \topp \cdots \topp a^{(d)} \in \K^{n_1 \times n_2 \times \cdots \times
@@ -142,7 +148,7 @@ In più dimensioni, presi $ a_{1} \in \K^{n_1}, \ldots, a_{n} \in \K^{n_n} $, il
 tale che la sua scrittura in componenti è
 \begin{equation}
 	\label{eq:rk1_components}
-	T_{\miwc} = a_{i_1}^{(1)}v_{i_2}^{(2)} \cdots v_{i_d}^{(d)}
+	T_{\miwc} = a_{i_1}^{(1)}a_{i_2}^{(2)} \cdots a_{i_d}^{(d)}
 \end{equation}
 
 Questo ci permette di definire la seguente quantità fondamentale:
@@ -166,7 +172,7 @@ matrice, o un tensore di ordine $ 4 $ su uno di ordine $ 3 $).
 		\end{aligned}
 	\end{equation*}
 	dove i coefficienti $ s_j $ sono chiamati \emph{passi $ j $-esimi} e sono definiti come $ s_1=1 $ e
-	$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_kn_k$, per ogni $ j = 1, \ldots, d-1 $.
+	$ s_{j+1} = n_1 \cdots n_{j} = \prod_{h=1}^{j}n_h = s_jn_j$, per ogni $ j = 1, \ldots, d-1 $.
 	L'inversa di $ \L $ è data dalla mappa
 	\begin{equation*}
 		\begin{aligned}
@@ -212,9 +218,9 @@ matrice, o un tensore di ordine $ 4 $ su uno di ordine $ 3 $).
 		< \prod_{j=1}^d n_{j}$. Ricordando che $ n_{j}s_{j} = s_{j+1} $, per definizione di
 	linearizzazione si ha
 	\begin{align}
-		\L(\beta) & = \L\left(\beta_1, \ldots, \beta_{d}\right) =  \notag                                                 \\
-		          & =1 + \sum_{j = 1}^d s_j\left(\left\lfloor \frac{k \pmod{s_{j+1}}}{s_j} \label{eq:linear_inverse_beta}
-		\right\rfloor \right).
+		\L(\beta) & = \L\left(\beta_1, \ldots, \beta_{d}\right) =  \notag                  \\
+		          & =1 + \sum_{j = 1}^d s_j\left(\left\lfloor \frac{k \pmod{s_{j+1}}}{s_j}
+		\right\rfloor \right).\label{eq:linear_inverse_beta}
 	\end{align}
 	Consideriamo la scrittura in base mista $ k = \sum_{h=1}^d c_{h}s_{h} $, dove $ 0 \le c_{h} <
 		n_{h} $, allora vale che $ k \pmod{s_{j+1}} = \sum_{h=1}^j c_{h}s_{h} $, da cui dividendo per $
@@ -355,9 +361,9 @@ naturale definire la seguente operazione
 			a_{21}B & a_{22}B & \ldots & a_{2n}B \\
 			\vdots  & \vdots  & \ddots & \vdots  \\
 			a_{m1}B & a_{m2}B & \ldots & a_{mn}B \\
-		\end{bmatrix}  \in  \K^{mp \times nq}, \text{dove } c_{kl} = a_{ij}b_{nl},
+		\end{bmatrix}  \in  \K^{mp \times nq}, \text{dove } c_{\alpha \beta} = a_{ij}b_{kl},
 		.\]
-	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $
+	dove $ \alpha = \L^*(i,k) = \L(k,i) $ e $ \beta = \L^*(j,l) = \L(l,j) $.
 
 \end{definition}
 \begin{remark}
@@ -597,7 +603,7 @@ In alcune situazioni è utile cambiare il formato del tensore.
 	per ogni $(i_1, \ldots, i_{d'}),(j_1, \ldots,
 		j_d) $ tali che
 	\begin{equation*}
-		\L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
+		\L(i_1, \ldots, i_{d'}; \msiz![m][d']) = \L(j_1, \ldots,
 		j_d; \msiz!).
 	\end{equation*}
 \end{definition}
@@ -673,9 +679,9 @@ Rispetto al caso matriciale, il problema di calcolare il rango e una fattorizzaz
 complicano notevolmente. Ci sono molte domande aperte riguardo al rango, ad esempio non si ha una
 risposta generale a domande pienamente risolte per le matrici:
 \begin{enumerate}
-	\item Qual'è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
+	\item Qual è il massimo rango possibile per un tensore di dimensione $ n_1 \times \cdots \times n_d $?
 	\item Quali sono i ranghi \emph{tipici}, ovvero quelli ottenuti con probabilità non nulla quando si genera un tensore di entrate casuali?
-	\item Qual'è il rango di una successione di tensori al limite?
+	\item Qual è il rango di una successione di tensori al limite?
 \end{enumerate}
 Per capire il motivo, discutiamo alcune caratteristiche dei tensori che rendono complesso il ``problema del
 rango''.
@@ -830,7 +836,7 @@ tensori di ordine superiore sono sconosciuti. I casi speciali in cui il rango ma
 \subsection*{Rango tipico}
 \label{sec:rango_tipico}
 
-Mentre le matrici random hanno rango massimo con probabilità uno\footnote{L'idea è presa una matrice
+Mentre le matrici random hanno rango massimo con probabilità uno\footnote{L'idea alla base è che, presa una matrice
 	con entrate estratte da una distribuzione di probabilità continua, il
 	determinante è un polinomio le cui indeterminate sono le entrate della matrice. Il luogo di
 	zeri di questo polinomio ha misura di Lebesgue nulla, quindi integrando la densità di probabilità
@@ -1014,8 +1020,8 @@ risultato di questa sezione.
 
 \begin{proposition}[Teorema del rango]
 	\label{th:rank}
-	Sia $ T \in \Rmsiz! $ un tensore che ammette fattorizzazione $ T = \dsqr{U_1, \ldots,
-			U_d} $, e sia $ r_j = \rank(\Tm{T}{j}) $ il rango dell'unfolding $ \Tm{T}{j} $ con $ j = 1, \ldots, d $. Allora vale che
+	Sia $ T \in \Rmsiz! $ un tensore che ammette una fattorizzazione $ T = \dsqr{U_1, \ldots,
+			U_d} $ di rango $ r $, e sia $ r_j = \rank(\Tm{T}{j}) $ il rango dell'unfolding $ \Tm{T}{j} $ con $ j = 1, \ldots, d $. Allora vale che
 	\begin{equation}
 		\max_{j=1, \ldots, d}(r_j) \le \rk(T) \le \min_{j=1, \ldots, d}\left( \prod_{i \neq j}r_i \right)
 	\end{equation}
@@ -1052,12 +1058,24 @@ risultato di questa sezione.
 	\[
 		\Tm{T}{1} = U_1 \left( U_d \krp \cdots \krp U_2 \right)^{\top}.
 	\] Dalla lineare indipendenza appena dimostrata, e
-	dall'Osservazione~\ref{rmk:krp_as_span} segue che $ \rk \left(U_d \krp \cdots \krp U_2 \right) =r $.
-	Applicando l'Osservazione~\ref{rmk:krp_sub_krn} a più fattori, $ U_d \krp \cdots \krp U_r $ è
-	sottomatrice di $ U_d \krn \cdots \krn U_2 $. Siccome il rango del prodotto di Kroneker è
+	dall'Osservazione~\ref{rmk:krp_as_span} segue che $ \rank \left(U_d \krp \cdots \krp U_2 \right) =r $.
+	Applicando l'Osservazione~\ref{rmk:krp_sub_krn} a più fattori troviamo che $ U_d \krp \cdots \krp U_r $ è
+	sottomatrice di $ U_d \krn \cdots \krn U_2 $.\todo{Aggiunta questa giustificazoine} Notiamo che i fattori $ U_{j} $ hanno rango $ r_{j}
+	$ in quanto
+	\begin{equation*}
+		\begin{aligned}
+			r_{j} & = \rank(\Tm{T}{j}) = \rank(U_{j}\left( U_{d} \krp U_{d-1} \krp \cdots \krp
+			U_{d+1} \krp U_{j-1} \krp \cdots \krp U_{1} \right)^{\top})                        \\
+			      & \le \min \{\rank(U_{j}), \rank(\left( U_{d} \krp U_{d-1} \krp \cdots \krp
+			U_{d+1} \krp U_{j-1} \krp \cdots \krp U_{1} \right)^{\top})\}                      \\
+			      & \le \rank(U_{j}) \le r_{j},
+		\end{aligned}
+	\end{equation*}
+	per ogni $ j = 1, \ldots, d $.
+	Siccome il rango del prodotto di Kroneker è
 	moltiplicativo (Osservazione~\ref{rmk:rk_krn_prod}) troviamo
 	\begin{equation*}
-		r \le \rank \left(U_d \krn \cdots \krn U_2 \right) = r_2 \cdots r_d.
+		r \le \rank \left(U_d \krn \cdots \krn U_2 \right) = \rank (U_{d}) \cdots \rank(U_{2}) = r_2 \cdots r_d.
 	\end{equation*}
 	Ripetendo l'argomento per gli altri unfoldings si ha la tesi.
 \end{proof}

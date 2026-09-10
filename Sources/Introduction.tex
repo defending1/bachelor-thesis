@@ -25,14 +25,15 @@ costo di un maggiore errore algoritmico.
 
 Le decomposizioni di tensori occorrono in numerose aree scientifiche in cui è necessario modellare elementi di sistemi complessi
 tramite fattori semplici. In molte di queste applicazioni è
-cruciale garantire l'unicità. Nell'ambito medico della psicometria, ad esempio, sono state impiegate per studiare gli impulsi cerebrali [311,
-		71, 158], in particolare per individuare l'area del cervello di un paziente in cui è in atto una crisi
-epilettica, o la diagnosi e gestione di ictus; sempre in medicina, trovano applicazione
+cruciale garantire l'unicità. Nell'ambito medico della psicometria, ad esempio, sono state impiegate
+per studiare gli impulsi cerebrali~\cite{tucker1963implications, harshman1996uniqueness, carroll1970analysis}, in particolare per individuare l'area del cervello di un paziente in cui è in atto una crisi
+epilettica~\cite{calamante2004defining, schultz2008estimating}, o la diagnosi e gestione di ictus; sempre in medicina, trovano applicazione
 nell'interpretare le immagini di risonanza magnetica; vedi ad esempio e relative
-reference. Sono inoltre utilizzate nell'elaborazione di immagini per alcune tecniche di compressione, o in generale nell'analisi di
-dati \todo{reference} e in discipline come la geologia \todo{ref}. Nell'analisi numerica, infine,
+reference. Sono inoltre utilizzate nell'elaborazione di immagini per alcune tecniche di
+compressione, o anche nell'analisi di
+dati~\cite{li2008discriminant, astrid2017cp} e in la geologia~\cite{mcneice2001multisite}. Nell'analisi numerica, infine,
 sono utilizzate per approssimare funzioni di $ n $
-variabili tramite una somma finita di prodotti di funzioni in una variabile.\todo{reference}
+variabili tramite una somma finita di prodotti di funzioni in una variabile~\cite{hackbusch2008tensor}.
 
 Questo elaborato è struttrato come segue:
 
@@ -78,8 +79,9 @@ geometri algebrici. Poiché le in questi settori le notazioni differiscono in mo
 di mantenere il punto di vista dell'analisi numerica, senza appesantire troppo con la notazione tipica dell'algebra multilineare.
 
 Le sperimentazioni dei Capitoli~\ref{chp:tensors_intro} e~\ref{chp:cp_applications} sono state sviluppate in
-Python con le librerie Numpy, Scipy, Tensorly, il codice sorgente si trova QUI. L'esperimento del
-Capitolo 3 è stato scritto in Rust, ed è parte di un progetto svolto durante il corso di laurea per il corso ``laboratorio computazionale'' QUI REPO.
+Python con le librerie Numpy, Scipy, Tensorly, il codice sorgente si trova in~\cite{defending1_experiments_2026}. L'esperimento del
+Capitolo 3 è stato scritto in Rust, ed è parte di un progetto svolto durante il corso di laurea per
+il corso ``laboratorio computazionale'', il codice e il report si trovano in~\cite{defending1_fastmatmul_2026}.
 
 Molte figure sono state ispirate dal libro di Ballard e Kolda~\cite{BK25} e riprodotte tramite Tikz.
 I grafici sono stati generati con Matplotlib con la libreria Scienceplots~\cite{SciencePlots}.

@@ -324,8 +324,10 @@ Introduciamo un lemma utile nella dimostrazione della proposizione.
 			                            & = UD_1D_2^{-1}U^{-1},
 		\end{aligned}
 	\end{equation*}
-	in altre parole, $ T(\gamma_1)T(\gamma_2)^{-1} $ è diagonalizzabile, con autovettori, dati dalla
-	matrice $ U $, univocamente determinati a meno di permutazione e riscalamento.
+	in altre parole, $ T(\gamma_1)T(\gamma_2)^{-1} $ è diagonalizzabile con autovettori, dati dalla
+	matrice $ U $, univocamente determinati a meno di permutazione e riscalamento. Siccome tale
+	matrice ha come autovalori $ \lambda_{i} $, mostrando la (ii) otteniamo che gli
+	autospazi hanno dimensione uno, da cui la tesi.\todo{torna questa precisazione?}
 
 	A questo punto possiamo mostrare la (ii), ovvero vediamo che i
 	rapporti $ \frac{\gamma_1(c_{i})}{\gamma_{2}(c_{i})} $ sono distinti. Se per assurdo $
@@ -379,9 +381,9 @@ importanza nella dimostrazione del Teorema di Kruskal.
 
 
 \begin{definition}[Concise tensor]
-	Un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_n $ si dice \emph{$ 1 $-concise} se non esiste un
-	sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots \otimes A_n $.
-	Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, n\}  $. Un tensore è detto
+	Un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_d $ si dice \emph{$ 1 $-concise} se non esiste un
+	sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots \otimes A_d $.
+	Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, d\}  $. Un tensore è detto
 	\emph{concise} se è $ i $-concise per ogni $ i $.
 \end{definition}
 \begin{remark}
@@ -655,7 +657,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\begin{equation*}
 		\krk{\s_A} + \krk{\s_B} - r -1 \gneq \krk{\s_A} + \krk{\s_B} - S
 	\end{equation*}
-	ovvero $  -r - 1 \gneq -S $ cioé $  r + 1 \lneq S $, il che è assurdo. Quindi $ S \le \min \{\krk{\s_A},
+	ovvero $  -r - 1 \gneq -S $ cioè $  r + 1 \lneq S $, il che è assurdo. Quindi $ S \le \min \{\krk{\s_A},
 		\krk{\s_B}\}  $, e dal
 	permutation lemma segue l'uguaglianza $ \s_C = \tilde{\s}_C $.
 

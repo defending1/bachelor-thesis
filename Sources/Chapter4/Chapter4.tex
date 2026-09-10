@@ -3,15 +3,14 @@
 \chapter{Applicazioni modellistiche della decomposizione CP}
 \label{chp:cp_applications}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\todo{migliorato}
 In questo capitolo esploreremo due applicazioni della decomposizione CP di un tensore a tre indici
 in due ambiti modellistici,
 dove avremo modo di applicare il Teorema di Kruskal~\ref{thm:kruskal3d} e l'algoritmo Alternating
 Least Squares. Nel primo esperimento il rango non sarà noto a priori e dovremo prima approssimarlo,
-per poi trovare una decomposizione. Nel secondo conosceremo il rango a priori\todo{improve}.
-In entrambi gli esperimenti sarà fondamentale l'essenziale unicità data dal teorema di
-Kruskal~\ref{thm:kruskal3d}. Inoltre, osserveremo che nella pratica la fattorizzazione CP soffre
-l'ambiguità del riscalamento e della permutazione dei fattori.
+per poi trovare una decomposizione. Nel secondo conosceremo il rango a priori.
+In entrambi gli esperimenti sarà necessario risolvere l'ambiguità del riscalamento e della
+permutazione dei fattori per preservare il modello reale.
 
 \section{Spettroscopia fluorescente}
 
@@ -33,8 +32,7 @@ Nel dettaglio, vengono dati $ I $ campioni di soluzioni chimiche, ognuno dei qua
 diluite in diverse concentrazioni. Il primo obiettivo è determinare il numero $ r $ delle diverse
 sostanze presenti.
 Il dataset che analizziamo~\cite{kolda2021eem,acar2014structure} è composto da una serie di esperimenti riportati
-da~\cite{smilde2004multi}, nel quale sono presenti ci
-sono tre sostanze chimiche disciolte nelle soluzioni:
+da~\cite{smilde2004multi}, nel quale sono presenti tre sostanze chimiche disciolte nelle soluzioni:
 \begin{itemize}
 	\item \emph{Valine-Tyrosine-Valine} (Val-Tyr-Val) - peptide,
 	\item \emph{Tryptophan-Glycine} (Trp-Gly) - peptide,
@@ -140,6 +138,10 @@ notiamo che i primi due fattori di $ a_{1} $ sono nulli, che significa che la co
 presente nei primi due campioni. Nella colonna centrale in alto denotiamo le componenti individuali di $ b_1
 $, che sono $ 256 $, con dei punti. Il terzo fattore $ c_1 $ è rappresentato nella figura in alto a
 destra. Analogamente la seconda riga descrive i fattori $ a_2,b_2,c_2 $ e la terza $ a_3,b_3, c_3 $.
+Nel calcolo della fattorizzazione abbiamo dovuto riscalare i fattori del tensore ottenuto da ALS per
+mantenere i valori fedeli al tensore originale. Inoltre abbiamo permutato i fattori con un algoritmo
+simile a quello che descriveremo nella \S~\ref{sec:num_experiment_omini}.\todo{Serve precisare
+	meglio?}
 
 
 \begin{figure}[htbp]
@@ -156,7 +158,7 @@ destra. Analogamente la seconda riga descrive i fattori $ a_2,b_2,c_2 $ e la ter
 Immaginiamo una stanza affollata in cui diverse persone parlano contemporaneamente, mentre alcuni
 microfoni sparsi per la sala che registrano le
 conversazioni. Poiché i microfoni catturano solo la sovrapposizione delle singole voci, l'obiettivo
-è eleaborare le registrazioni per isolare la voce di ogni singola persona. Questo scenario è noto
+è elaborare le registrazioni per isolare la voce di ogni singola persona. Questo scenario è noto
 nell'analisi di segnali come \emph{blind source separation}.
 
 In questa sezione studieremo un problema simile utilizzando la decomposizione CP. In particolare, ci
@@ -204,9 +206,9 @@ Inoltre i segnali non subiscono rumore e non vengono memorizzati.
 Per recuperare $ s_{r}
 $ e $ a_{ir} $, l'$ r $-esimo utente
 introduce una ridondanza in termini di codice chiamata \emph{spreading sequence} che è fissata per
-ogni utente, diciamo $ c_{r} = \left[ c_{1r}, \ldots, c_{Jr} \right]^{\top} $. Il simbolo $ s_{kr} $ è
-trasmesso su molteplici frequenze; come risultato, vengono trasmesse simultaneamente $ J $ quantità
-$ \left[ s_{kr}c_{1r}, \ldots, s_{kr}c_{Jr} \right] $, chiamate \emph{chips} al tempo $ k $. La
+ogni utente, diciamo $ c_{r} = \left[ c_{1r}, \ldots, c_{Jr} \right]^{\top} $. Vengono trasmesse simultaneamente $ J $ quantità
+$ \left[ s_{kr}c_{1r}, \ldots, s_{kr}c_{Jr} \right] $, chiamate \emph{chips} al tempo $ k $, dove in
+ogni entrata rappresenta la trasmissione del simbolo $ s_{kr} $ su una frequenza diversa. La
 trasmissione totale sopra $ JK $ unità di tempo dell'utente $ r $-esimo sono le $ JK $ chips $
 	c_{jr}s_{kr} $, $ 1 \le j \le J $, $ 1\le k \le K $ (qui $ J $ è anche detto \emph{spreading gain}).
 L'antenna $ i $-esima riceve le $ JK $ quantità $ \sum_{r} a_{ir}c_{jr}s_{kr} $, per $ 1 \le j \le J
@@ -246,6 +248,7 @@ Il calcolo di $ T $ avviene con l'Algoritmo ALS~\ref{alg:ALS}.
 \end{remark}
 
 \subsection*{Esperimento numerico}
+\label{sec:num_experiment_omini}
 
 Consideriamo lo scenario dove $ R = 4 $ utenti vogliono inviare messaggi di $ K = 100 $ simboli a $
 	I = 5 $ antenne, con un fattore di spreading $ J = 16 $.
@@ -325,8 +328,7 @@ generiamo più tensori $ T_{\sigma} $ al variare di $ \sigma $ nella
 Tabella~\ref{tab:dscdma_noise_scale} e osserviamo quanto gli utenti recuperati si discostano
 dall'utente originale. In Figura~\ref{fig:dscdma_noise_experiment} osserviamo i comportamenti tipici
 di deriva al crescere del rumore. Infine, la Figura~\ref{fig:dscdma_noise_experiment_multi} mostra
-ulteriori esecuzioni dell'algoritmo su sei configurazioni spaziali differenti.\todo{Cosa ne pensa di
-	queste figure?}
+ulteriori esecuzioni dell'algoritmo su sei configurazioni spaziali differenti.
 
 \begin{figure}[htbp]
 	\centering

@@ -220,7 +220,8 @@ bilinear computation
 Dove abbiamo posto $ f_l \defeq  f_{l}(A) \defeq  u_l^\top \Vec(A)$, $ g_l \defeq g_{l}(B) \defeq v_l^\top\Vec(B)$ e $ m_l \defeq
 	f_lg_l $.
 
-Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{m,n,p} $; spesso nella pratica $ m,n,p $ sono piu piccoli delle matrici da moltiplicare; in questo caso è possibile dividerle a blocchi e applicare
+Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{m,n,p} $; spesso nella
+pratica $ m,n,p $ sono più piccoli delle matrici da moltiplicare; in questo caso è possibile dividerle a blocchi e applicare
 l'algoritmo in maniera ricorsiva, ripetendo la ricorsione fino a raggiungere il caso base. Di seguito giustificheremo meglio questa procedura.
 
 
@@ -350,7 +351,7 @@ cui $ \omega \in [2,3] $. Trovare $ \omega $ è un problema centrale
 nella teoria della complessità, e si congettura che $ \omega = 2 $, cioè che il costo delle moltiplicazioni possa essere
 asintoticamente pari a quello
 delle addizioni.
-L'algoritmo naive ha $ \omega = 3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371177 $~\cite{alman2026}. Dopo Strassen,
+L'algoritmo naive dimostra che $ \omega \le  3 $, mentre il primo miglioramento, dovuto all'algoritmo di Strassen~\cite{strassen69} mostra che $ \omega \le \log_2(7) < 2.81 $. Il record attuale è $ \omega \le 2.371177 $~\cite{alman2026}. Dopo Strassen,
 nel 1978 i miglioramenti significativi sono stati $ \omega \le 2.7962 $ ad opera di
 \cite{pan78}, poi $ \omega \le 2.7799 $ \cite{bini1980relations} nel 1979, poi $ \omega \le 2.55 $ \cite{sch81}, poi $
 	\omega \le  2.48 $ nel 1987 \cite{str87}, e poi $ \omega \le 2.38 $ \cite{cw90} nel 1989, che potrebbe aver fatto
@@ -393,7 +394,7 @@ dove
 In altre parole, possiamo applicare ricorsivamente l'algoritmo di moltiplicazione veloce, che è disegnato per
 matrici $ n\times n $, per ottenere la moltiplicazione di matrici $ n^i \times n^i $ impiegando solo
 $ r^i $ moltiplicazioni. In questo modo possiamo evitare dover fattorizzare il tensore di $ \algob{n^i} $, che sarebbe del
-modesto formato $ (n^i)^2 \times (n^i)^2 \times (n^i)^2 $).
+grande formato $ (n^i)^2 \times (n^i)^2 \times (n^i)^2 $).
 
 Se invece $ n > n_0 $ sono due interi positivi (nei passaggi può essere utile pensare al caso $ n_0 = 2 $) dato un algoritmo con un caso base fissato $
 	\algob{n_0} $ è possibile ottenerne uno per
@@ -464,7 +465,7 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 	\begin{equation*}
 		\begin{aligned}
 			(\varphi_1 \otimes \varphi_2)(u_1 \otimes u_2, v_1 \otimes v_2) & = \varphi_1(u_1,v_1) \otimes
-			\varphi(u_2, v_2)                                                                                                                                                \\
+			\varphi_2(u_2, v_2)                                                                                                                                              \\
 			                                                                & = \left(\sum_{i=1}^{r_1} \alpha_{i}(u_{1})
 			\beta_{i}(v_{1}) w_{i}  \right) \otimes \left(  \sum_{j=1}^{r_2} \gamma_{j}(u_2)
 			\beta_{j}(v_2) z_{j} \right)                                                                                                                                     \\
@@ -618,7 +619,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 		M(n^{i+1}) \le r M(n^i) + cn^{2i},
 	\end{equation}
 	dove $ c \defeq c(n,r) $ è una costante che dipende sia da $ n $ che da $ r $. Questo perché nella
-	formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (formalmente, visto come prododotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
+	formula il prodotto $ AB $, sviluppato come prodotto tra blocchi $ n^i \times n^i $ (formalmente, visto come prodotto a coefficienti in $ \mathcal{A} $), coinvolge $ r $ prodotti e
 	un numero costante di addizioni.
 	Siccome $ \algob{n} $ è concise, abbiamo che $ r \ge n^2 $. Fissando $ n $ (e quindi $ r $),
 	risolviamo la ricorsione dell'Equazione~\eqref{eq:Mn_recursionleq} in funzione di $ i $ usando il
@@ -992,7 +993,7 @@ Possiamo inoltre generalizzare la Proposizione~\ref{prop:omega_rk_estimate}.
 \end{proposition}
 
 Riportiamo alcune stime sul border rank riportate in~\cite[\S1]{landsberg2015geometry}. Per $ n = 2 $,
-Winograd dimostra\todo{ref} che $ \brk(\algob{2}) = \rk(\algob{2}) = 7 $. Ci aspetteremmo che per $
+Landsberg~\cite{landsberg2006border} dimostra che $ \brk(\algob{2}) = \rk(\algob{2}) = 7 $. Ci aspetteremmo che per $
 	n > 2 $, $ \brk(\algob{n}) < \rk(\algob{n}) $, ma la risposta non è così semplice. Per $ n=3 $, sappiamo solo che $ 15 \le
 	\brk(\algob{3}) \le 20 $, mentre per il rango vale $ 19 \le \rk(\algob{3}) \le 23 $. In generale, sappiamo che $
 	\rk(\algob{n}) \ge  3n^2 - o(n) $ e $ \brk(\algob{n}) \ge 2n^2 - \left\lceil \log_{2}(n)
