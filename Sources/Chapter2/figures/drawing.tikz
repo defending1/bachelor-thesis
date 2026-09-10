@@ -1,0 +1,55 @@
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+  % Color palette consistent with thesis styles
+  \definecolor{planeBg}{HTML}{F8F6FA}
+  \definecolor{planeBorder}{HTML}{6C3483}
+  \definecolor{lineColor}{HTML}{27AE60}
+  \definecolor{tildeSColor}{HTML}{1F618D}
+  \definecolor{SColor}{HTML}{D35400}
+
+  % Plane M_alpha (2-piano)
+  \filldraw[fill=planeBg, draw=planeBorder, thick, rounded corners=2pt]
+    (-4.0, -1.8) -- (3.0, -1.8) -- (4.4, 1.8) -- (-2.6, 1.8) -- cycle;
+  
+  % Label for plane M_alpha (bottom-right)
+  \node[planeBorder, font=\large\bfseries] at (2.5, -1.4) {$M_{\alpha}$};
+
+  % Retta L (1-piano contained in M_alpha)
+  \draw[very thick, lineColor] (-3.7, -0.6) -- (4.0, 0.6)
+    node[right, font=\small\bfseries, lineColor] {$L$};
+
+  % Subregion \tilde{S} \cap M_\alpha (Blue dashed region - placed lower on the left)
+  \filldraw[fill=tildeSColor!10, draw=tildeSColor, thick, dashed, fill opacity=0.6]
+    (-2.4, -1.2) -- (0.2, -1.2) -- (0.9, 0.6) -- (-1.7, 0.6) -- cycle;
+  
+  % Label for \tilde{S} \cap M_\alpha
+  \node[tildeSColor, font=\small\bfseries] at (-2.0, 0.9) {$\tilde{\mathcal{S}} \cap M_{\alpha}$};
+
+  % Subregion S \cap M_\alpha (Orange dashed region - placed higher up and shifted right)
+  \filldraw[fill=SColor!10, draw=SColor, thick, dashed, fill opacity=0.6]
+    (0.3, -0.4) -- (2.9, -0.4) -- (3.6, 1.4) -- (1.0, 1.4) -- cycle;
+  
+  % Label for S \cap M_\alpha
+  \node[SColor, font=\small\bfseries] at (3.0, 1.6) {$\mathcal{S} \cap M_{\alpha}$};
+
+  % Points of \tilde{S} (Blue dots)
+  \coordinate (P1) at (-1.2, -0.21);  % On L
+  \coordinate (P2) at (-0.1, -0.04);  % On L
+  \coordinate (P3) at (-0.6, 0.35);   % In \tilde{S} \ M_\alpha
+
+  \foreach \p in {P1, P2, P3} {
+    \fill[tildeSColor] (\p) circle (2.8pt);
+    \draw[white, thin] (\p) circle (2.8pt);
+  }
+
+  % Points of S (Orange dots)
+  \coordinate (Q1) at (1.2, 0.16);    % On L
+  \coordinate (Q2) at (2.4, 0.35);    % On L
+  \coordinate (Q3) at (2.7, 0.95);    % In S \ M_\alpha
+  \coordinate (Q4) at (1.8, 0.75);    % In S \ M_\alpha
+
+  \foreach \q in {Q1, Q2, Q3, Q4} {
+    \fill[SColor] (\q) circle (2.8pt);
+    \draw[white, thin] (\q) circle (2.8pt);
+  }
+
+\end{tikzpicture}

@@ -119,7 +119,7 @@
 		\fill[purpleCol5!85!black, draw=black, thin] (\w + 3*\stepX, 3*\stepY) -- (\w + 4*\stepX, 4*\stepY) -- (\w + 4*\stepX, \h + 4*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- cycle;
 
 		% Label below
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(a)} Column fibers, $T_{:jk}$.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {Column fibers, $T_{:jk}$.};
 	\end{scope}
 
 	% =========================================================
@@ -169,7 +169,7 @@
 			}
 
 		% Label below
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(b)} Row fibers, $T_{i:k}$.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {Row fibers, $T_{i:k}$.};
 	\end{scope}
 
 	% =========================================================
@@ -221,7 +221,7 @@
 			}
 
 		% Label below
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(c)} Tube fibers, $T_{ij:}$.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {Tube fibers, $T_{ij:}$.};
 	\end{scope}
 
 \end{tikzpicture}

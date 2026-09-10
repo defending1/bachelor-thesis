@@ -64,7 +64,7 @@
 			}
 
 		% Label below
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(a)} Horizontal slices, $T_{i, :, :}$.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {Horizontal slices, $T_{i, :, :}$.};
 	\end{scope}
 
 	% =========================================================
@@ -96,7 +96,7 @@
 		\fill[blueSlice8!85!black, draw=black, thin] (\w, 0) -- (\w + \dx, \dy) -- (\w + \dx, \h + \dy) -- (\w, \h) -- cycle;
 
 		% Label below
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(b)} Lateral slices, $T_{:, j, :}$.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {Lateral slices, $T_{:, j, :}$.};
 	\end{scope}
 
 	% =========================================================
@@ -133,7 +133,7 @@
 			}
 
 		% Label below
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {\textbf{(c)} Frontal slices, $T_{:, :, k}$.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.3) {Frontal slices, $T_{:, :, k}$.};
 	\end{scope}
 
 \end{tikzpicture}

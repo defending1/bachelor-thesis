@@ -128,7 +128,6 @@ Dato un tensore $ T \in A \otimes B \otimes C $, vogliamo mostrare che la scritt
 	\end{equation*}
 \end{remark}
 
-\todo{serve?}
 \begin{remark}
 	Se consideriamo per l'Equazione~\eqref{eq:tens_full} gli insiemi $ \s_A = \{[a_i]\} \subset
 		\PP A$, $
@@ -313,7 +312,7 @@ Introduciamo un lemma utile nella dimostrazione della proposizione.
 	che forma un iperpiano in $ C^* $ (la sua dimensione segue dalla formula della dimensione di un
 	annullatore). Siccome $ \K
 	$ è infinito lo spazio $ C^* $ non è unione finita di
-	sottospazi propri\todo{Reference?}, allora esiste un funzionale $ \gamma \in C^* \setminus
+	sottospazi propri, allora esiste un funzionale $ \gamma \in C^* \setminus
 		\bigcup_{i=1}^{\bm{a}} H_{i}$ non banale. Per
 	questa scelta, si ha che $ \gamma(c_{i}) \neq  0$ per ogni $ i $.
 	Allora la matrice $ D_{j} $ è invertibile, da cui anche $ T(\gamma_{j}) $ lo è, per ogni $ j \in \{1,2\} $.
@@ -458,6 +457,7 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 	$ \#(X \setminus Y) = \# X - \#(X \cap Y) $.
 \end{proof}
 \begin{proof}[Dimostrazione del permutation lemma]
+	\todo{HO provato a riscrivere l'induzione inversa. È abbastanza chiara così?}
 	Consideriamo la seguente proprietà: i $ k $-piani $ L $ che contengono almeno $ \dim(L) + 1 = k+1
 	$ punti di $ \tilde{\s} $, soddisfano $ \#(\s \cap L) \ge \#(\tilde{\s} \cap L) $.
 	Osserviamo che per gli $ 0 $-piani, ovvero i punti, la proprietà implica la tesi, in quanto per ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
@@ -466,7 +466,6 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 	$-piani, cioè per gli iperpiani. Possiamo quindi dimostrare la tesi assumendo che la proprietà
 	sopra valga per i $ (k+1) $-piani, e mostrando che valga per i $ k $-piani. Tramite un'induzione
 	discendente possiamo partire dagli iperpiani e arrivare fino al caso base, da cui $ \s = \tilde{\s} $.
-	\todo{Meglio o peggio?}
 
 	Fissiamo un $ k $-piano $ L $ contenente $ \mu \ge  k+1 $
 	punti di $ \tilde{\s} $, e denotiamo con $ \{M_\alpha\}  $ l'insieme dei piani di dimensione $ k+1
@@ -498,8 +497,7 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 	al più un piano $ M_{\alpha} $.
 	\begin{figure}[ht]
 		\centering
-		\def\svgwidth{0.7\columnwidth}
-		\import{./Sources/Chapter2/figures/}{drawing.pdf_tex}
+		\includegraphics[width=0.75\textwidth, keepaspectratio]{Sources/Chapter2/figures/drawing.pdf}
 		\caption{Interpretazione geometrica della costruzione nel caso $ k = 1 $ ($ L $ è una retta, e
 			gli $ M_{\alpha} $ sono piani). In questo caso $ L $ contiene
 			almeno $ \mu \ge k+1 = 2 $ punti di $ \tilde{\s} $, e $ M_{\alpha} $ contiene almeno $ \mu +
@@ -777,7 +775,6 @@ condizione necessaria ma non sufficiente:
 		,\] allora la fattorizzazione $ T =
 		\dsqr{U_1, \ldots, U_d} $ non è essenzialmente unica.
 \end{theorem}
-\todo{forse è semplice da dimostrare, se avanza tempo fare}
 
 \begin{remark}
 	Nel 1977 Kruskal dimostra l'unicità della fattorizzazione CP nel caso $ 3 $-dimensionale con un

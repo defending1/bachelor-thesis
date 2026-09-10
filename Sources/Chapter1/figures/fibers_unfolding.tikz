@@ -145,7 +145,7 @@
 		\fill[purple5_5!85!black, draw=black, thin] (\w + 3*\stepX, 3*\stepY) -- (\w + 4*\stepX, 4*\stepY) -- (\w + 4*\stepX, \h + 4*\stepY) -- (\w + 3*\stepX, \h + 3*\stepY) -- cycle;
 
 		% Subfigure Label (a)
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {\textbf{\color{labelRed}(a)} Mode-1 fibers.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {Mode-1 fibers.};
 
 		% (b) Mode-1 unfolding (20 columns, centered at xCenter)
 		\pgfmathsetmacro{\uy}{\yCenter - \uhOne / 2.0}
@@ -183,7 +183,7 @@
 		\draw[draw=black, line width=0.5pt] (\unfoldXOne, \uy) rectangle (\unfoldXOne + \unfoldW, \uy + \uhOne);
 
 		% Subfigure Label (b) centered at xCenter
-		\node[anchor=north, align=center] at (\xCenter, -0.35) {\textbf{\color{labelRed}(b)} Mode-1 unfolding.};
+		\node[anchor=north, align=center] at (\xCenter, -0.35) {Mode-1 unfolding.};
 	\end{scope}
 
 	% =========================================================
@@ -216,7 +216,7 @@
 			}
 
 		% Subfigure Label (c)
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {\textbf{\color{labelRed}(c)} Mode-2 fibers.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {Mode-2 fibers.};
 
 		% (d) Mode-2 unfolding (24 columns, centered at xCenter)
 		\pgfmathsetmacro{\uy}{\yCenter - \uhTwo / 2.0}
@@ -254,7 +254,7 @@
 		\draw[draw=black, line width=0.5pt] (\unfoldXTwo, \uy) rectangle (\unfoldXTwo + \unfoldW, \uy + \uhTwo);
 
 		% Subfigure Label (d) centered at xCenter
-		\node[anchor=north, align=center] at (\xCenter, -0.35) {\textbf{\color{labelRed}(d)} Mode-2 unfolding.};
+		\node[anchor=north, align=center] at (\xCenter, -0.35) {Mode-2 unfolding.};
 	\end{scope}
 
 	% =========================================================
@@ -302,7 +302,7 @@
 			}
 
 		% Subfigure Label (e)
-		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {\textbf{\color{labelRed}(e)} Mode-3 fibers.};
+		\node[anchor=north, align=center] at (\w/2 + \dx/2, -0.35) {Mode-3 fibers.};
 
 		% (f) Mode-3 unfolding (30 columns, centered at xCenter)
 		\pgfmathsetmacro{\uy}{\yCenter - \uhThree / 2.0}
@@ -347,7 +347,7 @@
 		\draw[draw=black, line width=0.5pt] (\unfoldXThree, \uy) rectangle (\unfoldXThree + \unfoldW, \uy + \uhThree);
 
 		% Subfigure Label (f) centered at xCenter
-		\node[anchor=north, align=center] at (\xCenter, -0.35) {\textbf{\color{labelRed}(f)} Mode-3 unfolding.};
+		\node[anchor=north, align=center] at (\xCenter, -0.35) {Mode-3 unfolding.};
 	\end{scope}
 
 \end{tikzpicture}

@@ -60,7 +60,8 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 	delle basi $ \{e_{i}\}, \{g_{j}\}, \{h_{k}\}    $ di $ A, B, C $ rispettivamente, possiamo
 	scrivere $ T = \sum_{ijk} T_{ijk} e_{i} \otimes g_{j} \otimes h_{k} $. Al variare degli indici, $
 		T_{ijk} $ descrive un array tridimensionale (``a forma di parallelepipedo'') in $ \K^{\bm{a}
-			\times \bm{b} \times \bm{c}} $, che chiamiamo ancora $ T $.
+			\times \bm{b} \times \bm{c}} $, che chiamiamo ancora $ T $. Questo ragionamento si può
+	estendere per i tensori di ordine $ d $ generico (anche per le matrici).
 \end{remark}
 \begin{remark}
 	Siccome per ogni spazio vettoriale $ V $, vale $ V \otimes \K \simeq V $, un tensore $ T \in \K^{m \times n\times 1} $ è una matrice $ m \times n $, e più in generale
@@ -68,13 +69,34 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 		n_2\times \cdots \times  n_{d-1} $.
 \end{remark}
 
-\begin{example}(Tensori che rappresentano applicazioni multilineari)
-	\todo{Scrivere}
+\todo{nuovo! si può tenere?}
+\begin{example}[Tensore della matrix multiplication~\cite{landsberg2015geometry}]
+	Nel Capitolo~\ref{chp:matmul} studieremo il tensore della moltiplicazione tra due matrici di taglia $ m \times n
+	$ e $ n \times p $ come mappa
+	bilineare $ \K^{m \times n} \times \K^{n \times p} \to \K^{m \times p} $ che può essere vista come
+	un tensore tridimensionale nello spazio $(\K^{m\times n})^* \otimes (\K^{n\times p})^* \otimes
+		\K^{m \times p} $. Indicando con $ E_{rc} $ la base canonica dello spazio delle matrici, il \emph{tensore della matrix
+		multiplication} ha coordinate date da
+	\begin{equation*}
+		T_{ijk} = \begin{cases}
+			1 & \text{se } E_{ij}E_{jk} =E _{ik}, \\
+			0 & \text{ altrimenti.}
+		\end{cases}
+	\end{equation*}
+	Di conseguenza, il tensore può essere scritto nella forma
+	\begin{equation*}
+		T = \sum_{i=1}^m \sum_{j=1}^n \sum_{k = 1}^p E_{ij}^* \otimes E_{jk}^* \otimes E_{ik}.
+	\end{equation*}
 \end{example}
 
+\begin{example}
+	Un esempio di tensori sono gli array di dati multidimensionali che codificano più caratteristiche.
+	Ad esempio un video di $ 600 $ frames e risoluzione $ 1920 \times 1080 $ pixels può essere visto
+	come un tensore a tre indici di formato $ 600 \times 1920 \times 1080 $ in cui ogni entrata contiene l'intensità di ogni pixel ad ogni
+	istante di tempo. Esploreremo questo tipo di tensori nel Capitolo~\ref{chp:cp_applications}.
+\end{example}
 
-\todo{ADD: Esempi di tensori. Tra cui il tensore che indica (quello del prodotto di matrici)}
-
+\todo{Riscritto}
 \begin{remark}
 	L'insieme dei tensori $ \K^{\msiz!} $ forma un $ \K $-spazio vettoriale con le operazioni di addizione e moltiplicazione per scalare
 	\begin{equation*}
@@ -252,9 +274,6 @@ matrice, o un tensore di ordine $ 4 $ su uno di ordine $ 3 $).
 
 \begin{remark}
 	I passi determinano l'ordine di percorrenza del tensore nelle definizioni di $ \L $ e $ \L^* $.
-
-	\missingfigure{Tensore 3x3 che mostri come funzionino le strides, sia nell'ordine inverso e diretto
-		(e.g pag 25 book)}
 \end{remark}
 
 Analogamente alle matrici, i tensori vengono salvati in memoria come vettori, risulta quindi
@@ -487,7 +506,7 @@ Introduciamo alcuni modi per manipolare più agilmente i tensori.
 	Nel caso $ d=3 $ si identificano tutte le possibili slices (Figura~\ref{fig:tensor_slices}):
 	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/slices.pdf}
+		\includegraphics[width=0.85\textwidth, keepaspectratio]{Sources/Chapter1/figures/slices.pdf}
 		\caption{Slices di un tensore di ordine 3.}
 		\label{fig:tensor_slices}
 	\end{figure}
@@ -499,7 +518,7 @@ Introduciamo alcuni modi per manipolare più agilmente i tensori.
 	\emph{mode-$k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come fibre colonna $x_{:jk}$ (mode-1), fibre riga $x_{i:k}$ (mode-2) e fibre tubo $x_{ij:}$ (mode-3), come illustrato in Figura~\ref{fig:tensor_fibers}.
 	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter1/figures/fibers.pdf}
+		\includegraphics[width=0.85\textwidth, keepaspectratio]{Sources/Chapter1/figures/fibers.pdf}
 		\caption{Fibre di un tensore di ordine 3.}
 		\label{fig:tensor_fibers}
 	\end{figure}
@@ -518,7 +537,8 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 \end{definition}
 \begin{remark}
 	Possiamo pensare all'unfolding nel modo $ k $ come a rimappare l'indice $ i_{k} $ sulle righe e
-	l'indice $ (i_1, \ldots, i_{k-1}, i_{k+1}, \ldots, i_{d}) $ sulle colonne.
+	l'indice $ (i_1, \ldots, i_{k-1}, i_{k+1}, \ldots, i_{d}) $ sulle colonne. Le
+	Figure~\ref{fig:fibers_unfolding} e~\ref{fig:unfoldings} mostrano alcuni esempi di unfolding nel caso $ 3 $-dimensionale.
 \end{remark}
 
 \begin{figure}[htbp]
@@ -544,12 +564,6 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 		T = \begin{bmatrix} 1 \\ 2 \end{bmatrix}  \topp \begin{bmatrix} 1 \\ -1 \end{bmatrix} \topp
 		\begin{bmatrix} 3 \\ 1 \end{bmatrix}.
 	\end{equation*}
-	Pensando la terza dimensione nel verso entrante al foglio, possiamo riassumere i passaggi svolti
-	per fattorizzare $ T $, dove è stata applicata più volte la definizione di prodotto tensore:
-	\todo{c'è un typo!}
-	\begin{center}
-		\includegraphics[width=0.65\textwidth, keepaspectratio]{./Sources/Chapter1/figures/cp_example.pdf}
-	\end{center}
 \end{example}
 
 \begin{figure}[htbp]
@@ -560,7 +574,6 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 \end{figure}
 L'operazione di unfolding permette anche di catturare il suo rango (matriciale) lungo ogni direzione:
 
-\todo{anche def landsberg}
 \begin{definition}[Rango multilineare]
 	Il \emph{rango multilineare} o \emph{multirank} di un tensore $ T \in \Rmsiz $ è la $ d $-upla $
 		(r_1, r_2, \ldots, r_d) $, dove $ r_k = \rank{\Tm{T}{k}} $, per ogni $ k \in \{1, \ldots, d\}
@@ -568,20 +581,25 @@ L'operazione di unfolding permette anche di catturare il suo rango (matriciale) 
 \end{definition}
 
 
-Dal punto di vista computazionale è utile introdurre la seguente operazione
+In alcune situazioni è utile cambiare il formato del tensore.
 
-\todo{refrasare un poco per renderla più leggibile}
 \begin{definition}[Reshape]
 	Definiamo l'operatore di \emph{reshape} come l'operazione riarrangia il tensore senza alterarne le dimensioni e mantenendo l'ordine delle entrate. Formalmente,
 	fissati $ d, d' \in \N$ e un tensore $ T \in \Rmsiz! $, per ogni $ m_1, \ldots, m_{d'} $ tali
-	che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore $ Y = \reshape(T,
-		\msiz![m][d']) \in \Rmsiz![m][d'] $ è definito come
+	che $ \prod_{i=1}^{d'} m_j = \prod_{j = 1}^{d} n_j$, il tensore
+	\begin{equation*}
+		Y = \reshape(T, \msiz![m][d']) \in \Rmsiz![m][d']
+	\end{equation*}
+	è definito come
 	\[
 		Y_{i_1, \ldots, i_{d'}}= T_{j_1, \ldots, j_d}
 		,\]
 	per ogni $(i_1, \ldots, i_{d'}),(j_1, \ldots,
-		j_d) $ tali che $ \L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
-		j_d; \msiz!)$.
+		j_d) $ tali che
+	\begin{equation*}
+		\L(i_1, \ldots, i_{d'}; \msiz![m][d'])) = \L(j_1, \ldots,
+		j_d; \msiz!).
+	\end{equation*}
 \end{definition}
 \begin{remark}
 	Un reshape ha costo nullo perché non si spostano celle di memoria, ma si eseguono solo operazioni
@@ -646,9 +664,6 @@ chiama.
 		.\]
 	In componenti, $ Y_{\siwc{\alpha}} = \sum_{i_k = 1}^d T(\miwc) U_{\alpha, i_k} $.
 \end{definition}
-
-
-\todo{Esempio polinomio semisep + altro es}
 
 
 \section{Il problema del rango}
@@ -723,9 +738,17 @@ Questo motiva la seguente definizione:
 		\rk(T')=r, \, \|T - T'\|  < \varepsilon \right\}
 		.\]
 \end{remark}
-\todo{Disegno interpretazione geometrica (landsberg pg 38)}
-
+\begin{remark}
+	Nell'esempio sopra, $ \brk(T) \le 2 $.
+\end{remark}
 Il border rank ammette anche la seguente interpretazione geometrica:
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.80\textwidth, keepaspectratio]{Sources/Chapter1/figures/border-rank.pdf}
+	\caption{Nella varietà dei tensori $ 2\times 2\times 2 $ una successione di tensori di rango $2$
+		può convergere a un tensore di rango $3$ al bordo tra i tensori di rango due e quelli di rango 3.}
+	\label{fig:border_rank}
+\end{figure}
 
 
 
@@ -796,7 +819,7 @@ tensori di ordine superiore sono sconosciuti. I casi speciali in cui il rango ma
 	\end{tabular}
 \end{table}
 
-È inoltre possibile derivare un limite superiore debole per il rango massimo, tratto da~\cite[Pag. 275]{BK25},
+È inoltre possibile derivare un limite superiore debole per il rango massimo~\cite[Pag. 275]{BK25},
 \begin{equation}
 	\label{eq:weak_upper_bound_max_rank}
 	\rk_{\text{max}}(\R^{n_1 \times n_2 \times \cdots \times n_d}) \le \min_k \prod_{\substack{\ell=1 \\ \ell \neq k}}^d n_\ell = \frac{\prod_{k=1}^d n_k}{\max_k n_k}.
@@ -1101,7 +1124,6 @@ problema non convesso (esistono molti minimi locali). Ricordiamo anche che in ge
 \end{lemma}
 \begin{proof}
 	Basta osservare che la matrice
-	\todo{array ticker brackets []}
 	\begin{equation*}
 		\begin{aligned}
 			(A \krp B)^{\top}(C \krp D) =
@@ -1152,9 +1174,9 @@ per ogni $ x \in \R^r $, ossia è semidefinita positiva. In particolare dall'equ
 \end{equation}
 con costo $ O(r^2m + r^3) $.
 
-
+\todo{Aggiunto}
 \begin{remark}
-	Facciamo un breakdown dei costi:
+	Scomponiamo i costi per risolvere il sistema sopra:
 	\begin{itemize}
 		\item Calcolare $ \Tm{T}{1}(C \krp B) $ costa $ O(mnpr) $, in quanto calcolare $ C \had B $
 		      costa $ O(mpr) $; essendo $ C \had B $ una matrice $ np \times r $ e $ \Tm{T}{1} $ una matrice
