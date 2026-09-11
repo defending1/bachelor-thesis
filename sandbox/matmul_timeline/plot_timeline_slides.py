@@ -6,10 +6,10 @@
 # ]
 # ///
 
-"""Benchmark plotting script for the timeline of the matrix multiplication exponent omega.
+"""Benchmark plotting script for the matrix multiplication exponent omega timeline (Slide Version).
 
-Generates a publication-ready line plot showing the historical bounds on omega
-since 1969, styled in red with 60-degree diagonal annotations.
+Optimized for 16:9 presentation slides with larger typography, crisp line widths,
+and clear author annotations.
 """
 
 import os
@@ -19,7 +19,7 @@ import scienceplots
 
 
 def latex_escape(s: str) -> str:
-    """Escapes special LaTeX characters if LaTeX rendering is active."""
+    """Escapes special LaTeX characters for LaTeX rendering."""
     s = s.replace("&", r"\&")
     s = s.replace("ï", r'\"i')
     s = s.replace("ö", r'\"o')
@@ -27,11 +27,9 @@ def latex_escape(s: str) -> str:
 
 
 def main() -> None:
-    # SVG-to-data coordinate conversion functions matching example.svg
     def s2y(x): return (x - 133.5) / 24.4 + 1970
     def s2o(y): return 3.0 - (y - 28.5) / 1380
 
-    # 1. Timeline Data (Year, Exponent omega)
     step_data = [
         (1965, 3.0), (1969, 3.0), (1969, 2.8074), (1978, 2.8074), (1978, 2.796),
         (1979, 2.796), (1979, 2.780), (1981, 2.780), (1981, 2.522), (1981, 2.517),
@@ -42,7 +40,6 @@ def main() -> None:
         (2026, 2.371339), (2026, 2.371177),
     ]
 
-    # Milestones for scatter points: (Year, Exponent)
     milestones = [
         (1969, 2.8074),
         (1978, 2.796),
@@ -62,7 +59,6 @@ def main() -> None:
         (2026, 2.371177),
     ]
 
-    # SVG-matched Label coordinates: (svg_x, svg_y, text, color, dy)
     labels_data = [
         (81.66, 90.63, 'naive   ', 'black', 0.0),
         (115.2, 298.9, '   Strassen', 'black', 0.0),
@@ -80,52 +76,43 @@ def main() -> None:
         (1410.8, 900.6, '   Duan, Wu, Zhou', 'black', 0.0),
         (1434.8, 900.6, '   Williams, Xu, Xu, Zhou', 'black', 0.0),
         (1459.8, 900.6, '   Alman, Duan, Williams, Xu, Xu, Zhou', 'black', 0.0),
-        (1508.8, 900.6, '   Alman, Vassilevska Williams et al. (AlphaEvolve)', 'black', 0.0),
+        (1508.8, 900.6, '   Alman, Vassilevska Williams et al.', 'black', 0.0),
     ]
 
-    # Setup matplotlib formatting with scienceplots (external LaTeX engine)
     plt.style.use(["science"])
-
     latex_active = True
 
-    # Create canvas (7.0 x 4.0 inches matching example.svg)
-    fig, ax = plt.subplots(figsize=(7.0, 4.0), dpi=300)
-    ax.set_facecolor("none")
+    # 16:9 slide canvas size (8.5 x 4.8 inches)
+    fig, ax = plt.subplots(figsize=(8.5, 4.8), dpi=300)
+    ax.set_facecolor("white")
 
-    # Major grid lines
-    ax.grid(True, which="major", color="#e2e8f0", linewidth=0.5, linestyle="--", zorder=0)
+    ax.grid(True, which="major", color="#e2e8f0", linewidth=0.6, linestyle="--", zorder=0)
 
-    # Red step line matching example.svg
     years = [p[0] for p in step_data]
     omegas = [p[1] for p in step_data]
-    ax.step(years, omegas, where="post", color="red", linewidth=1.5, zorder=2)
+    ax.step(years, omegas, where="post", color="#D9534F", linewidth=2.0, zorder=2)
 
-    # Red milestone points matching example.svg
     m_years = [p[0] for p in milestones]
     m_omegas = [p[1] for p in milestones]
-    ax.scatter(m_years, m_omegas, color="red", edgecolors="red", s=18, linewidths=0.5, zorder=3)
+    ax.scatter(m_years, m_omegas, color="#D9534F", edgecolors="#D9534F", s=25, linewidths=0.6, zorder=3)
 
-    # Limits matching example.svg ticks and spacing
-    ax.set_xlim(1965, 2032.5)
-    ax.set_ylim(2.35, 3.08)
+    ax.set_xlim(1965, 2033)
+    ax.set_ylim(2.34, 3.09)
 
     ax.set_xticks(range(1970, 2031, 5))
     ax.set_yticks(np.arange(2.4, 3.05, 0.1))
     ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
 
-    # Translated labels (Italian)
-    ax.set_xlabel("Anno", labelpad=5)
-    ax.set_ylabel(r"Esponente $\omega$", labelpad=5)
+    ax.set_xlabel("Anno", fontsize=12, labelpad=6)
+    ax.set_ylabel(r"Esponente $\omega$", fontsize=13, labelpad=6)
 
-    # Trivial naive bound dashed helper line (translated to Italian)
-    ax.axhline(y=3.0, color="#94a3b8", linestyle="--", linewidth=0.8, zorder=1)
+    ax.axhline(y=3.0, color="#94a3b8", linestyle="--", linewidth=1.0, zorder=1)
     naive_label = r"$\omega = 3$ (classico)"
     if latex_active:
         naive_label = latex_escape(naive_label)
-    ax.text(2031.5, 3.015, naive_label, fontsize=8, color="#64748b", ha="right", va="bottom")
+    ax.text(2032.0, 3.015, naive_label, fontsize=9.5, color="#64748b", ha="right", va="bottom")
 
-    # Annotate milestones rotated by 60 degrees with extra padding away from dots
-    offset_dist = 4.5  # padding distance in points along 60-degree direction
+    offset_dist = 5.0  # padding distance in points along 60-degree direction
     dx_offset = offset_dist * np.cos(np.radians(60))
     dy_offset = offset_dist * np.sin(np.radians(60))
 
@@ -139,7 +126,6 @@ def main() -> None:
         else:
             display_text = clean_text
 
-        # Convert coordinates
         yr = s2y(x)
         om = s2o(y) + dy
 
@@ -148,7 +134,7 @@ def main() -> None:
             xy=(yr, om),
             xytext=(dx_offset, dy_offset),
             textcoords="offset points",
-            fontsize=7.5,
+            fontsize=8.5,
             color=col,
             ha="left",
             va="bottom",
@@ -156,37 +142,28 @@ def main() -> None:
             rotation_mode="anchor",
             zorder=4,
         )
-    # Clean axes boundary frame
+
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.spines["left"].set_color("#64748b")
-    ax.spines["bottom"].set_color("#64748b")
-    ax.tick_params(axis="both", which="both", length=0, width=0, colors="#64748b")
+    ax.spines["left"].set_color("#4A6B82")
+    ax.spines["bottom"].set_color("#4A6B82")
+    ax.tick_params(axis="both", which="both", length=0, width=0, colors="#4A6B82", labelsize=10)
 
     plt.tight_layout()
 
-    # Save figure inside report/figures and generated/plots
+    # Save outputs
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(script_dir)
-    output_path = os.path.join(project_root, "generated", "plots", "matrix_multiplication_timeline.pdf")
+    slides_fig_dir = os.path.join(script_dir, "..", "..", "slides", "figures")
+    os.makedirs(slides_fig_dir, exist_ok=True)
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    fig.savefig(output_path, bbox_inches="tight", dpi=300)
+    pdf_path = os.path.join(slides_fig_dir, "matrix_multiplication_timeline_slides.pdf")
+    png_path = os.path.join(slides_fig_dir, "matrix_multiplication_timeline_slides.png")
 
-    # Also save as PNG in report/figures/ for quick previews if needed
-    report_figures_dir = os.path.join(project_root, "report", "figures")
-    os.makedirs(report_figures_dir, exist_ok=True)
-    png_output_path = os.path.join(report_figures_dir, "matrix_multiplication_timeline.png")
-    fig.savefig(png_output_path, bbox_inches="tight", dpi=300)
-    print(f"Also saved PNG preview to: {png_output_path}")
+    fig.savefig(pdf_path, bbox_inches="tight", dpi=300)
+    fig.savefig(png_path, bbox_inches="tight", dpi=300)
 
-    # Copy to thesis directory if present
-    thesis_fig_dir = "/home/alberto/Data/pisa/tesi/Sources/Chapter3/figures"
-    if os.path.exists(thesis_fig_dir):
-        import shutil
-        shutil.copy2(output_path, os.path.join(thesis_fig_dir, "matrix_multiplication_timeline.pdf"))
-        shutil.copy2(png_output_path, os.path.join(thesis_fig_dir, "matrix_multiplication_timeline.png"))
-        print(f"Copied PDF and PNG to thesis figures folder: {thesis_fig_dir}")
+    print(f"Saved slide plot PDF to: {pdf_path}")
+    print(f"Saved slide plot PNG to: {png_path}")
 
     plt.close(fig)
 
