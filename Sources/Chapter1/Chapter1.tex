@@ -1195,8 +1195,8 @@ con costo $ O(r^2m + r^3) $.
 \begin{remark}
 	Scomponiamo i costi per risolvere il sistema sopra:
 	\begin{itemize}
-		\item Calcolare $ \Tm{T}{1}(C \krp B) $ costa $ O(mnpr) $, in quanto calcolare $ C \had B $
-		      costa $ O(mpr) $; essendo $ C \had B $ una matrice $ np \times r $ e $ \Tm{T}{1} $ una matrice
+		\item Calcolare $ \Tm{T}{1}(C \krp B) $ costa $ O(mnpr) $, in quanto calcolare $ C \krp B $
+		      costa $ O(mpr) $; essendo $ C \krp B $ una matrice $ np \times r $ e $ \Tm{T}{1} $ una matrice
 		      $ m \times np $, il loro prodotto costa $ O(mnpr) $.
 		\item Calcolare $ (C^{\top}C \had B^{\top}B) $ costa $ O(r^2n + r^2 p + r^2) $ in quanto $
 			      C^{\top}C $ costa $ r^2n $, $ B^{\top}B $ costa $ r^2p $ ed essendo entrambe due matrici $ r
