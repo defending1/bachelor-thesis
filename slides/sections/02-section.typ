@@ -1,34 +1,29 @@
-#import "@preview/touying:0.6.1": *
-#import "../theme.typ": *
+#import "../lib.typ": *
 
-= Seconda Sezione
 
-== Ambienti Personalizzati
+= Il teorema di Kruskal
 
-#def-box(title: "Titolo Definizione")[
-  Inserisci qui il testo della definizione:
-  $ f(x) = sum_(i=1)^n x_i $
+== Essenziale unicità
+
+#definition[Essenziale unicità][
+  hi
+]<def:essunq>
+
+== k-rango
+
+#definition[$k$-rango][
+  Dato un sottoinsieme di punti $cal(S) subset bb(P)$, il #emph[$k$-rango] è il massimo intero
+  positivo $r$ tale che i punti di $cal(S)$ sono in posizione generale.
+]
+Lo indichiamo con $ krank(cal(S)) .$
+
+#remark[][
+  La definizione originale di Kruskal era: data una matrice $M$, $krank(M)$ è il massimo intero
+  positivo $r$ tale che ogni sottoinsieme di $r$ colonne di $M$ sono vettori linearmente
+  indipendenti.
 ]
 
-#pause
+#todo[Qui fare gli show con esempi punti, piano]
 
-#thm-box(title: "Titolo Teorema")[
-  Inserisci qui l'enunciato del teorema.
-]
+== Enunciato
 
-== Layout a Due Colonne
-
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 16pt,
-  [
-    === Colonna Sinistra
-- Contenuto colonna 1
-- Altri punti
-  ],
-  [
-    === Colonna Destra
-- Contenuto colonna 2
-- Altri punti
-  ]
-)
