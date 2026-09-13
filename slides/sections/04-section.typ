@@ -137,35 +137,82 @@ Date due matrici di taglia $2^i times 2^i$ possiamo fare $i$ livelli di ricorsio
 $ rk(algob(2^i)) = rk(algob(2)^(topp i)) <= rk(algob(2))^i <= r^i. $
 
 Nel caso generale, dato $n>2$, possiamo fare un padding di zeri
+TODO: sistemare per farlo sempbrare un embedding dentro matrice più grande
+$
+#pavemat(
+  math.mat(
+    [ A ], [ ],
+    [ ],     [ ],
+  ),
+  delim: "[",
+  pave: (
+  )
+)
+#pavemat(
+  math.mat(
+    [ B ], [ ],
+    [ ],     [ ],
+  ),
+  delim: "[",
+  pave: (
+  )
+)
 
 $
-pavemat(
-  delim: "[",
-  [
-    a_11 & a_12 & & b_1 \
-    a_21 & a_22 &             & b_2 \
-    c_1  & c_2  &             & d
-  ]
-)
+fino a raggiungere la taglia $2^(ceil(log_2 n))$.
+
+La complessità sarà comunque limitata da $R$:
 $
+rk(algob(n)) &<= rk(algob(2^(ceil(log_2 n))))  \
+&<= rk(algob(2))^(ceil(log_2 n)) \
+&<= R^(ceil(log_2 n)) \
+&<= R dot n^(log_2 R)
+$
+Da cui
 
 #proposition[
-  Se $rk(algob(n)) <= r$ per degli interi positivi $n, r$, allora $r^(omega) <= r$.
-]
+  Se $rk(algob(n)) <= R$ per degli interi positivi $n, R$, allora $n^(omega) <= R$.
+]<prop-omega-bound>
+Abbiamo dimostrato che $omega <= log_n rk(algob(n)).$
 
-== Il teorema di Strassen
-
-Abbiamo dimostrato che $omega <= log_n rk(algob(n)),$ dunque
+Da cui,
 $
 omega <= inf_n log_n rk(algob(n)).
 $
+
+=== Applicazione all'algoritmo di Strassen
+
+Se $R = 8$, dalla @prop-omega-bound troviamo
+$
+omega <= log_2 rk(algob(2)) = log_2 8 = 3.
+$
+L'algoritmo di Strassen migliora questa stima in quanto
+$
+omega <= log_2 rk(algob(2)) = log_2 7 approx 2.81.
+$
+Che è il bound più basso per $omega$ ottenibile da $algob(2)$.
+
+Ad esempio, Bini et Al. @bini1979n2 trovano che $rk(12) = 100$, da cui
+$
+omega <= log_12 1000 approx 2.7799.
+$
+
+
+
+== Il teorema di Strassen
+
 Vorremmo che
 $
 omega = liminf_(n -> +oo) log_n rk(algob(n)).
 $
 
-
-
+#theorem[Strassen @strassen69 @burgisser2013algebraic][
+  $
+  omega = inf_n { tau in RR | rk(algob(n)) = O(n^tau)}.
+  $
+  Ovvero, è possibile moltiplicare due matrici $n times n$ usando $O(n^(omega + epsilon))$ operazioni
+  aritmetiche se e solo se $rk(algob(n)) = O(n^(omega + epsilon)).$
+]<thm-strassen>
 
 == Algoritmi approssimati
 

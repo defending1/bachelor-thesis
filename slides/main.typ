@@ -9,6 +9,12 @@
 
 #show: show-theorion
 #set text(lang: "it")
+#show: show-bibliography-as-footnote
+
+#include "sections/02-section.typ"
 
 
-#include "sections/04-section.typ"
+= Bibliografia
+
+#bibliography("Thesis.bib", title: none)
+
