@@ -15,6 +15,10 @@
   }
 }
 
+#let ango(W) = $chevron.l #W chevron.r$
+
+#let SS = $cal(S)$
+
 // Operatori principali (con spaziatura binaria corretta)
 #let topp = math.class("binary", "\u{2297}") // Prodotto tensore / esterno (⊗)
 #let krn = math.class("binary", "\u{22a0}")  // Prodotto di Kronecker (⊠)

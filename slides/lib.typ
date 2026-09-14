@@ -39,9 +39,20 @@
       bib-cells.update(v => v + (c.body,))
       c
     }
-    set text(size: 0.8em)
+    set text(size: 0.7em)
     it
   }
 
   body
 }
+
+
+
+// Define a function for custom equation tags
+#let named-eq(tag, body) = math.equation(
+  numbering: _ => "(" + tag + ")",
+  block: true,
+  body,
+)
+
+

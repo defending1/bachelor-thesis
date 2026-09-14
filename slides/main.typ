@@ -11,7 +11,10 @@
 #set text(lang: "it")
 #show: show-bibliography-as-footnote
 
+// #include "sections/01-section.typ"
 #include "sections/02-section.typ"
+// #include "sections/03-section.typ"
+// #include "sections/04-section.typ"
 
 
 = Bibliografia

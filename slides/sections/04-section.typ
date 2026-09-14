@@ -131,7 +131,7 @@ Come ridurre il rango migliora la complessità?
 
 == Stimare la complessità nel caso generale
 
-QUI ALBERO?
+QUI ALBERO DELLA RICORSIONE?
 
 Date due matrici di taglia $2^i times 2^i$ possiamo fare $i$ livelli di ricorsione e ottenere che
 $ rk(algob(2^i)) = rk(algob(2)^(topp i)) <= rk(algob(2))^i <= r^i. $
@@ -214,7 +214,7 @@ $
   aritmetiche se e solo se $rk(algob(n)) = O(n^(omega + epsilon)).$
 ]<thm-strassen>
 
-== Algoritmi approssimati
+== Algoritmi approssimati (se c'è tempo)
 
 bini et al provano...
 

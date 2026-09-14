@@ -1,18 +1,17 @@
 #import "../lib.typ": *
 
-
 == La fattorizzazione CP
 
 #definition[Tensore di rango uno e Decomposizione CP][
 - Un tensore $T in bb(R)^(n_1 times dots times n_d)$ si dice di *rango uno* se si scrive come $T = a^((1)) topp a^((2)) topp dots topp a^((d))$.
 - Una *Decomposizione CP* (Canonical Polyadic Decomposition) rappresenta $T$ come somma di $r$ tensori di rango uno:
 $ T = sum_(j=1)^r a_j^((1)) topp a_j^((2)) topp dots topp a_j^((d)) = lr([| A_1, A_2, dots, A_d |]) $
-dove $A_k = [a_1^((k)) | a_2^((k)) | dots | a_r^((k))] in bb(R)^(n_k times r)$ sono le *factor matrices*.
+dove $A_k = [a_1^((k)) | a_2^((k)) | dots | a_r^((k))] in bb(R)^(n_k times r)$.
 ]
 
 = Il problema del rango
-In questa parte vediamo molte peculiarità dei tensori, dove "smonto" quello che
-funziona per le matrici ma non per i tensori
+In questa parte vediamo molte peculiarità dei tensori, dove mostriamo quello che
+funziona per le matrici ma non per i tensori (cambiare)
 
 == Rango CP
 
