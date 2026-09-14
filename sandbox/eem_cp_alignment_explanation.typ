@@ -1,82 +1,118 @@
 #set page(
   paper: "a4",
-  margin: (x: 2.5cm, y: 2.5cm),
-  header: align(right, text(fill: gray, size: 9pt)[Analisi Spettroscopia EEM -- Funzione align_components e Visualizzazione CP]),
-  footer: [
-    #line(length: 100%, stroke: 0.5pt + gray)
-    #align(center, text(fill: gray, size: 9pt)[Pagina #context counter(page).display()])
+  margin: (x: 2.2cm, y: 2.2cm),
+  header: align(right)[
+    #text(size: 8.5pt, fill: rgb("#4a5568"))[Analisi Spettroscopia EEM -- Funzione align_components e Riscalamento CP]
+  ],
+  footer: context [
+    #line(length: 100%, stroke: 0.5pt + rgb("#e2e8f0"))
+    #v(3pt)
+    #align(center)[#text(size: 8.5pt, fill: rgb("#718096"))[Pagina #counter(page).display() di #counter(page).final().at(0)]]
   ]
 )
-#set text(font: "Liberation Serif", lang: "it", size: 11pt)
-#set par(justify: true, leading: 0.65em)
+
+#set text(
+  font: "Liberation Serif",
+  size: 10.5pt,
+  lang: "it"
+)
+
+#set par(justify: true, leading: 0.6em)
+#set heading(numbering: "1.1")
 
 #align(center)[
   #v(0.5em)
-  #text(size: 18pt, weight: "bold")[Allineamento delle Componenti nella Decomposizione CP Spettroscopica EEM] \
-  #v(0.6em)
-  #text(size: 12pt, style: "italic", fill: luma(80))[Analisi Matematica di `align_components` ed Utilizzo nel Modulo `viz_eem_cp.py`]
+  #text(size: 17pt, weight: "bold", fill: rgb("#1a365d"))[Allineamento e Riscalamento delle Componenti nell'Esperimento Tensoriale EEM]
+  #v(0.4em)
+  #text(size: 11pt, style: "italic", fill: rgb("#2b6cb0"))[Spiegazione Intuitiva, Matematica ed Implementativa di `align_components` e del Riscalamento]
   #v(0.8em)
-  #line(length: 40%, stroke: 1pt + gray)
+  #line(length: 100%, stroke: 1pt + rgb("#cbd5e0"))
+  #v(0.6em)
 ]
 
+= 1. Spiegazione Intuitiva (L'Analogia dell'Assaggiatore Bendato)
+
+Prima di addentrarci nei dettagli matematici, è utile capire *perché* abbiamo bisogno dell'allineamento e del riscalamento usando una semplice analogia.
+
+Immagina di avere 18 frullati diversi (i *campioni*), e ciascuno è composto da un mix segreto di 3 ingredienti (i *fluorofori*: Phe, Trp-Gly, Val-Tyr-Val). Tu possiedi la ricetta esatta (la *matrice di riferimento*).
+
+Fai assaggiare questi 18 frullati a un "assaggiatore bendato" molto esperto (l'*Algoritmo CP*). L'assaggiatore riesce a identificare perfettamente 3 profili di sapore distinti e la quantità di ciascun sapore in ogni frullato. Tuttavia, l'assaggiatore ha due limiti:
+
+1. *Indeterminazione di Permutazione (Il Problema dei Nomi)*: L'assaggiatore ti restituisce i risultati etichettati semplicemente come "Sapore 1", "Sapore 2" e "Sapore 3", ordinati in base al sapore più forte in generale. Non conosce i veri nomi degli ingredienti.
+   - *La Soluzione (Allineamento)*: Confronti l'andamento del "Sapore 1" nei 18 frullati con il tuo ricettario. Se il "Sapore 1" aumenta e diminuisce esattamente negli stessi frullati in cui hai aggiunto "Phe", deduci che "Sapore 1 = Phe". Lo facciamo usando la "Similarità Coseno" (un modo matematico per confrontare l'andamento o il pattern).
+
+2. *Indeterminazione di Scala (Il Problema delle Unità di Misura)*: L'assaggiatore valuta la quantità di ogni sapore su una scala arbitraria da 0 a 1. Ma il tuo ricettario usa unità di misura fisiche (micromoli, $10^{-6}$ M).
+   - *La Soluzione (Riscalamento)*: Trovi il frullato con la quantità assoluta più alta di "Phe" nella tua ricetta (es. 6 micromoli). Guardi il punteggio dell'assaggiatore per quello stesso frullato (es. 0.2). A questo punto, moltiplichi *tutti* i punteggi "Phe" dell'assaggiatore per un fattore (6 / 0.2) in modo che il punteggio massimo raggiunga esattamente la soglia delle 6 micromoli. Ora i numeri dell'assaggiatore coincidono con le unità fisiche della tua ricetta e puoi confrontarli visivamente sullo stesso grafico.
+
 #v(1em)
 
-= 1. Introduzione e Motivazione Teorica
+= 2. Introduzione e Motivazione Teorica
 
-Nello studio della spettroscopia di matrice di eccitazione-emissione (EEM, *Excitation-Emission Matrix*), una miscela chimica contenente $R$ fluorofori viene modellata mediante decomposizione tensoriale non-negativa *Canonical Polyadic* (CP / PARAFAC) di rango $R$:
+Nello studio della spettroscopia di matrice di eccitazione-emissione (EEM, *Excitation-Emission Matrix*), una miscela chimica contenente $R$ fluorofori viene misurata su $N$ campioni, producendo un tensore di terzo ordine:
 
-$ X_(i, j, k) approx sum_(r=1)^R lambda_r A_(i, r) B_(j, r) C_(k, r) $
+$ cal(X) in bb(R)_+^(N times J times K) $
 
 dove:
-- $A in bb(R)_+^(N times R)$ rappresenta i profili di concentrazione o *loadings* dei campioni (modo 1, campioni $i = 1, dots, N$),
-- $B in bb(R)_+^(J times R)$ rappresenta i profili di spettro di emissione (modo 2, lunghezze d'onda di emissione),
-- $C in bb(R)_+^(K times R)$ rappresenta i profili di spettro di eccitazione (modo 3, lunghezze d'onda di eccitazione).
+- *Modo 1* ($N = 18$): Campioni delle miscele chimiche ($i = 1, dots, N$).
+- *Modo 2* ($J = 251$): Lunghezze d'onda di emissione ($lambda_("em") in [275, 525]\ "nm"$, $j = 1, dots, J$).
+- *Modo 3* ($K = 21$): Lunghezze d'onda di eccitazione ($lambda_("ex") in [220, 300]\ "nm"$, $k = 1, dots, K$).
 
-== Ambiguità di Permutazione nei Modelli CP
+In base alle leggi fisiche della spettrofluorimetria (Beer-Lambert e Parker), l'intensità di fluorescenza è trilineare e viene modellata tramite decomposizione *Canonical Polyadic Non-Negativa (CP / PARAFAC)* di rango $R$:
 
-La decomposizione CP gode dell'unicità essenziale a meno di *riscalamento* e *permutazione*. Ciò significa che l'ordine delle colonne $r = 1, dots, R$ estratte dalle matrici fattore $A, B, C$ dall'algoritmo di ottimizzazione (ad es. CP-ALS) è *arbitrario*. 
+$ cal(X)_(i,j,k) approx sum_(r=1)^R lambda_r A_(i,r) B_(j,r) C_(k,r) quad <==> quad cal(X) approx [| bold(lambda); bold(A), bold(B), bold(C) |] $
 
-Quando si confrontano i profili di concentrazione stimati $A$ con le concentrazioni reali di riferimento delle sostanze chimiche note $M in bb(R)_+^(N times M)$ (ad esempio i fluorofori *Phenylalanine*, *Tryptophan-Glycine*, *Valine-Tyrosine-Valine*), la colonna $j$-esima di $A$ non corrisponde necessariamente alla colonna $j$-esima della matrice di riferimento $M$.
+dove $bold(A) in bb(R)_+^(N times R)$ rappresenta i profili di concentrazione (*loadings*), $bold(B) in bb(R)_+^(J times R)$ gli spettri di emissione, $bold(C) in bb(R)_+^(K times R)$ gli spettri di eccitazione, e $bold(lambda) in bb(R)_+^R$ i pesi associati a ciascuna componente.
 
-La funzione `align_components` risolve questa ambiguità riordinando le colonne della matrice di riferimento $M$ in modo da farle corrispondere alle componenti stimate nella matrice $A$.
+== Le Due Indeterminazioni della Decomposizione CP
 
-#v(1em)
+Nonostante la decomposizione CP goda dell'unicità essenziale (condizione di Kruskal), essa presenta due simmetrie matematiche intrinseche:
+1. *Indeterminazione di Permutazione*: L'ordine delle colonne $r = 1, dots, R$ estratte dagli algoritmi di ottimizzazione (ad es. CP-ALS) è del tutto arbitrario e privo di consapevolezza dell'identità chimica del fluoroforo.
+2. *Indeterminazione di Scala*: Per ogni tripla di scalari positivi $alpha_r, beta_r, gamma_r > 0$ tali che $alpha_r beta_r gamma_r = 1$, il riscalamento $bold(A)_(::,r) <- alpha_r bold(A)_(::,r)$, $bold(B)_(::,r) <- beta_r bold(B)_(::,r)$, e $bold(C)_(::,r) <- gamma_r bold(C)_(::,r)$ lascia invariato il tensore ricostruito.
 
-= 2. Formulazione Matematica di `align_components`
+Per confrontare le concentrazioni stimate $bold(A)$ con la matrice di riferimento *ground-truth* $bold(M) in bb(R)_+^(N times 3)$ contenente le concentrazioni reali dei fluorofori (*Phenylalanine*, *Tryptophan-Glycine*, *Valine-Tyrosine-Valine*), è indispensabile risolvere entrambe le indeterminazioni.
 
-La funzione prende in ingresso due matrici:
-- $A_"norm" in bb(R)^(N times R)$: matrice fattore stimata (tipicamente normalizzata per colonna),
-- $M_"norm" in bb(R)^(N times M)$: matrice delle concentrazioni di riferimento (ground-truth).
+#v(0.5em)
 
-== Metrica di Similarità Coseno
+= 3. Normalizzazione dei Fattori e Riordinamento per Peso
 
-Per ogni colonna estratta $j in \{1, dots, R\}$ di $A_"norm"$, la funzione calcola la similarità coseno in valore assoluto con ciascuna colonna di riferimento $k in \{1, dots, M\}$ di $M_"norm"$:
+Prima dell'allineamento, le matrici fattore estratte da CP-ALS vengono normalizzate per colonna in norma $l_2$:
 
-$ S(j, k) = | bold(A)_("norm")[:, j] dot bold(M)_("norm")[:, k] | $
+$ d_(m, r) = ||bold(F)_("::", r)^((m))||_2, quad m in {1, 2, 3}, \; r in {1, dots, R} $
+$ bold(hat(F))_("::", r)^((m)) = (bold(F)_("::", r)^((m))) / d_(m, r), quad lambda_r <- lambda_r · product_(m=1)^3 d_(m, r) $
 
-Se i vettori colonna sono a norma unitaria, $S(j, k)$ coincide esattamente con la similarità coseno.
+Trasferito tutto l'assorbimento delle norme nel vettore dei pesi $bold(lambda)$, le componenti vengono ordinate in modo decrescente rispetto a $lambda_r$. Le matrici fattore risultanti sono $bold(hat(A)), bold(hat(B)), bold(hat(C))$.
 
-== Regola di Assegnamento Ottimale
+#v(0.5em)
 
-L'indice del composto di riferimento che meglio approssima la componente $j$-esima viene determinato massimizzando la similarità:
+= 4. Allineamento delle Componenti (`align_components`)
 
-$ k^*(j) = arg max_(k in \{1, dots, M\}) S(j, k) $
+Poiché il riordinamento basato su $lambda_r$ risponde solo all'energia del segnale, la colonna $j$-esima di $bold(hat(A))$ non corrisponde necessariamente alla sostanza $j$-esima presente in $bold(M)$.
 
-La matrice riordinata finale $M_"matched" in bb(R)^(N times R)$ viene definita colonna per colonna impostando:
+== Formulazione Matematica dell'Allineamento
 
-$ bold(M)_("matched")[:, j] = bold(M)[:, k^*(j)], quad forall j = 1, dots, R $
+1. *Normalizzazione dei Riferimenti*:
+   $ bold(hat(M))_(::, k) = (bold(M)_(::, k)) / (||bold(M)_(::, k)||_2), quad k = 1, dots, M_("ref") $
 
-#v(1em)
+2. *Matrice di Similarità Coseno*:
+   Per ogni componente calcolata $j in {1, dots, R}$ in $bold(hat(A))$, si calcola il valore assoluto del prodotto scalare con le sostanze di riferimento $k in {1, dots, M_("ref")}$:
+   $ S(j, k) = | bold(hat(A))_(::, j)^top bold(hat(M))_(::, k) | $
 
-= 3. Codice Sorgente di `align_components`
+3. *Regola di Assegnamento Ottimale*:
+   L'indice del composto di riferimento che meglio approssima la componente $j$ è dato da:
+   $ k^*(j) = arg max_(k in {1, dots, M_("ref")}) S(j, k) $
 
-La funzione è definita nel modulo `experiments/utils/cp/alignment.py`:
+4. *Costruzione della Matrice Riordinata*:
+   $ bold(M)_("matched")[:, j] = bold(M)[:, k^*(j)], quad forall j = 1, dots, R $
+
+== Codice Sorgente in `alignment.py`
+
+La funzione `align_components` è implementata nel modulo `experiments/utils/cp/alignment.py`:
 
 #block(
-  fill: rgb("f8f9fa"),
+  fill: rgb("#f8fafc"),
   inset: 10pt,
   radius: 4pt,
-  stroke: 0.5pt + rgb("d0d0d5"),
+  stroke: 0.5pt + rgb("#cbd5e0"),
   [
 ```python
 import numpy as np
@@ -101,51 +137,63 @@ def align_components(norm_A: np.ndarray, norm_mixtures: np.ndarray) -> np.ndarra
   ]
 )
 
-#v(1em)
+#v(0.5em)
 
-= 4. Utilizzo all'interno di `viz_eem_cp.py`
+= 5. Riscalamento di Picco per il Confronto Grafico
 
-Nel modulo di visualizzazione `experiments/tensor_data_eem/plots/viz_eem_cp.py`, la funzione `visualize_eem_cp()` segue una pipeline ben strutturata per la validazione visiva della decomposizione CP di rango 3 su dati EEM18:
+Anche dopo l'allineamento, permane una discrepanza di scala tra $bold(hat(A))_(::, j)$ e $bold(M)_("matched")[:, j]$:
+- $bold(hat(A))_(::, j)$ è a norma unitaria $l_2$, con valori numerici adimensionati nell'intervallo $~ 0.1 - 0.3$.
+- Le concentrazioni reali $bold(M)$ sono espresse in concentrazioni molari sull'ordine di $10^(-6)\ "M"$ (valori tra $0$ e $6 times 10^(-6)\ "M"$).
+
+== Algoritmo di Riscalamento in `viz_eem_cp.py`
+
+Per permettere la sovrapposizione visiva su grafici a barre affiancate, `viz_eem_cp.py` esegue le seguenti operazioni per ciascuna componente $j$:
+
+1. *Calcolo della Scala del Riferimento*:
+   $ "scale"_j = max_(i) (bold(M)_("matched")[i, j]) times 10^6 $
+   $ "scaled_mixtures"[:, j] = bold(M)_("matched")[:, j] times 10^6 $
+
+2. *Riscalamento del Fattore Calcolato*:
+   $ "max_a"_j = max_(i) (bold(hat(A))[i, j]) $
+   $ "scaled_A"[:, j] = (bold(hat(A))_(::, j)) / ("max_a"_j) times "scale"_j $
+
+== Significato Geometrico
+
+Grazie a questa trasformazione:
+$ max_(i) ("scaled_A"[i, j]) = "scale"_j = max_(i) ("scaled_mixtures"[i, j]) $
+
+Entrambi i profili (quello calcolato da CP e quello reale ground-truth) raggiungono esattamente la stessa altezza massima sul grafico a barre, rendendo immediatamente confrontabili le variazioni relative di concentrazione campione per campione (da 1 a 18).
 
 #v(0.5em)
 
-== 4.1 Sequenza Operativa
+= 6. Workflow Completo di Visualizzazione (`viz_eem_cp.py`)
 
-1. *Fittaggio ed Estrazione dei Fattori*: Si esegue CP-ALS sul tensore $X$ ottenendo i vettori peso $lambda$ e le matrici fattore $A, B, C$.
-2. *Normalizzazione e Riordinamento*:
-   - I fattori vengono normalizzati per colonna $\|A_{:, r}\|_2 = 1, \|B_{:, r}\|_2 = 1, \|C_{:, r}\|_2 = 1$.
-   - L'assorbimento delle norme trasferisce l'intensità assoluta al vettore dei pesi $lambda$.
-   - Le componenti vengono ordinate in modo decrescente in base al peso $lambda_r$.
-3. *Chiamata a `align_components`*:
-   #block(
-     fill: rgb("f8f9fa"),
-     inset: 8pt,
-     radius: 3pt,
-     stroke: 0.5pt + rgb("e0e0e5"),
-     [
-```python
-norm_mixtures = mixtures / np.linalg.norm(mixtures, axis=0)
+La pipeline completa eseguita dalla funzione `visualize_eem_cp()` è la seguente:
 
-matched_mixtures_unscaled = align_components(norm_A, mixtures)
-matched_mixtures_norm = align_components(norm_A, norm_mixtures)
-```
-     ]
-   )
-   - `matched_mixtures_unscaled`: allinea le concentrazioni reali non scalate alla sequenza di componenti ordinate in `norm_A`.
-   - `matched_mixtures_norm`: effettua l'allineamento sulle matrici a norma unitaria.
-4. *Riscalamento e Confronto Grafico*:
-   - Per ciascuna delle 3 componenti, le concentrazioni stimate (`scaled_A`) e quelle reali (`scaled_mixtures`) vengono riportate alla stessa scala molecolare ($10^6$).
-   - Viene generato un grafico a barre affiancate (*Campione*, colonne di sinistra) che visualizza il confronto campione per campione (da 1 a 18) tra i valori stimati dalla CP e le reali concentrazioni chimiche.
+#block(
+  fill: rgb("#f7fafc"),
+  inset: 10pt,
+  radius: 4pt,
+  stroke: 0.5pt + rgb("#e2e8f0"),
+  [
+    *Sequenza delle Operazioni:*
+    1. *Stima CP*: Fittaggio CP-ALS non-negativo di rango $R=3$ sul tensore $cal(X) in bb(R)^(18 times 251 times 21)$.
+    2. *Normalizzazione e Ordinamento*: Normalizzazione $l_2$ dei fattori, aggiornamento di $bold(lambda)$, e ordinamento decrescente.
+    3. *Allineamento Coseno*: Esecuzione di `align_components(norm_A, norm_mixtures)` per accoppiare ogni componente calcolata alla relativa sostanza chimica (*Phe*, *Trp-Gly*, *Val-Tyr-Val*).
+    4. *Riscalamento di Picco*: Normalizzazione rispetto ai picchi massimi per portare sia `scaled_A` sia `scaled_mixtures` sulla scala $10^(-6)$.
+    5. *Generazione Grafica*: Creazione della griglia $3 times 3$ con i tre modi di decompressione salvata in `eem_model.pdf` e `eem_model.png`.
+  ]
+)
 
 #v(1em)
 
 #block(
-  fill: rgb("edf2fa"),
+  fill: rgb("#ebf8ff"),
   inset: 12pt,
   radius: 4pt,
-  stroke: 0.5pt + rgb("b0c4de"),
+  stroke: 0.5pt + rgb("#3182ce"),
   [
-    #text(weight: "bold", fill: rgb("1a365d"))[Sintesi dell'Utilità:] \
-    Senza l'utilizzo di `align_components`, l'ordine arbitrario restituito dalla decomposizione tensoriale causerebbe l'accoppiamento errato delle barre di concentrazione calcolata rispetto alle sostanze di riferimento chimico (*Phe*, *Trp-Gly*, *Val-Tyr-Val*), falsando il confronto visivo nei grafici pubblicabili.
+    #text(weight: "bold", fill: rgb("#2b6cb0"))[Sintesi Focale:] \
+    L'allineamento risolve l'ambiguità di permutazione garantendo l'associazione corretta tra componenti calcolate e fluorofori reali. Il riscalamento di picco ancorando il valore massimo di ciascuna componente consente un confronto visivo diretto delle concentrazioni relative su un asse verticale unificato.
   ]
 )

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle, Rectangle
+from matplotlib.patheffects import withStroke
 import numpy as np
 from experiments.dscdma.plot.stickman import (
     draw_stickman,
@@ -15,213 +16,76 @@ from experiments.dscdma.plot.stickman import (
 from experiments.dscdma.solver.localization import extract_user_positions_from_A
 
 
+def setup_dscdma_plot_style(presentation: bool = False) -> None:
+    """
+    Configures Matplotlib style globally for DS-CDMA experiment plots.
+    If presentation is True, uses sans-serif presentation styling with larger font sizes
+    and high contrast, suitable for Typst/Beamer 16:9 slides.
+    """
+    try:
+        import scienceplots  # noqa: F401
+        if presentation:
+            plt.style.use(["science", "no-latex"])
+            plt.rcParams.update({
+                "font.size": 12,
+                "axes.labelsize": 12,
+                "axes.titlesize": 13,
+                "xtick.labelsize": 11,
+                "ytick.labelsize": 11,
+                "legend.fontsize": 11,
+                "figure.titlesize": 14,
+            })
+        else:
+            plt.style.use(["science"])
+    except Exception:
+        plt.style.use("default")
+        if presentation:
+            plt.rcParams.update({
+                "text.usetex": False,
+                "font.size": 12,
+                "font.family": "sans-serif",
+                "axes.labelsize": 12,
+                "axes.titlesize": 13,
+                "xtick.labelsize": 11,
+                "ytick.labelsize": 11,
+                "legend.fontsize": 11,
+            })
+        else:
+            plt.rcParams.update({"text.usetex": True})
+
+
 def plot_antenna_and_radii(
     user_pos: np.ndarray,
     antenna_pos_true: np.ndarray,
     A_est: np.ndarray,
     S_est: Optional[np.ndarray] = None,
     A_true: Optional[np.ndarray] = None,
-    title: str = "Stima della Posizione degli Utenti e delle Antenne",
+    title: Optional[str] = None,
     save_path: Optional[str] = None,
     show: bool = False,
     area_side: float = 100.0,
+    presentation: bool = False,
     **kwargs,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots true/extracted user positions and antenna distance circles around fixed known antennas matrix P.
+    Delegates to plot_noise_degradation_trajectory at zero noise (noise_stds=[0.0]) for 100% layout identity.
     """
-    I, R = A_est.shape
-
-    user_pos_est, scale_factors = extract_user_positions_from_A(
+    user_pos_est, _ = extract_user_positions_from_A(
         A_est, antenna_pos_true, area_side=area_side
     )
-
-
-    radii_est = np.zeros((I, R), dtype=np.float64)
-    for r in range(R):
-        c_r = scale_factors[r]
-        radii_est[:, r] = c_r / np.maximum(np.abs(A_est[:, r]), 1e-6)
-
-    fig, ax = plt.subplots(figsize=(10, 8))
-
-
-
-
-    # Colorblind-safe palette (Okabe-Ito standard for academic publications)
-    user_colors = [
-        "#0072B2",  # Deep Blue
-        "#E69F00",  # Amber / Orange
-        "#009E73",  # Bluish Green
-        "#CC79A7",  # Reddish Purple
-        "#D55E00",  # Vermillion
-        "#56B4E9",  # Sky Blue
-    ]
-    ant_color = "#2C3E50"  # Neutral dark slate for fixed antennas
-
-    # Draw distance circles centered at fixed known antenna positions, color-coded by User (no legend entry)
-    for r in range(R):
-        u_color = user_colors[r % len(user_colors)]
-        for i in range(I):
-            c_ant = antenna_pos_true[i]
-            radius = radii_est[i, r]
-            circle = Circle(
-                xy=(c_ant[0], c_ant[1]),
-                radius=radius,
-                fill=False,
-                edgecolor=u_color,
-                linestyle=":",
-                linewidth=1.0,
-                alpha=0.35,
-                label=None,
-            )
-            ax.add_patch(circle)
-
-    # Draw True Users (Empty solid square) and Recovered Users (Stickman)
-    sq_side = 4.8
-    for r in range(R):
-        u_color = user_colors[r % len(user_colors)]
-
-        # Displacement vector line linking True and Recovered position (no legend entry)
-        ax.plot(
-            [user_pos[r, 0], user_pos_est[r, 0]],
-            [user_pos[r, 1], user_pos_est[r, 1]],
-            linestyle=":",
-            linewidth=1.3,
-            color=u_color,
-            alpha=0.7,
-            zorder=5,
-            label=None,
-        )
-
-        # True User (Empty solid square)
-        sq = Rectangle(
-            (user_pos[r, 0] - sq_side * 0.5, user_pos[r, 1] - sq_side * 0.3),
-            sq_side,
-            sq_side,
-            facecolor="none",
-            edgecolor=u_color,
-            linewidth=2.0,
-            linestyle="-",
-            zorder=6,
-            label="Posizione Utente Reale" if r == 0 else None,
-        )
-        ax.add_patch(sq)
-        ax.annotate(
-            rf"  $U_{{{r + 1}}}$",
-            (user_pos[r, 0], user_pos[r, 1] + sq_side * 0.55),
-            fontsize=10,
-            fontweight="bold",
-            color=u_color,
-            zorder=7,
-        )
-
-        # Recovered User (Continuous Stickman)
-        draw_stickman(
-            ax,
-            user_pos_est[r, 0],
-            user_pos_est[r, 1],
-            size=4.0,
-            color=u_color,
-            style="continuous",
-            linestyle="-",
-            fill_head=False,
-            alpha=0.95,
-            label="Utenti Stimati" if r == 0 else None,
-        )
-        ax.annotate(
-            rf"  $\hat{{U}}_{{{r + 1}}}$",
-            (user_pos_est[r, 0], user_pos_est[r, 1] - 2.5),
-            fontsize=9,
-            fontweight="bold",
-            color=u_color,
-            alpha=0.95,
-            zorder=7,
-        )
-
-    # Plot fixed known antenna locations matrix P using neutral dark slate
-    for i in range(I):
-        ax.scatter(
-            antenna_pos_true[i, 0],
-            antenna_pos_true[i, 1],
-            color=ant_color,
-            marker="^",
-            s=140,
-            edgecolors="black",
-            linewidths=1.0,
-            zorder=8,
-            label="Antenne" if i == 0 else None,
-        )
-        ax.annotate(
-            rf"  $a_{{{i + 1}}}$",
-            (antenna_pos_true[i, 0], antenna_pos_true[i, 1] + 1.2),
-            fontsize=9,
-            fontweight="bold",
-            color=ant_color,
-            zorder=9,
-        )
-
-    # Calculate tight bounding box around fixed antennas and true/extracted users
-    all_x = np.concatenate([antenna_pos_true[:, 0], user_pos[:, 0], user_pos_est[:, 0]])
-    all_y = np.concatenate([antenna_pos_true[:, 1], user_pos[:, 1], user_pos_est[:, 1]])
-
-    margin_x = max(6.0, (all_x.max() - all_x.min()) * 0.15)
-    margin_y = max(6.0, (all_y.max() - all_y.min()) * 0.15)
-
-    ax.set_xlim(all_x.min() - margin_x, all_x.max() + margin_x)
-    ax.set_ylim(all_y.min() - margin_y, all_y.max() + margin_y)
-    ax.set_aspect("equal", adjustable="box")
-    ax.grid(True, linestyle=":", alpha=0.4)
-
-    # Remove tick marks and numerical axis coordinates
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_xlabel("")
-    ax.set_ylabel("")
-
-    ax.set_title(title, fontsize=13, fontweight="bold", pad=12)
-
-    # Place legend outside the plot area at the bottom center
-    handles, labels = ax.get_legend_handles_labels()
-    new_handles = []
-    for h, l in zip(handles, labels):
-        if "Recovered" in l or "Extracted" in l or "Utenti" in l:
-            new_handles.append(
-                StickmanLegendObject(
-                    color="#2C3E50", linestyle="-", fill_head=False, label_text=r"$l$"
-                )
-            )
-        else:
-            new_handles.append(h)
-
-    ax.legend(
-        handles=new_handles,
-        labels=labels,
-        handler_map={StickmanLegendObject: HandlerStickman()},
-        loc="upper center",
-        bbox_to_anchor=(0.5, -0.04),
-        ncol=3,
-        handleheight=1.5,
-        handlelength=1.8,
-        frameon=True,
-        framealpha=0.95,
-        fontsize=10,
+    return plot_noise_degradation_trajectory(
+        user_pos=user_pos,
+        antenna_pos_true=antenna_pos_true,
+        extracted_users_per_noise=[user_pos_est],
+        noise_stds=[0.0],
+        title=title,
+        save_path=save_path,
+        show=show,
+        area_side=area_side,
+        presentation=presentation,
+        **kwargs,
     )
-    plt.tight_layout()
-
-
-
-    if save_path:
-        out_file = Path(save_path)
-        if out_file.suffix.lower() != ".pdf":
-            out_file = out_file.with_suffix(".pdf")
-        out_file.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(out_file, format="pdf", bbox_inches="tight")
-        print(f"Saved figure in PDF mode to: {out_file.resolve()}")
-
-    if show:
-        plt.show()
-
-    return fig, ax
 
 
 def generate_multi_plot_pdf(
@@ -229,6 +93,7 @@ def generate_multi_plot_pdf(
     num_plots: int = 6,
     output_path: str = "dscdma_6_experiments.pdf",
     seeds: Optional[list] = None,
+    presentation: bool = False,
 ) -> Path:
     """
     Generates a multi-page PDF document containing multiple independent DS-CDMA simulation runs.
@@ -264,7 +129,7 @@ def generate_multi_plot_pdf(
             align_factors(cp, data["A_true"])
 
             title = (
-                f"Run {run_idx + 1}/{num_plots}: Antenna & User Recovery "
+                f"Run {run_idx + 1}/{num_plots}: Antenna \\& User Recovery "
                 f"(R={run_cfg.num_sources}, I={run_cfg.num_antennas}, Seed={seed if seed is not None else 'random'})"
             )
 
@@ -277,6 +142,7 @@ def generate_multi_plot_pdf(
                 save_path=None,
                 show=False,
                 area_side=run_cfg.area_side,
+                presentation=presentation,
             )
             pdf.savefig(fig, bbox_inches="tight")
             plt.close(fig)
@@ -289,236 +155,25 @@ def plot_antenna_localization_multi(
     config,
     num_runs: int = 6,
     seeds: Optional[list] = None,
-    title: str = "Stima della Posizione degli Utenti e delle Antenne",
+    title: Optional[str] = None,
     save_path: Optional[str] = "dscdma_6_experiments.pdf",
     show: bool = False,
+    presentation: bool = False,
 ) -> Tuple[plt.Figure, np.ndarray]:
     """
     Generates a multi-subfigure grid layout (default 6 subfigures in 2 rows of 3) containing independent runs of the antenna localization experiment.
-    Optimized for inclusion in an A4 document. All subfigures share identical coordinate limits
-    so that the physical 2D spatial area box is rendered at the exact same size across all subfigures.
+    Delegates to plot_noise_degradation_multi at zero noise (noise_stds=[0.0]) for 100% layout identity.
     """
-    from dataclasses import replace
-    from experiments.dscdma.utils.generator import DSCDMADatasetGenerator
-    from experiments.utils.cp import CP
-    from experiments.dscdma.solver import align_factors
-
-    if seeds is None:
-        base_seed = config.seed if config.seed is not None else 42
-        seeds = [base_seed + 10 * i for i in range(num_runs)]
-    num_runs = len(seeds)
-    runs_data = []
-
-    for run_idx, seed in enumerate(seeds):
-        run_cfg = replace(config, seed=seed)
-        generator = DSCDMADatasetGenerator(run_cfg)
-        data = generator.generate()
-
-        cp = CP(data["tensor"], run_cfg.num_sources).compute(
-            n_iter_max=2000,
-            tol=1e-9,
-            random_state=seed,
-        )
-        align_factors(cp, data["A_true"])
-
-        user_pos_est, scale_factors = extract_user_positions_from_A(
-            cp.A, data["antenna_pos"], area_side=run_cfg.area_side
-        )
-
-        I, R = cp.A.shape
-        radii_est = np.zeros((I, R), dtype=np.float64)
-        for r in range(R):
-            radii_est[:, r] = scale_factors[r] / np.maximum(np.abs(cp.A[:, r]), 1e-6)
-
-        runs_data.append(
-            {
-                "user_pos": data["user_pos"],
-                "antenna_pos": data["antenna_pos"],
-                "user_pos_est": user_pos_est,
-                "radii_est": radii_est,
-                "seed": seed,
-            }
-        )
-
-    all_x = []
-    all_y = []
-    for rdata in runs_data:
-        all_x.extend([rdata["antenna_pos"][:, 0], rdata["user_pos"][:, 0], rdata["user_pos_est"][:, 0]])
-        all_y.extend([rdata["antenna_pos"][:, 1], rdata["user_pos"][:, 1], rdata["user_pos_est"][:, 1]])
-    all_x = np.concatenate(all_x)
-    all_y = np.concatenate(all_y)
-
-    min_x, max_x = all_x.min(), all_x.max()
-    min_y, max_y = all_y.min(), all_y.max()
-
-    center_x = (min_x + max_x) / 2.0
-    center_y = (min_y + max_y) / 2.0
-    span = max(max_x - min_x, max_y - min_y)
-    margin = max(6.0, span * 0.08)
-    half_span = span / 2.0 + margin
-
-    shared_xlim = (center_x - half_span, center_x + half_span)
-    shared_ylim = (center_y - half_span, center_y + half_span)
-
-    n_cols = 3
-    n_rows = (num_runs + n_cols - 1) // n_cols
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(13.5, 4.2 * n_rows))
-    axes_flat = axes.flatten() if isinstance(axes, np.ndarray) else np.array([axes])
-
-    user_colors = ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9"]
-    ant_color = "#2C3E50"
-    sq_side = 4.8
-
-    sub_titles = [f"({chr(97 + i)}) Esperimento {i + 1}" for i in range(num_runs)]
-
-    for idx in range(n_rows * n_cols):
-        ax = axes_flat[idx]
-        if idx >= num_runs:
-            ax.axis("off")
-            continue
-
-        rdata = runs_data[idx]
-        user_pos = rdata["user_pos"]
-        antenna_pos_true = rdata["antenna_pos"]
-        user_pos_est = rdata["user_pos_est"]
-        radii_est = rdata["radii_est"]
-        I, R = radii_est.shape
-
-        for r in range(R):
-            u_color = user_colors[r % len(user_colors)]
-            for i in range(I):
-                circle = Circle(
-                    xy=(antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
-                    radius=radii_est[i, r],
-                    fill=False,
-                    edgecolor=u_color,
-                    linestyle=":",
-                    linewidth=1.0,
-                    alpha=0.35,
-                )
-                ax.add_patch(circle)
-
-        for r in range(R):
-            u_color = user_colors[r % len(user_colors)]
-            ax.plot(
-                [user_pos[r, 0], user_pos_est[r, 0]],
-                [user_pos[r, 1], user_pos_est[r, 1]],
-                linestyle=":",
-                linewidth=1.3,
-                color=u_color,
-                alpha=0.7,
-                zorder=5,
-            )
-
-            sq = Rectangle(
-                (user_pos[r, 0] - sq_side * 0.5, user_pos[r, 1] - sq_side * 0.3),
-                sq_side,
-                sq_side,
-                facecolor="none",
-                edgecolor=u_color,
-                linewidth=2.0,
-                linestyle="-",
-                zorder=6,
-            )
-            ax.add_patch(sq)
-            ax.annotate(
-                rf"  $U_{{{r + 1}}}$",
-                (user_pos[r, 0], user_pos[r, 1] + sq_side * 0.55),
-                fontsize=9,
-                fontweight="bold",
-                color=u_color,
-                zorder=7,
-            )
-
-            draw_stickman(
-                ax,
-                user_pos_est[r, 0],
-                user_pos_est[r, 1],
-                size=3.8,
-                color=u_color,
-                style="continuous",
-                linestyle="-",
-                fill_head=False,
-                alpha=0.95,
-            )
-            ax.annotate(
-                rf"  $\hat{{U}}_{{{r + 1}}}$",
-                (user_pos_est[r, 0], user_pos_est[r, 1] - 2.5),
-                fontsize=8.5,
-                fontweight="bold",
-                color=u_color,
-                alpha=0.95,
-                zorder=7,
-            )
-
-        for i in range(I):
-            ax.scatter(
-                antenna_pos_true[i, 0],
-                antenna_pos_true[i, 1],
-                color=ant_color,
-                marker="^",
-                s=120,
-                edgecolors="black",
-                linewidths=1.0,
-                zorder=8,
-            )
-            ax.annotate(
-                rf"  $a_{{{i + 1}}}$",
-                (antenna_pos_true[i, 0], antenna_pos_true[i, 1] + 1.2),
-                fontsize=8.5,
-                fontweight="bold",
-                color=ant_color,
-                zorder=9,
-            )
-
-        ax.set_xlim(shared_xlim)
-        ax.set_ylim(shared_ylim)
-        ax.set_aspect("equal", adjustable="box")
-        ax.grid(True, linestyle=":", alpha=0.4)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        ax.set_xlabel("")
-        ax.set_ylabel("")
-        ax.set_title(sub_titles[idx], fontsize=11, fontweight="bold", pad=8)
-
-    legend_handles = [
-        Rectangle((0, 0), 1, 1, facecolor="none", edgecolor="#0072B2", linewidth=2.0),
-        StickmanLegendObject(color="#2C3E50", linestyle="-", fill_head=False, label_text=r"$l$"),
-        plt.Line2D([0], [0], marker="^", color="w", markerfacecolor=ant_color, markeredgecolor="black", markersize=10),
-    ]
-    legend_labels = ["Posizione Utente Reale", "Utenti Stimati", "Antenne"]
-
-    fig.legend(
-        handles=legend_handles,
-        labels=legend_labels,
-        handler_map={StickmanLegendObject: HandlerStickman()},
-        loc="upper center",
-        bbox_to_anchor=(0.5, -0.01),
-        ncol=3,
-        handleheight=1.5,
-        handlelength=1.8,
-        frameon=True,
-        framealpha=0.95,
-        fontsize=10,
+    return plot_noise_degradation_multi(
+        config=config,
+        num_runs=num_runs,
+        noise_stds=[0.0],
+        seeds=seeds,
+        title=title,
+        save_path=save_path,
+        show=show,
+        presentation=presentation,
     )
-
-    if title:
-        fig.suptitle(title, fontsize=13, fontweight="bold", y=1.02)
-
-    plt.tight_layout()
-
-    if save_path:
-        out_file = Path(save_path)
-        if out_file.suffix.lower() != ".pdf":
-            out_file = out_file.with_suffix(".pdf")
-        out_file.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(out_file, format="pdf", bbox_inches="tight")
-        print(f"Saved {num_runs}-subfigure multi plot to PDF: {out_file.resolve()}")
-
-    if show:
-        plt.show()
-
-    return fig, axes
 
 
 def plot_noise_degradation_trajectory(
@@ -526,11 +181,12 @@ def plot_noise_degradation_trajectory(
     antenna_pos_true: np.ndarray,
     extracted_users_per_noise: list[np.ndarray],
     noise_stds: list[float],
-    title: str = "Deriva della Localizzazione degli Utenti sotto Rumore Gaussiano",
+    title: Optional[str] = None,
     save_path: Optional[str] = None,
     show: bool = False,
     area_side: float = 100.0,
     tensor_rms: Optional[float] = None,
+    presentation: bool = False,
     **kwargs,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -538,11 +194,13 @@ def plot_noise_degradation_trajectory(
     and translucent user position markers tracking position drift as noise increases.
     Annotations explicitly state the step index, relative noise level (%), and Signal-to-Noise Ratio (SNR in dB).
     """
+    setup_dscdma_plot_style(presentation=presentation)
     R = user_pos.shape[0]
     I = antenna_pos_true.shape[0]
     K_noise = len(extracted_users_per_noise)
 
-    fig, ax = plt.subplots(figsize=(9.0, 7.0))
+    fig_size = (8.0, 6.0) if presentation else (9.0, 7.0)
+    fig, ax = plt.subplots(figsize=fig_size)
 
     # Colorblind-safe palette (Okabe-Ito standard for academic publications)
     user_colors = [
@@ -554,6 +212,25 @@ def plot_noise_degradation_trajectory(
         "#56B4E9",  # Sky Blue
     ]
     ant_color = "#2C3E50"  # Neutral dark slate for fixed antennas
+
+    # Draw light distance circles centered at fixed known antenna positions, color-coded by User
+    for r in range(R):
+        u_color = user_colors[r % len(user_colors)]
+        for i in range(I):
+            c_ant = antenna_pos_true[i]
+            radius = np.linalg.norm(c_ant - user_pos[r])
+            circle = Circle(
+                xy=(c_ant[0], c_ant[1]),
+                radius=radius,
+                fill=False,
+                edgecolor=u_color,
+                linestyle=":",
+                linewidth=1.0,
+                alpha=0.30,
+                zorder=2,
+                label=None,
+            )
+            ax.add_patch(circle)
 
     # Plot fixed antenna positions in neutral dark slate
     for i in range(I):
@@ -569,18 +246,36 @@ def plot_noise_degradation_trajectory(
             label="Antenne" if i == 0 else None,
         )
         ax.annotate(
-            rf"  $a_{{{i + 1}}}$",
-            (antenna_pos_true[i, 0], antenna_pos_true[i, 1] + 1.2),
-            fontsize=9,
+            rf"$a_{{{i + 1}}}$",
+            xy=(antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
+            xytext=(0, -3.0),
+            textcoords="offset points",
+            fontsize=9.5,
             fontweight="bold",
             color=ant_color,
+            ha="center",
+            va="top",
             zorder=9,
+            path_effects=[withStroke(linewidth=2.0, foreground="white")],
         )
 
-    # Plot ground truth users as empty solid squares (unlabeled)
+    # Plot ground truth users as empty solid squares with U_r labels
     sq_side = 4.8
     for r in range(R):
         u_color = user_colors[r % len(user_colors)]
+
+        # Dotted line linking True position and Noiseless Estimated position (step k=0)
+        ax.plot(
+            [user_pos[r, 0], extracted_users_per_noise[0][r, 0]],
+            [user_pos[r, 1], extracted_users_per_noise[0][r, 1]],
+            linestyle=":",
+            linewidth=1.3,
+            color=u_color,
+            alpha=0.7,
+            zorder=5,
+            label=None,
+        )
+
         sq = Rectangle(
             (user_pos[r, 0] - sq_side * 0.5, user_pos[r, 1] - sq_side * 0.3),
             sq_side,
@@ -593,36 +288,42 @@ def plot_noise_degradation_trajectory(
             label="Posizione Utente Reale" if r == 0 else None,
         )
         ax.add_patch(sq)
+        ax.annotate(
+            rf"  $U_{{{r + 1}}}$",
+            (user_pos[r, 0], user_pos[r, 1] + sq_side * 0.55),
+            fontsize=10,
+            fontweight="bold",
+            color=u_color,
+            zorder=7,
+        )
 
-    # Plot recovered users as continuous stickmen for noise steps k >= 1 (k=0 noiseless is omitted)
+    # Plot recovered users as continuous stickmen for noise steps k >= 0 (k=0 is noiseless baseline)
     for r in range(R):
         u_color = user_colors[r % len(user_colors)]
         traj_x = [extracted_users_per_noise[k][r, 0] for k in range(K_noise)]
         traj_y = [extracted_users_per_noise[k][r, 1] for k in range(K_noise)]
 
-        # Draw Continuous Stickmen for noise steps k >= 1 with high visibility
-        for k in range(1, K_noise):
+        for k in range(0, K_noise):
             step_alpha = max(0.70, 1.0 - 0.05 * k)
 
             draw_stickman(
                 ax,
                 traj_x[k],
                 traj_y[k],
-                size=3.6,
+                size=4.0 if k == 0 else 3.6,
                 color=u_color,
                 style="continuous",
                 linestyle="-",
                 fill_head=False,
                 alpha=step_alpha,
-                label=r"Utenti Stimati per $\sigma_l$" if (r == 0 and k == 1) else None,
+                label="Utenti Stimati" if (r == 0 and k == 0) else None,
             )
 
-            # Annotate simple step number (1, 2, 3, ...)
-            annotation_str = f"{k}"
+            annotation_str = rf"  $\hat{{U}}_{{{r + 1}}}$" if k == 0 else f"{k}"
 
             ax.annotate(
                 annotation_str,
-                (traj_x[k], traj_y[k] - 2.2),
+                (traj_x[k], traj_y[k] - 2.5),
                 fontsize=9,
                 fontweight="bold",
                 color=u_color,
@@ -630,20 +331,29 @@ def plot_noise_degradation_trajectory(
                 zorder=9,
             )
 
-    all_x_pts = [antenna_pos_true[:, 0], user_pos[:, 0]]
-    all_y_pts = [antenna_pos_true[:, 1], user_pos[:, 1]]
-    for k in range(K_noise):
-        all_x_pts.append(extracted_users_per_noise[k][:, 0])
-        all_y_pts.append(extracted_users_per_noise[k][:, 1])
+    # Bounding box calculated identically to plot_antenna_and_radii for 100% position alignment
+    all_x = np.concatenate([antenna_pos_true[:, 0], user_pos[:, 0], extracted_users_per_noise[0][:, 0]])
+    all_y = np.concatenate([antenna_pos_true[:, 1], user_pos[:, 1], extracted_users_per_noise[0][:, 1]])
 
-    all_x = np.concatenate(all_x_pts)
-    all_y = np.concatenate(all_y_pts)
+    if presentation:
+        target_ratio = 4.0 / 3.0
+        center_x = (all_x.max() + all_x.min()) / 2.0
+        center_y = (all_y.max() + all_y.min()) / 2.0
+        span_x = all_x.max() - all_x.min()
+        span_y = all_y.max() - all_y.min()
 
-    margin_x = max(3.0, (all_x.max() - all_x.min()) * 0.05)
-    margin_y = max(3.0, (all_y.max() - all_y.min()) * 0.05)
+        base_y = max(span_y, span_x / target_ratio) * 1.15
+        half_y = base_y / 2.0
+        half_x = half_y * target_ratio
 
-    ax.set_xlim(all_x.min() - margin_x, all_x.max() + margin_x)
-    ax.set_ylim(all_y.min() - margin_y, all_y.max() + margin_y)
+        ax.set_xlim(center_x - half_x, center_x + half_x)
+        ax.set_ylim(center_y - half_y, center_y + half_y)
+    else:
+        margin_x = max(6.0, (all_x.max() - all_x.min()) * 0.15)
+        margin_y = max(6.0, (all_y.max() - all_y.min()) * 0.15)
+        ax.set_xlim(all_x.min() - margin_x, all_x.max() + margin_x)
+        ax.set_ylim(all_y.min() - margin_y, all_y.max() + margin_y)
+
     ax.set_aspect("equal", adjustable="box")
     ax.grid(True, linestyle=":", alpha=0.4)
 
@@ -700,15 +410,17 @@ def plot_noise_degradation_multi(
     num_runs: int = 6,
     noise_stds: Optional[list[float]] = None,
     seeds: Optional[list] = None,
-    title: str = "Deriva della Localizzazione degli Utenti sotto Rumore Gaussiano",
+    title: Optional[str] = None,
     save_path: Optional[str] = "dscdma_noise_experiment.pdf",
     show: bool = False,
+    presentation: bool = False,
 ) -> Tuple[plt.Figure, np.ndarray]:
     """
     Generates a multi-subfigure grid layout (default 6 subfigures in 2 rows of 3) containing independent runs of the Gaussian noise degradation experiment.
-    Optimized for inclusion in an A4 document. All subfigures share identical coordinate limits
+    Optimized for inclusion in an A4 document or presentation slide. All subfigures share identical coordinate limits
     so that the physical 2D spatial area box is rendered at the exact same size across all subfigures.
     """
+    setup_dscdma_plot_style(presentation=presentation)
     from dataclasses import replace
     from experiments.dscdma.utils.generator import DSCDMADatasetGenerator, add_gaussian_noise
     from experiments.utils.cp import CP
@@ -780,26 +492,37 @@ def plot_noise_degradation_multi(
 
     min_x, max_x = all_x.min(), all_x.max()
     min_y, max_y = all_y.min(), all_y.max()
-
     center_x = (min_x + max_x) / 2.0
     center_y = (min_y + max_y) / 2.0
-    span = max(max_x - min_x, max_y - min_y)
-    margin = max(5.0, span * 0.06)
-    half_span = span / 2.0 + margin
 
-    shared_xlim = (center_x - half_span, center_x + half_span)
-    shared_ylim = (center_y - half_span, center_y + half_span)
+    if presentation:
+        target_ratio = 4.0 / 3.0
+        span_x = max_x - min_x
+        span_y = max_y - min_y
+        base_y = max(span_y, span_x / target_ratio) * 1.10
+        half_y = base_y / 2.0
+        half_x = half_y * target_ratio
+
+        shared_xlim = (center_x - half_x, center_x + half_x)
+        shared_ylim = (center_y - half_y, center_y + half_y)
+    else:
+        span = max(max_x - min_x, max_y - min_y)
+        margin = max(5.0, span * 0.06)
+        half_span = span / 2.0 + margin
+        shared_xlim = (center_x - half_span, center_x + half_span)
+        shared_ylim = (center_y - half_span, center_y + half_span)
 
     n_cols = 3
     n_rows = (num_runs + n_cols - 1) // n_cols
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(13.5, 4.2 * n_rows))
+    fig_size = (10.0, 7.5) if presentation else (13.5, 4.2 * n_rows)
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=fig_size)
     axes_flat = axes.flatten() if isinstance(axes, np.ndarray) else np.array([axes])
 
     user_colors = ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9"]
     ant_color = "#2C3E50"
     sq_side = 4.8
 
-    sub_titles = [f"({chr(97 + i)}) Esperimento {i + 1}" for i in range(num_runs)]
+    sub_titles = [f"({chr(97 + i)})" for i in range(num_runs)]
 
     for idx in range(n_rows * n_cols):
         ax = axes_flat[idx]
@@ -815,6 +538,25 @@ def plot_noise_degradation_multi(
         I = antenna_pos_true.shape[0]
         K_noise = len(extracted_users)
 
+        # Draw light distance circles centered at fixed known antenna positions, color-coded by User
+        for r in range(R):
+            u_color = user_colors[r % len(user_colors)]
+            for i in range(I):
+                c_ant = antenna_pos_true[i]
+                radius = np.linalg.norm(c_ant - user_pos[r])
+                circle = Circle(
+                    xy=(c_ant[0], c_ant[1]),
+                    radius=radius,
+                    fill=False,
+                    edgecolor=u_color,
+                    linestyle=":",
+                    linewidth=0.8,
+                    alpha=0.30,
+                    zorder=2,
+                    label=None,
+                )
+                ax.add_patch(circle)
+
         for i in range(I):
             ax.scatter(
                 antenna_pos_true[i, 0],
@@ -827,12 +569,17 @@ def plot_noise_degradation_multi(
                 zorder=8,
             )
             ax.annotate(
-                rf"  $a_{{{i + 1}}}$",
-                (antenna_pos_true[i, 0], antenna_pos_true[i, 1] + 1.2),
+                rf"$a_{{{i + 1}}}$",
+                xy=(antenna_pos_true[i, 0], antenna_pos_true[i, 1]),
+                xytext=(0, -2.5),
+                textcoords="offset points",
                 fontsize=8.5,
                 fontweight="bold",
                 color=ant_color,
+                ha="center",
+                va="top",
                 zorder=9,
+                path_effects=[withStroke(linewidth=2.0, foreground="white")],
             )
 
         for r in range(R):
@@ -854,7 +601,7 @@ def plot_noise_degradation_multi(
             traj_x = [extracted_users[k][r, 0] for k in range(K_noise)]
             traj_y = [extracted_users[k][r, 1] for k in range(K_noise)]
 
-            for k in range(1, K_noise):
+            for k in range(0, K_noise):
                 step_alpha = max(0.70, 1.0 - 0.05 * k)
                 draw_stickman(
                     ax,
@@ -931,17 +678,21 @@ def generate_dscdma_noise_experiment_pdf(
     config,
     noise_stds: Optional[list[float]] = None,
     output_path: str = "dscdma_noise_experiment.pdf",
+    presentation: bool = False,
+    data: Optional[Dict[str, Any]] = None,
 ) -> Path:
     """
     Runs the DS-CDMA Gaussian noise experiment for a single experiment run
     and generates the overlaid trajectory plot.
+    If data is provided, reuses the existing generated dataset directly.
     """
     from experiments.dscdma.utils.generator import DSCDMADatasetGenerator, add_gaussian_noise
     from experiments.utils.cp import CP
     from experiments.dscdma.solver import align_factors
 
-    generator = DSCDMADatasetGenerator(config)
-    data = generator.generate()
+    if data is None:
+        generator = DSCDMADatasetGenerator(config)
+        data = generator.generate()
 
     T_true = data["tensor"]
     user_pos_true = data["user_pos"]
@@ -956,7 +707,7 @@ def generate_dscdma_noise_experiment_pdf(
 
     K_noise = len(noise_stds)
     extracted_users_per_noise = []
-    rng = np.random.default_rng(config.seed if config.seed is not None else 42)
+    rng = np.random.default_rng(config.seed)
 
     for k, noise_std in enumerate(noise_stds):
         T_noisy = add_gaussian_noise(T_true, noise_std=noise_std, rng=rng)
@@ -972,7 +723,7 @@ def generate_dscdma_noise_experiment_pdf(
         )
         extracted_users_per_noise.append(user_pos_est)
 
-    traj_title = f"Deriva della Localizzazione degli Utenti sotto Rumore Gaussiano (R={config.num_sources}, I={config.num_antennas})"
+    traj_title = None
 
     fig_traj, _ = plot_noise_degradation_trajectory(
         user_pos=user_pos_true,
@@ -984,6 +735,7 @@ def generate_dscdma_noise_experiment_pdf(
         show=False,
         area_side=config.area_side,
         tensor_rms=tensor_rms,
+        presentation=presentation,
     )
     plt.close(fig_traj)
     out_file = Path(output_path)
@@ -996,17 +748,21 @@ def generate_dscdma_noise_multi_experiment_pdf(
     num_runs: int = 6,
     noise_stds: Optional[list[float]] = None,
     output_path: str = "dscdma_noise_experiment_multi.pdf",
+    presentation: bool = False,
+    seeds: Optional[list] = None,
 ) -> Path:
     """
     Runs the DS-CDMA Gaussian noise experiment across 6 independent experiment runs
-    and generates a single A4-friendly PDF figure with 6 subfigures (2x3 grid).
+    and generates a single A4/presentation-friendly PDF figure with 6 subfigures (2x3 grid).
     """
     fig, _ = plot_noise_degradation_multi(
         config=config,
         num_runs=num_runs,
         noise_stds=noise_stds,
+        seeds=seeds,
         save_path=output_path,
         show=False,
+        presentation=presentation,
     )
     plt.close(fig)
     out_file = Path(output_path)

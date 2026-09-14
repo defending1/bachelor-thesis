@@ -37,7 +37,6 @@ def fit_cp(
         n_iter_max=max_iter,
         tol=tol,
         n_restarts=num_restarts,
-        restore_physical_scale=False,
     )
     return cp.factors, cp.rec_error
 
@@ -136,7 +135,7 @@ def run_experiment(force_recompute=None):
             results = json.load(f)
 
     if force_recompute is None:
-        force_recompute = {"2x2x2", "3x3x2"}
+        force_recompute = set()
 
     print("Starting typical rank estimation experiment using TensorLy CP-ALS...")
     start_all = time.time()
@@ -191,17 +190,15 @@ def run_experiment(force_recompute=None):
 
 
 def plot_from_results(results, distributions, formats, output_dir):
+    try:
+        import scienceplots
+        plt.style.use(["science", "grid"])
+    except Exception:
+        plt.style.use("default")
+
     plt.rcParams.update(
         {
-            "font.family": "serif",
-            "font.serif": [
-                "Computer Modern Roman",
-                "DejaVu Serif",
-                "Times New Roman",
-                "serif",
-            ],
-            "text.usetex": False,
-            "mathtext.fontset": "cm",
+            "text.usetex": True,
             "axes.labelsize": 10.5,
             "axes.titlesize": 10.5,
             "xtick.labelsize": 9.5,

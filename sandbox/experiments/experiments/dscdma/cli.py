@@ -118,7 +118,7 @@ def run_plot_cli(config_arg: Optional[Union[str, Path, list]] = None) -> None:
     print(">>> Aligning recovered factors with ground-truth channel...")
     align_factors(cp, data["A_true"])
 
-    title = f"Stima delle Posizioni degli Utenti e Antenne (R={config.num_sources}, I={config.num_antennas})"
+    title = None
     plot_antenna_and_radii(
         user_pos=user_pos,
         antenna_pos_true=antenna_pos_true,
@@ -232,6 +232,112 @@ def run_noise_multi_experiment_cli(
     print("\n" + "=" * 70)
     print(f"SUCCESS: Multi noise experiment PDF generated and saved to '{out_file.resolve()}'")
     print("=" * 70)
+
+
+def run_all_plots_cli(
+    config_arg: Optional[Union[str, Path, list]] = None,
+    output_dir: Optional[Union[str, Path]] = None,
+    presentation: bool = False,
+) -> None:
+    """
+    CLI runner logic to generate all 4 DS-CDMA experiment plots at once:
+      1. antenna_localization_plot.pdf
+      2. dscdma_6_experiments.pdf
+      3. dscdma_noise_experiment.pdf
+      4. dscdma_noise_experiment_multi.pdf
+    """
+    config_path = resolve_config_path(config_arg)
+    config = SimConfig.from_toml(config_path)
+
+    import numpy as np
+
+    if output_dir is None:
+        thesis_root = Path(__file__).resolve().parents[4]
+        if presentation:
+            out_dir = thesis_root / "slides" / "figures"
+        else:
+            out_dir = thesis_root / "Sources" / "Chapter4" / "figures"
+        if not thesis_root.exists():
+            out_dir = Path.cwd() / "slides" / "figures" if presentation else Path.cwd()
+    else:
+        out_dir = Path(output_dir)
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    mode_str = "PRESENTATION (4:3, Sans-Serif)" if presentation else "PAPER (A4 / LaTeX)"
+    print("=" * 70)
+    print(f"DS-CDMA GENERATING ALL 4 EXPERIMENT PLOTS AT ONCE [{mode_str}]")
+    print("=" * 70)
+    print(f"Target Directory: {out_dir.resolve()}")
+    print("-" * 70)
+
+    # Generate single dataset instance once so plot 1 and plot 3 share the exact same antennas and users (even when unseeded/random)
+    generator = DSCDMADatasetGenerator(config)
+    single_data = generator.generate()
+
+    # Determine seeds once for multi-plot runs so plot 2 and plot 4 share the exact same subfigure runs
+    if config.seed is None:
+        rng_seeds = np.random.default_rng()
+        multi_seeds = [int(s) for s in rng_seeds.integers(1, 1_000_000, size=6)]
+    else:
+        multi_seeds = [config.seed + 10 * i for i in range(6)]
+
+    # 1. Single antenna localization plot (zero noise baseline of noise_experiment)
+    print("1/4 Generating antenna_localization_plot.pdf ...")
+    generate_dscdma_noise_experiment_pdf(
+        config=config,
+        noise_stds=[0.0],
+        output_path=str(out_dir / "antenna_localization_plot.pdf"),
+        presentation=presentation,
+        data=single_data,
+    )
+
+    # 2. 6-experiment multi plot (zero noise baseline of multi noise experiment)
+    print("2/4 Generating dscdma_6_experiments.pdf ...")
+    generate_dscdma_noise_multi_experiment_pdf(
+        config=config,
+        num_runs=6,
+        noise_stds=[0.0],
+        output_path=str(out_dir / "dscdma_6_experiments.pdf"),
+        presentation=presentation,
+        seeds=multi_seeds,
+    )
+
+    # 3. Single noise experiment plot (reusing single_data)
+    print("3/4 Generating dscdma_noise_experiment.pdf ...")
+    generate_dscdma_noise_experiment_pdf(
+        config=config,
+        output_path=str(out_dir / "dscdma_noise_experiment.pdf"),
+        presentation=presentation,
+        data=single_data,
+    )
+
+    # 4. Multi noise experiment plot (reusing multi_seeds)
+    print("4/4 Generating dscdma_noise_experiment_multi.pdf ...")
+    generate_dscdma_noise_multi_experiment_pdf(
+        config=config,
+        num_runs=6,
+        output_path=str(out_dir / "dscdma_noise_experiment_multi.pdf"),
+        presentation=presentation,
+        seeds=multi_seeds,
+    )
+
+    print("\n" + "=" * 70)
+    print(f"SUCCESS: All 4 {mode_str} plots successfully generated in:")
+    print(f"  {out_dir.resolve()}")
+    print("=" * 70)
+
+
+def run_all_plots_pres_cli(
+    config_arg: Optional[Union[str, Path, list]] = None,
+    output_dir: Optional[Union[str, Path]] = None,
+) -> None:
+    """
+    CLI runner logic to generate presentation-friendly (16:9 aspect ratio, sans-serif fonts, Typst/slide ready) versions of all 4 DS-CDMA plots.
+    """
+    run_all_plots_cli(config_arg=config_arg, output_dir=output_dir, presentation=True)
+
+
 
 
 

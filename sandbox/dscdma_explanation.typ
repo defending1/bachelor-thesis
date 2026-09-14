@@ -102,3 +102,30 @@ Riportiamo i risultati numerici del solutore `sandbox/dscdma/run_cp_solver.py` s
     [*Bit Error Rate (BER)*], [*0.000000*], [*0.000000*]
   )
 ]
+
+#v(1em)
+
+= 4. Allineamento dei Fattori tramite Channel Matching
+
+La decomposizione CP-ALS stimata di un tensore $T$ produce le tre matrici fattore $(hat(A), hat(C), hat(S))$. A causa delle ambiguità di permutazione e di segno insite nei modelli CP di rango $R$, le colonne stimate $(hat(a)_k, hat(c)_k, hat(s)_k)$ non si presentano necessariamente nell'ordine o col segno originario delle componenti reali $(a_r, c_r, s_r)$.
+
+Per riordinare ed allineare le matrici stimate contenute nell'oggetto CP rispetto alla matrice di canale di riferimento $A in bb(R)^(I times R)$, l'algoritmo di *Channel Matching* (`align_factors`) risolve un problema di assegnamento ottimo bipartite:
+
+1. *Matrice di Correlazione Coseno*: Si calcola la correlazione spaziale normalizzata tra ogni colonna stimata $hat(a)_k$ ($k=1, dots, R$) e la colonna vera $a_r$ ($r=1, dots, R$):
+   $ rho_(k, r) = frac(hat(a)_k^T a_r, \|hat(a)_k\|_2 dot \|a_r\|_2) $
+
+2. *Matrice di Costo per l'Assegnamento*: Si costruisce la matrice dei costi $M in bb(R)^(R times R)$ basata sulla distanza di correlazione assoluta:
+   $ M_(k, r) = 1 - |rho_(k, r)| $
+
+3. *Algoritmo Ungherese (Hungarian Algorithm)*: Si individua la permutazione ottima $pi^* in cal(S)_R$ risolvendo il problema di abbinamento a costo minimo tramite l'algoritmo di Munkres/Ungherese:
+   $ pi^* = arg min_(pi in cal(S)_R) sum_(r=1)^R M_(pi(r), r) $
+
+4. *Correzione dell'Ambiguità di Segno*: Per ogni sorgente $r$, il moltiplicatore di segno $xi_r$ viene calcolato come:
+   $ xi_r = "sign"(hat(a)_(pi^*(r))^T a_r) in \{-1, +1\} $
+
+5. *Riordinamento e Correzione dei Fattori*: Le colonne delle matrici stimate vengono riordinate secondo la permutazione $pi^*$ e corrette nel segno tramite $xi_r$, in modo tale da preservare l'invarianza del prodotto tensoriale:
+   $ A_("aligned")[:, r] = xi_r dot hat(A)[:, pi^*(r)] $
+   $ S_("aligned")[:, r] = xi_r dot hat(S)[:, pi^*(r)] $
+   $ C_("aligned")[:, r] = hat(C)[:, pi^*(r)] $
+
+Grazie a questa procedura, le ambiguità di permutazione e di segno vengono eliminate, garantendo la corrispondenza univoca colonna per colonna tra le componenti stimate e le sorgenti reali del sistema.

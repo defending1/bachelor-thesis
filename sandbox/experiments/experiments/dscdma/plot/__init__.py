@@ -5,6 +5,7 @@ Plotting and visualization subpackage for DS-CDMA.
 from experiments.dscdma.plot.stickman import draw_stickman
 from experiments.dscdma.solver.localization import extract_user_positions_from_A
 from experiments.dscdma.plot.localization import (
+    setup_dscdma_plot_style,
     plot_antenna_and_radii,
     plot_antenna_localization_multi,
     generate_multi_plot_pdf,
@@ -15,6 +16,7 @@ from experiments.dscdma.plot.localization import (
 )
 
 __all__ = [
+    "setup_dscdma_plot_style",
     "draw_stickman",
     "extract_user_positions_from_A",
     "plot_antenna_and_radii",
