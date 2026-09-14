@@ -3,6 +3,75 @@
 
 = Applicazione all'analisi di segnali
 
+== Localizzazione di omini
+
+#align(center)[
+  #image("../figures/antennae.pdf", width: 80%)
+]
+
+#pagebreak(weak: true)
+
+#align(center)[
+  #image("../figures/antennae_step2.pdf", width: 80%)
+]
+Messaggio $s_r = [s_(1r), dots, s_(K r)]$.
+
+#pagebreak(weak: true)
+
+#align(center)[
+  #image("../figures/antennae_step3.pdf", width: 80%)
+]
+Otteniamo una matrice $T = sum_(r=1)^R a_r topp s_r$, ma *non c'è unicità*.
+
+
+#pagebreak(weak: true)
+
+#align(center)[
+  #image("../figures/antennae_step4.pdf", width: 80%)
+]
+Messaggio $s_r = [s_(1r), dots, s_(K r)]$ e codice $c_r = [c_(1r), dots, c_(J r)]$.
+
+#pagebreak(weak: true)
+
+#align(center)[
+  #image("../figures/antennae_step5.pdf", width: 80%)
+]
+Otteniamo un tensore $T =cp(A,S,C) = sum_(r=1)^R a_r topp s_r topp c_r$.
+
+#pagebreak(weak: true)
+
+Nello scenario fisico i fattori $A,S,C$ hanno rango massimo.
+
+Supponamo che $R=4$ utenti mandino messaggi di $K = 100$ simboli a $I=5 $ antenne con $J=16$. La condizione di Kruskal
+$
+2(R + 1) <= krank(A) + krank(S) + krank(C)
+$
+diventa
+$
+2(R + 1) <= min(I, R) + min(K, R) + min(J, R)
+$
+ed è soddisfatta:
+$
+2(4 + 1) = 10 <= 4 + 4 + 4
+$
+
+== Esperimento numerico
+Con $R = 4, I = 5, J =16,K=100$ recuperiamo il tensore $T$ approssimandolo con un tensore $hat(T)$
+tramite l'algoritmo CP ALS
+$
+min_(hat(A), hat(S), hat(C)) norm( T - cp(hat(A), hat(S), hat(T)) ).
+$
+
+#align(center)[
+  #image("../figures/antenna_localization_plot.pdf", width: 85%)
+]
+
+Se a $T$ aggiungiamo del rumore gaussiano $W_sigma$ in scala $sigma$ variabile, otteniamo
+$
+T_sigma' = T + W_sigma,
+$
+TABELLA CON I VARI LIVELLi?
+
 #align(center)[
   #image("../figures/antenna_localization_plot.pdf", width: 85%)
 ]

@@ -50,19 +50,7 @@ Split come due slides, contenuto al centro in grande
   T_epsilon = 1/epsilon (a_1 + epsilon a_2) topp (b_1 + epsilon b_2) topp (c_1 + epsilon c_2) -
   1/epsilon a_1 topp b_1 topp c_1,
   $
-  per $epsilon -> 0$ converge a un tensore di rango $3$
-  $
-  T = a_1 topp b_1 topp c_2 topp + a_1 topp b_2 topp c_1 + a_2 topp b_1 topp c_1,
-  $
-  in quanto
-  $
-  T_epsilon = T + O(epsilon).
-  $
-]
-
-#definition[Border rank][
-  Un tensore $T$ ha *border rank* $r$ se è limite di una successione di rango $r$ ma non è limite di
-  una successione di tensori di rango $s$ per ogni $s<r$. Lo indichiamo con $brk(T)$.
+  con $epsilon in RR$.
 ]
 
 == Rango tipico

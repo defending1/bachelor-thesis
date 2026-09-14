@@ -1,6 +1,8 @@
 // Notazione tensoriale e operatori per Typst slides
 
 #let rk(T) = $bold(R)(#T)$
+#let brk(T) = $underline(bold(R))(#T)$
+
 #let multirk = math.op("multirk")
 #let krank(A) = $bold(k)_#A$
 #let proj(n, K) = $bb(P)^#n (#K)$

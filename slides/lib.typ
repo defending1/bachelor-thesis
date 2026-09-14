@@ -5,8 +5,9 @@
 #import themes.simple: *
 #import "theme.typ": *
 #import "tensors.typ": *
-#import "@preview/mannot:0.3.0" as mannot: mark, annot
+#import "@preview/mannot:0.4.0": *
 #import "@preview/pavemat:0.2.0": pavemat
+#import "@preview/cetz:0.5.2"
 
 // Bibliography footnote support for Typst 0.12+ & Touying
 #let bib-cells = state("bib-cells", ())

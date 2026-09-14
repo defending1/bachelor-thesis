@@ -1,6 +1,7 @@
 #import "../lib.typ": *
 
 
+
 = Il teorema di Kruskal
 
 == Il caso matriciale
@@ -37,17 +38,16 @@ L'unicità per la fattorizzazione CP esiste a meno di permutazioni e riscalament
   i punti di $cal(S)$ sono in
 - *$2$-posizione generale* se nessuna coppia di punti coincide.
 - *$3$-posizione generale* se nessuna terna di punti giace su una retta.
-- *$4$-posizione generale* se nessuna quadrupla di punti giace su un piano.
 *$r$-posizione generale* se nessuna $r$-upla giace su un sottospazio proiettivo di dimensione $r-2$.
 ]
 #definition[$k$-rango][
-  Dato un sottoinsieme di punti $cal(S) subset bb(P)$, il *$k$-rango* è il massimo intero
+  Dato un sottoinsieme di punti $cal(S) subset PP W$, il *$k$-rango* è il massimo intero
   positivo $r$ tale che i punti di $cal(S)$ sono in posizione generale.
 ]
 Lo indichiamo con $ krank(cal(S)) .$
 
-QUI FIGURA
-#todo[Qui fare gli show con esempi punti, piano]
+#align(center)[#image("../figures/glpos.pdf", width: 95%)]
+#pagebreak(weak: true)
 
 #remark[][
   La definizione originale di Kruskal era: data una matrice $M$, il $k$-rango $krank(M)$ è il massimo intero
@@ -68,16 +68,26 @@ QUI FIGURA
   allora $T$ ha rango $R$ e la sua fattorizzazione è essenzialmente unica.
 ]
 
-=== Il permutation lemma
+== Semplificazione delle dimostrazioni
+
+#import "../figures/proof_streamlining.typ": proof-streamlining-fig
+
+#align(center + horizon)[
+  #proof-streamlining-fig
+]
+
+== Il permutation lemma
+
+
 
 #proposition[Permutation lemma][
   Siano $SS = {p_1, dots, p_R}$ e $tilde(SS) = {q_1, dots, q_R}$ due insiemi di punti in $PP W$ a
-  due a due distinti, e supponiamo che $ango(tilde(SS)) = W$. Se ogni iperpiano $H subset PP W$ che
-  contiene almeno $dim(H) + 1$ punti di $tilde(SS)$ è tale che $\#(SS inter H) <= \#(tilde(SS) inter
-  H)$, allora $SS = tilde(SS)$.
+  due a due distinti, e supponiamo che $ango(tilde(SS)) = W$.
+  Se ogni iperpiano $H subset PP W$ che
+  contiene almeno $dim(H) + 1$ punti di $tilde(SS)$ è tale che $ \#(SS inter H) <= \#(tilde(SS) inter
+  H), $ allora $SS = tilde(SS)$.
 ]
-#proof[Idea deall dimostrazione][
-]
+
 
 #pagebreak(weak: true)
 

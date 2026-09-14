@@ -25,42 +25,56 @@ complessità aritmetica?
 
 (risposta sì)
 
-== Rappresentazione low-rank di forme bilineari
-
-Data una decomposizione $ T = sum_(r=1)^R a_r topp b_r topp c_r $
-
-Possiamo scrivere una forma bilineare $phi : U times V arrow.r W$ come $ phi(u,v) = sum_(r=1)^R
-f_r (u)g_r (v) c_r, $
-dove $f_r (u) = a_r^top u$ e $g_r (v) = b_r^top v$ sono dei funzionali.
-
 == Bilinear computation
 
-Forse prima?
-#definition[Bilinear computation][
-  Qui definizione
+Data una mappa bilineare $phi : U times V -> W$, per ogni $r = 1, ..., R$ siano $f_r in U^*, g_r in
+V^*, w_r in W$ tali che
+$
+phi(u,v) = sum_(r = 1)^R f_r (u) g_r (v) w_r,
+$
+per ogni $u in U, v in V$.
+
+La $r$-upla $(f_1,g_1,w_1, dots, f_r,g_r,w_r)$ è detta *bilinear computation*.
+La lunghezza di una bilinear computation è detta *bilinear complexity (o rango)* di $phi$, e si indica
+con $rk(phi)$.
+== Rappresentazione low-rank di forme bilineari
+
+#proposition[][
+  Data una decomposizione $ T = sum_(r=1)^R a_r topp b_r topp c_r $
+
+  Possiamo scrivere una forma bilineare $phi : U times V arrow.r W$ come una bilinear computation
+  della forma $ phi(u,v) = sum_(r=1)^R
+  (a_r^top u) (b_r^top v)c_r. $
 ]
 
 == Rappresentazione low-rank del prodotto matriciale
 
+
 Date due matrici $A in RR^(m times n)$ e $B in RR^(n times p)$, poste $u = vec(A)$, $v = vec(B)$
 abbiamo un algoritmo di moltiplicazione veloce a partire da una bilinear computation
 $
-vec(C^top) = phi(u,v) &= sum_(r=1)^R (f_r (u) dot g_r (v)) c_r \
-&= sum_(r=1)^R (a_r^top u dot b_r^top v) c_r,
+vec(C^top) = phi(u,v)
+&= sum_(r=1)^R (markub(a_r^top u, #red, #<left>, bracket: brace.b) mark(dot, #<dot>, #green) markub(b_r^top v, #blue,
+#<right>, bracket: brace.b)) c_r,
+#annot(<dot>, pos: bottom, dy: +2.5em, leader-connect: "elbow")[Active multiplications]
+#annot(<left>)[$f_r$]
+#annot(<right>)[$g_r$]
 $
-dove $dot$ denota le active multiplications.
 
 == Il rango
 
 So far:
 $
-rk(phi) &= #text["Lunghezza di una bilinear computation"] \
-&= #text["Rango del tensore associato"].
+rk(phi) &= #text[\"Lunghezza di una bilinear computation\"] \
+&= #text[\"Rango del tensore associato"] \
+& = #text[\"Numero di moltiplicazioni matriciali\"]
+
+
 $
 
 Vorremmo mostrare che
 $
-rk(phi) &= #text["Numero di moltiplicazioni matriciali"].
+rk(phi) &= .
 $
 
 Spoiler: equazioni -> biliner comp -> tensore
@@ -79,8 +93,8 @@ Spoiler: equazioni -> biliner comp -> tensore
 
 === Stime note su $omega$
 
-#align(center)[
-  #image("../figures/matrix_multiplication_timeline_slides.pdf", width: 90%)
+#align(center + horizon)[
+  #image("../figures/matrix_multiplication_timeline_slides.pdf", width: 100%, height: 92%, fit: "contain")
 ]
 
 == L'algoritmo classico
@@ -117,8 +131,17 @@ $
 
 Facendo alcune semplificazioni del risultato del prodotto matriciale, troviamo l'algoritmo di
 Strassen in forma tensoriale
+$
+algob(2) & = (a_(11) + a_(22)) topp (b_(11) + b_(22)) topp (c_(11) + c_(22)) \
+& + (a_(21) + a_(22)) topp b_(11) topp (c_(21) - c_(22))            \
+& + a_(11) topp (b_(12) - b_(22)) topp (c_(12) + c_(22))            \
+& + a_(22) topp (-b_(11) + b_(21)) topp (c_(21) + c_(11))           \
+& + (a_(11) + a_(12)) topp b_(22) topp (-c_(11) + c_(12))           \
+& + (-a_(11) + a_(21)) topp (b_(11) + b_(12)) topp c_(22)           \
+&+ (a_(12) - a_(22)) topp (b_(21) + b_(22)) topp c_(11).
+$
+Che ha rango $7$.
 
-QUI
 
 #pagebreak()
 
@@ -130,8 +153,6 @@ Come ridurre il rango migliora la complessità?
 
 
 == Stimare la complessità nel caso generale
-
-QUI ALBERO DELLA RICORSIONE?
 
 Date due matrici di taglia $2^i times 2^i$ possiamo fare $i$ livelli di ricorsione e ottenere che
 $ rk(algob(2^i)) = rk(algob(2)^(topp i)) <= rk(algob(2))^i <= r^i. $
