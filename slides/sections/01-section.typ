@@ -1,47 +1,107 @@
 #import "../lib.typ": *
 
-== La fattorizzazione CP
+= La fattorizzazione CP
 
-#definition[Tensore di rango uno e Decomposizione CP][
-- Un tensore $T in bb(R)^(n_1 times dots times n_d)$ si dice di *rango uno* se si scrive come $T = a^((1)) topp a^((2)) topp dots topp a^((d))$.
-- Una *Decomposizione CP* (Canonical Polyadic Decomposition) rappresenta $T$ come somma di $r$ tensori di rango uno:
-$ T = sum_(j=1)^r a_j^((1)) topp a_j^((2)) topp dots topp a_j^((d)) = lr([| A_1, A_2, dots, A_d |]) $
-dove $A_k = [a_1^((k)) | a_2^((k)) | dots | a_r^((k))] in bb(R)^(n_k times r)$.
+Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, CC}.$
+
+#definition[Mappa/forma bilineare][
+  Una *mappa bilineare* è un'applicazione $phi : A times B -> C$ lineare in ogni componente. Se $C=
+  KK$ è detta *forma bilineare*.
 ]
+#definition[Spazio dei tensori][
+  Dati degli spazi vettoriali di dimensione finita $A,B,C$ indichiamo lo *spazio dei tensori* di
+  ordine tre con $A topp B topp C$. Lo definiamo come
+  l'insieme delle mappe bilineari $phi : A^* times B^* times C^* -> KK$.
+]
+
+#definition[
+  Quando $A = RR^m, B= RR^n, C = RR^p$, indichiamo con $RR^(m times n times p)$ lo *spazio dei
+  tensori (in coordinate)* di ordine $3$.
+]
+
+#definition[][
+  Un *tensore di rango uno* è un elemento
+  $
+  a topp b topp c in A topp B topp C.
+  $
+  tale che
+  $
+  a topp b topp c (alpha, beta, gamma) = alpha(a)beta(b)gamma(c),
+  $
+  per ogni $(alpha, beta, gamma) in A^* times B^* times C^*.$
+]
+
+#example[][
+  In $RR^(m times n)$, fissati dei vettori $a = [a_1, dots, a_m]^top$ e $b = [b_1, dots, b_n]^top,$
+  $
+  a topp b = a b^top =
+  mat(a_1b_1, a_1b_2, dots.c, a_1 b_n; a_2 b_1, a_2 b_2, dots, a_2 b_n; dots.v, dots.v, dots.down,
+  dots.v; a_m b_1, a_m b_2, dots, a_m b_n, delim:"[") in RR^(m times n)
+  $
+]
+
+#definition[][
+  Il *rango* di un tensore $T in A topp B topp C$ è il minimo intero positivo $R$ tale che $T$ si
+  può scrivere come somma di $R$ tensori di rango uno.
+]
+
+#definition[Canonical Polyadic Decomposition][
+  Dati degli spazi $A,B,C$ e dei vettori
+  Un tensore $T in A topp B topp C$ ammette una *fattorizzazione CP* di rango al più $R$ se si può
+  scrivere come somma di $R$ tensori di rango uno
+  $
+  T = a_1 topp b_1 topp c_1 + a_2 topp b_2 topp c_2 + dots + a_R topp b_R topp c_R.
+  $
+  In $RR^(m times n times p)$ la indichiamo con $T = cp(A,B,C),$ dove
+  $
+  A = [a_1, dots, a_R], B =
+  [b_1, dots, b_R], C = [c_1, dots, c_R].
+  $
+]
+#speaker-note[
+  Il rango $rk(T)$ è il minimo intero positivo $R$ tale che $T$ ammette una decomposizione CP di rango $R$.
+]
+
+
+
 
 = Il problema del rango
-In questa parte vediamo molte peculiarità dei tensori, dove mostriamo quello che
-funziona per le matrici ma non per i tensori (cambiare)
 
-== Rango CP
+Ci aspettiamo che il rango tensoriale si comporti come il rango matriciale.
 
-#definition[Rango Tensoriale][
-  Il *rango* di un tensore $T$ (denotato con $rk(T)$) è il minimo intero positivo $r$ tale che $T$ ammette una decomposizione CP di rango $r$:
-  $ rk(T) = min { r in bb(N) | T = sum_(j=1)^r a_j^((1)) topp a_j^((2)) topp dots topp a_j^((d)) } $
-]
+== Complessità
 
-== Proprietà del Rango Tensoriale
+- Calcolare il rango tensoriale è NP-hard REF
 
-#def-box(title: "Peculiarità del Rango Tensoriale")[
-  Rispetto al rango matriciale classico:
-- *Complessità*: Il calcolo del rango tensoriale è NP-hard (Håstad, 1990).
-- *Rango Massimo*: Per tensori $n_1 times dots times n_d$ può superare $\min(n_i)$ (es. per $2 times 2 times 2$ il rango max è 3).
-]
+- Il miglior approssimante di una matrice $M$ di rango $R$ è la decomposizione SVD
+$
+M = U Sigma V^* = sum_(r=1)^(rank(A)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
+$
+
+Per un tensore $T$, calcolare il miglior approssimante $hat(T) = cp(A,B,C)$ di rango $R$
+$
+min_(A, B, C) norm(T - a_1 topp b_1 topp c_1 - dots.c - a_r topp b_r topp c_r)
+$
+è mal posto.
+
 
 == Border rank
 
-Split come due slides, contenuto al centro in grande
 #property[
-  Una successione di matrici di rango $ r$ tende a una matrice di rango $<= r$.
+  Una successione di matrici di rango $r$ tende a una matrice di rango $<= r$.
 ]
 
 #pagebreak(weak: true)
 
 #property[
-  La varietà dei tensori non è chiusa: una successione di tensori di rango $r$ può tendere a un tensore di rango $> r$.
+  L'insieme dei tensori
+  $
+  {T in A topp B topp C | T "ha rango "r}
+  $
+  non è chiuso.
 ]
 
-#align(center)[#image("../figures/border-rank.pdf", width: 95%)]
+#align(center)[#image("../figures/border-rank.pdf", width: 80%)]
 
 
 #example[][
@@ -62,15 +122,27 @@ Split come due slides, contenuto al centro in grande
 
 #definition[Border rank][
   Un tensore $T$ ha *border rank* $r$ se è limite di una successione di rango $r$ ma non è limite di
-  una successione di tensori di rango $s$ per ogni $s<r$. Lo indichiamo con $brk(T)$.
+  una successione di tensori di rango $s$, per ogni $s<r$. Lo indichiamo con $brk(T)$.
 ]
+
+
+
+== Rango massimo
+
+Per i tensori $n times m times p$ il rango può superare le dimensioni degli spazi.
+#example[
+  Nel caso $2 times 2 times 2$ il rango massimo è $3$.
+]
+
 
 == Rango tipico
 
-Una matrice $M$ ha rango massimo con probabilità $1$, i tensori possono avere più ranghi per un certo formato.
+Una matrice $M$ ha rango massimo con probabilità $1$
+
+I tensori possono avere più ranghi per un certo formato. Tale fenomeno è detto *rango tipico*.
 
 #example[
-  Bla
+  Per un tensore reale $2 times 2 times 2$, i ranghi tipici sono ${2,3}$.
 ]
 
 

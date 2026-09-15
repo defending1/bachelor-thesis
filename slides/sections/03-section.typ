@@ -38,25 +38,22 @@ Messaggio $s_r = [s_(1r), dots, s_(K r)]$ e codice $c_r = [c_(1r), dots, c_(J r)
 ]
 Otteniamo un tensore $T =cp(A,S,C) = sum_(r=1)^R a_r topp s_r topp c_r$.
 
-#pagebreak(weak: true)
+== Esperimento numerico
 
-Nello scenario fisico i fattori $A,S,C$ hanno rango massimo.
-
-Supponamo che $R=4$ utenti mandino messaggi di $K = 100$ simboli a $I=5 $ antenne con $J=16$. La condizione di Kruskal
+La condizione di Kruskal
 $
 2(R + 1) <= krank(A) + krank(S) + krank(C)
 $
-diventa
+diventa ( i fattori $A,S,C$ hanno rango massimo)
 $
 2(R + 1) <= min(I, R) + min(K, R) + min(J, R)
 $
-ed è soddisfatta:
+Per $R = 4, K=100, I= 5, J = 16$ è soddisfatta:
 $
 2(4 + 1) = 10 <= 4 + 4 + 4
 $
 
-== Esperimento numerico
-Con $R = 4, I = 5, J =16,K=100$ recuperiamo il tensore $T$ approssimandolo con un tensore $hat(T)$
+Recuperiamo il tensore $T$ approssimandolo con un tensore $hat(T)$
 tramite l'algoritmo CP ALS
 $
 min_(hat(A), hat(S), hat(C)) norm( T - cp(hat(A), hat(S), hat(T)) ).

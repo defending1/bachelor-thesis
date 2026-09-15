@@ -4,26 +4,24 @@
 = Applicazione alla complessità aritmetica
 
 #definition[][
-  Un *algoritmo di moltiplicazione veloce* è un algoritmo che usa asintoticamente un numero di
-  moltiplicazioni rispetto alle addizioni.
+  Un *algoritmo di moltiplicazione veloce* è un algoritmo che usa asintoticamente un numero minore di moltiplicazioni rispetto alle addizioni.
 ]
 
 #definition(title: [Moltiplicazione matriciale])[
-  Fissati degli interi positivi $m, n, p$, la moltiplicazione tra due matrici $m times n$ e $n times p$ è una mappa bilineare
+  Fissati degli interi positivi $m, n, p$, *la moltiplicazione tra due matrici* $m times n$ e $n times p$ è una mappa bilineare
   $
   algob(m, n, p) : bb(C)^(m times n) times bb(C)^(n times p) &-> bb(C)^(m times p) \
   (A, B) &|-> C = A B.
   $
-  Spesso ci riferiremo a $algob(m, n, p)$ chiamandolo "algoritmo", ad esempio nel contesto degli algoritmi di moltiplicazione veloce.
+  Spesso ci riferiremo a $algob(m, n, p)$ chiamandolo "algoritmo".
 ]
 
 
-== Domanda:
+== Idea:
 
 Possiamo descrivere un algoritmo di moltiplicazione con un tensore e sperare di ridurre la
-complessità aritmetica?
+complessità aritmetica.
 
-(risposta sì)
 
 == Bilinear computation
 
@@ -35,7 +33,7 @@ $
 per ogni $u in U, v in V$.
 
 La $r$-upla $(f_1,g_1,w_1, dots, f_r,g_r,w_r)$ è detta *bilinear computation*.
-La lunghezza di una bilinear computation è detta *bilinear complexity (o rango)* di $phi$, e si indica
+#pause La lunghezza di una bilinear computation è detta *bilinear complexity (o rango)* di $phi$, e si indica
 con $rk(phi)$.
 == Rappresentazione low-rank di forme bilineari
 
@@ -54,34 +52,59 @@ Date due matrici $A in RR^(m times n)$ e $B in RR^(n times p)$, poste $u = vec(A
 abbiamo un algoritmo di moltiplicazione veloce a partire da una bilinear computation
 $
 vec(C^top) = phi(u,v)
-&= sum_(r=1)^R (markub(a_r^top u, #red, #<left>, bracket: brace.b) mark(dot, #<dot>, #green) markub(b_r^top v, #blue,
-#<right>, bracket: brace.b)) c_r,
+&= sum_(r=1)^R markub((a_r^top vec(A)), #red, #<left>, bracket: brace.b) mark(dot, #<dot>, #green)
+markub((b_r^top vec(B)), #blue,
+#<right>, bracket: brace.b) c_r,
 #annot(<dot>, pos: bottom, dy: +2.5em, leader-connect: "elbow")[Active multiplications]
 #annot(<left>)[$f_r$]
 #annot(<right>)[$g_r$]
 $
 
-== Il rango
+\
+\
+Conseguenza: $rk(algob(n,m,p)) = "\"Numero di moltiplicazioni matriciali\"."$
 
-So far:
-$
-rk(phi) &= #text[\"Lunghezza di una bilinear computation\"] \
-&= #text[\"Rango del tensore associato"] \
-& = #text[\"Numero di moltiplicazioni matriciali\"]
+== Il rango (cambiare)
 
-
-$
-
-Vorremmo mostrare che
-$
-rk(phi) &= .
-$
-
-Spoiler: equazioni -> biliner comp -> tensore
+Vorremmo tenere traccia della complessità ogni volta che troviamo una decomposizione di $algob(n)$ di
+rango minore al variare di $n$.
 
 #pagebreak()
 
 == L'esponente
+
+#definition[
+  Un *circuito aritmetico* $Gamma$ è un grafo diretto, orientato, aciclico, finito, con vertici di
+  grado entrante $0,2$ ed esattamente un vertice di grado uscente $0$.
+- I vertici di grado entrante $0$ hanno etichette gli elementi di $KK union {x_1, dots, x_n}$, e sono detti *inputs*.
+- I vertici di grado entrante $2$ hanno etichette $+$ oppure $*$ e sono detti *gates*.
+- Se il grado uscente di un vertice è $0$ è detto *output*.
+]
+#pagebreak()
+#definition[Funzione costo][
+  Sia una mappa bilineare $phi : U times V -> W$, sia $Gamma$ un circuito aritmetico. La *funzione
+  costo* associata a $Gamma$ è definita come
+  $
+  C_(Gamma)(phi) &= "#moltiplicazioni per calcolare" phi "su" Gamma,\
+  C_(Gamma)^("tot")(phi) &= "#moltiplicazioni e addizioni per calcolare" phi "su" Gamma,
+  $
+]
+#definition[Complessità aritmetica][
+  Fissato $cal(C)_phi = {"circuiti" Gamma' "che calcolano" phi}$,
+  definiamo
+  $
+  L(phi) &= inf_(Gamma in cal(C)_phi) C_(Gamma)(phi), quad #text[la *complessità moltiplicativa* di]
+  phi,\
+  L^("tot")(phi) &= inf_(Gamma in cal(C)_phi) C_(Gamma)(phi), quad #text[la *complessità totale* di]
+  phi.
+  $
+]
+#definition[
+  Denotiamo con
+  $
+  M_(KK)(n) = L^("tot")(algob(n))
+  $
+]
 
 #definition[
   L'*esponente della moltiplicazione matriciale* è il numero
@@ -140,7 +163,7 @@ algob(2) & = (a_(11) + a_(22)) topp (b_(11) + b_(22)) topp (c_(11) + c_(22)) \
 & + (-a_(11) + a_(21)) topp (b_(11) + b_(12)) topp c_(22)           \
 &+ (a_(12) - a_(22)) topp (b_(21) + b_(22)) topp c_(11).
 $
-Che ha rango $7$.
+Che mostra $rk(algob(2)) =7$.
 
 
 #pagebreak()

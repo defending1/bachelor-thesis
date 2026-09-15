@@ -1,6 +1,7 @@
 // Notazione tensoriale e operatori per Typst slides
 
 #let rk(T) = $bold(R)(#T)$
+#let rank = math.op("rank")
 #let brk(T) = $underline(bold(R))(#T)$
 
 #let multirk = math.op("multirk")
