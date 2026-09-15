@@ -6,7 +6,7 @@
 
 \section{Tensori}
 
-In questo elaborato lavoriamo in $ \K \in \{\R, \C\}  $, e denotiamo gli spazi vettoriali, che
+In questo elaborato supponiamo che in $ \K \in \{\R, \C\}  $, e denotiamo gli spazi vettoriali, che
 assumeremo sempre finiti, con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
 lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Dati dei vettori $ v_1,\ldots,v_p \in V$, l'insieme
 $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^* = \{ f : V \to \K \mid f \text{ lineare} \} $ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
@@ -69,11 +69,11 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 		n_2\times \cdots \times  n_{d-1} $.
 \end{remark}
 
-\todo{aggiunto esempio, si può tenere? Non saprei però motivare meglio perché il tensore sia così}
 \begin{example}[Tensore della matrix multiplication~\cite{landsberg2015geometry}]
-	Nel Capitolo~\ref{chp:matmul} studieremo il tensore della moltiplicazione tra due matrici di taglia $ m \times n
-	$ e $ n \times p $ come mappa
-	bilineare $ \K^{m \times n} \times \K^{n \times p} \to \K^{m \times p} $ che può essere vista come
+	Come anticipazione di quanto approfondiremo nel Capitolo~\ref{chp:matmul}, la moltiplicazione di due matrici di taglia $ m \times n
+	$ e $ n \times p $ si può vedere come mappa
+	bilineare $ \K^{m \times n} \times \K^{n \times p} \to \K^{m \times p} $. Tale mappa è
+	rappresentabile tramite
 	un tensore tridimensionale nello spazio $(\K^{m\times n})^* \otimes (\K^{n\times p})^* \otimes
 		\K^{m \times p} $. Indicando con $ E_{rc} $ la base canonica dello spazio delle matrici, il \emph{tensore della matrix
 		multiplication} ha coordinate date da
@@ -96,7 +96,6 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 	istante di tempo. Esploreremo questo tipo di tensori nel Capitolo~\ref{chp:cp_applications}.
 \end{example}
 
-\todo{Riscritto}
 \begin{remark}
 	L'insieme dei tensori $ \K^{\msiz!} $ forma un $ \K $-spazio vettoriale con le operazioni di addizione e moltiplicazione per scalare
 	\begin{equation*}
@@ -444,7 +443,7 @@ necessarie per l'unicità nel Capitolo~\ref{cp:cp_uniqueness}.
 	Dati degli spazi vettoriali $ A_1 \otimes \cdots \otimes A_d $ e dei vettori $ \{u_1^t, \ldots,
 		u_{n_{t}}^t\} \subset A_{t}  $, diciamo che un tensore $ T \in A_1 \otimes \cdots \otimes A_d $
 	ammette una \emph{Canonical Polyadic Decomposition} (abbreviata, \emph{decomposizione CP}) di
-	rango $ r \in \N $ se si può scrivere come somma di $ r $ tensori di rango uno
+	rango al più $ r \in \N $ se si può scrivere come somma di $ r $ tensori di rango uno
 	\begin{equation*}
 		T = u_1^1 \otimes u_1^2 \otimes \cdots \otimes u_1^d + \cdots + u_r^1 \otimes u_r^2 \otimes \cdots
 		\otimes u_r^d.
@@ -857,7 +856,7 @@ gaussiane).
 	\end{equation*}
 \end{definition}
 
-Per le matrici il rango tipico è unico e coincide con il massimo rango possibile, per i
+Per le matrici il rango tipico è unico e coincide con il massimo rango possibile. Per i
 tensori di ordine superiore a due non è così: su $\mathbb{R}$ possono coesistere
 più ranghi tipici, mentre su $\mathbb{C}$ il rango tipico è sempre unico. La Tabella~\ref{tab:typical_ranks} riassume i principali risultati noti in letteratura, tratti da Ballard e Kolda~\cite[p.~276, Tabella~16.2]{BK25}.
 Per verificare questi risultati, abbiamo implementato un esperimento numerico.
@@ -1059,7 +1058,7 @@ risultato di questa sezione.
 	\] Dalla lineare indipendenza appena dimostrata, e
 	dall'Osservazione~\ref{rmk:krp_as_span} segue che $ \rank \left(U_d \krp \cdots \krp U_2 \right) =r $.
 	Applicando l'Osservazione~\ref{rmk:krp_sub_krn} a più fattori troviamo che $ U_d \krp \cdots \krp U_r $ è
-	sottomatrice di $ U_d \krn \cdots \krn U_2 $.\todo{Aggiunta questa giustificazoine} Notiamo che i fattori $ U_{j} $ hanno rango $ r_{j}
+	sottomatrice di $ U_d \krn \cdots \krn U_2 $. Notiamo che i fattori $ U_{j} $ hanno rango $ r_{j}
 	$ in quanto
 	\begin{equation*}
 		\begin{aligned}
@@ -1191,7 +1190,6 @@ per ogni $ x \in \R^r $, ossia è semidefinita positiva. In particolare dall'equ
 \end{equation}
 con costo $ O(r^2m + r^3) $.
 
-\todo{Aggiunto}
 \begin{remark}
 	Scomponiamo i costi per risolvere il sistema sopra:
 	\begin{itemize}

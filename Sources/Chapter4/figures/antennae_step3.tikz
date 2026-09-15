@@ -46,9 +46,9 @@
     \draw[draw=antennaColor!80, line width=1.0pt] (-0.08, 0.72) arc (210:150:0.16);
     \draw[draw=antennaColor!80, line width=1.0pt] (-0.14, 0.66) arc (210:150:0.28);
   },
-  signalLine1/.style={->, draw=edgeBlue!80, line width=1.1pt},
+  signalLine1/.style={->, draw=edgeBlue!80, line width=1.1pt, opacity=0.3},
   signalLine2/.style={->, draw=edgeGreen!80, line width=1.1pt},
-  signalLine3/.style={->, draw=edgePurple!80, line width=1.1pt}
+  signalLine3/.style={->, draw=edgePurple!80, line width=1.1pt, opacity=0.3}
 ]
 
   % --- USER POSITIONS (stickmen in 2D plane) ---
@@ -56,9 +56,9 @@
   \coordinate (u2) at (-3.2, -1.8);
   \coordinate (u3) at (3.6, 0.2);
 
-  \pic[edgeBlue!80] at (u1) {stickman};
+  \pic[edgeBlue!80, opacity=0.3] at (u1) {stickman};
   \pic[edgeGreen!80] at (u2) {stickwoman};
-  \pic[edgePurple!80] at (u3) {stickwoman};
+  \pic[edgePurple!80, opacity=0.3] at (u3) {stickwoman};
 
   % --- ANTENNA POSITIONS (antennae in 2D plane) ---
   \coordinate (a1) at (-0.5, 1.2);
@@ -67,20 +67,27 @@
   \pic at (a1) {antenna};
   \pic at (a2) {antenna};
 
+  % --- LABELS FOR STEP 2 & STEP 3 ---
+  \node[font=\large\bfseries, text=edgeGreen!90!black, anchor=north west] at ($(u2)+(0.08, -0.2)$) {$r$};
+  \node[font=\large\bfseries, text=antennaColor!90!black, anchor=north west] at ($(a2)+(0.08, -0.4)$) {$i$};
+
+  % Step 3 summation formula under antenna i
+  \node[font=\large\bfseries, text=antennaColor!90!black, anchor=north] at ($(a2)+(0.0, -0.85)$) {$\sum_{r} a_{ir} s_{kr}$};
+
+  % Phantom node to enforce identical bounding box height across all animation steps
+  \node[font=\large\bfseries, opacity=0, anchor=north] at ($(a2)+(0.0, -0.85)$) {$\sum_{r} a_{ir} s_{kr} c_{jr}$};
+
   % --- SIGNAL TRANSMISSION EDGES ---
   % From User 1 (u1)
   \draw[signalLine1] ($(u1)+(0.25, 0.1)$) -- ($(a1)+(-0.35, 0.2)$);
   \draw[signalLine1] ($(u1)+(0.25, -0.1)$) -- ($(a2)+(-0.35, 0.3)$);
 
   % From User 2 (u2)
-  \draw[signalLine2] ($(u2)+(0.25, 0.2)$) -- ($(a1)+(-0.35, -0.3)$);
-  \draw[signalLine2] ($(u2)+(0.25, 0.0)$) -- ($(a2)+(-0.35, -0.2)$);
+  \draw[signalLine2] ($(u2)+(0.25, 0.2)$) -- node[midway, above left, font=\small\bfseries, text=edgeGreen!90!black, inner sep=1pt] {$s_{kr}$} ($(a1)+(-0.35, -0.3)$);
+  \draw[signalLine2] ($(u2)+(0.25, 0.0)$) -- node[midway, below, font=\small\bfseries, text=edgeGreen!90!black, inner sep=1pt] {$s_{kr}$} ($(a2)+(-0.35, -0.2)$);
 
   % From User 3 (u3, to the right of antennae)
   \draw[signalLine3] ($(u3)+(-0.25, 0.2)$) -- ($(a1)+(0.35, 0.1)$);
   \draw[signalLine3] ($(u3)+(-0.25, -0.1)$) -- ($(a2)+(0.35, 0.1)$);
-
-  % Phantom node to enforce identical bounding box height across all animation steps
-  \node[font=\large\bfseries, opacity=0, anchor=north] at ($(a2)+(0.0, -0.85)$) {$\sum_{r} a_{ir} s_{kr} c_{jr}$};
 
 \end{tikzpicture}
