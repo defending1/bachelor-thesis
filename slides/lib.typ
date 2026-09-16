@@ -12,38 +12,13 @@
 #import "@preview/fletcher:0.5.8" as fletcher: node, edge
 
 // Bibliography footnote support for Typst 0.12+ & Touying
-#let bib-cells = state("bib-cells", ())
-#let bib-keys = state("bib-keys", ())
-
 #let show-bibliography-as-footnote(body) = {
   show cite: it => {
-    let key-str = str(it.key)
-    bib-keys.update(k => if key-str not in k { k + (key-str,) } else { k })
-    box(width: 0pt, hide(it))
-    context {
-      let keys = bib-keys.final()
-      let global-num = if key-str in keys {
-        keys.position(k => k == key-str) + 1
-      } else {
-        1
-      }
-      let cells = bib-cells.final()
-      let item = if cells.len() > 2 * (global-num - 1) + 1 {
-        cells.at(2 * (global-num - 1) + 1)
-      } else {
-        [#key-str]
-      }
-      footnote(numbering: _ => "[" + str(global-num) + "]", item)
+    if it.form == none {
+      footnote(cite(it.key, form: "full"))
+    } else {
+      it
     }
-  }
-
-  show bibliography: it => {
-    show grid.cell: c => {
-      bib-cells.update(v => v + (c.body,))
-      c
-    }
-    set text(size: 0.7em)
-    it
   }
 
   body

@@ -100,7 +100,7 @@ rango minore al variare di $n$.
   $
 ]
 #definition[
-  Denotiamo con
+  Denotiamo il *numero di moltiplicazioni aritmetiche* necessarie a calcolare $algob(n)$ con
   $
   M_(KK)(n) = L^("tot")(algob(n))
   $
@@ -109,10 +109,13 @@ rango minore al variare di $n$.
 #definition[
   L'*esponente della moltiplicazione matriciale* è il numero
   $
-  omega := inf_n { tau in RR | &#text[La moltiplicazione tra due matrici in ] RR^(n times n) \ &#text[ha costo] o(n^tau)}.
+  omega &:= inf_n { tau in RR | #text[La moltiplicazione tra due matrici in ] RR^(n times n) \
+  &wide wide wide med #text[ha costo] o(n^tau).} \
+  &= inf_(n) {tau in RR | M_(KK)(n) = o(n^tau).}
   $
 ]
-#speaker-note[Se avanza spazio/tempo notazione più precisa]
+#remark[$omega <= 3$]
+#conjecture[$omega = 2$]
 
 === Stime note su $omega$
 
@@ -166,13 +169,23 @@ $
 Che mostra $rk(algob(2)) =7$.
 
 
-#pagebreak()
+== Approccio divide et impera
+
+La formula
+$
+vec(C^top) = sum_(r=1)^R (a_r^top vec(A))mark(dot, #red)
+(b_r^top vec(B)) c_r,
+$
+si può utilizzare in maniera ricorsiva.
+
+Idea: Si applica la formula ricorsivamente su $mark(dot, #red)$ fino al caso base.
+
 
 Due domande:
 
-Come calcolare la complessità quando si usano i due algoritmi ricorsivamente?
+Costo computazionale della ricorsione?
 
-Come ridurre il rango migliora la complessità?
+Come ridurre il rango migliora $omega$?
 
 
 == Stimare la complessità nel caso generale
@@ -181,28 +194,19 @@ Date due matrici di taglia $2^i times 2^i$ possiamo fare $i$ livelli di ricorsio
 $ rk(algob(2^i)) = rk(algob(2)^(topp i)) <= rk(algob(2))^i <= r^i. $
 
 Nel caso generale, dato $n>2$, possiamo fare un padding di zeri
-TODO: sistemare per farlo sempbrare un embedding dentro matrice più grande
 $
-#pavemat(
-  math.mat(
-    [ A ], [ ],
-    [ ],     [ ],
-  ),
-  delim: "[",
-  pave: (
-  )
+mat(
+  A, display(mat(delim: #none, 0;0;0));
+  display(mat(delim: #none, 0, 0, 0)), 0
+  , delim: "["
+) quad
+mat(
+  B, display(mat(delim: #none, 0;0;0));
+  display(mat(delim: #none, 0, 0, 0)), 0
+  , delim: "["
 )
-#pavemat(
-  math.mat(
-    [ B ], [ ],
-    [ ],     [ ],
-  ),
-  delim: "[",
-  pave: (
-  )
-)
+$
 
-$
 fino a raggiungere la taglia $2^(ceil(log_2 n))$.
 
 La complessità sarà comunque limitata da $R$:
@@ -212,10 +216,10 @@ rk(algob(n)) &<= rk(algob(2^(ceil(log_2 n))))  \
 &<= R^(ceil(log_2 n)) \
 &<= R dot n^(log_2 R)
 $
-Da cui
+Da cui (sostituendo $2$ con $hat(n)$)
 
 #proposition[
-  Se $rk(algob(n)) <= R$ per degli interi positivi $n, R$, allora $n^(omega) <= R$.
+  Se $rk(algob(hat(n))) <= R$ per degli interi positivi $n, R$, allora $hat(n)^(omega) <= R$.
 ]<prop-omega-bound>
 Abbiamo dimostrato che $omega <= log_n rk(algob(n)).$
 
@@ -236,7 +240,7 @@ omega <= log_2 rk(algob(2)) = log_2 7 approx 2.81.
 $
 Che è il bound più basso per $omega$ ottenibile da $algob(2)$.
 
-Ad esempio, Bini et Al. @bini1979n2 trovano che $rk(algob(12)) = 100$, da cui
+Ad esempio, Bini et al. @bini1979n2 trovano che $rk(algob(12)) = 100$, da cui
 $
 omega <= log_12 1000 approx 2.7799.
 $
@@ -254,14 +258,45 @@ $
   $
   omega = inf_n { tau in RR | rk(algob(n)) = O(n^tau)}.
   $
-  Ovvero, è possibile moltiplicare due matrici $n times n$ usando $O(n^(omega + epsilon))$ operazioni
+  Ovvero, moltiplicare due matrici $n times n$ costa $O(n^(omega + epsilon))$ operazioni
   aritmetiche se e solo se $rk(algob(n)) = O(n^(omega + epsilon)).$
 ]<thm-strassen>
 
-== Algoritmi approssimati (se c'è tempo)
+== Algoritmi approssimati
 
-bini et al provano...
+Bini et al.CITE partendo dall'algoritmo classico $algob(2)$ e ponendo l'entrata $a_22 = 0$,
+$
+mat(a_11, a_12; a_21, 0, delim: "[")
+mat(b_11, b_12; b_21, b_22, delim: "[")
+& = mat(a_11b_11 + a_12b_21, a_11b_12 + a_12b_22; a_21b_11 , a_21b_12, delim:
+"["). \
+$
 
-tensore che trovano
+Trovano il tensore di rango $6$
+$
+algob(2)^(#text[red])
+:= &a_(11) topp (b_(11) topp c_(11) + b_(12) topp c_(12)) \
++ &a_(12) topp (b_(21) topp c_(11) + b_(22) topp c_(12))      \
++ &a_(21) topp (b_(11) topp c_(21) + b_(12)
+topp c_(22)).
+$
+Nel tentativo di ridurre numericamente il rango a $5$, trovano un tensore
+$
+algob(2)^("red")_t = &(a_(12) + t a_(11)) topp (b_(12) + t b_(22) topp c_(12))                                   \
++ &(a_(21) + t a_(11)) topp b_(11) topp (c_(11) + t c_(21))                                   \
++ &a_(12) topp b_(12) topp ((c_(11) + c_(12)) + t c_(22))                                    \
++ &a_(21) topp ((b_(11) + b_(12)) + t b_(21)) topp c_(11)                                    \
++ &(a_(12) + a_(21)) topp (b_(12) + t b_(21)) topp (c_(11) + t c_(22))
+$
 
-=== Cenni sull'errore
+Scoprendo (accidentalmente) che
+$
+lim_(t -> 0) algob(2)^("red")_t = algob(2)^(#text[red])
+$
+Ovvero
+$
+brk(algob(2)^("red")) <= 5
+$
+Da cui ricavano l'algoritmo $algob(3,2,2)$ di complessità $3 log_12 10 approx 2.7799$.
+
+== Confronto numerico

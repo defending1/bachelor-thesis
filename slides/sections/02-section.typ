@@ -81,7 +81,20 @@ Lo indichiamo con $ krank(cal(S)) .$
   contiene almeno $dim(H) + 1$ punti di $tilde(SS)$ è tale che $ \#(SS inter H) <= \#(tilde(SS) inter
   H), $ allora $SS = tilde(SS)$.
 ]
-IDEA
+#proof[Idea][
+  Consideriamo la proprietà $(cal(P)_k)$: Ogni $k$-piano $L$ tale che $ \#(tilde(SS) inter L) >= dim(L)+1 = k+1$,
+  allora $\#(SS inter L) >= \#(tilde(SS) inter L).$
+  Sostituendo '$k$-piani' con 'punti' è vera e implica $SS = tilde(SS)$.
+  Per ipotesi $(cal(P)_k)$ è vera per gli iperpiani (ovvero $(bold(w)-2)$-piani).
+  Mostriamo $(cal(P)_(k+1)) => (cal(P)_k)$. Da cui otteniamo
+  $
+  (cal(P)_(bold(w)-2)) => (cal(P)_(bold(w)- 3)) => dots.c => (cal(P)_1) => (cal(P)_0) => SS =
+  tilde(SS).
+  $
+  #align(center)[#image("../figures/drawing.pdf", width: 80%)]
+
+]
+
 
 
 #pagebreak(weak: true)
