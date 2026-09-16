@@ -4,17 +4,18 @@
 \label{chp:matmul}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-L'algoritmo di moltiplicazione matriciale si può esprimere come mappa bilineare che manda due matrici $ A
-$ e $ B $ nel prodotto $ C = AB $. Possiamo naturalmente rappresentare tale mappa come un tensore $ T $, e
-quindi cercarne una rappresentazione di rango più basso. Questo dà il vantaggio di valutare le matrici $ A
-$, $ B $ in un algoritmo che dipende dalle entrate di $ T $ per ridurre il numero di
-moltiplicazioni in base al rango di $ T $. Infatti, studiamo gli \emph{algoritmi di moltiplicazione veloce},
-ovvero gli algoritmi di moltiplicazione matriciale che
+Studiamo gli \emph{algoritmi di moltiplicazione veloce},
+definiti come gli algoritmi di moltiplicazione matriciale che
 impiegano asintoticamente un numero minore di operazioni aritmetiche rispetto all'algoritmo
 classico, ottenendo un esponente di complessità asintotica minore di $ 3 $ per le matrici quadrate.
+
+L'algoritmo di moltiplicazione matriciale si può esprimere come mappa bilineare che manda due matrici $ A
+$ e $ B $ nel prodotto $ C = AB $. Possiamo naturalmente rappresentare tale mappa come un tensore $ T $, e
+quindi cercarne una rappresentazione di rango più basso, e come conseguenza ridurre il numero di moltiplicazioni.
 In questo contesto, mostriamo che il rango della forma bilineare dà il numero di moltiplicazioni di un algoritmo, e
-viceversa. Risulta utile tener traccia del costo ottimale della moltiplicazione $ \omega $ e
-dimostrare attraverso il Teorema di Strassen che il rango del tensore può essere messo in corrispondenza con $ \omega $.
+viceversa. Poiché tali algoritmi sarranno ricorsivi e dipenderanno dal caso base, risulterà utile
+tener traccia del costo ottimale della moltiplicazione, che chiameremo $ \omega $. Attraverso il
+Teorema di Strassen mostreremo che il rango del tensore può essere messo in corrispondenza con $ \omega $.
 Concludiamo definendo l'algoritmo di Strassen e ricavando un algoritmo approssimato a partire da quello
 classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettivi errori algoritmici.
 
@@ -22,15 +23,14 @@ classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettiv
 \label{sec:tensor_bil}
 
 \begin{definition}[Moltiplicazione matriciale]
-	Fissati degli interi positivi $ m,n,p $, la moltiplicazione tra due matrici $  m\times n $ e $ n \times p $ è una mappa bilineare
+	Fissati degli interi positivi $ m,n,p $, \emph{la moltiplicazione tra due matrici} $  m\times n $ e $ n \times p $ è una mappa bilineare
 	\begin{equation*}
 		\begin{aligned}
 			\algob{m,n,p} \colon \C^{m\times n} \times \C^{n\times p} & \to \C^{m \times p} \\
 			(A,B)                                                     & \mapsto C = AB.
 		\end{aligned}
 	\end{equation*}
-	Spesso ci riferiremo a $ \algob{m,n,p} $ chiamandolo ``algoritmo'', ad esempio nel contesto degli algoritmi di
-	moltiplicazione veloce.
+	Nel contesto degli algoritmi di moltiplicazione veloce ci riferiremo a $ \algob{m,n,p} $ chiamandolo ``algoritmo''.
 \end{definition}
 
 \begin{remark}
@@ -82,20 +82,20 @@ In forma tensoriale,
 \end{remark}
 
 Ricordando che $ U^* \otimes V^* \otimes W $ è l'insieme delle forme trilineari da $ U \times V
-	\times W^* \to \K $, possiamo dare un nome all'oggetto sopra.
+	\times W^* \to \K $, possiamo definire
 \begin{definition}[Tensore strutturale]
 	L'unico tensore $ T \in U^* \otimes V^* \otimes W$ associato alla mappa bilineare $ \varphi : U
 		\times V \to W $ è detto \emph{tensore strutturale} di $ \varphi $.
 \end{definition}
 
-\begin{remark}
+\begin{warning}
 	Con un abuso di notazione tipicamente usato in letteratura~\cite{landsberg2011tensors,
 		landsberg2015geometry, burgisser2013algebraic}, nel seguito identificheremo l'algoritmo
 	di moltiplicazione matriciale (come mappa bilineare) con il suo tensore strutturale, denotando
 	entrambi dello stesso simbolo $ \angb{m,n,p} $, distinguendo l'oggetto in questione laddove
 	creerà ambiguità. Più avanti questa notazione sarà giustificata dalla
 	Proposizione~\ref{prop:iso_bil_tensor}.
-\end{remark}
+\end{warning}
 
 \section{Decomposizione low-rank di forme bilineari}
 
@@ -174,8 +174,8 @@ moltiplicare le matrici sfruttando la decomposizione di $ T $.
 \begin{proposition}[Si veda~\cite{burgisser2013algebraic}, Cap. 14]
 	\label{prop:iso_bil_tensor}
 	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali. Allora esiste un unico isomorfismo $ U^*
-		\otimes V^* \otimes W \to \{\varphi : U \times V \to  W, \text{ bilineare}\} $ che manda $ s
-		\otimes t \otimes w $ nella mappa bilineare $ (u,v) \mapsto f(u)g(u)w $.
+		\otimes V^* \otimes W \to \{\varphi : U \times V \to  W, \text{ bilineare}\} $ che manda $ f
+		\otimes g \otimes w $ nella mappa bilineare $ (u,v) \mapsto f(u)g(u)w $.
 \end{proposition}
 \begin{remark}
 	Grazie a questo isomorfismo, possiamo passare da una bilinear computation
@@ -221,7 +221,8 @@ Dove abbiamo posto $ f_l \defeq  f_{l}(A) \defeq  u_l^\top \Vec(A)$, $ g_l \defe
 
 Questa formula definisce un algoritmo di moltiplicazione veloce $ \algob{m,n,p} $; spesso nella
 pratica $ m,n,p $ sono più piccoli delle matrici da moltiplicare; in questo caso è possibile dividerle a blocchi e applicare
-l'algoritmo in maniera ricorsiva, ripetendo la ricorsione fino a raggiungere il caso base. Di seguito giustificheremo meglio questa procedura.
+l'algoritmo in maniera ricorsiva, ripetendo la ricorsione fino a raggiungere il caso base. Nella
+\S~\ref{sec:complexity_general} giustificheremo la complessità di questa procedura.
 
 
 \section{L'esponente della moltiplicazione tra matrici}
@@ -372,6 +373,7 @@ o stabili di quello classico, ad esempio l'algoritmo di Strassen, che presentere
 \section{Il rango come misura della complessità}
 
 \subsection*{Stimare la complessità nel caso generale}
+\label{sec:complexity_general}
 
 Precedentemente abbiamo introdotto gli algoritmi di moltiplicazione dal caso base (indicandolo con $ \algob{n}
 $) senza giustificare come cambia la complessità quando l'algoritmo viene eseguito ricorsivamente.
@@ -471,7 +473,7 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 			(w_{i} \otimes z_{j}),
 		\end{aligned}
 	\end{equation*}
-	che è un'espressione di $ \varphi_1 \otimes \varphi_2 $ come somma di mappe bilineari di rango
+	Da cui, $ \varphi_1 \otimes \varphi_2 $ si può scrivere come somma di mappe bilineari di rango
 	uno. Per minimalità del rango, segue
 	\begin{equation*}
 		\rk(\varphi_1 \otimes \varphi_2) \le r_1r_2 = \rk(\varphi_1)\rk(\varphi_2).
@@ -482,13 +484,13 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 \subsection*{Il teorema di Strassen}
 Fino a questo punto abbiamo visto che un algoritmo con $ r $ moltiplicazioni per matrici $ n\times n $ definisce una
 bilinear computation e dimostra che il rango del tensore associato è $ \le r $.
-Di conseguenza, dalla Proposizione~\ref{prop:omega_rk_estimate}, un limite superiore per il rango di
+Come conseguenza della Proposizione~\ref{prop:omega_rk_estimate} il rango di
 $ \algob{n} $ induce un limite
-superiore per l'esponente asintotico della moltiplicazione di matrici, ovvero $ \omega \le \log_{n}
-	\rk(\algob{n})$. Quindi prendendo l'estremo inferiore su tutti i possibili $ n $ troviamo che $
+superiore per l'esponente, ovvero $ \omega \le \log_{n}
+	\rk(\algob{n})$. Quindi prendendo l'estremo inferiore sui ranghi di tutti i possibili algoritmi troviamo che $
 	\omega \le  \inf_{n} \log_{n} \rk(\algob{n}) $. A questo punto è naturale chiedersi se,
-ottimizzando su tutte le possibili $ n $, il rango tensoriale è sufficiente a catturare la
-complessità aritmetica $ \omega $? Il teorema di Strassen risponde in maniera affermativa a questa
+ottimizzando su tutte le possibili $ n $, il rango tensoriale sia sufficiente a catturare la
+complessità aritmetica $ \omega $. Il teorema di Strassen risponde in maniera affermativa a questa
 domanda, mostrando che $ \omega $ coincide con l'estremo inferiore di queste stime, permettendo così
 di studiare la complessità di un algoritmo analizzando solamente il rango del tensore strutturale.
 
@@ -578,7 +580,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	\begin{equation*}
 		\omega = \inf_{n} \{\tau \in \R \mid \rk(\algob{n}) = O(n^\tau)\}.
 	\end{equation*}
-	Sia $ \theta $ il lato destro dell'equazione sopra, e per semplicità scriviamo $ M(n) \defeq
+	Sia $ \theta $ il lato destro dell'equazione sopra. Per semplicità scriviamo $ M(n) \defeq
 		M_{\K}(n)$ e $ \omega \defeq \omega_{\K}$. Dall'Equazione~\eqref{eq:LandRank_estimate} abbiamo
 	\begin{equation*}
 		\frac{1}{2}R(\algob{n}) \le L(\algob{n}) \le M(n),
@@ -712,14 +714,13 @@ addizioni:
 \begin{equation}
 	\label{eq:mult_222_m_i}
 	\begin{aligned}
-		m_1 & = a_{11} \cdot b_{11} = s_1 t_1 & \quad m_2 & = a_{12} \cdot b_{21} = s_2t_2 & \quad m_3 & = a_{11}
-		\cdot b_{12} = s_3t_3                                                                                     \\
-		m_4 & = a_{12} \cdot b_{22} = s_4t_4  & \quad m_5 & = a_{21} \cdot b_{11} = s_5t_5 & \quad m_6 & = a_{22}
-		\cdot b_{21} = s_6t_6                                                                                     \\
-		m_7 & = a_{21} \cdot b_{12} = s_7t_7  & \quad m_8 & = a_{22} \cdot b_{22} = s_8t_8 &           &
+		m_1 & = a_{11} \cdot b_{11} = f_1 g_1 & \quad m_2 & = a_{12} \cdot b_{21} = f_2g_2 & \quad m_3 & = a_{11}
+		\cdot b_{12} = f_3g_3                                                                                     \\
+		m_4 & = a_{12} \cdot b_{22} = f_4g_4  & \quad m_5 & = a_{21} \cdot b_{11} = f_5g_5 & \quad m_6 & = a_{22}
+		\cdot b_{21} = f_6g_6                                                                                     \\
+		m_7 & = a_{21} \cdot b_{12} = f_7g_7  & \quad m_8 & = a_{22} \cdot b_{22} = f_8g_8 &           &
 	\end{aligned}
 \end{equation}
-
 \[
 	\begin{aligned}
 		c_{11} & = m_1 + m_2 = a_{11}b_{11} + a_{12}b_{21}, & \qquad  c_{12} & = m_3 + m_4 = a_{11}b_{12} +
@@ -747,7 +748,7 @@ base standard $ \{E_{11}, E_{12}, E_{21}, E_{22}\}  $ dello spazio delle matrici
 dove i termini $ w_{i} $ sono determinati dalla scrittura sopra.
 
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
-	s_{r}t_{r}w_{r}$ dell'equazione sopra in $ s_{r} \otimes t_{r} \otimes w_{r}$ e scrivere il tensore struttrale di $
+	f_{r}g_{r}w_{r}$ dell'equazione sopra in $ f_{r} \otimes g_{r} \otimes w_{r}$ e scrivere il tensore struttrale di $
 	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}). Per farlo,
 identifichiamo i funzionali $ s_{r} $ e $ t_{r} $ con i loro primali $ a_{ij} $ e $ b_{ij} $ e le
 matrici $ w_{r} $ con gli elementi $ c_{ij} $.
@@ -786,17 +787,17 @@ stessa struttura a blocchi $ \algob{2} $. Riportiamo le equazioni originalmente 
 tramite un processo di riduzione.
 
 \begin{align*}
-	s_1 & = a_{11} + a_{22} & s_2 & = a_{21} + a_{22} & s_3 & = a_{11}          \\
-	s_4 & = a_{22}          & s_5 & = a_{11} + a_{12} & s_6 & = a_{21} - a_{11} \\
-	s_7 & = a_{12} - a_{22}                                                     \\
-	t_1 & = b_{11} + b_{22} & t_2 & = b_{11}          & t_3 & = b_{12} - b_{22} \\
-	t_4 & = b_{21} - b_{11} & t_5 & = b_{22}          & t_6 & = b_{11} + b_{12} \\
-	t_7 & = b_{21} + b_{22}
+	f_1 & = a_{11} + a_{22} & f_2 & = a_{21} + a_{22} & f_3 & = a_{11}          \\
+	f_4 & = a_{22}          & f_5 & = a_{11} + a_{12} & f_6 & = a_{21} - a_{11} \\
+	f_7 & = a_{12} - a_{22}                                                     \\
+	g_1 & = b_{11} + b_{22} & g_2 & = b_{11}          & g_3 & = b_{12} - b_{22} \\
+	g_4 & = b_{21} - b_{11} & g_5 & = b_{22}          & g_6 & = b_{11} + b_{12} \\
+	g_7 & = b_{21} + b_{22}
 \end{align*}
 
 \begin{equation}
 	\begin{aligned}
-		m_r    & = s_rt_r, \quad 1 \le r \le 7                                    \\
+		m_r    & = f_rg_r, \quad 1 \le r \le 7                                    \\
 		c_{11} & = m_1 + m_4 - m_5 + m_7       & c_{12} & = m_3 + m_5             \\
 		c_{21} & = m_2 + m_4                   & c_{22} & = m_1 - m_2 + m_3 + m_6
 	\end{aligned}
@@ -869,9 +870,7 @@ discussione più ampia.
 \section{Algoritmi APA}
 \label{sec:APA}
 
-Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
-ottimale, Bini et. al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
-ponendo a zero l'entrata $ a_{22} $ di $ \algob{2} $:
+Bini et. al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto ponendo a zero l'entrata $ a_{22} $ di $ \algob{2} $:
 \begin{equation*}
 	\begin{bmatrix}
 		a_{11} & a_{12} \\
@@ -901,9 +900,9 @@ Che è somma di sei tensori elementari distinti, quindi $ \rk(\algob{2}^{\text{r
 Gli autori provarono a cercare un'espressione di rango cinque per $ \algob{2}^{\text{red}} $
 numericamente, calcolando
 \begin{equation*}
-	\min_{\substack{T \in \R^{n\times n\times n} \\ \rk(T) = 5}}{\| \algob{2}^{\text{red}} - T\| }
+	\min_{\substack{T \in \R^{n\times n\times n} \\ \rk(T) = 5}}{\| \algob{2}^{\text{red}} - T\| }.
 \end{equation*}
-norma di $ \algob{2}^{\text{red}} $. Il loro computer continuava a produrre tensori $ T $ di rango cinque
+Il loro computer continuava a produrre tensori $ T $ di rango cinque
 con la norma della differenza che diventava sempre più piccola, ma con coefficienti sempre più
 grandi. Questo è andato avanti per un po' di tempo, fino a che realizzarono che il codice era
 giusto, ma quello che sembrava un errore era in realtà una manifestazione del border rank.
@@ -950,9 +949,10 @@ Osserviamo che i termini di grado costante in $ t $ si cancellano:
 Sommando e raggruppando i termini di grado uno in $ t $ troviamo
 \begin{equation*}
 	\begin{aligned}
-		\algob{n}^\text{red} = a_{11} & \otimes (b_{11} \otimes c_{11} + b_{12} \otimes c_{12}) + \\
-		a_{12}                        & \otimes (b_{21} \otimes c_{11} + b_{22} \otimes c_{12}) + \\
-		a_{21}                        & \otimes (b_{11} \otimes c_{21} + b_{12} \otimes c_{22}),
+		  & a_{11}  \otimes (b_{11} \otimes c_{11} + b_{12} \otimes c_{12}) \\
+		+ & a_{12}  \otimes (b_{21} \otimes c_{11} + b_{22} \otimes c_{12}) \\
+		+ & a_{21}  \otimes (b_{11} \otimes c_{21} + b_{12} \otimes c_{22}) \\
+		= & \algob{n}^\text{red}
 	\end{aligned}
 \end{equation*}
 ovvero il tensore di partenza. Da cui,
@@ -966,15 +966,14 @@ ovvero il tensore di partenza. Da cui,
 
 Abbiamo dimostrato che i tensori approssimanti $ \algob{n}_{t}^\text{red} $, di rango $ 5 $
 convergono ad un tensore di rango $ 6 $, cioè che $ \brk(\algob{n}_{t}^\text{red}) \le 5 $. Nella pratica, è possibile calcolare il prodotto di due
-matrici $ A,B $ combinando due tensori del tipo $ \algob{n}_{t}^\text{red}  $, uno dato ponendo, ad
-esempio $ a_{22} = 0 $ e l'altro ponendo $ a_{11} = 0 $. Da questo~\cite{bini1979n2} troviamo
+matrici $ A,B $ combinando due tensori del tipo $ \algob{n}^\text{red}  $, dati ponendo $ a_{22}
+	= 0 $ e $ a_{11} = 0 $, rispettivamente. Da questo~\cite{bini1979n2} troviamo
 l'algoritmo approssimato $\algob{3,2,2}$ di $ 10 $ moltiplicazioni. Per una scelta di $ t $ maggiore della
 precisione di macchina, dall'Osservazione~\ref{rem:rectangular} troviamo un algoritmo di complessità $ O(n^{3
 			\log_{12}10}) = O(n^{2.7799}) $ minore di quella di Strassen, a costo di un errore algoritmico più alto
 che accenneremo in \S~\ref{sec:err_algo}.
 
-Il border rank si rivela utilissimo nello studio dell'esponente $ \omega $, cioè possiamo sostituire
-il rango con il border rank nel Teorema~\ref{thm:strassen}:
+Il border rank si rivela utilissimo nello studio dell'esponente $ \omega $, ad esempio è possibile estendere il Teorema~\ref{thm:strassen}:
 \begin{theorem}[Bini~\cite{bini1980relations}, vedi \S3.2]
 	\begin{equation*}
 		\omega = \inf \{\tau \in \R \mid \brk(\algob{n}) = O(n^\tau)\} .
@@ -998,16 +997,18 @@ Landsberg~\cite{landsberg2006border} dimostra che $ \brk(\algob{2}) = \rk(\algob
 Discutiamo brevemente l'errore algoritmico degli algoritmi di moltiplicazione veloci, rimandando
 a~\cite{ballard2016improving} per ulteriori dettagli.
 Gli algoritmi di moltiplicazione veloci producono errori numerici più grandi rispetto all'algoritmo
-classico, dove l'errore in avanti è dato componente per componente, e dipende solo dal prodotto scalare
-della riga e colonna corrispondente. Questa proprietà è detta \emph{stabilità rispetto alle
-	componenti}. Gli algoritmi veloci, invece, eseguono calcoli che coinvolgono
+classico.
+
+Gli algoritmi classici sono detti \emph{stabili rispetto alle
+	componenti}, ovvero l'errore in avanti è dato componente per componente, e dipende solo dal prodotto scalare
+della riga e colonna corrispondente.
+
+Gli algoritmi veloci, invece, eseguono calcoli che coinvolgono
 altre entrate della matrice che non appaiono nel prodotto scalare (eventualmente questi contributi
 si cancellano), dunque gli errori dipendono da proprietà globali delle matrici di input. In gergo, gli algoritmi veloci
 \footnote{senza ulteriori modifiche, come manipolazione algoritmica per ridurre l'errore di
 	arrotondamento} sono detti stabili rispetto alla norma~\cite{bini1980stability,
-	miller1974computational}, mentre quello classico gode della proprietà
-detta sopra, che è una caratteristica irraggiungibile per gli
-algoritmi veloci~\cite{miller1974computational}. Definiamo la \emph{stabilità rispetto alla norma} per il prodotto $ C = AB $ dove $ A \in \R^{m \times n} $
+	miller1974computational}, ma non sono stabili rispetto alle componenti~\cite{miller1974computational}. Definiamo la \emph{stabilità rispetto alla norma} per il prodotto $ C = AB $ dove $ A \in \R^{m \times n} $
 e $ B \in \R^{n \times k} $ come
 \begin{equation*}
 	\| \hat{C} - C \| \le f_{\text{alg}}(n) \| A \| \|B\| + O(\varepsilon^2),

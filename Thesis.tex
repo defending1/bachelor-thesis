@@ -138,11 +138,19 @@
 \newtheorem{example}[theorem]{Esempio}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Osservazione}
+
 \NewEnviron{notation}{%
   \par\vspace{1ex}       % Small space before the environment
   \noindent\uline{\textit{Notazione:}} \BODY
   \par\vspace{1ex}       % Small space after the environment
 }
+
+\NewEnviron{warning}{%
+  \par\vspace{1ex}       % Small space before the environment
+  \noindent\uline{\textit{Avvertenza}}: \BODY
+  \par\vspace{1ex}       % Small space after the environment
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Acronyms & Glossaries
