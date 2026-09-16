@@ -1,17 +1,17 @@
 \begin{tikzpicture}[scale=1.15]
   % ================= SPAZIO C =================
   \begin{scope}[xshift=0cm]
-    \node at (0, 3.2) {\large \textbf{Spazio $C$}};
+    \node at (0, 3.2) {\large Spazio $C$};
     
     % Piano H_T
     \filldraw[fill=cBlue!15, draw=cBlue, thick, rounded corners=2pt] (-2.2, -1.0) -- (1.8, -1.0) -- (2.6, 1.0) -- (-1.4, 1.0) -- cycle;
     \node[cBlue!80!black, font=\large] at (1.4, -0.6) {$\hat{H}_T$};
     
-    % Vettore w_{s_0} SUL piano
-    \draw[->, thick, cBlue!80!black] (0,0) -- (0.6, 0.12) node[right, align=left, font=\small] {$w_{s_0}$ \\ ($s_0 \notin T$)};
+    % Vettore w_{s_0} SUL piano (s_0 in S subset T^c)
+    \draw[->, thick, cBlue!80!black] (0,0) -- (0.6, 0.12) node[right, align=left, font=\small] {$w_{s_0}$ \\ ($s_0 \in S$)};
     
-    % Altro vettore sul piano
-    \draw[->, thick, cGrey!80!black] (0,0) -- (-0.8, -0.4) node[below, font=\small] {$w_j \ (j \notin T)$};
+    % Altro vettore sul piano (j in T^c)
+    \draw[->, thick, cGrey!80!black] (0,0) -- (-0.8, -0.4) node[below, font=\small] {$w_j \ (j \in T^{\mathsf{c}})$};
     
     % Vettore w_{t_0} FUORI dal piano
     \draw[->, ultra thick, cRed] (0,0) -- (0.2, 2.2) node[above, font=\small] {$w_{t_0} \ (t_0 \in T)$};
@@ -22,7 +22,7 @@
 
   % ================= SPAZIO B =================
   \begin{scope}[xshift=5.8cm]
-    \node at (0, 3.2) {\large \textbf{Spazio $B$}};
+    \node at (0, 3.2) {\large Spazio $B$};
     
     % Piano H_S
     \filldraw[fill=cGreen!15, draw=cGreen, thick, rounded corners=2pt] (-2.2, -1.0) -- (1.8, -1.0) -- (2.6, 1.0) -- (-1.4, 1.0) -- cycle;
