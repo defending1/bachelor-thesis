@@ -38,16 +38,18 @@ L'unicità per la fattorizzazione CP esiste a meno di permutazioni e riscalament
 
 #definition[$r$-posizione generale][
   Dato uno spazio vettoriale finito $W$ e sia $cal(S) subset PP W$ un insieme di punti. Diciamo che
-  i punti di $cal(S)$ sono in
+  i punti di $cal(S)$ sono in *$r$-posizione generale* se nessuna $r$-upla giace su un sottospazio proiettivo di dimensione $r-2$.
+
+]
+#remark[
 - *$2$-posizione generale* se nessuna coppia di punti coincide.
 - *$3$-posizione generale* se nessuna terna di punti giace su una retta.
-*$r$-posizione generale* se nessuna $r$-upla giace su un sottospazio proiettivo di dimensione $r-2$.
+
 ]
 #definition[$k$-rango][
   Dato un sottoinsieme di punti $cal(S) subset PP W$, il *$k$-rango* è il massimo intero
-  positivo $r$ tale che i punti di $cal(S)$ sono in posizione generale.
+  positivo $r$ tale che i punti di $cal(S)$ sono in posizione generale. Lo indichiamo con $ krank(cal(S)) .$
 ]
-Lo indichiamo con $ krank(cal(S)) .$
 
 #align(center)[#image("../figures/glpos.pdf", width: 95%)]
 #pagebreak(weak: true)

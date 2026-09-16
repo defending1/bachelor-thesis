@@ -74,11 +74,11 @@ rango minore al variare di $n$.
 == L'esponente
 
 #definition[
-  Un *circuito aritmetico* $Gamma$ è un grafo diretto, orientato, aciclico, finito, con vertici di
-  grado entrante $0,2$ ed esattamente un vertice di grado uscente $0$.
-- I vertici di grado entrante $0$ hanno etichette gli elementi di $KK union {x_1, dots, x_n}$, e sono detti *inputs*.
+  Un *circuito aritmetico* $Gamma$ è un grafo diretto, orientato, aciclico, finito, formato dai
+  seguenti vertici:
+- I vertici di grado entrante $0$ hanno etichette in $KK union {x_1, dots, x_n}$, e sono detti *inputs*.
 - I vertici di grado entrante $2$ hanno etichette $+$ oppure $*$ e sono detti *gates*.
-- Se il grado uscente di un vertice è $0$ è detto *output*.
+- L'unico vertice di grado uscente $0$ è detto *output*.
 ]
 #pagebreak()
 #definition[Funzione costo][
@@ -219,9 +219,9 @@ $
 Da cui (sostituendo $2$ con $hat(n)$)
 
 #proposition[
-  Se $rk(algob(hat(n))) <= R$ per degli interi positivi $n, R$, allora $hat(n)^(omega) <= R$.
+  Se $rk(algob(hat(n))) <= R$ per degli interi positivi $n, R$, allora $omega <= log_(hat(n))
+  rk(algob(hat(n))).$
 ]<prop-omega-bound>
-Abbiamo dimostrato che $omega <= log_n rk(algob(n)).$
 
 Da cui,
 $
@@ -230,21 +230,11 @@ $
 
 === Applicazione all'algoritmo di Strassen
 
-Se $R = 8$, dalla @prop-omega-bound troviamo
-$
-omega <= log_2 rk(algob(2)) = log_2 8 = 3.
-$
-L'algoritmo di Strassen migliora questa stima in quanto
+Dalla @prop-omega-bound troviamo
 $
 omega <= log_2 rk(algob(2)) = log_2 7 approx 2.81.
 $
 Che è il bound più basso per $omega$ ottenibile da $algob(2)$.
-
-Ad esempio, Bini et al. @bini1979n2 trovano che $rk(algob(12)) = 100$, da cui
-$
-omega <= log_12 1000 approx 2.7799.
-$
-
 
 
 == Il teorema di Strassen

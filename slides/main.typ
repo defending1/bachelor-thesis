@@ -26,10 +26,10 @@
 
 #title-slide()
 
-// #include "sections/00-section.typ"
-// #include "sections/01-section.typ"
-// #include "sections/02-section.typ"
-// #include "sections/03-section.typ"
+#include "sections/00-section.typ"
+#include "sections/01-section.typ"
+#include "sections/02-section.typ"
+#include "sections/03-section.typ"
 #include "sections/04-section.typ"
 
 
