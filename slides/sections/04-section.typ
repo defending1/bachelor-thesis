@@ -236,7 +236,7 @@ omega <= log_2 rk(algob(2)) = log_2 7 approx 2.81.
 $
 Che è il bound più basso per $omega$ ottenibile da $algob(2)$.
 
-Ad esempio, Bini et Al. @bini1979n2 trovano che $rk(12) = 100$, da cui
+Ad esempio, Bini et Al. @bini1979n2 trovano che $rk(algob(12)) = 100$, da cui
 $
 omega <= log_12 1000 approx 2.7799.
 $

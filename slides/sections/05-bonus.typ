@@ -1,5 +1,13 @@
 = Bonus: Teorema di Kruskal
 
+== Semplificazione delle dimostrazioni
+
+#import "../figures/proof_streamlining.typ": proof-streamlining-fig
+
+#align(center + horizon)[
+  #proof-streamlining-fig
+]
+
 == Il Teorema di Kruskal in dimensione $d$
 #theorem[Kruskal, Sidiropoulos e Bro @sidiropoulos2000uniqueness][
   Sia $T in A_1 topp A_2 topp dots.c topp A_d$ un tensore che ammette una fattorizzazione $ T =
@@ -17,5 +25,17 @@
   rispettate, in quanto
   $
   krank(cal(S)_A) + krank(cal(S)_B) = 1 + 1 = 2 >= 2R + 2 - 1 >= 2 + 2 - 1 = 3.
+  $
+]
+
+== Caso speciale
+
+#proposition[Landsberg @landsberg2009kruskalstheorem][
+  Dati degli spazi vettoriali $A,B,C$ di dimensioni $dim(A) = dim(B) = dim(C) = bold(a)$ e un
+  tensore $T$ di rango multilineare $(bold(a), bold(a), bold(a))$. Se $T$ ha rango $bold(a)$ allora la
+  fattorizzazione è unica. In particolare, quando $krank(cal(S)_A) = krank(cal(S)_B) =
+  krank(cal(S)_C) = bold(a)$, la condizione dell'@eq-kruskal si estende ad
+  $
+  bold(a) <= R <= 1/2 (bold(a) + bold(a)+ bold(a)) = 3/2 bold(a) - 1.
   $
 ]

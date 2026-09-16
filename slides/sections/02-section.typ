@@ -71,16 +71,7 @@ Lo indichiamo con $ krank(cal(S)) .$
   allora $T$ ha rango $R$ e la sua fattorizzazione è essenzialmente unica.
 ]
 
-== Semplificazione delle dimostrazioni
-
-#import "../figures/proof_streamlining.typ": proof-streamlining-fig
-
-#align(center + horizon)[
-  #proof-streamlining-fig
-]
-
 == Il permutation lemma
-
 
 
 #proposition[Permutation lemma][
@@ -95,14 +86,4 @@ IDEA
 
 #pagebreak(weak: true)
 
-=== Caso speciale (probabilmente in fondo)
 
-#proposition[Landsberg @landsberg2009kruskalstheorem][
-  Dati degli spazi vettoriali $A,B,C$ di dimensioni $dim(A) = dim(B) = dim(C) = bold(a)$ e un
-  tensore $T$ di rango multilineare $(bold(a), bold(a), bold(a))$. Se $T$ ha rango $bold(a)$ allora la
-  fattorizzazione è unica. In particolare, quando $krank(cal(S)_A) = krank(cal(S)_B) =
-  krank(cal(S)_C) = bold(a)$, la condizione dell'@eq-kruskal si estende ad
-  $
-  bold(a) <= R <= 1/2 (bold(a) + bold(a)+ bold(a)) = 3/2 bold(a) - 1.
-  $
-]

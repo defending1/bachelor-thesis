@@ -2,6 +2,7 @@
 
 = La fattorizzazione CP
 
+== Tensori
 Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, CC}.$
 
 #definition[Mappa/forma bilineare][
@@ -40,26 +41,26 @@ Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, 
   $
 ]
 
-#definition[][
-  Il *rango* di un tensore $T in A topp B topp C$ è il minimo intero positivo $R$ tale che $T$ si
-  può scrivere come somma di $R$ tensori di rango uno.
-]
+== La decomposizione CP
 
 #definition[Canonical Polyadic Decomposition][
-  Dati degli spazi $A,B,C$ e dei vettori
-  Un tensore $T in A topp B topp C$ ammette una *fattorizzazione CP* di rango al più $R$ se si può
+  Dati degli spazi $A,B,C$ e dei vettori $a_r in A, b_r in B, c_r in C$.
+  Un tensore $T in A topp B topp C$ ammette una *fattorizzazione CP* di rango $R$ se si può
   scrivere come somma di $R$ tensori di rango uno
   $
   T = a_1 topp b_1 topp c_1 + a_2 topp b_2 topp c_2 + dots + a_R topp b_R topp c_R.
   $
-  In $RR^(m times n times p)$ la indichiamo con $T = cp(A,B,C),$ dove
-  $
-  A = [a_1, dots, a_R], B =
-  [b_1, dots, b_R], C = [c_1, dots, c_R].
-  $
 ]
-#speaker-note[
-  Il rango $rk(T)$ è il minimo intero positivo $R$ tale che $T$ ammette una decomposizione CP di rango $R$.
+
+#pause
+In $RR^(m times n times p)$ la indichiamo con $T = cp(A,B,C),$ dove
+$
+A = [a_1, dots, a_R], B =
+[b_1, dots, b_R], C = [c_1, dots, c_R].
+$
+
+#definition[][
+  Il *rango* $rk(T)$ è il minimo intero positivo $R$ tale che $T$ ammette una decomposizione CP di rango $R$.
 ]
 
 
@@ -129,7 +130,12 @@ $
 
 == Rango massimo
 
-Per i tensori $n times m times p$ il rango può superare le dimensioni degli spazi.
+#property[
+  Il rango massimo di una matrice $m times n$ è $min(m,n)$
+]
+#property[
+  Per i tensori $n times m times p$ il rango può superare le dimensioni degli spazi.
+]
 #example[
   Nel caso $2 times 2 times 2$ il rango massimo è $3$.
 ]
@@ -137,9 +143,13 @@ Per i tensori $n times m times p$ il rango può superare le dimensioni degli spa
 
 == Rango tipico
 
-Una matrice $M$ ha rango massimo con probabilità $1$
+#property[
+  Ogni matrice ha rango massimo con probabilità $1$.
+]
 
-I tensori possono avere più ranghi per un certo formato. Tale fenomeno è detto *rango tipico*.
+#property[
+  I tensori possono avere più ranghi per un certo formato. Tale fenomeno è detto *rango tipico*.
+]
 
 #example[
   Per un tensore reale $2 times 2 times 2$, i ranghi tipici sono ${2,3}$.
