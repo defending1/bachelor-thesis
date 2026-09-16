@@ -1,0 +1,79 @@
+\definecolor{inputborder}{HTML}{1976D2}
+\definecolor{inputcolor}{HTML}{E3F2FD}
+\definecolor{multborder}{HTML}{388E3C}
+\definecolor{multcolor}{HTML}{E8F5E9}
+\definecolor{addborder}{HTML}{E65100}
+\definecolor{addcolor}{HTML}{FFF3E0}
+\definecolor{outborder}{HTML}{7B1FA2}
+\definecolor{outcolor}{HTML}{F3E5F5}
+
+\begin{tikzpicture}[
+		>=Stealth,
+		thick,
+		input/.style={
+				circle,
+				draw=inputborder,
+				fill=inputcolor,
+				inner sep=0pt,
+				minimum size=9mm,
+				font=\small\bfseries,
+				text=inputborder!80!black
+			},
+		gateAdd/.style={
+				circle,
+				draw=addborder,
+				fill=addcolor,
+				inner sep=0pt,
+				minimum size=9mm,
+				font=\large\bfseries,
+				text=addborder!80!black
+			},
+		gateMult/.style={
+				circle,
+				draw=multborder,
+				fill=multcolor,
+				inner sep=0pt,
+				minimum size=9mm,
+				font=\large\bfseries,
+				text=multborder!80!black
+			},
+		outputGate/.style={
+				circle,
+				draw=outborder,
+				fill=outcolor,
+				inner sep=0pt,
+				minimum size=10mm,
+				font=\large\bfseries,
+				text=outborder!80!black
+			},
+		wire/.style={->, draw=gray!70, line width=0.9pt},
+		wireAlt/.style={->, draw=gray!70, line width=0.9pt},
+		labelstyle/.style={font=\small\color{gray!90!black}}
+	]
+
+	% --- INPUT LAYER ---
+	\node[input] (x1) at (0.0, 0.0) {$x_1$};
+	\node[input] (x2) at (3.0, 0.0) {$x_2$};
+
+	% --- LAYER 1: ADDITION GATE ---
+	\node[gateAdd] (add) at (1.5, 1.8) {$+$};
+
+	% --- LAYER 2: MULTIPLICATION / OUTPUT GATE ---
+	\node[outputGate] (out) at (2.25, 3.6) {$\times$};
+
+	% --- WIRES ---
+	% Inputs to Addition Gate
+	\draw[wire] (x1) -- (add);
+	\draw[wire] (x2) -- (add);
+
+	% Addition Gate to Output Gate
+	\draw[wire] (add) -- (out);
+
+	% Input x2 to Output Gate
+	\draw[wireAlt] (x2) to[out=70, in=-40] (out);
+
+	% --- VALUE ANNOTATIONS ---
+	\node[labelstyle, left=4pt of add] {$x_1 + x_2$};
+	\node[font=\small\bfseries\color{outborder!90!black}, above=5pt of out] {$(x_1 + x_2) x_2$};
+
+\end{tikzpicture}

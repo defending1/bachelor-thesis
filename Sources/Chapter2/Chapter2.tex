@@ -361,7 +361,6 @@ importanza nella dimostrazione del Teorema di Kruskal.
 		\angb{\tilde{\s}} = W $. Se ogni iperpiano $ H \subset \PP W $ che contiene almeno $ \dim(H) + 1 $ punti di $ \tilde{\s} $ è tale che $ \#(\s \cap H) \ge
 		\#(\tilde{\s} \cap H) $, allora $ \s = \tilde{\s} $.
 \end{lemma}
-\todo{Refactored!!}
 \begin{remark}
 	Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
 	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale. Indichiamo con $
@@ -380,6 +379,7 @@ importanza nella dimostrazione del Teorema di Kruskal.
 
 
 \begin{definition}[Concise tensor]
+	\label{def:concise_tensor}
 	Un tensore $ T \in A_1 \otimes A_2 \otimes \cdots \otimes A_d $ si dice \emph{$ 1 $-concise} se non esiste un
 	sottospazio proprio $ A_1' \subseteq A_1$ tale che $ T \in A_1' \otimes A_2 \otimes \ldots \otimes A_d $.
 	Similmente, definiamo la $ i $-conciseness per $ i \in \{2, \ldots, d\}  $. Un tensore è detto
@@ -458,12 +458,11 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 	$ \#(X \setminus Y) = \# X - \#(X \cap Y) $.
 \end{proof}
 \begin{proof}[Dimostrazione del permutation lemma]
-	\todo{HO provato a riscrivere l'induzione inversa. È abbastanza chiara così?}
-	Consideriamo la seguente proprietà: i $ k $-piani $ L $ che contengono almeno $ \dim(L) + 1 = k+1
-	$ punti di $ \tilde{\s} $, soddisfano $ \#(\s \cap L) \ge \#(\tilde{\s} \cap L) $.
+	Consideriamo la seguente proprietà: Ogni $ k $-piano $ L $ che contiene almeno $ \dim(L) + 1 = k+1
+	$ punti di $ \tilde{\s} $, allora soddisfa $ \#(\s \cap L) \ge \#(\tilde{\s} \cap L) $.
 	Osserviamo che per gli $ 0 $-piani, ovvero i punti, la proprietà implica la tesi, in quanto per ogni punto $ P \in \tilde{\s} $ tale che $ 1 = \#(\s \cap \{P\} ) = \#(\tilde{\s} \cap \{P\} )$,
 	allora $ \s \cap \{P\} = \tilde{\s} \cap \{P\}  $, ovvero $ \s = \tilde{\s} $, in quanto i punti
-	di $ \s $ sono distinti. Notiamo anche che per ipotesi la proprietà è vera per i $ \bm{w}-2
+	di $ \s $ sono distinti. Notiamo anche che per ipotesi la proprietà è vera per i $ (\bm{w}-2)
 	$-piani, cioè per gli iperpiani. Possiamo quindi dimostrare la tesi assumendo che la proprietà
 	sopra valga per i $ (k+1) $-piani, e mostrando che valga per i $ k $-piani. Tramite un'induzione
 	discendente possiamo partire dagli iperpiani e arrivare fino al caso base, da cui $ \s = \tilde{\s} $.
@@ -481,7 +480,7 @@ Per dimostrare il Lemma~\ref{lemma:perm} abbiamo bisogno di un piccolo risultato
 	dimensione $ \bm{w} -1 $, è generato
 	dai punti di $ \tilde{\s} $. Dalla costruzione segue inoltre che ogni
 	$(k+1)$-piano $ M_{\alpha} $ contiene almeno $ \mu + 1 \ge k+2 $
-	punti di $ \tilde{\s} $, quindi applicando l'ipotesi induttiva troviamo
+	punti di $ \tilde{\s} $. Applicando l'ipotesi induttiva troviamo
 	\begin{equation}
 		\label{eq:malpha}
 		\#(\tilde{\s} \cap M_{\alpha}) \le \#(\s \cap M_{\alpha}).
@@ -718,7 +717,6 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	che $ T \subseteq S^{\mathsf{c}} $, da cui $ S \cap T = \emptyset $. Allora $ S $ e $ T $ hanno le
 	proprietà desiderate.
 
-	\todo{la figura va sistemata, lo farò alla fine}
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=\textwidth, keepaspectratio]{Sources/Chapter2/figures/kruskal_hyperplanes.pdf}

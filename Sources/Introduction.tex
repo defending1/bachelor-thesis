@@ -10,7 +10,7 @@ analysis'') o CANDECOMP (da ``canonical decomposition'').
 Dimostreremo l'unicità di una decomposizione sotto opportune ipotesi di indipendenza dei fattori, risultato noto come il Teorema
 di Kruskal. Per farlo, introdurremo il concetto di unicità di una decomposizione e di indipendenza
 dei fattori (detto $ k $-rango). Questo
-risultato fornisce una condizione sufficiente sul rango e k-rango per garantire l'unicità; sarà molto rilevante nelle applicazioni, per identificare univocamente le componenti di un
+risultato fornisce una condizione sufficiente sul rango e $k$-rango per garantire l'unicità; sarà molto rilevante nelle applicazioni, per identificare univocamente le componenti di un
 modello reale. Esploreremo due di queste applicazioni modellistiche. La prima è la spettroscopia fluorescente (dalla
 chemiometria) dove la decomposizione di un tensore che rappresenta una serie di misurazioni su un
 campione permette di recuperare la concentrazione delle sostanze chimiche. La seconda, la blind
@@ -50,19 +50,19 @@ fattorizzazione CP di un tensore a tre indici quando viene rispettata una relazi
 	k $-rango. Enunceremo il risultato per tensori $ n
 $-dimensionali, e osserveremo che esso non è valido per il caso delle matrici. Presenteremo una
 versione modernizzata, a cura di Landsberg~\cite{landsberg2011tensors}, della dimostrazione originale di
-Kruskal~\cite{KRUSKAL197795} in dimensione tre
+Kruskal~\cite{KRUSKAL197795} in dimensione tre.
 
 Nel Capitolo~\ref{chp:matmul} sposteremo il focus sulla complessità della
 moltiplicazione matriciale attraverso gli algoritmi di moltiplicazione veloci. Introdurremo
 l'esponente ottimo $ \omega $ della moltiplicazione e un modello computazionale per
-calcolarlo. Osserveremo che la moltiplicazione tra matrici vista come mappa bilineare, può
+calcolarlo. Osserveremo che la moltiplicazione tra matrici (vista come mappa bilineare) può
 essere rappresentata come un tensore, il quale verrà poi messo in corrispondenza con un algoritmo per valutare il prodotto in
 funzione delle entrate del tensore stesso (detto bilinear computation). Dimostreremo la corrispondenza tra il rango di un tensore, il
 numero di moltiplicazioni di un algoritmo e l'esponente ottimo, fornendo alcune stime
 su quest'ultimo. Deriveremo un esempio di algoritmo di moltiplicazione approssimato partendo da
 quello classico, dove potremo osservare il fenomeno del border rank. Al termine
-accenneremo l'errore algoritmico degli algoritmi veloci, e confronteremo numericamente l'andamento
-dell'errore degli algoritmi esatti rispetto a quelli approssimati. Le fonti di questo capitolo si
+accenneremo l'errore algoritmico degli algoritmi veloci, e analizzeremo numericamente il suo
+andamento per alcuni algoritmi esatti e approssimati. Le fonti di questo capitolo si
 trovano all'intersezione dei campi dell'analisi numerica~\cite{BK25}, teoria della complessità
 algebrica~\cite{burgisser2013algebraic} e geometria algebrica~\cite{landsberg2011tensors,
 	landsberg2015geometry, cw90}.

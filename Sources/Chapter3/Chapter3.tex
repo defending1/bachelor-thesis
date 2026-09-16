@@ -4,7 +4,6 @@
 \label{chp:matmul}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\todo{Aggiornato}
 L'algoritmo di moltiplicazione matriciale si può esprimere come mappa bilineare che manda due matrici $ A
 $ e $ B $ nel prodotto $ C = AB $. Possiamo naturalmente rappresentare tale mappa come un tensore $ T $, e
 quindi cercarne una rappresentazione di rango più basso. Questo dà il vantaggio di valutare le matrici $ A
@@ -312,7 +311,6 @@ disponibili. Invece, il problema di approssimare la crescita asintotica della fu
 	La notazione $ M_{\K}(h) $ e $ \omega_{\K} $ è dovuta alla dipendenza dal campo $ \K $. Dato che tratteremo solo $ \K \in \{\R, \C\}  $, spesso
 	scriveremo $ \omega $ per $ \omega_{\K} $.
 \end{remark}
-\todo{Aggiunto}
 \begin{example}
 	Per le matrici $ 2\times 2 $, vale $ 4 \le M_{\K}(2) \le 2^2(4 - 1) = 12 $. Osserveremo che trovare un algoritmo
 	che riduce $ M_{\K}(2) $ migliora anche l'esponente.
@@ -482,7 +480,6 @@ in~\cite[Capitoli 14 e 15]{burgisser2013algebraic}.
 
 
 \subsection*{Il teorema di Strassen}
-\todo{aggiornato questo paragrafo}
 Fino a questo punto abbiamo visto che un algoritmo con $ r $ moltiplicazioni per matrici $ n\times n $ definisce una
 bilinear computation e dimostra che il rango del tensore associato è $ \le r $.
 Di conseguenza, dalla Proposizione~\ref{prop:omega_rk_estimate}, un limite superiore per il rango di
@@ -656,7 +653,7 @@ Introduciamo alcuni strumenti utili a dimostrare questo risultato.
 	\end{equation}
 	dove la prima uguaglianza segue dall'Equazione~\ref{prop:rk_monotony}, la seconda da una proprietà del logaritmo, e la terza
 	applicando la stima dell'Equazione~\eqref{eq:r_estimate}.
-	Passando all'inf troviamo $ \omega_{\K} \le \theta $, che completa la dimostrazione.
+	Passando all'estremo inferiore troviamo $ \omega_{\K} \le \theta $, che completa la dimostrazione.
 \end{proof}
 
 \begin{remark}
@@ -732,12 +729,6 @@ addizioni:
 	\end{aligned}
 \]
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics{Sources/Chapter3/figures/matrix_multiplication_linear.pdf}
-	\caption{Rappresentazione della moltiplicazione di due matrici $2 \times 2$.}
-	\label{fig:matrix_multiplication_linear}
-\end{figure}
 
 Proviamo a scriverlo in forma tensoriale. La sua bilinear computation è
 \begin{equation*}
@@ -853,7 +844,7 @@ Espandendo i prodotto tensoriali e facendo opportune semplificazioni, possiamo r
 dell'algoritmo classico riportato nell'Equazione~\eqref{eq:tensor_222}.
 \begin{remark}[Costo computazionale]
 	Similmente a quanto svolto sopra, troviamo che $ M(n) \le  O(n^{\log_{2}
-				7}) = O(n^{2.81})$.\todo{qui posso mettere $ M(n) = O(\log_{2}7) $?} Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
+				7}) = O(n^{2.81})$. Inoltre, dalla Proposizione~\ref{prop:omega_rk_estimate} troviamo che $ \omega
 		\le \log_2 7 < 2.81$.
 \end{remark}
 
@@ -879,7 +870,7 @@ discussione più ampia.
 \label{sec:APA}
 
 Dopo il tentativo di Strassen di dimostrare che l'algoritmo di moltiplicazione standard fosse
-ottimale, Bini et. Al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
+ottimale, Bini et. al~\cite{bini1980relations} considerano il seguente algoritmo di moltiplicazione ridotto ottenuto
 ponendo a zero l'entrata $ a_{22} $ di $ \algob{2} $:
 \begin{equation*}
 	\begin{bmatrix}
@@ -933,7 +924,7 @@ dove
 		(II)  & = (a_{21} + ta_{11}) \otimes b_{11} \otimes (c_{11} + tc_{21})                                   \\
 		      & = a_{21} \otimes b_{11} \otimes c_{11} +t[a_{21} \otimes b_{11} \otimes c_{21} + a_{11} \otimes
 		b_{11} \otimes c_{11}] + O(t^2)                                                                          \\
-		(III) & = a_{12} \otimes b_{12} \otimes ((c_{11} + c_{12}) + tz_{22})                                    \\
+		(III) & = a_{12} \otimes b_{12} \otimes ((c_{11} + c_{12}) + tc_{22})                                    \\
 		      & = a_{12} \otimes b_{12} \otimes c_{11} + a_{12} \otimes b_{12} \otimes c_{12} + t \left[ a_{12}
 		\otimes b_{12} \otimes c_{22} \right]                                                                    \\
 		(IV)  & = a_{21} \otimes ((b_{11} + b_{12}) + tb_{21}) \otimes c_{11}                                    \\
@@ -975,9 +966,11 @@ ovvero il tensore di partenza. Da cui,
 
 Abbiamo dimostrato che i tensori approssimanti $ \algob{n}_{t}^\text{red} $, di rango $ 5 $
 convergono ad un tensore di rango $ 6 $, cioè che $ \brk(\algob{n}_{t}^\text{red}) \le 5 $. Nella pratica, è possibile calcolare il prodotto di due
-matrici usando il tensore $ \algob{n}_{t}^\text{red}  $ per una scelta di $ t $ maggiore della
-precisione di macchina, riducendo il
-numero di moltiplicazioni a costo di un errore algoritmico
+matrici $ A,B $ combinando due tensori del tipo $ \algob{n}_{t}^\text{red}  $, uno dato ponendo, ad
+esempio $ a_{22} = 0 $ e l'altro ponendo $ a_{11} = 0 $. Da questo~\cite{bini1979n2} troviamo
+l'algoritmo approssimato $\algob{3,2,2}$ di $ 10 $ moltiplicazioni. Per una scelta di $ t $ maggiore della
+precisione di macchina, dall'Osservazione~\ref{rem:rectangular} troviamo un algoritmo di complessità $ O(n^{3
+			\log_{12}10}) = O(n^{2.7799}) $ minore di quella di Strassen, a costo di un errore algoritmico più alto
 che accenneremo in \S~\ref{sec:err_algo}.
 
 Il border rank si rivela utilissimo nello studio dell'esponente $ \omega $, cioè possiamo sostituire
@@ -1028,7 +1021,7 @@ indipendente dalle matrici di input, e $ \|A\|\|B\| $ è indipendente dall'algor
 \subsection*{Andamento dell'errore}
 
 Per analizzare il comportamento dell'errore algoritmico abbiamo confrontato
-l'algoritmo $\angb{2,2,2}^{\text{red}}$ con l'algoritmo di Strassen e con la routine di
+l'algoritmo $\algob{3,2,2}$ con l'algoritmo di Strassen e con la routine di
 moltiplicazione standard fornita da Intel MKL DGEMM~\cite{intel_mkl} (Math Kernel Library, Double-precision General
 Matrix Multiply). Gli esperimenti sono stati condotti per dimensioni delle matrici $N = 2^1, \ldots,
 	2^{13} = 8192$ e livelli di ricorsione $L \in \{1, 2, 3\}$. I risultati sono riportati in Figura~\ref{fig:bini_error_speed_comparison}.
@@ -1057,8 +1050,7 @@ Matrix Multiply). Gli esperimenti sono stati condotti per dimensioni delle matri
 Chiamiamo $ \hat{C} $ il prodotto calcolato dall'algoritmo veloce e $ C $ il risultato dell'algoritmo di
 moltiplicazione standard (in questo caso MKL DGEMM) e studiamo l'andamento dell'errore relativo $ \frac{\| \hat{C} - C\|_{F}}{\| C
 		\|_{F}}$ all'aumentare della dimensione $ N $.
-Come mostrato in Figura~\ref{fig:bini_speed} l'algoritmo $\angb{2,2,2}^{\text{red}}$ raggiunge
-prestazioni elevate grazie all'impiego di sole $ 5 $ moltiplicazioni. Tuttavia, come evidenziato in
-Figura~\ref{fig:bini_error}, l'accumulo degli errori di arrotondamento nel calcolo di $ \hat{C} $, dovuti al parametro
-$\varepsilon$, porta ad una crescita dell'errore relativo all'aumentare della profondità di
+Come mostrato in Figura~\ref{fig:bini_speed} l'algoritmo $\angb{3,2,2}$ mostra prestazioni simili a
+Strassen ma con un maggiore errore. In particolare l'errore relativo, dovuto alla presenza del
+parametro $ \varepsilon $ cresce all'aumentare della profondità di
 ricorsione ($L = 2, 3$).
