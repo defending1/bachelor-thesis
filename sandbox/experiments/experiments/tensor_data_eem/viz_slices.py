@@ -10,7 +10,7 @@ script_dir = Path(__file__).parent
 
 if __name__ == '__main__':
     mat_path = script_dir / "EEM18.mat"
-    output_dir = script_dir.parent.parent.parent / "Sources" / "Chapter4" / "figures"
+    output_dir = script_dir.parents[3] / "Sources" / "Chapter4" / "figures"
     output_pdf = output_dir / "X-slices.pdf"
     output_png = output_dir / "X-slices.png"
 

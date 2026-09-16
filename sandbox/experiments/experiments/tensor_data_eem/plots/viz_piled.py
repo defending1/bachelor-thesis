@@ -90,13 +90,13 @@ def visualize_eem_piled(mat_path: Path = Path("EEM18.mat"),
     ax.annotate('', xy=(arrow_x, 0), xytext=(arrow_x, H),
                 arrowprops=dict(arrowstyle='->', color='#333333', lw=1.2))
     ax.text(arrow_x - 0.25, H / 2, '18 samples', rotation=90, ha='right', va='center',
-            fontsize=11, color='#333333', fontfamily='sans-serif')
+            fontsize=11, color='#333333')
 
     arrow_y = -0.4
     ax.annotate('', xy=(W, arrow_y), xytext=(0, arrow_y),
                 arrowprops=dict(arrowstyle='->', color='#333333', lw=1.2))
     ax.text(W / 2, arrow_y - 0.35, '251 emissions', ha='center', va='top',
-            fontsize=11, color='#333333', fontfamily='sans-serif')
+            fontsize=11, color='#333333')
 
     start_p = (W + 0.25, -0.05)
     end_p = (W + dx + 0.25, dy - 0.05)
@@ -104,7 +104,7 @@ def visualize_eem_piled(mat_path: Path = Path("EEM18.mat"),
                 arrowprops=dict(arrowstyle='->', color='#333333', lw=1.2))
 
     ax.text(W + dx * 0.25 + 0.275, dy * 0.25 - 0.07, '21 excitations', rotation=50.0,
-            ha='left', va='top', fontsize=11, color='#333333', fontfamily='sans-serif')
+            ha='left', va='top', fontsize=11, color='#333333')
 
     ax.set_xlim(-1.2, W + dx + 2.5)
     ax.set_ylim(-1.1, H + dy + 0.2)

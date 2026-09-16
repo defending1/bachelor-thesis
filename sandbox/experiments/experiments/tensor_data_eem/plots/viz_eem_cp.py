@@ -19,11 +19,12 @@ def visualize_eem_cp(mat_path: Path = Path("EEM18.mat"),
     mixtures = data['mixtures']
     mode_ranges = data['mode_ranges']
 
-    print("Fitting Rank-3 Non-negative CP decomposition (stopping tolerance tol=1e-4)...")
-    best_cp, best_error, elapsed = fit_cp_with_restarts(X, rank=3, n_restarts=5, tol=1e-4)
+    cp_model = fit_cp_with_restarts(X, rank=3, n_restarts=5, tol=1e-4)
+    best_error = cp_model.rec_error
+    elapsed = cp_model.runtime
     print(f"CP fit complete: Relative Error = {best_error:.6f} in {elapsed:.3f}s")
 
-    weights, factors = best_cp
+    weights, factors = cp_model.weights, cp_model.factors
 
     norm_factors = []
     mode_norms = []

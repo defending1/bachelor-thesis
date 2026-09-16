@@ -6,13 +6,14 @@ def setup_plot_style():
     """Configure matplotlib globally for publication-quality figures."""
     try:
         import scienceplots
-        plt.style.use(['science', 'no-latex'])
+        plt.style.use(['science'])
     except Exception:
         plt.style.use('default')
+        plt.rcParams.update({
+            'text.usetex': True,
+        })
 
     plt.rcParams.update({
-        'font.family': 'serif',
-        'font.serif': ['Computer Modern Roman', 'DejaVu Serif', 'Times New Roman'],
         'axes.labelsize': 11,
         'axes.titlesize': 12,
         'xtick.labelsize': 10,

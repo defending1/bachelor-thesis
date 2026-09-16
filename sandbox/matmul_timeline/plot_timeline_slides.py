@@ -82,8 +82,8 @@ def main() -> None:
     plt.style.use(["science"])
     latex_active = True
 
-    # 16:9 slide canvas size (8.5 x 4.8 inches)
-    fig, ax = plt.subplots(figsize=(8.5, 4.8), dpi=300)
+    # 4:3 slide body aspect ratio canvas (7.6 x 5.0 inches)
+    fig, ax = plt.subplots(figsize=(7.6, 5.0), dpi=300)
     ax.set_facecolor("white")
 
     ax.grid(True, which="major", color="#e2e8f0", linewidth=0.6, linestyle="--", zorder=0)
