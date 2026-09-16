@@ -19,6 +19,10 @@ Teorema di Strassen mostreremo che il rango del tensore può essere messo in cor
 Concludiamo definendo l'algoritmo di Strassen e ricavando un algoritmo approssimato a partire da quello
 classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettivi errori algoritmici.
 
+\begin{remark}
+	Di seguito la scelta del campo $\R$ o $\C$ non sarà rilevante; sarà possibile estendere a $\C$ tutto ciò che definiremo su $\R$.
+\end{remark}
+
 \section{Mappe multilineari e moltiplicazione tra matrici}
 \label{sec:tensor_bil}
 
@@ -26,7 +30,7 @@ classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettiv
 	Fissati degli interi positivi $ m,n,p $, \emph{la moltiplicazione tra due matrici} $  m\times n $ e $ n \times p $ è una mappa bilineare
 	\begin{equation*}
 		\begin{aligned}
-			\algob{m,n,p} \colon \C^{m\times n} \times \C^{n\times p} & \to \C^{m \times p} \\
+			\algob{m,n,p} \colon \R^{m\times n} \times \R^{n\times p} & \to \R^{m \times p} \\
 			(A,B)                                                     & \mapsto C = AB.
 		\end{aligned}
 	\end{equation*}
@@ -46,7 +50,7 @@ classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettiv
 	Possiamo vedere la moltiplicazione tra matrici anche come una forma trilineare
 	\begin{equation*}
 		\begin{aligned}
-			\C^{m\times n} \times \C^{n\times p} \times \C^{m\times p} & \to \C                      \\
+			\R^{m\times n} \times \R^{n\times p} \times \R^{m\times p} & \to \R                      \\
 			(A,B,C)                                                    & \mapsto \mathop{trace}(ABC)
 		\end{aligned}
 	\end{equation*}

@@ -6,7 +6,7 @@
 
 \section{Tensori}
 
-In questo elaborato supponiamo che in $ \K \in \{\R, \C\}  $, e denotiamo gli spazi vettoriali, che
+In questo elaborato supponiamo per semplicità che in $ \K \in \{\R, \C\}  $. Denotiamo gli spazi vettoriali, che
 assumeremo sempre finiti, con le lettere $  A, B, C, V, W$ e $A_j$, e le dimensioni con le
 lettere $ \bm{a}, \bm{b}, \bm{c} $, etc. Dati dei vettori $ v_1,\ldots,v_p \in V$, l'insieme
 $ \angb{v_1,\ldots,v_p} \subseteq V $ denota lo span lineare di $ v_1, \ldots, v_p $. Indichiamo con $ V^* = \{ f : V \to \K \mid f \text{ lineare} \} $ lo \emph{spazio duale} dello spazio $ V $, e per ogni $ \alpha \in V^* $, denotiamo con $
@@ -50,13 +50,13 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 		\K $, che denotiamo come $  T \in \Kmsiz{\K} $. Indicizziamo gli elementi di un tensore come
 	$ T_{\miwc} $.
 \end{definition}
-\begin{remark}
-	Per la ragione sopra, spesso chiameremo tensore anche l'oggetto sopra scrivendo
+\begin{warning}
+	Con leggero abuso chiameremo tensore anche l'oggetto sopra scrivendo
 	semplicemente $ T \in \K^{n_1 \times n_2 \times \cdots \times n_{d}} $.
-\end{remark}
+\end{warning}
 \begin{remark}
 	Dato $ T \in A \otimes B \otimes C $, possiamo sempre passare da un tensore nello spazio $ A
-		\otimes B \otimes C $ a un tensore in $ \K^{\bm{a} \times \bm{b} \times \bm{c}} $ così: fissate
+		\otimes B \otimes C $ a un tensore in $ \K^{\bm{a} \times \bm{b} \times \bm{c}} $ nel modo seguente. Fissate
 	delle basi $ \{e_{i}\}, \{g_{j}\}, \{h_{k}\}    $ di $ A, B, C $ rispettivamente, possiamo
 	scrivere $ T = \sum_{ijk} T_{ijk} e_{i} \otimes g_{j} \otimes h_{k} $. Al variare degli indici, $
 		T_{ijk} $ descrive un array tridimensionale (``a forma di parallelepipedo'') in $ \K^{\bm{a}
@@ -70,7 +70,8 @@ mappa $ n-1 $ lineare $ A_1 \times A_2 \times \cdots \times  A_{n-1} \to A_{n} $
 \end{remark}
 
 \begin{example}[Tensore della matrix multiplication~\cite{landsberg2015geometry}]
-	Come anticipazione di quanto approfondiremo nel Capitolo~\ref{chp:matmul}, la moltiplicazione di due matrici di taglia $ m \times n
+	Come anticipazione di quanto approfondiremo nel Capitolo~\ref{chp:matmul}, la moltiplicazione tra
+	matrici di taglie $ m \times n
 	$ e $ n \times p $ si può vedere come mappa
 	bilineare $ \K^{m \times n} \times \K^{n \times p} \to \K^{m \times p} $. Tale mappa è
 	rappresentabile tramite
@@ -519,7 +520,7 @@ Introduciamo alcuni modi per manipolare più agilmente i tensori.
 \begin{definition}[Mode-$k$ fiber]
 	Dato un tensore $ T \in \Rmsiz!$ chiamiamo \emph{fibers} i vettori ottenuti fissando
 	tutti gli indici tranne uno. Quando l'indice libero di variare è il $ k $-esimo lo chiamiamo
-	\emph{mode-$k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come fibre colonna $x_{:jk}$ (mode-1), fibre riga $x_{i:k}$ (mode-2) e fibre tubo $x_{ij:}$ (mode-3), come illustrato in Figura~\ref{fig:tensor_fibers}.
+	\emph{mode-$k$ fiber}. Nel caso $ d=3 $ denotiamo le fibre come fibre colonna $t_{:jk}$ (mode-1), fibre riga $t_{i:k}$ (mode-2) e fibre tubo $t_{ij:}$ (mode-3), come illustrato in Figura~\ref{fig:tensor_fibers}.
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=0.85\textwidth, keepaspectratio]{Sources/Chapter1/figures/fibers.pdf}
@@ -536,7 +537,7 @@ per farlo è utilizzare le matricizzazioni, anche dette \emph{unfoldings}.
 			\prod_{j\neq k}n_j} $ le cui colonne sono mode-$ k $ fibers ordinate seguendo l'ordine naturale
 	su $ [n_1] \times \cdots [n_{k-1}] \times [n_{k+1}] \times \cdots \times [n_{d}] $. In particolare si ha
 	\[
-		(\Tm{T}{k})_{i,j} = T_{\siwc{i}} \text{, con } j = \L(\siwc)
+		(\Tm{T}{k})_{i,j} = T_{\siwc{i}} \text{, con } i = i_k, \; j = \L(\siwc)
 		.\]
 \end{definition}
 \begin{remark}
@@ -804,7 +805,10 @@ Nel caso di una matrice $ m \times n $, il suo rango massimo è $ \min \{m,n\}  
 	\R^{n_1 \times n_2 \times \cdots \times n_{d}}\}.
 \end{equation*}
 Sfortunatamente, i ranghi massimi per la maggior parte dei
-tensori di ordine superiore sono sconosciuti. I casi speciali in cui il rango massimo è noto sono elencati nella Tabella~\ref{tab:max_ranks}. Il primo risultato per tensori di dimensione $2 \times m \times n$ implica, ad esempio, che un tensore di taglia $2 \times 2 \times 2$ ha un rango massimo pari a $3$.
+tensori di ordine superiore sono sconosciuti. I casi in cui il rango massimo è noto sono elencati
+nella Tabella~\ref{tab:max_ranks}. Il primo risultato nella tabella implica che un tensore di taglia
+$2 \times 2 \times 2$ ha un rango massimo pari a $3$; a differenza della matrici, il rango può
+superare le dimensioni dei singoli spazi.
 
 \begin{table}[htbp]
 	\centering
@@ -863,7 +867,7 @@ Per verificare questi risultati, abbiamo implementato un esperimento numerico.
 Selezioniamo alcuni formati e generiamo dei tensori casuali con entrate estratte
 indipendentemente sia da una distribuzione normale standard $\mathcal{N}(0, 1)$ sia da una
 distribuzione uniforme $\mathcal{U}(-1, 1)$. Il rango di ciascun tensore è stato stimato
-usando l'algoritmo ALS (che introdurremo in \S~\ref{alg:ALS}) su un campione di $ 200 $ tensori, facendo $ 120 $ restarts e un
+usando l'algoritmo ALS (che introdurremo in \S~\ref{sec:computing_cp}) su un campione di $ 200 $ tensori, facendo $ 120 $ restarts e un
 numero massimo di $ 500 $ iterazioni, interrompendo una volta raggiunto un errore relativo inferiore a
 $10^{-5}$. La distribuzione empirica dei ranghi riportata in Figura~\ref{fig:typical_ranks_dist} mostra che la
 distribuzione delle entrate (normale o uniforme) non altera l'insieme dei ranghi tipici e produce frequenze empiriche analoghe.
@@ -1180,8 +1184,8 @@ se e solo se, usando il Lemma~\ref{lhm:had_krp}
 \end{equation}
 Sia $ Z \defeq (C \krp B) = C^{\top}C \had B^{\top}B \in \R^{r\times r} $. Osserviamo che $ Z $ soddisfa
 \begin{equation*}
-	x^{\top}Zx = x^{\top}(C \krp B)^{\top}(C \krp B)x = ((C \krp B)x)^{\top}((C \krp B)x) = \|^2 (C \krp
-	B)x \|_{2} \ge 0
+	x^{\top}Zx = x^{\top}(C \krp B)^{\top}(C \krp B)x = ((C \krp B)x)^{\top}((C \krp B)x) = \| (C \krp
+	B)x \|_{2}^2 \ge 0
 \end{equation*}
 per ogni $ x \in \R^r $, ossia è semidefinita positiva. In particolare dall'equazione sopra segue che quando $ C
 	\krp B$ è full-rank $ Z $ è positiva definita: in tal caso possiamo risolvere con la fattorizzazione di Cholesky il sistema
