@@ -68,22 +68,24 @@ $
 T_sigma' = T + W_sigma,
 $
 
-#table(
-  columns: 3,
-  stroke: none,
-  align: center + horizon,
-  table.header(
-    [*Rumore*],
-    [$sigma$],
-    [*Scenario fisico*],
-  ),
+#figure(
+  table(
+    columns: 3,
+    stroke: (_, y) => if y == 0 { (bottom: 1pt) },
+    align: center + horizon,
+    table.header(
+      [Rumore],
+      [$sigma$],
+      [Scenario fisico],
+    ),
 
-  [$sigma_0$], [$0.0000$], [Assenza di rumore],
-  [$sigma_1$], [$0.0173$], [Segnale ottimo],
-  [$sigma_2$], [$0.0403$],[Segnale buono],
-  [$sigma_3$], [$0.0691$],[Segnale debole],
-  [$sigma_4$], [$0.1037$],[Segnale quasi assente],
-  [$sigma_5$], [$0.1382$], [Rumore fortissimo],
+    [$sigma_0$], [$0.0000$], [Assenza di rumore],
+    [$sigma_1$], [$0.0173$], [Segnale ottimo],
+    [$sigma_2$], [$0.0403$],[Segnale buono],
+    [$sigma_3$], [$0.0691$],[Segnale debole],
+    [$sigma_4$], [$0.1037$],[Segnale quasi assente],
+    [$sigma_5$], [$0.1382$], [Rumore fortissimo],
+  )
 )
 
 #align(center)[

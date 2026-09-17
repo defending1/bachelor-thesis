@@ -4,22 +4,27 @@
 
 == Tensori
 Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, CC}.$
-
+#pause
 #definition[Mappa/forma bilineare][
   Una *mappa bilineare* è un'applicazione $phi : A times B -> C$ lineare in ogni componente. Se $C=
   KK$ è detta *forma bilineare*.
 ]
+#pause
 #definition[Spazio dei tensori][
   Dati degli spazi vettoriali di dimensione finita $A,B,C$ indichiamo lo *spazio dei tensori* di
   ordine tre con $A topp B topp C$. Lo definiamo come
   l'insieme delle mappe bilineari $phi : A^* times B^* times C^* -> KK$.
 ]
 
+#pagebreak()
 #definition[
-  Quando $A = RR^m, B= RR^n, C = RR^p$, indichiamo con $RR^(m times n times p)$ lo *spazio dei
+  Quando $A topp B topp C = RR^m topp RR^n topp RR^p$, indichiamo con $RR^(m times n times p)$ lo *spazio dei
   tensori (in coordinate)* di ordine $3$.
 ]
 
+#align(center)[#image("../figures/unfoldings.pdf", width: 95%)]
+
+#pagebreak()
 #definition[][
   Un *tensore di rango uno* è un elemento
   $
@@ -32,6 +37,7 @@ Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, 
   per ogni $(alpha, beta, gamma) in A^* times B^* times C^*.$
 ]
 
+#pagebreak()
 #example[][
   In $RR^(m times n)$, fissati dei vettori $a = [a_1, dots, a_m]^top$ e $b = [b_1, dots, b_n]^top,$
   $
@@ -55,8 +61,8 @@ Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, 
 #pause
 In $RR^(m times n times p)$ la indichiamo con $T = cp(A,B,C),$ dove
 $
-A = [a_1, dots, a_R], B =
-[b_1, dots, b_R], C = [c_1, dots, c_R].
+A = mat(a_1|dots.c|a_R, delim:"["),quad B =
+mat(b_1|dots.c|b_R, delim:"["),quad C = mat(c_1|dots|c_R, delim:"[").
 $
 
 #definition[][
@@ -68,24 +74,23 @@ $
 
 = Il problema del rango
 
-Ci aspettiamo che il #highlight(fill:orange)[rango tensoriale] si comporti come il
-#highlight(fill:aqua)[rango matriciale].
+Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-hl[matriciale].
 
 == Complessità
 
 #property[Håstad@haastad1989tensor][
-  Il rango tensoriale è NP-hard.
+  Il rango #tens-hl[tensoriale] è NP-hard.
 ]
 
 == Approssimazione low-rank
 #corollary[Eckart-Young-Mirsky][
-  L'approssimazione low-rank di una matrice $M$ è la sua decomposizione SVD
+  L'approssimazione low-rank di una #mat-hl[matrice] $M$ è la sua decomposizione SVD
   $
   M = U Sigma V^* = sum_(r=1)^(rank(A)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
   $
 ]
 #property[
-  Per un tensore $T$, calcolare il miglior approssimante $hat(T) = cp(A,B,C)$ di rango $R$
+  Per un #tens-hl[tensore] $T$, calcolare il miglior approssimante $hat(T) = cp(A,B,C)$ di rango $R$
   $
   min_(A, B, C) norm(T - a_1 topp b_1 topp c_1 - dots.c - a_r topp b_r topp c_r)
   $
@@ -96,13 +101,13 @@ Ci aspettiamo che il #highlight(fill:orange)[rango tensoriale] si comporti come 
 == Border rank
 
 #property[
-  Una successione di matrici di rango $r$ tende a una matrice di rango $<= r$.
+  Una successione di #mat-hl[matrici] di rango $r$ tende a una matrice di rango $<= r$.
 ]
 
 #pagebreak(weak: true)
 
 #property[
-  L'insieme dei tensori
+  L'insieme dei #tens-hl[tensori]
   $
   {T in A topp B topp C | T "ha rango "r}
   $
@@ -138,10 +143,10 @@ Ci aspettiamo che il #highlight(fill:orange)[rango tensoriale] si comporti come 
 == Rango massimo
 
 #property[
-  Il rango massimo di una matrice $m times n$ è $min(m,n)$
+  Il rango massimo di una #mat-hl[matrice] $m times n$ è $min(m,n)$
 ]
 #property[
-  Per i tensori $n times m times p$ il rango può superare le dimensioni degli spazi.
+  Per i #tens-hl[tensori] $n times m times p$ il rango può superare le dimensioni degli spazi.
 ]
 #example[
   Nel caso $2 times 2 times 2$ il rango massimo è $3$.
@@ -151,11 +156,11 @@ Ci aspettiamo che il #highlight(fill:orange)[rango tensoriale] si comporti come 
 == Rango tipico
 
 #property[
-  Ogni matrice ha rango massimo con probabilità $1$.
+  Ogni #mat-hl[matrice] ha rango massimo con probabilità $1$.
 ]
 
 #property[
-  I tensori possono avere più ranghi per un certo formato. Tale fenomeno è detto *rango tipico*.
+  I #tens-hl[tensori] possono avere più ranghi per un certo formato. Tale fenomeno è detto *rango tipico*.
 ]
 
 #example[

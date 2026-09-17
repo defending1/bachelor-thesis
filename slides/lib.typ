@@ -39,3 +39,7 @@
 
 #let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))
 #let fletcher-diagram = touying-reducer.with(reduce: fletcher.diagram, cover: fletcher.hide)
+
+
+#let tens-hl(content) = text(purple)[#content]
+#let mat-hl(content) = text(blue)[#content]

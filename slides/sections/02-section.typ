@@ -13,14 +13,14 @@ La decomposizione di una matrice $M$ in somma di $r$ matrici di rango uno
 $
 M = U V^top = u_1 v_1 + u_2 v_2 + dots.c + u_r v_r.
 $
-*non* è mai unica, in quanto esistono infinite matrici invertibili $P$ tali che
+*non* è mai unica: esistono infinite matrici invertibili $P$ tali che
 $
 M = U P P^(-1) V^(top) = (U P)(V P^(-top))^(top).
 $
 
-PAUSE
-Per i tensori c'è speranza!
-L'unicità per la fattorizzazione CP esiste a meno di permutazioni e riscalamento dei fattori.
+\
+#pause
+#align(center)[#text(35pt)[\*Per i tensori c'è speranza!\*]]
 
 == Essenziale unicità
 
@@ -37,15 +37,16 @@ L'unicità per la fattorizzazione CP esiste a meno di permutazioni e riscalament
 == k-rango
 
 #definition[$r$-posizione generale][
-  Dato uno spazio vettoriale finito $W$ e sia $cal(S) subset PP W$ un insieme di punti. Diciamo che
-  i punti di $cal(S)$ sono in *$r$-posizione generale* se nessuna $r$-upla giace su un sottospazio proiettivo di dimensione $r-2$.
-
+  Dato uno spazio vettoriale $W$ di dimensione finita, sia $cal(S) subset
+  PP W$ un sottoinsieme di punti. Gli elementi di $cal(S)$ si dicono in *$r$-posizione generale* se
+  nessuna $r$-upla di punti giace su un sottospazio proiettivo di dimensione $r-2$.
 ]
+#pause
 #remark[
 - *$2$-posizione generale* se nessuna coppia di punti coincide.
 - *$3$-posizione generale* se nessuna terna di punti giace su una retta.
-
 ]
+#pagebreak()
 #definition[$k$-rango][
   Dato un sottoinsieme di punti $cal(S) subset PP W$, il *$k$-rango* è il massimo intero
   positivo $r$ tale che i punti di $cal(S)$ sono in posizione generale. Lo indichiamo con $ krank(cal(S)) .$

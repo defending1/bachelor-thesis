@@ -1,4 +1,5 @@
 #import "../lib.typ": *
+#import "../figures/algorithm_to_tensor_flow.typ": algorithm-tensor-flow-fig
 
 
 = Applicazione alla complessità aritmetica
@@ -21,6 +22,11 @@
 
 Possiamo descrivere un algoritmo di moltiplicazione con un tensore e sperare di ridurre la
 complessità aritmetica.
+
+#v(0.3em)
+#align(center)[
+  #algorithm-tensor-flow-fig
+]
 
 
 == Bilinear computation
@@ -85,16 +91,13 @@ rango minore al variare di $n$.
   Sia una mappa bilineare $phi : U times V -> W$, sia $Gamma$ un circuito aritmetico. La *funzione
   costo* associata a $Gamma$ è definita come
   $
-  C_(Gamma)(phi) &= "#moltiplicazioni per calcolare" phi "su" Gamma,\
-  C_(Gamma)^("tot")(phi) &= "#moltiplicazioni e addizioni per calcolare" phi "su" Gamma,
+  C_(Gamma)^("tot")(phi) &= "#moltiplicazioni e addizioni per calcolare" phi "su" Gamma.
   $
 ]
 #definition[Complessità aritmetica][
   Fissato $cal(C)_phi = {"circuiti" Gamma' "che calcolano" phi}$,
   definiamo
   $
-  L(phi) &= inf_(Gamma in cal(C)_phi) C_(Gamma)(phi), quad #text[la *complessità moltiplicativa* di]
-  phi,\
   L^("tot")(phi) &= inf_(Gamma in cal(C)_phi) C_(Gamma)(phi), quad #text[la *complessità totale* di]
   phi.
   $
