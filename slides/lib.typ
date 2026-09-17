@@ -13,8 +13,11 @@
 
 // Bibliography footnote support for Typst 0.12+ & Touying
 #let show-bibliography-as-footnote(body) = {
+  set footnote(numbering: n => "[" + str(n) + "]")
+  show footnote.entry: it => it.note.body
+
   show cite: it => {
-    if it.form == none {
+    if it.form != "full" {
       footnote(cite(it.key, form: "full"))
     } else {
       it

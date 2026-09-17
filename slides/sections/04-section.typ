@@ -76,9 +76,9 @@ rango minore al variare di $n$.
 #definition[
   Un *circuito aritmetico* $Gamma$ è un grafo diretto, orientato, aciclico, finito, formato dai
   seguenti vertici:
-- I vertici di grado entrante $0$ hanno etichette in $KK union {x_1, dots, x_n}$, e sono detti *inputs*.
-- I vertici di grado entrante $2$ hanno etichette $+$ oppure $*$ e sono detti *gates*.
-- L'unico vertice di grado uscente $0$ è detto *output*.
+- *Inputs:* Vertici di grado entrante $0$ con etichette in $KK union {x_1, dots, x_n}$.
+- *Gates:* Vertici di grado entrante $2$ con etichette $+$ oppure $*$.
+- *Output:* L'unico vertice di grado uscente $0$.
 ]
 #pagebreak()
 #definition[Funzione costo][
@@ -117,7 +117,7 @@ rango minore al variare di $n$.
 #remark[$omega <= 3$]
 #conjecture[$omega = 2$]
 
-=== Stime note su $omega$
+== Stime note su $omega$
 
 #align(center + horizon)[
   #image("../figures/matrix_multiplication_timeline_slides.pdf", width: 100%, height: 92%, fit: "contain")

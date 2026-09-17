@@ -65,8 +65,8 @@ L'unicità per la fattorizzazione CP esiste a meno di permutazioni e riscalament
 == Il Teorema di Kruskal
 
 #theorem[Kruskal @KRUSKAL197795 @landsberg2009kruskalstheorem][
-  Sia $T in A topp B topp C$ un tensore che ammette una fattorizzazione $ T = sum_(r = 1)^R u_r topp
-  v_r topp w_r. $ Siano $cal(S)_A = {[u_r]}, cal(S)_B ={[v_r]}, cal(S)_C = {[w_r]}$. Se vale
+  Sia $T in A topp B topp C$ un tensore con fattorizzazione $T = sum_(r = 1)^R u_r topp v_r topp w_r$.
+  Siano $cal(S)_A = {[u_r]}, cal(S)_B ={[v_r]}, cal(S)_C = {[w_r]}$. Se vale
   #named-eq("K-3D")[
     $ R <= 1/2 (krank(cal(S)_A) + krank(cal(S)_B) + krank(cal(S)_C)) - 1, $
   ] <eq-kruskal>
@@ -84,16 +84,19 @@ L'unicità per la fattorizzazione CP esiste a meno di permutazioni e riscalament
   H), $ allora $SS = tilde(SS)$.
 ]
 #proof[Idea][
-  Consideriamo la proprietà $(cal(P)_k)$: Ogni $k$-piano $L$ tale che $ \#(tilde(SS) inter L) >= dim(L)+1 = k+1$,
-  allora $\#(SS inter L) >= \#(tilde(SS) inter L).$
-  Sostituendo '$k$-piani' con 'punti' è vera e implica $SS = tilde(SS)$.
-  Per ipotesi $(cal(P)_k)$ è vera per gli iperpiani (ovvero $(bold(w)-2)$-piani).
+  Consideriamo la proprietà
+  $
+  (cal(P)_k):"Ogni" k"-piano" L "tale che" \#(tilde(SS) inter L) >= dim(L)+1 = k+1,\ "allora" \#(SS inter L) >= \#(tilde(SS) inter L).
+  $
+  $(cal(P)_0)$ è vera e implica $SS = tilde(SS)$.
+
+  Per ipotesi induttiva $(cal(P)_k)$ è vera per gli iperpiani (ovvero $(bold(w)-2)$-piani).
   Mostriamo $(cal(P)_(k+1)) => (cal(P)_k)$. Da cui otteniamo
   $
   (cal(P)_(bold(w)-2)) => (cal(P)_(bold(w)- 3)) => dots.c => (cal(P)_1) => (cal(P)_0) => SS =
   tilde(SS).
   $
-  #align(center)[#image("../figures/drawing.pdf", width: 80%)]
+  #align(center)[#image("../figures/drawing.pdf", width: 72%)]
 
 ]
 

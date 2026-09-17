@@ -68,22 +68,29 @@ $
 
 = Il problema del rango
 
-Ci aspettiamo che il rango tensoriale si comporti come il rango matriciale.
+Ci aspettiamo che il #highlight(fill:orange)[rango tensoriale] si comporti come il
+#highlight(fill:aqua)[rango matriciale].
 
 == Complessità
 
-- Calcolare il rango tensoriale è NP-hard REF
+#property[Håstad@haastad1989tensor][
+  Il rango tensoriale è NP-hard.
+]
 
-- Il miglior approssimante di una matrice $M$ di rango $R$ è la decomposizione SVD
-$
-M = U Sigma V^* = sum_(r=1)^(rank(A)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
-$
-
-Per un tensore $T$, calcolare il miglior approssimante $hat(T) = cp(A,B,C)$ di rango $R$
-$
-min_(A, B, C) norm(T - a_1 topp b_1 topp c_1 - dots.c - a_r topp b_r topp c_r)
-$
-è mal posto.
+== Approssimazione low-rank
+#corollary[Eckart-Young-Mirsky][
+  L'approssimazione low-rank di una matrice $M$ è la sua decomposizione SVD
+  $
+  M = U Sigma V^* = sum_(r=1)^(rank(A)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
+  $
+]
+#property[
+  Per un tensore $T$, calcolare il miglior approssimante $hat(T) = cp(A,B,C)$ di rango $R$
+  $
+  min_(A, B, C) norm(T - a_1 topp b_1 topp c_1 - dots.c - a_r topp b_r topp c_r)
+  $
+  è mal posto.
+]
 
 
 == Border rank

@@ -20,6 +20,7 @@
 #show: show-theorion
 #set text(lang: "it")
 #show: show-bibliography-as-footnote
+#show bibliography: set text(size: 0.75em)
 
 
 #set heading(numbering: numbly("{1}.", default: "1.1"))

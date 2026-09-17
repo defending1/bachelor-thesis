@@ -44,7 +44,7 @@ La condizione di Kruskal
 $
 2(R + 1) <= krank(A) + krank(S) + krank(C)
 $
-diventa ( i fattori $A,S,C$ hanno rango massimo)
+diventa (i fattori $A,S,C$ hanno rango massimo)
 $
 2(R + 1) <= min(I, R) + min(K, R) + min(J, R)
 $
