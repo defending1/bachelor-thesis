@@ -33,7 +33,5 @@
 #include "sections/04-section.typ"
 
 
-= Bibliografia
-
-#bibliography("Thesis.bib", title: none)
+#bibliography("Thesis.bib")
 

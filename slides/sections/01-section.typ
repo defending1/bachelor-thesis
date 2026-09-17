@@ -1,6 +1,6 @@
 #import "../lib.typ": *
 
-= La fattorizzazione CP
+= La fattorizzazione CP e il rango tensoriale
 
 == Tensori
 Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, CC}.$
