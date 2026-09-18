@@ -20,7 +20,7 @@ $
 
 \
 #pause
-#align(center)[#text(35pt)[\*Per i tensori c'è speranza!\*]]
+#align(center)[#text(35pt, weight: "bold", fill: gradient.radial(..color.map.rainbow))[\*Per i tensori c'è speranza!\*]]
 
 == Essenziale unicità
 
@@ -53,9 +53,8 @@ $
 ]
 
 #align(center)[#image("../figures/glpos.pdf", width: 95%)]
-#pagebreak(weak: true)
 
-#remark[][
+#speaker-note[
   La definizione originale di Kruskal era: data una matrice $M$, il $k$-rango $krank(M)$ è il massimo intero
   positivo $r$ tale che ogni sottoinsieme di $r$ colonne di $M$ sono vettori linearmente
   indipendenti.
@@ -78,24 +77,27 @@ $
 
 
 #proposition[Permutation lemma][
-  Siano $SS = {p_1, dots, p_R}$ e $tilde(SS) = {q_1, dots, q_R}$ due insiemi di punti in $PP W$ a
-  due a due distinti, e supponiamo che $ango(tilde(SS)) = W$.
+  Siano $SS = {p_1, dots, p_R}$ e $tilde(SS) = {q_1, dots, q_R}$ due insiemi di punti a due a due
+  distinti in $PP W$. Supponiamo che $ango(tilde(SS)) = W$.
   Se ogni iperpiano $H subset PP W$ che
   contiene almeno $dim(H) + 1$ punti di $tilde(SS)$ è tale che $ \#(SS inter H) <= \#(tilde(SS) inter
-  H), $ allora $SS = tilde(SS)$.
+  H), $ allora $markhl(SS =
+  tilde(SS), #<tesi>) #annot(<tesi>)[]$.
 ]
 #proof[Idea][
   Consideriamo la proprietà
   $
   (cal(P)_k):"Ogni" k"-piano" L "tale che" \#(tilde(SS) inter L) >= dim(L)+1 = k+1,\ "allora" \#(SS inter L) >= \#(tilde(SS) inter L).
   $
-  $(cal(P)_0)$ è vera e implica $SS = tilde(SS)$.
+  $(cal(P)_0)$ è vera e implica $markhl(SS =
+  tilde(SS), #<tesi>) #annot(<tesi>)[]$.
 
-  Per ipotesi induttiva $(cal(P)_k)$ è vera per gli iperpiani (ovvero $(bold(w)-2)$-piani).
+  Per ipotesi induttiva $(cal(P)_(bold(w)-2))$ è vera (iperpiani $(bold(w)-2)$-piani).
   Mostriamo $(cal(P)_(k+1)) => (cal(P)_k)$. Da cui otteniamo
   $
-  (cal(P)_(bold(w)-2)) => (cal(P)_(bold(w)- 3)) => dots.c => (cal(P)_1) => (cal(P)_0) => SS =
-  tilde(SS).
+  (cal(P)_(bold(w)-2)) => (cal(P)_(bold(w)- 3)) => dots.c => (cal(P)_1) => (cal(P)_0) => markhl(SS =
+  tilde(SS), #<tesi>).
+  #annot(<tesi>)[Tesi]
   $
   #align(center)[#image("../figures/drawing.pdf", width: 72%)]
 

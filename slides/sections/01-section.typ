@@ -84,11 +84,12 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 
 == Approssimazione low-rank
 #corollary[Eckart-Young-Mirsky][
-  L'approssimazione low-rank di una #mat-hl[matrice] $M$ è la sua decomposizione SVD
+  Un'approssimazione low-rank di una #mat-hl[matrice] $M$ è la sua decomposizione SVD
   $
-  M = U Sigma V^* = sum_(r=1)^(rank(A)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
+  M = U Sigma V^* = sum_(r=1)^(rank(M)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
   $
 ]
+#pause
 #property[
   Per un #tens-hl[tensore] $T$, calcolare il miglior approssimante $hat(T) = cp(A,B,C)$ di rango $R$
   $
@@ -104,7 +105,7 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
   Una successione di #mat-hl[matrici] di rango $r$ tende a una matrice di rango $<= r$.
 ]
 
-#pagebreak(weak: true)
+#pagebreak()
 
 #property[
   L'insieme dei #tens-hl[tensori]
@@ -115,7 +116,6 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 ]
 
 #align(center)[#image("../figures/border-rank.pdf", width: 80%)]
-
 
 #example[][
   La successione di tensori di rango $2$
@@ -135,7 +135,7 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 
 #definition[Border rank][
   Un tensore $T$ ha *border rank* $r$ se è limite di una successione di rango $r$ ma non è limite di
-  una successione di tensori di rango $s$, per ogni $s<r$. Lo indichiamo con $brk(T)$.
+  una successione di tensori di rango $s$, per ogni $s<r$.
 ]
 
 
@@ -143,28 +143,7 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 == Rango massimo
 
 #property[
-  Il rango massimo di una #mat-hl[matrice] $m times n$ è $min(m,n)$
-]
-#property[
   Per i #tens-hl[tensori] $n times m times p$ il rango può superare le dimensioni degli spazi.
-]
-#example[
-  Nel caso $2 times 2 times 2$ il rango massimo è $3$.
-]
-
-
-== Rango tipico
-
-#property[
-  Ogni #mat-hl[matrice] ha rango massimo con probabilità $1$.
-]
-
-#property[
-  I #tens-hl[tensori] possono avere più ranghi per un certo formato. Tale fenomeno è detto *rango tipico*.
-]
-
-#example[
-  Per un tensore reale $2 times 2 times 2$, i ranghi tipici sono ${2,3}$.
 ]
 
 

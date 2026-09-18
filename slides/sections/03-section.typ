@@ -53,8 +53,7 @@ $
 2(4 + 1) = 10 <= 4 + 4 + 4
 $
 
-Recuperiamo il tensore $T$ approssimandolo con un tensore $hat(T)$
-tramite l'algoritmo CP ALS
+Recuperiamo il tensore $T$ approssimandolo con $hat(T) = cp(hat(A), hat(S), hat(T))$
 $
 min_(hat(A), hat(S), hat(C)) norm( T - cp(hat(A), hat(S), hat(T)) ).
 $
