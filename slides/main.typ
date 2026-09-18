@@ -20,7 +20,7 @@
 #show: show-theorion
 #set text(lang: "it")
 #show: show-bibliography-as-footnote
-#show bibliography: set text(size: 0.75em)
+#show bibliography: set text(size: 0.74em)
 
 
 #set heading(numbering: numbly("{1}.", default: "1.1"))
@@ -33,6 +33,10 @@
 #include "sections/03-section.typ"
 #include "sections/04-section.typ"
 
+#empty-slide[
+  Grazie per l'attenzione!
+]
 
 #bibliography("Thesis.bib")
 
+#include "sections/05-bonus.typ"
