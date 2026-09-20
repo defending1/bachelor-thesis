@@ -1,0 +1,61 @@
+#import "/lib.typ": *
+#import themes.simple: *
+
+#show: simple-theme.with(
+  config-common(new-section-slide-fn: none),
+)
+
+== Animated Slide <animated>
+
+Step 1 #pause Step 2
+
+== Recall all (default):
+
+Recall the entire slide:
+
+#touying-recall(<animated>)
+
+== Recall subslide 2:
+
+Recall only the second subslide:
+
+#touying-recall(<animated>, subslides: 2)
+
+== Recall subslide negative:
+
+Recall the last subslide (via negative index):
+
+#touying-recall(<animated>, subslides: -1)
+
+== Slide with waypoints <wp-slide>
+
+#waypoint(<phase-a>, advance: false)
+Phase A content
+#waypoint(<phase-b>)
+Phase B content
+#pause
+More B content
+
+== Recall none (last subslide):
+Recall only the last subslide.
+
+#touying-recall(<animated>, subslides: none)
+
+#touying-recall(<wp-slide>, subslides: none)
+
+== Recall waypoints (last of each):
+Recall the last subslide of each waypoint.
+
+#touying-recall(<wp-slide>, subslides: "waypoints")
+
+== Recall waypoint range:
+
+Show only the subslides covered by `<phase-b>`:
+
+#touying-recall(<wp-slide>, subslides: <phase-b>)
+
+== Recall get-last:
+
+Show only the last subslide of `<phase-b>`:
+
+#touying-recall(<wp-slide>, subslides: get-last(<phase-b>))
