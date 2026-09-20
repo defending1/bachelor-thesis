@@ -1,5 +1,23 @@
 #import "../lib.typ": *
 
+
+#show: appendix
+#set heading(
+  supplement: [Appendix],
+  numbering: (..nums) => {
+    let pos = nums.pos()
+    if pos.len() > 0 {
+      let n = pos.at(0)
+      let app-n = if n > 4 { n - 4 } else { 1 }
+      numbly(
+        "{1:A}.",
+        "{1:A}.{2:1}.",
+        "{1:A}.{2:1}.{3:1}"
+      )(app-n, ..pos.slice(1))
+    }
+  }
+)
+
 = Bonus
 == Rango tipico
 
@@ -84,6 +102,35 @@ con $rk(phi)$.
   (a_r^top u) (b_r^top v)c_r. $
 ]
 
+=== L'esponente
+
+#definition[
+  Un *circuito aritmetico* $Gamma$ è un grafo diretto, orientato, aciclico, finito, formato dai
+  seguenti vertici:
+- *Inputs:* Vertici di grado entrante $0$ con etichette in $KK union {x_1, dots, x_n}$.
+- *Gates:* Vertici di grado entrante $2$ con etichette $+$ oppure $*$.
+- *Output:* Un unico vertice di grado uscente $0$.
+]
+#pagebreak()
+
+#definition[Funzione costo][
+  Sia $Gamma$ un circuito aritmetico. La *funzione
+  costo* associata a $Gamma$ è definita come
+  $
+  C_(Gamma)^("tot")(algob(n)) = &"#moltiplicazioni e addizioni"\ &"per calcolare" algob(n) "su" Gamma.
+  $
+]
+#definition[Complessità aritmetica][
+  Sia $cal(C)_phi = {"circuiti" Gamma' "che calcolano" algob(n)}$.
+  definiamo
+  $
+  M_(KK) (n) := inf_(Gamma in cal(C)_phi) C_(Gamma)(algob(n)), quad
+  $
+  il numero di operazione necessarie a calcolare $algob(n)$.
+]
+
+
+
 === Derivazione algoritmo classico
 
 $
@@ -100,8 +147,8 @@ Fissata la base standard $E_11, E_12, E_21, E_22$ dello spazio delle matrici $2 
 scrivere la bilinear computation
 $
 C = &c_11 E_11 + c_12 E_12 + c_21 E_21 + c_22 E_22 \
-= &(m_1 + m_2)E_11 + (m_3 + m_4)E_12 \
-+ &(m_5 + m_6)E_21 + (m_7 + m_8)E_22 \
+= &(a_11b_11 + a_12b_21)E_11 + (a_11b_12 + a_12b_22)E_12 \
++ &(a_21b_11 + a_22b_21)E_21 + (a_21b_12 + a_22b_22)E_22 \
 = &sum_(r = 1)^8 m_r w_r.
 $
 
@@ -112,6 +159,22 @@ algob(2) = &(a_11 topp b_11 + a_12 topp b_21) topp c_11 \
 + &(a_11 topp b_12 + a_12 topp b_22) topp c_12 \
 + &(a_21 topp b_12 + a_22 topp b_22) topp c_22.
 $
+
+=== L'algoritmo di Strassen
+
+Facendo alcune semplificazioni troviamo l'algoritmo di
+Strassen in forma tensoriale
+$
+algob(2) = & (a_(11) + a_(22)) topp (b_(11) + b_(22)) topp (c_(11) + c_(22)) \
++&(a_(21) + a_(22)) topp b_(11) topp (c_(21) - c_(22))            \
++&a_(11) topp (b_(12) - b_(22)) topp (c_(12) + c_(22))            \
++&a_(22) topp (-b_(11) + b_(21)) topp (c_(21) + c_(11))           \
++&(a_(11) + a_(12)) topp b_(22) topp (-c_(11) + c_(12))           \
++&(-a_(11) + a_(21)) topp (b_(11) + b_(12)) topp c_(22)           \
++ &(a_(12) - a_(22)) topp (b_(21) + b_(22)) topp c_(11).
+$
+Che mostra $rk(algob(2)) =7$.
+
 
 === Algoritmi approssimati
 
@@ -148,4 +211,16 @@ Ovvero
 $
 brk(algob(2)^("red")) <= 5
 $
+
+=== Esperimento numerico
+
+Bini et Al.@bini1979n2 trovano l'algoritmo $algob(3,2,2)$ di complessità $3 log_12 10 approx
+2.7799$, che migliora $omega$.
+
+#empty-slide[
+  #align(center + horizon)[
+    #image("../figures/bini_combined_4x3.pdf", width: 100%, height: 100%, fit: "contain")
+  ]
+]
+
 

@@ -11,15 +11,15 @@ Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, 
 ]
 #pause
 #definition[Spazio dei tensori][
-  Dati degli spazi vettoriali di dimensione finita $A,B,C$ indichiamo lo *spazio dei tensori* di
+  Indichiamo lo *spazio dei tensori* di
   ordine tre con $A topp B topp C$. Lo definiamo come
-  l'insieme delle mappe bilineari $phi : A^* times B^* times C^* -> KK$.
+  l'insieme delle forme trilineari $phi : A^* times B^* times C^* -> KK$.
 ]
 
 #pagebreak()
 #definition[
-  Quando $A topp B topp C = RR^m topp RR^n topp RR^p$, indichiamo con $RR^(m times n times p)$ lo *spazio dei
-  tensori (in coordinate)* di ordine $3$.
+  Indichiamo con $RR^(m times n times p)$ lo *spazio standard dei
+  tensori* di ordine $3$ di $RR^m topp RR^n topp RR^p$.
 ]
 
 #align(center)[#image("../figures/unfoldings.pdf", width: 95%)]
@@ -72,7 +72,7 @@ $
 
 
 
-= Il problema del rango
+== Il problema del rango
 
 Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-hl[matriciale].
 

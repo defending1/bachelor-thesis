@@ -91,8 +91,7 @@ $
   $
   $(cal(P)_0)$ è vera e implica $markhl(SS =
   tilde(SS), #<tesi>) #annot(<tesi>)[]$.
-
-  Per ipotesi induttiva $(cal(P)_(bold(w)-2))$ è vera (iperpiani $(bold(w)-2)$-piani).
+  Per ipotesi induttiva $(cal(P)_(bold(w)-2))$ è vera.\
   Mostriamo $(cal(P)_(k+1)) => (cal(P)_k)$. Da cui otteniamo
   $
   (cal(P)_(bold(w)-2)) => (cal(P)_(bold(w)- 3)) => dots.c => (cal(P)_1) => (cal(P)_0) => markhl(SS =
@@ -101,6 +100,17 @@ $
   $
   #align(center)[#image("../figures/drawing.pdf", width: 72%)]
 
+]
+#pagebreak()
+#proof[Idea (Teorema di Kruskal)][
+  + Consideriamo $ T = sum_(r = 1)^R u_r topp v_r topp w_r = sum_(r = 1)^R tilde(u)_r topp
+  tilde(v)_r topp tilde(w)_r. $
+  + Usiamo il permutation lemma per mostrare che $ SS_A = tilde(SS)_A, quad SS_B = tilde(SS)_B, quad
+  SS_C = tilde(SS)_C. $
+  + A questo punto esistono $sigma, tau in frak(S)_R$ tali che $ T = sum_(r = 1)^R u_r topp v_r topp
+  w_r = sum_(r = 1)^R u topp v_sigma(r) topp
+  w_tau(r). $
+  + Se $sigma = tau => $ tesi.\ Se $sigma != tau => $ contraddizione.
 ]
 
 
