@@ -12,7 +12,7 @@ classico, ottenendo un esponente di complessità asintotica minore di $ 3 $ per 
 L'algoritmo di moltiplicazione matriciale si può esprimere come mappa bilineare che manda due matrici $ A
 $ e $ B $ nel prodotto $ C = AB $. Possiamo naturalmente rappresentare tale mappa come un tensore $ T $, e
 quindi cercarne una rappresentazione di rango più basso, e come conseguenza ridurre il numero di moltiplicazioni.
-In questo contesto, mostriamo che il rango della forma bilineare dà il numero di moltiplicazioni di un algoritmo, e
+In questo contesto, mostriamo che il rango della mappa bilineare dà il numero di moltiplicazioni di un algoritmo, e
 viceversa. Poiché tali algoritmi saranno ricorsivi e dipenderanno dal caso base, risulterà utile
 tener traccia del costo ottimale della moltiplicazione, che chiameremo $ \omega $. Attraverso il
 Teorema di Strassen mostreremo che il rango del tensore può essere messo in corrispondenza con $ \omega $.
@@ -56,8 +56,9 @@ classico, sviluppando la loro fattorizzazione tensoriale e studiando i rispettiv
 	\end{equation*}
 \end{remark}
 
-\subsection*{Rappresentazione in coordinate di una forma bilineare}
-Consideriamo degli spazi vettoriali $ U,V,W $ di dimensioni $ I,J,K $, rispettivamente. Un modo semplice di rappresentare una forma bilineare $ \varphi \colon U \times V \to W $ come un
+\subsection*{Rappresentazione in coordinate di una mappa bilineare}
+Consideriamo degli spazi vettoriali $ U,V,W $ di dimensioni $ I,J,K $, rispettivamente. Un modo
+semplice di rappresentare una mappa bilineare $ \varphi \colon U \times V \to W $ come un
 tensore è farlo partendo dalle slices. Fissato $ k \in \{1, \ldots, K\} $ e
 considerata la sua componente $ k $-esima $ \varphi_k : U \times V \to \R $, esiste una matrice $ M \in \R^{I \times J} $ tale che $
 	\varphi_k(u,v) = u^{\top}Mv$ per ogni $ (u,v) \in \R^I \times \R^J $. Scrivendo ogni componente di $
@@ -135,9 +136,9 @@ trovando fattorizzazioni di rango più basso di $ T $.
 
 
 
-La prossima proposizione assicura che il rango di una forma bilineare sia dato dal rango CP.
+La prossima proposizione assicura che il rango di una mappa bilineare sia dato dal rango CP.
 \begin{proposition}
-	Fissiamo una forma bilineare $ \varphi $ e denotiamo con $ T $ il tensore che la rappresenta. Allora, dalla
+	Fissiamo una mappa bilineare $ \varphi $ e denotiamo con $ T $ il tensore che la rappresenta. Allora, dalla
 	fattorizzazione CP di un tensore $ T $ si ottiene una bilinear computation, e in particolare $
 		\rk(\varphi) = \rk(T) $.
 \end{proposition}
@@ -232,7 +233,7 @@ l'algoritmo in maniera ricorsiva, ripetendo la ricorsione fino a raggiungere il 
 \section{L'esponente della moltiplicazione tra matrici}
 
 In questo capitolo useremo il seguente modello computazionale con lo scopo di calcolare la
-complessità di valutare una forma bilineare, che semplifica il calcolo dei costi eliminando le condizioni di
+complessità di valutare una mappa bilineare, che semplifica il calcolo dei costi eliminando le condizioni di
 branching (e.g. \texttt{if-then-else} o \texttt{while}) e consentendo l'input da un
 alfabeto infinito di simboli (come un campo $ \K \in \{\R,\C\}  $).
 \begin{definition}[Circuito aritmetico]
@@ -283,7 +284,7 @@ Denotiamo con $ \mathcal{C}_{\varphi}$ come l'insieme dei circuiti aritmetici $ 
 	moltiplicazioni non scalari e di addizioni sufficienti a calcolare $
 		\varphi $.
 \end{remark}
-Consideriamo la forma bilineare $ \varphi = \algob{n} $ data
+Consideriamo la mappa bilineare $ \varphi = \algob{n} $ data
 dall'Equazione~\eqref{eq:matmul_component}.
 Fissato un campo $ \K \in \{\R,\C\}  $, e delle matrici $ A, B \in \R^{n\times
 		n}$, denotiamo con
@@ -332,7 +333,8 @@ disponibili. Invece, il problema di approssimare la crescita asintotica della fu
 \subsection*{Stimare l'esponente}
 
 Un modo elementare di trovare una nuova stima su $ \omega $ è trovare una scrittura più breve della
-forma bilineare (o del tensore). La seguente proposizione ci fornisce una prima stima della misura di complessità con il rango di una forma bilineare.
+mappa bilineare (o del tensore). La seguente proposizione ci fornisce una prima stima della misura
+di complessità con il rango di una mappa bilineare.
 \begin{proposition}[Strassen, si veda~\cite{burgisser2013algebraic}, Capitolo 14]
 
 	Siano $ U,V $ e $ W $ dei $ \K $-spazi vettoriali di dimensione finita, e $ \varphi : U\times V \to  W $ una

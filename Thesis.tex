@@ -2,6 +2,8 @@
 
 \usepackage{metalogo}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some of my favourite personal adjustments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,6 +15,8 @@
 % This ensures that I am able to typeset bold font in table while still aligning the numbers
 % correctly.
 \usepackage{etoolbox}
+
+\usepackage{epigraph}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hyperlinks & bookmarks
@@ -56,7 +60,6 @@
 % Fonts
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \usepackage{todonotes}
 
 \setsansfont{IBM Plex Sans}
@@ -73,6 +76,26 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ordinals
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Quotations
+\makeatletter
+\renewcommand{\@chapapp}{}% Not necessary...
+\newenvironment{chapquote}[2][2em]
+{\setlength{\@tempdima}{#1}%
+	\def\chapquote@author{#2}%
+	\parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+	\itshape}
+{\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+% Enable column format arguments for amsmath matrices
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}\rule[-1.2ex]{0pt}{3.5ex}}
+\makeatother
+
 
 \makeatletter
 \@ifundefined{st}{%
@@ -185,7 +208,7 @@
 
 \newglossaryentry{indexset}{%
   name        = {$[n]$},
-  description = {Insieme degli indici $\{1, 2, \ldots, n\}$},
+  description = {Insieme dei numeri $\{1, 2, \ldots, n\}$},
   sort        = {n},
 }
 
@@ -197,7 +220,7 @@
 
 \newglossaryentry{annihilator}{%
   name        = {$U^\perp$},
-  description = {Annullatore / complemento ortogonale del sottospazio $U$},
+  description = {Annullatore del sottospazio $U$},
   sort        = {Uperp},
 }
 
@@ -290,7 +313,7 @@
 % Ranghi e invarianti
 \newglossaryentry{rank}{%
   name        = {$\mathbf{R}(T), \operatorname{rank}(M)$},
-  description = {Rango tensoriale o rango matriciale},
+  description = {Rango tensoriale e rango matriciale},
   sort        = {rk},
 }
 
@@ -301,8 +324,8 @@
 }
 
 \newglossaryentry{krank}{%
-  name        = {$\mathbf{k}_{A}$},
-  description = {Kruskal rank ($k$-rango) della matrice $A$},
+  name        = {$\mathbf{k}_{\mathcal{S}}$},
+  description = {Kruskal rank ($k$-rango) dell'insieme $\mathcal{S}$},
   sort        = {krk},
 }
 
@@ -347,13 +370,27 @@
 
 \begin{document}
 
+
 \frontmatter
+
 \include{Sources/Title}
 \include{Sources/Abstract}
+
+\clearpage
+\vspace*{\stretch{1}}
+\begin{flushright}
+	\textit{A nonna Pier,} \\
+	\textit{per i gustosissimi ``pranzetti''.}
+\end{flushright}
+\vspace*{\stretch{2}}
+\clearpage
+
+
 
 \tableofcontents
 
 \mainmatter
+
 
 \include{Sources/Introduction}
 \include{Sources/Chapter1/Chapter1}

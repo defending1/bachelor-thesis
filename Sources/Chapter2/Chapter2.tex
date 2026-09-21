@@ -6,8 +6,8 @@
 
 Data una matrice $ M \in \C^{n\times n} $ di rango $ r $, possiamo scriverla come somma di matrici di rango uno come
 \begin{equation*}
-	M = a_1 \otimes b_1 + \ldots + a_{r} \otimes b_{r} = \begin{bmatrix} a_1 & \cdots & a_{r}
-	\end{bmatrix} \begin{bmatrix} b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top}.
+	M = a_1 \otimes b_1 + \ldots + a_{r} \otimes b_{r} = \begin{bmatrix}[c|c|c] a_1 & \cdots & a_{r}
+	\end{bmatrix} \begin{bmatrix}[c|c|c] b_1 & \cdots & b_{r} \end{bmatrix}^{\top} = AB^{\top}.
 \end{equation*}
 Questa decomposizione non è mai unica a meno che $ r =1 $, in quanto
 \begin{equation}
@@ -64,15 +64,15 @@ originale dell'essenziale unicità è la seguente.
 	Osserviamo che questa definizione è una specializzazione di quella generale. Nel caso $ 3
 	$-dimensionale, ad esempio scriviamo in coordinate
 	\begin{equation*}
-		A = \left[\begin{array}{c|c|c}
-				a_1 & \dots & a_r
-			\end{array}\right],\qquad
-		B = \left[\begin{array}{c|c|c}
-				b_1 & \dots & b_r
-			\end{array}\right],\qquad
-		C = \left[\begin{array}{c|c|c}
-				c_1 & \dots & c_r
-			\end{array}\right].
+		A = \begin{bmatrix}[c|c|c]
+			a_1 & \dots & a_r
+		\end{bmatrix},\qquad
+		B = \begin{bmatrix}[c|c|c]
+			b_1 & \dots & b_r
+		\end{bmatrix},\qquad
+		C = \begin{bmatrix}[c|c|c]
+			c_1 & \dots & c_r
+		\end{bmatrix}.
 	\end{equation*}
 	Rappresentiamo $ \sigma \in \mathfrak{S}_{r} $ tramite una matrice $ P^{-1} $ di permutazione, e dette
 	\begin{equation*}
@@ -81,9 +81,9 @@ originale dell'essenziale unicità è la seguente.
 	\end{equation*}
 	possiamo prendere
 	\begin{equation*}
-		\tilde{A} \defeq A P^{-1}D_{A}^{-1} = \left[\begin{array}{c|c|c}
-				\alpha_1 a_{\sigma(1)} & \dots & \alpha_{r} a_{\sigma(r)}
-			\end{array}\right],
+		\tilde{A} \defeq A P^{-1}D_{A}^{-1} = \begin{bmatrix}[c|c|c]
+			\alpha_1 a_{\sigma(1)} & \dots & \alpha_{r} a_{\sigma(r)}
+		\end{bmatrix},
 	\end{equation*}
 	e definire in maniera analoga $ \tilde{B} \defeq BP^{-1}D_{B}^{-1}$ e $ \tilde{C} \defeq
 		CP^{-1}D_{C}^{-1} $. Moltiplicando a destra per le matrici inverse troviamo la prima definizione.
@@ -222,7 +222,7 @@ Più in generale vale il seguente teorema:
 	Sia $ \s_{A_k} = \{[u^k_{i}]\} \subset \PP A_{k} $ per $ k = 1, \ldots, d $. Se
 	vale
 	\begin{equation}
-		\sum_{k=1}^r \krk{\s_{A_k}} \ge 2r + d - 1,
+		\sum_{k=1}^d \krk{\s_{A_k}} \ge 2r + d - 1,
 	\end{equation}
 	allora $ T $ ha rango $ r $ e la sua espressione come tensore di rango $ r $ è essenzialmente unica.
 \end{theorem}
@@ -500,10 +500,14 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\end{equation*}
 	dove
 	\begin{equation*}
-		U_{S} = \left[u_1 | \cdots | u_{S}  \right] \in \K^{\bm{a}\times S}  , \; V_{S} = \left[v_1
-			| \cdots | v_{S}  \right] \in \K^{\bm{b}\times S}, \; D = \diag(h(w_1), \ldots, h(w_{S})),
+		U_{S} = \begin{bmatrix}[c|c|c] u_1 & \cdots & u_{S}  \end{bmatrix} \in \K^{\bm{a}\times S}  , \;
+		V_{S} = \begin{bmatrix}[c|c|c] v_1
+			 & \cdots & v_{S}\end{bmatrix} \in \K^{\bm{b}\times S},
 	\end{equation*}
-	in particolare $ D $ è di taglia $ S\times S $ ed
+	\begin{equation*}
+		D = \diag(h(w_1), \ldots, h(w_{S})).
+	\end{equation*}
+	In particolare $ D $ è di taglia $ S\times S $ ed
 	invertibile. Per la disuguaglianza di Sylvester~\cite[Pag. 12]{horn2012matrix}
 	\begin{equation*}
 		\begin{aligned}
@@ -685,15 +689,15 @@ Introduciamo un lemma di supporto.
 	\end{equation}
 	Dunque $ \Tm{T}{1} = UM^{\top} $ dove
 	\begin{equation*}
-		U =  \left[\begin{array}{c|c|c}
-				a_1 & \dots & a_{\bm{a}}
-			\end{array}\right], \qquad
-		V =  \left[\begin{array}{c|c|c}
-				b_1 & \dots & b_{\bm{b}}
-			\end{array}\right], \qquad
-		W =  \left[\begin{array}{c|c|c}
-				c_1 & \dots & c_{\bm{c}}
-			\end{array}\right],
+		U =  \begin{bmatrix}[c|c|c]
+			a_1 & \dots & a_{\bm{a}}
+		\end{bmatrix}, \qquad
+		V =  \begin{bmatrix}[c|c|c]
+			b_1 & \dots & b_{\bm{b}}
+		\end{bmatrix}, \qquad
+		W =  \begin{bmatrix}[c|c|c]
+			c_1 & \dots & c_{\bm{c}}
+		\end{bmatrix},
 	\end{equation*}
 	e $ M = B \krp C $ è una matrice $ \bm{a}^2 \times \bm{a} $.
 	Per definizione di rango multilineare e per una disuguaglianza nota sul rango troviamo
@@ -718,13 +722,13 @@ Introduciamo un lemma di supporto.
 	\end{equation*}
 	dove
 	\begin{equation*}
-		U =  \left[\begin{array}{c|c|c}
-				a_1 & \dots & a_{\bm{a}}
-			\end{array}\right], \qquad
+		U =  \begin{bmatrix}[c|c|c]
+			a_1 & \dots & a_{\bm{a}}
+		\end{bmatrix}, \qquad
 		D_{j} = \diag(\gamma_{j}(c_1), \ldots, \gamma_{j}(c_{\bm{a}})), \qquad
-		V = \left[\begin{array}{c|c|c}
-				b_1 & \dots & b_{\bm{a}}
-			\end{array}\right].
+		V = \begin{bmatrix}[c|c|c]
+			b_1 & \dots & b_{\bm{a}}
+		\end{bmatrix}.
 	\end{equation*}
 	Osserviamo che se $ T $ ha rango multilineare $ (\bm{a}, \bm{a}, \bm{a}) $, per il Lemma~\ref{lhm:multilin_unfolding} le matrici $ U,V $
 	sono invertibili. Anche la matrice $ D_{j} $ è invertibile, a patto che $ \gamma_{j}(c_{i}) \neq 0 $ per ogni $ i = 1

@@ -4,6 +4,16 @@
 \label{chp:tensors_intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{chapquote}{Italo Calvino, \textit{Palomar}}
+	\ldots è ``il prato'' ciò che noi vediamo
+	oppure vediamo un'erba più un'erba più un'erba…? Quello che noi diciamo ``vedere il
+	prato'' è solo un effetto dei nostri sensi approssimativi e grossolani; un insieme esiste
+	solo in quanto formato da elementi distinti. Non è il caso di contarli, il numero non
+	importa; quel che importa è afferrare in un solo colpo d'occhio le singole pianticelle
+	una per una, nelle loro particolarità e differenze. E non solamente vederle: pensarle.
+	Invece di pensare ``prato'', pensare quel gambo con due foglie di trifoglio, quella
+	foglia lanceolata un po' ingobbita, quel corimbo sottile\ldots \end{chapquote}
+
 \section{Tensori}
 
 In questo elaborato supponiamo per semplicità che in $ \K \in \{\R, \C\}  $. Denotiamo gli spazi vettoriali, che
@@ -400,7 +410,7 @@ naturale definire la seguente operazione
 			\vdots & \vdots & \ddots & \vdots \\
 			v_nu_1 & v_nu_2 & \ldots & v_nu_m
 		\end{bmatrix}  \right) =
-		\begin{bmatrix} u_1v \mid u_2v \mid \ldots \mid  u_mv \end{bmatrix} = u \krn v
+		\begin{bmatrix}[c|c|c|c] u_1v & u_2v & \ldots &  u_mv \end{bmatrix} = u \krn v.
 	\end{equation}
 	Notiamo che tale operazione scambia l'ordine tra i vettori.
 \end{remark}
@@ -426,8 +436,8 @@ Capitolo~\ref{chp:matmul}.
 costo di rappresentazione in memoria e delle operazioni algebriche che lo coinvolgono. Nel caso matriciale, data una
 matrice $ X \in \R^{n_1\times n_2} $ di rango $ r $, possiamo scrivere
 \[
-	X = UV^{\top} = \begin{bmatrix}  u_1 | \cdots | u_r  \end{bmatrix}  \begin{bmatrix}  v_1 | \cdots
-		| v_r\end{bmatrix}^{\top} =
+	X = UV^{\top} = \begin{bmatrix}[c|c|c] u_1 & \cdots & u_r  \end{bmatrix}  \begin{bmatrix}[c|c|c]  v_1 & \cdots
+                            & v_r\end{bmatrix}^{\top} =
 	u_1v_1^{\top} + \cdots + u_rv_r^{\top} = u_1 \topp v_1 + \cdots + u_r \topp v_r
 	,\] per certe matrici $ U \in \R^{n_1 \times r} $ e $ V \in \R^{n_2\times r} $. Questo tipo di
 decomposizione è vantaggioso in termini di memoria: infatti
@@ -615,9 +625,9 @@ In alcune situazioni è utile cambiare il formato del tensore.
 	L'unfolding sul primo modo ha costo nullo, in quanto $ \Tm{T}{1} = \reshape(T, n_1 \times
 		\prod_{j=2}^d n_{j}) $, cioè
 	\begin{equation*}
-		\Tm{T}{1} = \left[\begin{array}{c|c|c}
-				T_{:, \ldots, :,1} & \dots & T_{:, \ldots, :, n_{d}}
-			\end{array}\right] \in \R^{n_1 \times
+		\Tm{T}{1} = \begin{bmatrix}[c|c|c]
+			T_{:, \ldots, :,1} & \dots & T_{:, \ldots, :, n_{d}}
+		\end{bmatrix} \in \R^{n_1 \times
 			\prod_{j=2}^d n_{j}}.
 	\end{equation*}
 \end{remark}
@@ -1004,9 +1014,9 @@ risultato di questa sezione.
 	\begin{equation*}
 		\begin{aligned}
 			\Tm{T}{j} & = \sum_{h=1}^r u_h^j \left( u_h^d \krn \cdots \krn u_h^{j+1} \krn u_h^{j-1} \krn
-			\cdots \krn u_h^1 \right)^{\top}                                                             \\
-			          & = U_j \begin{bmatrix} u_1^d \krn \cdots \krn u_1^1 | \cdots | u_r^d \krn \cdots
-				                  \krn u_r^1\end{bmatrix}^{\top}   \\
+			\cdots \krn u_h^1 \right)^{\top}                                                                   \\
+			          & = U_j \begin{bmatrix}[c|c|c] u_1^d \krn \cdots \krn u_1^1 & \cdots & u_r^d \krn \cdots
+               \krn u_r^1\end{bmatrix}^{\top} \\
 			          & = U_j \left( U_d \krp \cdots \krp U_{j+1} \krp U_{j-1} \krp \cdots \krp U_1
 			\right)^{\top},
 		\end{aligned}
@@ -1149,9 +1159,9 @@ problema non convesso (esistono molti minimi locali). Ricordiamo anche che in ge
 			(A \krp B)^{\top}(C \krp D) =
 			\begin{bmatrix} a_1^{\top} \krn b_1^{\top} \\ \vdots \\
 				a_{r}^{\top} \krn b_{r}^{\top}
-			\end{bmatrix} \left[\begin{array}{c|c|c}
-					                    c_1 \krn d_{1} & \dots & c_{s} \krn d_{s}
-				                    \end{array}\right].
+			\end{bmatrix} \begin{bmatrix}[c|c|c]
+				              c_1 \krn d_{1} & \dots & c_{s} \krn d_{s}
+			              \end{bmatrix}.
 		\end{aligned}
 	\end{equation*}
 	ha come entrata $ (i,j) $ l'elemento $ (a_{i}^{\top}c_{j})(b_{i}^{\top}d_{j}) $, che corrisponde
@@ -1198,7 +1208,7 @@ con costo $ O(r^2m + r^3) $.
 	Scomponiamo i costi per risolvere il sistema sopra:
 	\begin{itemize}
 		\item Calcolare $ \Tm{T}{1}(C \krp B) $ costa $ O(mnpr) $, in quanto calcolare $ C \krp B $
-		      costa $ O(mpr) $; essendo $ C \krp B $ una matrice $ np \times r $ e $ \Tm{T}{1} $ una matrice
+		      costa $ O(npr) $; essendo $ C \krp B $ una matrice $ np \times r $ e $ \Tm{T}{1} $ una matrice
 		      $ m \times np $, il loro prodotto costa $ O(mnpr) $.
 		\item Calcolare $ (C^{\top}C \had B^{\top}B) $ costa $ O(r^2n + r^2 p + r^2) $ in quanto $
 			      C^{\top}C $ costa $ r^2n $, $ B^{\top}B $ costa $ r^2p $ ed essendo entrambe due matrici $ r
