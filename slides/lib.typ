@@ -1,6 +1,6 @@
 // Centralized prelude for packages, theme, and tensor math helpers
 #import "@preview/theorion:0.6.0": *
-#import "@preview/touying:0.6.1": *
+#import "touying/lib.typ": *
 #import "@preview/dashy-todo:0.1.3": todo
 #import themes.simple: *
 #import "@preview/numbly:0.1.0": numbly
@@ -10,6 +10,7 @@
 #import "@preview/pavemat:0.2.0": pavemat
 #import "@preview/cetz:0.5.2"
 #import "@preview/fletcher:0.5.8" as fletcher: node, edge
+#import "wave.typ": wave
 
 // Bibliography footnote support for Typst 0.12+ & Touying
 #let show-bibliography-as-footnote(body) = {

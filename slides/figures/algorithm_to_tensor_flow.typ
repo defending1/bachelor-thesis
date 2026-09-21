@@ -12,18 +12,18 @@
 #let cPurpleDark = rgb("#6b21a8")
 #let bgPurple = rgb("#faf5ff")
 
-#let algorithm-tensor-flow-fig = canvas(length: 1.50cm, {
+#let algorithm-tensor-flow-fig = canvas(length: 1.5cm, {
   import draw: *
 
-  // Card dimensions for 3 enlarged minimal cards
-  let card-w = 5.2
-  let card-h = 4.7
-  let r = 0
+  // Card dimensions for 3 extra-large cards
+  let card-w = 4.6
+  let card-h = 5.8
+  let r = 0.28
 
   // Centers for 3 cards
-  let x1 = -6.2
+  let x1 = -5.5
   let x2 = 0.0
-  let x3 = 6.2
+  let x3 = 5.5
   let y0 = 0.0
 
   // ================= CARD 1: CLASSICAL ALGORITHM =================
@@ -34,32 +34,37 @@
     rect((-card-w/2, -card-h/2), (card-w/2, card-h/2), fill: bgSlate, stroke: 2.5pt + cSlate, radius: r)
 
     // Header banner
-    rect((-card-w/2, card-h/2 - 1.0), (card-w/2, card-h/2), fill: cSlate, stroke: 2.5pt + cSlate, radius: (top: r, bottom: 0))
-    content((0, card-h/2 - 0.5), text(fill: white, weight: "bold", size: 19.5pt)[Algoritmo Classico])
+    rect((-card-w/2, card-h/2 - 0.85), (card-w/2, card-h/2), fill: cSlate, stroke: 2.5pt + cSlate, radius: (top: r, bottom: 0))
+    content((0, card-h/2 - 0.425), text(fill: white, weight: "bold", size: 12.5pt)[1. ALGORITMO CLASSICO])
 
-    // Center Graphic: Standard Matrix Multiplication with all 3 square matrices (A, B, C)
+    // Subtitle & Math (Square case)
+    content((0, 1.55), text(weight: "bold", fill: cSlateDark, size: 14.5pt)[Mappa Bilineare])
+    content((0, 1.05), text(fill: cSlateDark, size: 12pt)[$phi : RR^(n times n) times RR^(n times n) -> RR^(n times n)$])
+
+    // Illustration: Standard Matrix Multiplication (Square n x n)
     group({
-      translate((0, 0.25))
+      translate((0, -0.2))
+      // Matrix A
+      rect((-1.5, -0.5), (-0.5, 0.5), fill: cSlate.lighten(80%), stroke: 1.4pt + cSlate)
+      content((-1.0, 0.0), text(size: 11.5pt, weight: "bold", fill: cSlateDark)[$A_(n times n)$])
 
-      // Matrix A (Square n x n)
-      rect((-2.2, -0.5), (-1.2, 0.5), fill: cSlate.lighten(80%), stroke: 1.6pt + cSlate)
-      content((-1.7, 0.0), text(size: 17pt, weight: "bold", fill: cSlateDark)[$A$])
+      content((-0.25, 0.0), text(size: 13pt, weight: "bold", fill: cSlateDark)[$times$])
 
-      content((-0.8, 0.0), text(size: 19pt, weight: "bold", fill: cSlateDark)[$times$])
+      // Matrix B
+      rect((0.0, -0.5), (1.0, 0.5), fill: cSlate.lighten(80%), stroke: 1.4pt + cSlate)
+      content((0.5, 0.0), text(size: 11.5pt, weight: "bold", fill: cSlateDark)[$B_(n times n)$])
 
-      // Matrix B (Square n x n)
-      rect((-0.45, -0.5), (0.55, 0.5), fill: cSlate.lighten(80%), stroke: 1.6pt + cSlate)
-      content((0.05, 0.0), text(size: 17pt, weight: "bold", fill: cSlateDark)[$B$])
+      content((1.25, 0.0), text(size: 13pt, weight: "bold", fill: cSlateDark)[$=$])
 
-      content((0.95, 0.0), text(size: 19pt, weight: "bold", fill: cSlateDark)[$=$])
-
-      // Matrix C (Square n x n)
-      rect((1.3, -0.5), (2.3, 0.5), fill: cSlate.lighten(60%), stroke: 1.8pt + cSlateDark)
-      content((1.8, 0.0), text(size: 17pt, weight: "bold", fill: cSlateDark)[$C$])
+      // Matrix C
+      rect((1.5, -0.5), (1.95, 0.5), fill: cSlate.lighten(60%), stroke: 1.6pt + cSlateDark)
+      content((1.725, 0.0), text(size: 11pt, weight: "bold", fill: cSlateDark)[$C$])
     })
 
-    // Essential metric at bottom
-    content((0, -1.45), text(size: 24pt, weight: "bold", fill: cSlateDark)[$n^3$])
+    // Key properties
+    line((-card-w/2 + 0.35, -1.2), (card-w/2 - 0.35, -1.2), stroke: 0.7pt + cSlate.lighten(50%))
+    content((0, -1.6), text(size: 11.5pt, fill: cSlateDark)[Prodotto standard])
+    content((0, -2.15), text(size: 13.5pt, weight: "bold", fill: cSlateDark)[$R_("std") = n^3$ molt.])
   })
 
 
@@ -71,21 +76,45 @@
     rect((-card-w/2, -card-h/2), (card-w/2, card-h/2), fill: bgAmber, stroke: 2.5pt + cAmber, radius: r)
 
     // Header banner
-    rect((-card-w/2, card-h/2 - 1.0), (card-w/2, card-h/2), fill: cAmber, stroke: 2.5pt + cAmber, radius: (top: r, bottom: 0))
-    content((0, card-h/2 - 0.5), text(fill: white, weight: "bold", size: 19.5pt)[Riduzione di Rango])
+    rect((-card-w/2, card-h/2 - 0.85), (card-w/2, card-h/2), fill: cAmber, stroke: 2.5pt + cAmber, radius: (top: r, bottom: 0))
+    content((0, card-h/2 - 0.425), text(fill: white, weight: "bold", size: 12.5pt)[2. RIDUZIONE DI RANGO])
 
-    // Center Graphic: CP Decomposition formula
+    // Subtitle & Math
+    content((0, 1.55), text(weight: "bold", fill: cAmberDark, size: 14.5pt)[Decomposizione CP])
+    content((0, 1.05), text(fill: cAmberDark, size: 11.5pt)[$T = sum_(r=1)^R a_r \u{2297} b_r \u{2297} c_r$])
+
+    // Illustration: CP Decomposition into rank-1 triads
     group({
-      translate((0, 0.25))
+      translate((0, -0.2))
 
-      // Outer badge containing CP decomposition equation
+      content((-1.6, 0.05), text(size: 13pt, weight: "bold", fill: cAmberDark)[$sum_(r=1)^R$])
 
+      // Rank-1 outer product components
+      group({
+        translate((-0.1, 0))
 
-      content((0, 0.05), text(size: 21pt, weight: "bold", fill: cAmberDark)[$T = sum_(r=1)^R a_r \u{2297} b_r \u{2297} c_r$])
+        // Vector a_r (vertical line/pill)
+        rect((-0.7, -0.5), (-0.35, 0.6), fill: cAmber.lighten(60%), stroke: 1.4pt + cAmberDark, radius: 0.07)
+        content((-0.525, 0.05), text(size: 10pt, weight: "bold", fill: cAmberDark)[$a_r$])
+
+        content((-0.1, 0.05), text(size: 11pt, weight: "bold", fill: cAmberDark)[$\u{2297}$])
+
+        // Vector b_r (horizontal pill)
+        rect((0.15, -0.2), (0.9, 0.22), fill: cAmber.lighten(40%), stroke: 1.4pt + cAmberDark, radius: 0.07)
+        content((0.525, 0.015), text(size: 10pt, weight: "bold", fill: cAmberDark)[$b_r$])
+
+        content((1.15, 0.05), text(size: 11pt, weight: "bold", fill: cAmberDark)[$\u{2297}$])
+
+        // Vector c_r (depth pill)
+        line((1.35, -0.4), (1.6, -0.05), (1.95, 0.5), (1.7, 0.15), close: true, fill: cAmber.lighten(20%), stroke: 1.4pt + cAmberDark)
+        content((1.65, 0.05), text(size: 10pt, weight: "bold", fill: white)[$c_r$])
+      })
     })
 
-    // Essential metric at bottom
-    content((0, -1.45), text(size: 22pt, weight: "bold", fill: cAmberDark)[$R < n^3$])
+    // Key properties
+    line((-card-w/2 + 0.35, -1.2), (card-w/2 - 0.35, -1.2), stroke: 0.7pt + cAmber.lighten(50%))
+    content((0, -1.6), text(size: 11pt, fill: cAmberDark)[Fattorizzazione a rango $R < n^3$])
+    content((0, -2.15), text(size: 13pt, weight: "bold", fill: cAmberDark)[es. $R = 7 < 8$ per $n=2$])
   })
 
 
@@ -97,17 +126,28 @@
     rect((-card-w/2, -card-h/2), (card-w/2, card-h/2), fill: bgPurple, stroke: 2.5pt + cPurple, radius: r)
 
     // Header banner
-    rect((-card-w/2, card-h/2 - 1.0), (card-w/2, card-h/2), fill: cPurple, stroke: 2.5pt + cPurple, radius: (top: r, bottom: 0))
-    content((0, card-h/2 - 0.5), text(fill: white, weight: "bold", size: 19.5pt)[Algoritmo Veloce])
+    rect((-card-w/2, card-h/2 - 0.85), (card-w/2, card-h/2), fill: cPurple, stroke: 2.5pt + cPurple, radius: (top: r, bottom: 0))
+    content((0, card-h/2 - 0.425), text(fill: white, weight: "bold", size: 12.5pt)[3. ALGORITMO VELOCE])
 
-    // Center Graphic: Box containing Bilinear Computation formula
+    // Subtitle & Math
+    content((0, 1.55), text(weight: "bold", fill: cPurpleDark, size: 14.5pt)[Sintesi Ricorsiva])
+    content((0, 1.05), text(fill: cPurpleDark, size: 11.5pt)[$O(n^omega)$ con $omega = log_n R$])
+
+    // Illustration: Box containing ONLY Bilinear Computation formula
     group({
-      translate((0, 0.25))
-      content((0, 0.05), text(size: 21pt, weight: "bold", fill: cPurpleDark)[$sum_(r=1)^R (a_r^top u)(b_r^top v) c_r$])
+      translate((0, -0.2))
+
+      // Outer speed badge containing ONLY the formula
+      rect((-2.15, -0.6), (2.15, 0.7), fill: cPurple.lighten(85%), stroke: 2.0pt + cPurpleDark, radius: 0.2)
+
+      // Only the bilinear computation formula inside the box
+      content((0, 0.05), text(size: 15.5pt, weight: "bold", fill: cPurpleDark)[$sum_(r=1)^R (a_r^top u)(b_r^top v) c_r$])
     })
 
-    // Essential metric at bottom
-    content((0, -1.45), text(size: 21pt, weight: "bold", fill: cPurpleDark)[$O(n^omega), quad omega <= log_n R$])
+    // Key properties
+    line((-card-w/2 + 0.35, -1.2), (card-w/2 - 0.35, -1.2), stroke: 0.7pt + cPurple.lighten(50%))
+    content((0, -1.6), text(size: 11.5pt, fill: cPurpleDark)[Complessità sub-cubica])
+    content((0, -2.15), text(size: 13.5pt, weight: "bold", fill: cPurpleDark)[$O(n^(2.81))$ (Strassen)])
   })
 
 
@@ -115,11 +155,11 @@
   let arrow-y = 0.0
 
   // Arrow 1 -> 2
-  line((-3.4, arrow-y), (-2.7, arrow-y), stroke: 2.8pt + cSlate, mark: (end: "stealth", fill: cSlate, scale: 2.2))
+  line((-3.1, arrow-y), (-2.5, arrow-y), stroke: 2.5pt + cSlate, mark: (end: "stealth", fill: cSlate))
+  content((-2.8, arrow-y + 0.55), text(size: 8.5pt, weight: "bold", fill: cSlate)[Riduzione CP])
 
   // Arrow 2 -> 3
-  line((2.7, arrow-y), (3.4, arrow-y), stroke: 2.8pt + cAmberDark, mark: (end: "stealth", fill: cAmberDark, scale: 2.2))
+  line((2.5, arrow-y), (3.1, arrow-y), stroke: 2.5pt + cAmberDark, mark: (end: "stealth", fill: cAmberDark))
+  content((2.8, arrow-y + 0.55), text(size: 8.5pt, weight: "bold", fill: cAmberDark)[Sintesi])
 
 })
-
-

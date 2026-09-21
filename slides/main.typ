@@ -7,14 +7,13 @@
   footer: [],
   config-common(frozen-counters: (theorem-counter,)),  // freeze theorem counter for animation
   config-info(
-    title: [Tensor Canonical Polyadic Decomposition\ and the Complexity of Matrix Multiplication
-  ],
-  subtitle: [Tesi di laurea triennale],
-  author: [AUTHOR],
-  date: "25 Settembre 2026",
-  institution: [Università di Pisa],
-  // logo: emoji.school,
-),
+    title: [Tensor Canonical Polyadic Decomposition\ and the Complexity of Matrix Multiplication],
+    subtitle: [Tesi di laurea triennale],
+    author: [Alberto Defendi],
+    advisor: [Prof. Leonardo Robol],
+    date: "25 Settembre 2026",
+    institution: [Università di Pisa],
+  ),
 )
 
 #show: show-theorion
@@ -34,7 +33,9 @@
 #include "sections/04-section.typ"
 
 #empty-slide[
-  Grazie per l'attenzione!
+  #align(center + horizon)[#text(35pt, weight: "bold", fill: gradient.radial(..color.map.rainbow))[\*Grazie per
+  l'attenzione!\*]]
+
 ]
 
 #bibliography("Thesis.bib")
