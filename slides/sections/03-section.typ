@@ -1,7 +1,7 @@
 #import "../lib.typ": *
 
 
-= Applicazione all'analisi di segnali
+= Applicazione: analisi di segnali
 
 == Localizzazione di omini
 
@@ -39,34 +39,38 @@ Messaggio $s_r = [s_(1r), dots, s_(K r)]$ e codice $c_r = [c_(1r), dots, c_(J r)
 Otteniamo un tensore $T =cp(A,S,C) = sum_(r=1)^R a_r topp s_r topp c_r$.
 
 == Esperimento numerico
-
 La condizione di Kruskal
 $
 2(R + 1) <= krank(A) + krank(S) + krank(C)
 $
-diventa (i fattori $A,S,C$ hanno rango massimo)
+#pause
+diventa
 $
 2(R + 1) <= min(I, R) + min(K, R) + min(J, R)
 $
+#pause
 Per $R = 4, K=100, I= 5, J = 16$ è soddisfatta:
 $
 2(4 + 1) = 10 <= 4 + 4 + 4
 $
-
+#pause
 Recuperiamo il tensore $T$ approssimandolo con $hat(T) = cp(hat(A), hat(S), hat(T))$
 $
 min_(hat(A), hat(S), hat(C)) norm( T - cp(hat(A), hat(S), hat(T)) ).
 $
+#pagebreak(weak:true)
 
-#align(center)[
-  #image("../figures/antenna_localization_plot.pdf", width: 85%)
+#empty-slide[
+  #align(center)[
+    #image("../figures/antenna_localization_plot.pdf", width: 85%)
+  ]
 ]
 
 Se a $T$ aggiungiamo del rumore gaussiano $W_sigma$ in scala $sigma$ variabile, otteniamo
 $
-T_sigma' = T + W_sigma,
+T_sigma^' = T + W_sigma,
 $
-
+#pause
 #figure(
   table(
     columns: 3,
@@ -87,10 +91,14 @@ $
   )
 )
 
-#align(center)[
-  #image("../figures/antenna_localization_plot.pdf", width: 85%)
+#empty-slide[
+  #align(center)[
+    #image("../figures/antenna_localization_plot.pdf", width: 85%)
+  ]
 ]
 
-#align(center)[
-  #image("../figures/dscdma_noise_experiment.pdf", width: 85%)
+#empty-slide[
+  #align(center)[
+    #image("../figures/dscdma_noise_experiment.pdf", width: 85%)
+  ]
 ]

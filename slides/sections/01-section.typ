@@ -1,13 +1,13 @@
 #import "../lib.typ": *
 
-= La fattorizzazione CP e il rango tensoriale
+= Decomposizione e rango di un tensore
 
 == Tensori
 Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, CC}.$
 #pause
 #definition[Mappa/forma bilineare][
-  Una *mappa bilineare* è un'applicazione $phi : A times B -> C$ lineare in ogni componente. Se $C=
-  KK$ è detta *forma bilineare*.
+  Una *mappa bilineare* è un'applicazione $phi : A times B -> C$ lineare in ogni componente.
+  Se $C= KK$ è detta *forma bilineare*.
 ]
 #pause
 #definition[Spazio dei tensori][
@@ -30,16 +30,11 @@ Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, 
   $
   a topp b topp c in A topp B topp C.
   $
-  tale che
-  $
-  a topp b topp c (alpha, beta, gamma) = alpha(a)beta(b)gamma(c),
-  $
-  per ogni $(alpha, beta, gamma) in A^* times B^* times C^*.$
 ]
 
-#pagebreak()
+#pause
 #example[][
-  In $RR^(m times n)$, fissati dei vettori $a = [a_1, dots, a_m]^top$ e $b = [b_1, dots, b_n]^top,$
+  Fissati dei vettori $a = [a_1, dots, a_m]^top in RR^m$ e $b = [b_1, dots, b_n]^top in RR^n$
   $
   a topp b = a b^top =
   mat(a_1b_1, a_1b_2, dots.c, a_1 b_n; a_2 b_1, a_2 b_2, dots, a_2 b_n; dots.v, dots.v, dots.down,
@@ -50,7 +45,6 @@ Siano $A,B,C$ degli spazi vettoriali di dimensione finita sul campo $KK in {RR, 
 == La decomposizione CP
 
 #definition[Canonical Polyadic Decomposition][
-  Dati degli spazi $A,B,C$ e dei vettori $a_r in A, b_r in B, c_r in C$.
   Un tensore $T in A topp B topp C$ ammette una *fattorizzazione CP* di rango $R$ se si può
   scrivere come somma di $R$ tensori di rango uno
   $
@@ -64,7 +58,7 @@ $
 A = mat(a_1|dots.c|a_R, delim:"["),quad B =
 mat(b_1|dots.c|b_R, delim:"["),quad C = mat(c_1|dots|c_R, delim:"[").
 $
-
+#pause
 #definition[][
   Il *rango* $rk(T)$ è il minimo intero positivo $R$ tale che $T$ ammette una decomposizione CP di rango $R$.
 ]
@@ -102,15 +96,9 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 == Border rank
 
 #property[
-  Una successione di #mat-hl[matrici] di rango $r$ tende a una matrice di rango $<= r$.
-]
-
-#pagebreak()
-
-#property[
   L'insieme dei #tens-hl[tensori]
   $
-  {T in A topp B topp C | T "ha rango "r}
+  {T in A topp B topp C | T "ha rango "R}
   $
   non è chiuso.
 ]
@@ -134,17 +122,6 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 ]
 
 #definition[Border rank][
-  Un tensore $T$ ha *border rank* $r$ se è limite di una successione di rango $r$ ma non è limite di
-  una successione di tensori di rango $s$, per ogni $s<r$.
+  Un tensore $T$ ha *border rank* $R$ se è limite di una successione di tensori di rango $R$ ma non è limite di
+  una successione di tensori di rango $s$, per ogni $s<R$.
 ]
-
-
-
-== Rango massimo
-
-#property[
-  Per i #tens-hl[tensori] $n times m times p$ il rango può superare le dimensioni degli spazi.
-]
-
-
-

@@ -18,8 +18,9 @@
   }
 )
 
-= Bonus
-== Rango tipico
+= Bonus <touying:unoutlined>
+== Tensori
+=== Rango tipico
 
 #property[
   Ogni #mat-hl[matrice] ha rango massimo con probabilità $1$.
@@ -31,6 +32,12 @@
 
 #example[
   Per un tensore reale $2 times 2 times 2$, i ranghi tipici sono ${2,3}$.
+]
+
+=== Rango massimo
+
+#property[
+  Per i #tens-hl[tensori] $n times m times p$ il rango può superare le dimensioni degli spazi.
 ]
 
 
@@ -211,6 +218,72 @@ Ovvero
 $
 brk(algob(2)^("red")) <= 5
 $
+
+=== Approccio divide et impera
+
+L'algoritmo
+$
+vec(C^top) = sum_(r=1)^R (a_r^top vec(A))mark(dot, #red)
+(b_r^top vec(B)) c_r,
+$
+è ricorsivo.
+
+#speaker-note[Idea: Si applica la formula ricorsivamente su $mark(dot, #red)$ fino al caso base.]
+
+#pagebreak()
+
+=== Stima della complessità ricorsiva con caso base $algob(2)$.
+
+Input: matrici $2^i times 2^i$.
+Facciamo $i$ livelli di ricorsione e troviamo
+$ rk(algob(2^i)) <= R^i. $
+Input: matrici $n times n$ con $n>2$. Possiamo fare un padding di zeri
+$
+markub(
+  mat(
+    A, display(mat(delim: #none, 0;0;0));
+    display(mat(delim: #none, 0, 0, 0)), 0
+    , delim: "["
+  )
+  , #black, #<left>, bracket: brace.b
+)
+quad
+markub(
+  mat(
+    B, display(mat(delim: #none, 0;0;0));
+    display(mat(delim: #none, 0, 0, 0)), 0
+    , delim: "["
+  ), #black, #<right>, bracket: brace.b
+)
+#annot(<left>)[$2^(ceil(log_2 n))$]
+#annot(<right>)[$2^(ceil(log_2 n))$]
+$
+
+#pagebreak()
+La complessità sarà comunque limitata da $R$:
+$
+rk(algob(n)) <= R dot n^(log_2 R)
+$
+Da cui (sostituendo $2$ con $hat(n)$)
+
+#proposition[
+  Se $rk(algob(hat(n))) <= R$ per degli interi positivi $n, R$, allora $omega <= log_(hat(n))
+  R.$
+]<prop-omega-bound>
+Da cui,
+$
+omega <= inf_n log_n rk(algob(n)).
+$
+#pagebreak()
+
+#example[
+  $
+  omega <= log_2 rk(algob(2)) = log_2 7 approx 2.81.
+  $
+  Che è il bound più basso per $omega$ ottenibile da $algob(2)$.
+]
+
+
 
 === Esperimento numerico
 
