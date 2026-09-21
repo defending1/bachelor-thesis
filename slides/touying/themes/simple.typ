@@ -117,15 +117,15 @@
       inset: 2em,
       {
         if info.title != none {
-          text(size: 1.3em, weight: "medium", info.title)
+          align(center, text(size: 1.3em, weight: "medium", info.title))
         }
         if info.subtitle != none {
-          v(0.6em)
+          v(0.3em)
           align(center, text(size: 0.9em, info.subtitle))
         }
-        v(0.6em)
-        line(length: 100%, stroke: .05em + self.colors.primary)
-        v(0.6em)
+        v(0.7em)
+        align(center, image("../../dm-log.svg", height: 3.3em))
+        v(0.7em)
         if info.author != none or info.advisor != none or info.relatore != none {
           let author-content = if info.author != none { info.author } else { [] }
           let advisor-content = if info.advisor != none { info.advisor } else if info.relatore != none { info.relatore } else { [] }
@@ -147,7 +147,7 @@
             align(center, block(spacing: 0.8em, utils.display-info-date(self)))
           }
           if info.institution != none {
-            align(center, block(spacing: 0.8em, info.institution))
+            align(center, block(spacing: 0.8em, smallcaps(info.institution)))
           }
           if info.contact != none {
             align(center, block(spacing: 0.8em, info.contact))
@@ -279,8 +279,8 @@
   header-right: self => self.info.logo,
   footer: none,
   footer-right: context utils.slide-counter.display()
-    + " / "
-    + utils.last-slide-number,
+  + " / "
+  + utils.last-slide-number,
   primary: aqua.darken(50%),
   subslide-preamble: block(
     below: 1.5em,

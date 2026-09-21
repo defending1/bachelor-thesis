@@ -1,5 +1,5 @@
-#import "@preview/touying:0.6.1": *
-#import themes.metropolis: *
+#import "touying/lib.typ": *
+#import themes.simple: *
 
 // Palette di colori accademica (UniPi Blue)
 #let primary-color = rgb("#003366")
