@@ -139,8 +139,8 @@ def run_multi_plot_cli(
     config_arg: Optional[Union[str, Path, list]] = None, num_plots: int = 6
 ) -> None:
     """
-    CLI runner logic for 6-subfigure (2x3 grid) DS-CDMA experiment plotting.
-    Generates 6 independent runs in 2 rows of 3 with equal area boxes in a single A4-friendly PDF figure.
+    CLI runner logic for 6-subfigure (3x2 grid) DS-CDMA experiment plotting.
+    Generates 6 independent runs in 3 rows of 2 with equal area boxes in a single A4-friendly PDF figure.
     """
     config_path = resolve_config_path(config_arg)
     config = SimConfig.from_toml(config_path)
@@ -204,7 +204,7 @@ def run_noise_multi_experiment_cli(
     config_arg: Optional[Union[str, Path, list]] = None, num_plots: int = 6
 ) -> None:
     """
-    CLI runner logic for 6-subfigure (2x3 grid) DS-CDMA Gaussian noise degradation experiment.
+    CLI runner logic for 6-subfigure (3x2 grid) DS-CDMA Gaussian noise degradation experiment.
     Generates 6 independent noise trajectory runs in a single A4-friendly PDF figure.
     """
     config_path = resolve_config_path(config_arg)

@@ -161,7 +161,7 @@ def plot_antenna_localization_multi(
     presentation: bool = False,
 ) -> Tuple[plt.Figure, np.ndarray]:
     """
-    Generates a multi-subfigure grid layout (default 6 subfigures in 2 rows of 3) containing independent runs of the antenna localization experiment.
+    Generates a multi-subfigure grid layout (default 6 subfigures in 3 rows of 2, 3x2 grid) containing independent runs of the antenna localization experiment.
     Delegates to plot_noise_degradation_multi at zero noise (noise_stds=[0.0]) for 100% layout identity.
     """
     return plot_noise_degradation_multi(
@@ -416,7 +416,7 @@ def plot_noise_degradation_multi(
     presentation: bool = False,
 ) -> Tuple[plt.Figure, np.ndarray]:
     """
-    Generates a multi-subfigure grid layout (default 6 subfigures in 2 rows of 3) containing independent runs of the Gaussian noise degradation experiment.
+    Generates a multi-subfigure grid layout (default 6 subfigures in 3 rows of 2, 3x2 grid) containing independent runs of the Gaussian noise degradation experiment.
     Optimized for inclusion in an A4 document or presentation slide. All subfigures share identical coordinate limits
     so that the physical 2D spatial area box is rendered at the exact same size across all subfigures.
     """
@@ -512,9 +512,9 @@ def plot_noise_degradation_multi(
         shared_xlim = (center_x - half_span, center_x + half_span)
         shared_ylim = (center_y - half_span, center_y + half_span)
 
-    n_cols = 3
+    n_cols = 2
     n_rows = (num_runs + n_cols - 1) // n_cols
-    fig_size = (10.0, 7.5) if presentation else (13.5, 4.2 * n_rows)
+    fig_size = (8.0, 10.0) if presentation else (9.0, 4.2 * n_rows)
     fig, axes = plt.subplots(n_rows, n_cols, figsize=fig_size)
     axes_flat = axes.flatten() if isinstance(axes, np.ndarray) else np.array([axes])
 
@@ -753,7 +753,7 @@ def generate_dscdma_noise_multi_experiment_pdf(
 ) -> Path:
     """
     Runs the DS-CDMA Gaussian noise experiment across 6 independent experiment runs
-    and generates a single A4/presentation-friendly PDF figure with 6 subfigures (2x3 grid).
+    and generates a single A4/presentation-friendly PDF figure with 6 subfigures (3x2 grid).
     """
     fig, _ = plot_noise_degradation_multi(
         config=config,
