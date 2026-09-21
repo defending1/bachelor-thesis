@@ -132,8 +132,8 @@ spettro delle eccitazioni ed emissioni determinando i vettori $ b_{f} $.
 La Figura~\ref{fig:eem_model} mostra i fattori calcolati e il confronto con le concentrazioni reali
 delle tre sostanze, arrestando CP ALS quando la differenza dell'errore relativo tra due iterazioni
 susseguenti è minore di $ 10^{-4} $. Nel grafico sono tracciati i fattori $ a_{f},b_{f},c_{f} $ della decomposizione
-CP, dove ogni riga $ f  = 1,2,3 $ rappresenta una sostanza diversa (scritta in sovrimpressione). Ad
-esempio, la componente $ a_1 $ sono le barre blu nella prima sotto-figura in alto a sinistra, dove
+CP, dove ogni riga $ f  = 1,2,3 $ rappresenta una sostanza diversa (scritta in sottoimpressione). Ad
+esempio, la componente $ a_1 $ sono le barre blu nella prima sottofigura in alto a sinistra, dove
 notiamo che i primi due fattori di $ a_{1} $ sono nulli, che significa che la componente non è
 presente nei primi due campioni. Nella colonna centrale in alto denotiamo le componenti individuali di $ b_1
 $, che sono $ 256 $, con dei punti. Il terzo fattore $ c_1 $ è rappresentato nella figura in alto a

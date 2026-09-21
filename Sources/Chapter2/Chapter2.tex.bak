@@ -98,7 +98,7 @@ Dato uno spazio vettoriale $ V $ su un campo $ \K $, lo spazio proiettivo $ \PP(
 $ il punto $ [v] $ denota $
 	\pi(v) $.
 Se $ V = \K^{n+1} $ indichiamo lo spazio proiettivo standard sul campo $ \K $ come $ \PP^n = \PP^n(\K) =
-	\PP(\K^{n+1} ) $. Dato un sottoinsieme $ X \subset \PP(V) $, il
+	\PP(\K^{n+1} ) $. Dato un sottonsieme $ X \subset \PP(V) $, il
 suo cono vettoriale è $ \hat{X} = \pi^{-1}(X)  \cup \{0\} \subset V$. Lo span lineare di un
 sottoinsieme $ X \subset \PP(V) $ è denotato con $ \angb{X} \subseteq V $.
 
@@ -250,7 +250,7 @@ importanza nella dimostrazione del Teorema di Kruskal.
 \end{lemma}
 \begin{remark}
 	Fissata una base per $ W $ e rappresentati i punti di $ \s $ e $ \tilde{\s} $ con due matrici $ M $
-	e $ \tilde{M} $, l'ipotesi si può riformulare con la formulazione originale. Indichiamo con $
+	e $ \tilde{M} $, l'ipotesi si può rifrasare con la formulazione originale. Indichiamo con $
 		\nnz(\cdot ) $ il numero di elementi non nulli di un vettore.
 	Poiché $ \angb{S} = W $ segue che $ \rank(\tilde{M}) = \bm{w}$.
 	Ogni vettore $ x \in (\R^{\bm{w}})^* \setminus \{0\}  $ definisce un iperpiano proiettivo $ H
@@ -482,7 +482,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 	\begin{equation*}
 		\#(\tilde{\s}_C \not\subset H) \ge  \#(\s_C \not\subset H) = S,
 	\end{equation*}
-	dove abbiamo effettuato le sostituzioni $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
+	dove abbiamo effetuato le sostituzioni $ \#(\s_C \cap H) = r - \#(\s_C \not\subset H) $ e $  \#(\tilde{\s}_C
 		\cap H) = r - \#(\tilde{\s}_C \not\subset H) $. Fissiamo un funzionale $ h \in \hat{H}^\perp $
 	non nullo, e consideriamo la valutazione di $ T $ in $ h $,
 	\begin{equation*}
@@ -597,7 +597,7 @@ Siamo ora pronti a dimostrare il Teorema~\ref{thm:kruskal3d}.
 		V_T \defeq \angb{v_{j} \mid j \in T} $, che dalla stima su $ \#T $ ha dimensione al più $ \krk{\s_B} -1  $.
 	Osserviamo che $ v_{s_0} \not\in V_{T} $; se così non fosse, l'insieme $ \{s_0\}  \cup T $
 	conterrebbe al più $ \krk{\s_B} $ vettori, ma il vettore $ v_{s_0} $ sarebbe linearmente dipendente
-	rispetto ai vettori $ \{v_{j} \mid j \in T\}  $, che contraddirebbe la definizione di $ k $-rango.
+	rispetto ai vettori $ \{v_{j} \mid j \in T\}  $, che contraddirrebbe la definizione di $ k $-rango.
 	Da cui, completando il sottospazio $ \angb{v_j \mid j \in
 			T} $ ad altri vettori in $ \pi^{-1}(\s_B) $, possiamo trovare un iperpiano $ \hat{H}_S \subset B $ contenente $
 		\angb{v_t \mid t \in T} $ ma non $ v_{s_0}$. Sia ora $ S^{\mathsf{c}}
@@ -779,7 +779,7 @@ Introduciamo un lemma di supporto.
 		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) \not\in \gamma_{1}^\perp $, quindi necessariamente $
 		c_{i}\gamma_2(c_{k}) - c_{k}\gamma_2(c_{i}) = 0 $, in quanto l'unico elemento fuori da $
 		\gamma_1^\perp $ che viene mandato in zero da $ \gamma_1 $ è il vettore nullo. Ma essendo $ c_{i} $ e $ c_{k} $ linearmente
-	indipendenti, le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, che contraddirebbe
+	indipendenti, le costanti $ \gamma_2(c_{k}),\gamma_2(c_{i}) $ sarebbero nulle, che contraddirrebbe
 	la (i).
 
 	Ripetendo questo

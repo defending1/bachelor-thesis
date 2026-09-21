@@ -347,12 +347,12 @@ naturale definire la seguente operazione
 	inverso come \emph{row-major}, specialmente nel contesto dei linguaggi di programmazione.
 \end{remark}
 
-\section{Il prodotto di Kronecker}
+\section{Il prodotto di Kroneker}
 
-\begin{definition}[Prodotto di Kronecker]
+\begin{definition}[Prodotto di Kroneker]
 	\label{def:krn}
 	Date due matrici $ A \in \K^{m \times n} $ e $ B \in \K^{p \times q} $, il loro prodotto
-	di Kronecker è la matrice
+	di Kroneker è la matrice
 	\[
 		C = A \boxtimes B =
 		\begin{bmatrix}
@@ -367,7 +367,7 @@ naturale definire la seguente operazione
 \end{definition}
 \begin{remark}
 	\label{rmk:rk_krn_prod}
-	Dalla definizione di prodotto di Kronecker, segue che
+	Dalla definizione di prodotto di Kroneker, segue che
 	\begin{equation*}
 		\rank(A \krn B) = \rank(A)\rank(B).
 	\end{equation*}
@@ -381,15 +381,15 @@ naturale definire la seguente operazione
 		\end{aligned}
 	\end{equation*}
 	dove la seconda uguaglianza segue dalla proprietà $ (AC \krn BD) = (A \krn B)(C \krn D) $ del
-	prodotto di Kronecker. Siccome le matrici $ U,U' $ e $ V,V' $ sono ortogonali (e quindi
+	prodotto di Kroneker. Siccome le matrici $ U,U' $ e $ V,V' $ sono ortogonali (e quindi
 	invertibili), anche $ U \krn U' $ e $ V^* \krn V'^*$ sono ortogonali. Quindi
 	\begin{equation*}
 		\rank(A \krn B) = \rank(\Sigma \krn \Sigma') = \rank(\Sigma)\rank(\Sigma') = \rank(A)\rank(B).
 	\end{equation*}
 \end{remark}
-\begin{remark}[Prodotto di Kronecker come vettorizzazione del prodotto tensore]
+\begin{remark}[Prodotto di Kroneker come vettorizzazione del prodotto tensore]
 	\label{rmk:krn_tensor}
-	Dati due vettori $ u \in \K^m $ e $ v \in \K^n $, il loro prodotto di Kronecker si può vedere come
+	Dati due vettori $ u \in \K^m $ e $ v \in \K^n $, il loro prodotto di Kroneker si può vedere come
 	vettorizzazione del prodotto vettore, ossia
 	\begin{equation}
 		\Vec(v \otimes u) =

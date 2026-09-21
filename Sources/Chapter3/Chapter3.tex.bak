@@ -13,7 +13,7 @@ L'algoritmo di moltiplicazione matriciale si può esprimere come mappa bilineare
 $ e $ B $ nel prodotto $ C = AB $. Possiamo naturalmente rappresentare tale mappa come un tensore $ T $, e
 quindi cercarne una rappresentazione di rango più basso, e come conseguenza ridurre il numero di moltiplicazioni.
 In questo contesto, mostriamo che il rango della forma bilineare dà il numero di moltiplicazioni di un algoritmo, e
-viceversa. Poiché tali algoritmi saranno ricorsivi e dipenderanno dal caso base, risulterà utile
+viceversa. Poiché tali algoritmi sarranno ricorsivi e dipenderanno dal caso base, risulterà utile
 tener traccia del costo ottimale della moltiplicazione, che chiameremo $ \omega $. Attraverso il
 Teorema di Strassen mostreremo che il rango del tensore può essere messo in corrispondenza con $ \omega $.
 Concludiamo definendo l'algoritmo di Strassen e ricavando un algoritmo approssimato a partire da quello
@@ -138,7 +138,7 @@ trovando fattorizzazioni di rango più basso di $ T $.
 La prossima proposizione assicura che il rango di una forma bilineare sia dato dal rango CP.
 \begin{proposition}
 	Fissiamo una forma bilineare $ \varphi $ e denotiamo con $ T $ il tensore che la rappresenta. Allora, dalla
-	fattorizzazione CP di un tensore $ T $ si ottiene una bilinear computation, e in particolare $
+	fattorizzazione CP di un tensore $ T $ si ottieme una bilinear computation, e in particolare $
 		\rk(\varphi) = \rk(T) $.
 \end{proposition}
 \begin{proof}
@@ -752,7 +752,7 @@ base standard $ \{E_{11}, E_{12}, E_{21}, E_{22}\}  $ dello spazio delle matrici
 dove i termini $ w_{i} $ sono determinati dalla scrittura sopra.
 
 Tramite l'isomorfismo della Proposizione~\ref{prop:iso_bil_tensor}, possiamo mappare ogni termine $
-	f_{r}g_{r}w_{r}$ dell'equazione sopra in $ f_{r} \otimes g_{r} \otimes w_{r}$ e scrivere il tensore strutturale di $
+	f_{r}g_{r}w_{r}$ dell'equazione sopra in $ f_{r} \otimes g_{r} \otimes w_{r}$ e scrivere il tensore struttrale di $
 	\algob{2} $ in formato CP (si veda anche la Figura~\ref{fig:tensor_222_cp}). Per farlo,
 identifichiamo i funzionali $ s_{r} $ e $ t_{r} $ con i loro primali $ a_{ij} $ e $ b_{ij} $ e le
 matrici $ w_{r} $ con gli elementi $ c_{ij} $.
@@ -775,7 +775,7 @@ matrici $ w_{r} $ con gli elementi $ c_{ij} $.
 \end{figure}
 
 
-Osserviamo che questo caso base dà luogo a un algoritmo ricorsivo per $ n > 2 $. Contestualizzando
+Osserviamo che questo caso base dà luogo a un algoritmo ricorsivo per $ n > 2 $. Constestualizzando
 l'Equazione~\eqref{eq:chain_strassen_theorem} del Teorema di Strassen, troviamo che $ M(n) \le O(n^{\log_{2}
 			8}) = O(n^3)$.
 
@@ -1017,7 +1017,7 @@ e $ B \in \R^{n \times k} $ come
 \begin{equation*}
 	\| \hat{C} - C \| \le f_{\text{alg}}(n) \| A \| \|B\| + O(\varepsilon^2),
 \end{equation*}
-dove $ \| \cdot \| $ è la norma del massimo, $ \varepsilon $ è la precisione di macchina, e $
+dove $ \| \cdot \| $ è la norma del massimo, $ \varepsilon $ è la precisone di macchina, e $
 	f_{\text{alg}} $ è una costante polinomiale che dipende dall'algoritmo. Ad esempio, $
 	f_{\text{alg}}(n) = n^2$ per l'algoritmo di moltiplicazione classico, senza alcuna ipotesi
 sull'ordinamento dei calcoli svolti dal prodotto scalare. Osserviamo che $ f_{\text{alg}} $ è
