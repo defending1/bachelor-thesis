@@ -116,21 +116,22 @@
       width: 100%,
       inset: 2em,
       {
+        place(bottom + right, dx: 1em, dy: 1.2em, image("../../dm-log.svg", height: 1.8em))
         if info.title != none {
           align(center, text(size: 1.3em, weight: "medium", info.title))
         }
         if info.subtitle != none {
-          v(0.3em)
+          v(0.2em)
           align(center, text(size: 0.9em, info.subtitle))
         }
-        v(0.7em)
-        align(center, image("../../dm-log.svg", height: 3.3em))
-        v(0.7em)
+        v(0.4em)
+        align(center, image("../../figures/cp.pdf", height: 3.2em))
+        v(0.4em)
         if info.author != none or info.advisor != none or info.relatore != none {
           let author-content = if info.author != none { info.author } else { [] }
           let advisor-content = if info.advisor != none { info.advisor } else if info.relatore != none { info.relatore } else { [] }
           if advisor-content != [] {
-            block(spacing: 1.2em, grid(
+            block(spacing: 0.8em, grid(
               columns: (auto, auto),
               column-gutter: 1fr,
               align: (left + horizon, right + horizon),
@@ -138,19 +139,19 @@
               advisor-content,
             ))
           } else {
-            block(spacing: 1.2em, author-content)
+            block(spacing: 0.8em, author-content)
           }
         }
         {
-          set text(size: 0.85em)
+          set text(size: 0.75em)
           if info.date != none {
-            align(center, block(spacing: 0.8em, utils.display-info-date(self)))
+            align(center, block(spacing: 0.4em, utils.display-info-date(self)))
           }
           if info.institution != none {
-            align(center, block(spacing: 0.8em, smallcaps(info.institution)))
+            align(center, block(spacing: 0.4em, text(size: 0.9em, smallcaps(info.institution))))
           }
           if info.contact != none {
-            align(center, block(spacing: 0.8em, info.contact))
+            align(center, block(spacing: 0.4em, info.contact))
           }
         }
         if extra != none {

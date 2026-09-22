@@ -78,10 +78,7 @@ Ci aspettiamo che il rango #tens-hl[tensoriale] si comporti come il rango #mat-h
 
 == Approssimazione low-rank
 #corollary[Eckart-Young-Mirsky][
-  Un'approssimazione low-rank di una #mat-hl[matrice] $M$ è la sua decomposizione SVD
-  $
-  M = U Sigma V^* = sum_(r=1)^(rank(M)) sigma_r u_r topp v_r, wide sigma_r >= sigma_(r+1).
-  $
+  Un'approssimazione low-rank di una #mat-hl[matrice] $M$ è la sua decomposizione SVD.
 ]
 #pause
 #property[
